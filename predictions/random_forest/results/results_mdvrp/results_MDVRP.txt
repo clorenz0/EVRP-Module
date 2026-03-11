@@ -1,0 +1,66 @@
+Accuracy: 1.0000
+
+Balanced Accuracy: 1.0000
+
+Cohen's Kappa: 1.0000
+
+F1 Score: 1.0000
+
+Precision: 1.0000
+
+Recall: 1.0000
+
+ROC-AUC: 1.0000
+
+Best Parameters:
+{'bootstrap': True, 'criterion': 'gini', 'max_depth': 20, 'max_features': 'sqrt', 'min_samples_leaf': 8, 'min_samples_split': 15, 'n_estimators': 271}
+
+Cross-Validation Scores:
+[1. 1.]
+Mean Cross-Validation Accuracy: 1.0000
+
+Classification Report:
+                                                       precision    recall  f1-score   support
+
+                     ALL_UNPERFORMEDandGREEDY_DESCENT       1.00      1.00      1.00       292
+                    BEST_INSERTION_and_GREEDY_DESCENT       1.00      1.00      1.00       150
+                 BEST_INSERTIONandSIMULATED_ANNEALING       1.00      1.00      1.00       150
+                         BEST_INSERTIONandTABU_SEARCH       1.00      1.00      1.00       150
+                        CHRISTOFIDESandGREEDY_DESCENT       1.00      1.00      1.00       150
+                   CHRISTOFIDESandSIMULATED_ANNEALING       1.00      1.00      1.00       150
+           EVALUATOR_STRATEGY_and_GENERIC_TABU_SEARCH       1.00      1.00      1.00       150
+             LOCAL_CHEAPEST_ARCandGENERIC_TABU_SEARCH       1.00      1.00      1.00       150
+LOCAL_CHEAPEST_COST_INSERTION_and_GUIDED_LOCAL_SEARCH       1.00      1.00      1.00       150
+     LOCAL_CHEAPEST_INSERTION_and_GENERIC_TABU_SEARCH       1.00      1.00      1.00       150
+             LOCAL_CHEAPEST_INSERTION_and_TABU_SEARCH       1.00      1.00      1.00       150
+  PARALLEL_CHEAPEST_INSERTION_and_GUIDED_LOCAL_SEARCH       1.00      1.00      1.00       150
+  PARALLEL_CHEAPEST_INSERTION_and_SIMULATED_ANNEALING       1.00      1.00      1.00       150
+    PARALLEL_CHEAPEST_INSERTIONandSIMULATED_ANNEALING       1.00      1.00      1.00       150
+                 PATH_CHEAPEST_ARC_and_GREEDY_DESCENT       1.00      1.00      1.00       450
+            PATH_CHEAPEST_ARC_and_GUIDED_LOCAL_SEARCH       1.00      1.00      1.00       145
+            PATH_CHEAPEST_ARC_and_SIMULATED_ANNEALING       1.00      1.00      1.00       150
+                    PATH_CHEAPEST_ARC_and_TABU_SEARCH       1.00      1.00      1.00       150
+                   PATH_CHEAPEST_ARCandGREEDY_DESCENT       1.00      1.00      1.00       450
+              PATH_CHEAPEST_ARCandSIMULATED_ANNEALING       1.00      1.00      1.00       150
+                      PATH_CHEAPEST_ARCandTABU_SEARCH       1.00      1.00      1.00       150
+    PATH_MOST_CONSTRAINED_ARC_and_GUIDED_LOCAL_SEARCH       1.00      1.00      1.00       150
+    PATH_MOST_CONSTRAINED_ARC_and_SIMULATED_ANNEALING       1.00      1.00      1.00       150
+      PATH_MOST_CONSTRAINED_ARCandGUIDED_LOCAL_SEARCH       1.00      1.00      1.00       150
+      PATH_MOST_CONSTRAINED_ARCandSIMULATED_ANNEALING       1.00      1.00      1.00       150
+                        SAVINGSandGUIDED_LOCAL_SEARCH       1.00      1.00      1.00       150
+     SEQUENTIAL_CHEAPEST_INSERTION_and_GREEDY_DESCENT       1.00      1.00      1.00       150
+SEQUENTIAL_CHEAPEST_INSERTION_and_SIMULATED_ANNEALING       1.00      1.00      1.00       150
+                        SWEEP_and_SIMULATED_ANNEALING       1.00      1.00      1.00       150
+
+                                             accuracy                           1.00      5087
+                                            macro avg       1.00      1.00      1.00      5087
+                                         weighted avg       1.00      1.00      1.00      5087
+
+
+Feature Importances:
+          Feature  Importance
+      Load Factor    0.158808
+          Demands    0.136347
+            Nodes    0.129773
+Vehicles Capacity    0.113064
+         Vehicles    0.091009

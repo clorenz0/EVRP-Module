@@ -1,0 +1,8 @@
+Per-instance prediction results for CVRP saved to predictions_by_instance_CVRP.csv
+First few predictions:
+    Instance                       True_Optimal_Method                          Predicted_Method  Correct     Instance  Distance  Vehicles  Vehicles Capacity   Demands  Nodes  Objective      Time  Routes  Load Factor                            Optimal_Method
+  C1_4_4.txt                  SAVINGSandGREEDY_DESCENT                  SAVINGSandGREEDY_DESCENT     True   C1_4_4.txt haversine       100              200.0 17.930175    401   561126.0 26.464268      36     0.359500                  SAVINGSandGREEDY_DESCENT
+  C1_6_1.txt                     SAVINGSandTABU_SEARCH             SAVINGSandSIMULATED_ANNEALING    False   C1_6_1.txt haversine       150              200.0 18.336106    601  1165509.0 66.080175      56     0.367333                     SAVINGSandTABU_SEARCH
+ HFVRP_4.txt      PATH_CHEAPEST_ARC_and_GREEDY_DESCENT      PATH_CHEAPEST_ARC_and_GREEDY_DESCENT     True  HFVRP_4.txt manhattan         9              250.0 17.714286     77     5246.0  0.244832       5     0.606222      PATH_CHEAPEST_ARC_and_GREEDY_DESCENT
+CVRP_p14.txt           SAVINGS_and_SIMULATED_ANNEALING           SAVINGS_and_SIMULATED_ANNEALING     True CVRP_p14.txt manhattan         5              500.0  5.370166    362    12580.0  6.255164       4     0.777600           SAVINGS_and_SIMULATED_ANNEALING
+  C1_2_6.txt PATH_CHEAPEST_ARC_and_GUIDED_LOCAL_SEARCH PATH_CHEAPEST_ARC_and_GUIDED_LOCAL_SEARCH     True   C1_2_6.txt manhattan        50              200.0 17.562189    201     3926.0  1.734836      18     0.353000 PATH_CHEAPEST_ARC_and_GUIDED_LOCAL_SEARCH

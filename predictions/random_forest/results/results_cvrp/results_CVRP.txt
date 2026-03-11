@@ -1,0 +1,50 @@
+Accuracy: 0.8505
+
+Balanced Accuracy: 0.7078
+
+Cohen's Kappa: 0.7730
+
+F1 Score: 0.8533
+
+Precision: 0.8863
+
+Recall: 0.8505
+
+ROC-AUC: 0.8480
+
+Best Parameters:
+{'bootstrap': True, 'criterion': 'entropy', 'max_depth': 5, 'max_features': 'log2', 'min_samples_leaf': 5, 'min_samples_split': 6, 'n_estimators': 232}
+
+Cross-Validation Scores:
+[0.8495416  0.85313914 0.85412557 0.85192062 0.84948358]
+Mean Cross-Validation Accuracy: 0.8516
+
+Classification Report:
+                                                     precision    recall  f1-score   support
+
+                 CHRISTOFIDESandGUIDED_LOCAL_SEARCH       0.55      0.23      0.33       487
+                 CHRISTOFIDESandSIMULATED_ANNEALING       0.49      1.00      0.65       480
+                         CHRISTOFIDESandTABU_SEARCH       1.00      0.51      0.67       958
+           FIRST_UNBOUND_MIN_VALUEandGREEDY_DESCENT       1.00      1.00      1.00       213
+               GLOBAL_CHEAPEST_ARCandGREEDY_DESCENT       1.00      1.00      1.00      9683
+          GLOBAL_CHEAPEST_ARCandGUIDED_LOCAL_SEARCH       1.00      0.75      0.86      2511
+                   LOCAL_CHEAPEST_ARCandTABU_SEARCH       0.50      1.00      0.67       480
+LOCAL_CHEAPEST_COST_INSERTIONandGUIDED_LOCAL_SEARCH       0.46      0.46      0.46       480
+            PATH_CHEAPEST_ARCandGUIDED_LOCAL_SEARCH       0.03      1.00      0.07         4
+    PATH_MOST_CONSTRAINED_ARCandGUIDED_LOCAL_SEARCH       0.48      0.60      0.53       480
+                              SAVINGSandTABU_SEARCH       0.51      0.81      0.63       480
+     SEQUENTIAL_CHEAPEST_INSERTIONandGREEDY_DESCENT       0.50      0.38      0.43       498
+SEQUENTIAL_CHEAPEST_INSERTIONandGUIDED_LOCAL_SEARCH       0.46      0.45      0.46       480
+
+                                           accuracy                           0.85     17234
+                                          macro avg       0.61      0.71      0.60     17234
+                                       weighted avg       0.89      0.85      0.85     17234
+
+
+Feature Importances:
+          Feature  Importance
+Vehicles Capacity    0.267400
+          Demands    0.225841
+            Nodes    0.185735
+      Load Factor    0.170620
+         Vehicles    0.134492

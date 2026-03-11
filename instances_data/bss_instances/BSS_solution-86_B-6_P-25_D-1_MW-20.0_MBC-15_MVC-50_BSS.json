@@ -1,0 +1,346 @@
+{
+  "max_coordinate": 100.0,
+  "max_vehicles_capacity": 50,
+  "max_depots": 1,
+  "max_passengers": 25,
+  "max_bus_stops": 6,
+  "max_vehicles": 5,
+  "max_distance_walk": 20.0,
+  "solution_id": "86",
+  "depots": [
+    {
+      "coordinate_x": 50.0,
+      "coordinate_y": 50.0,
+      "id": "depot_1"
+    }
+  ],
+  "bus_stops": [
+    {
+      "total_passengers_assigned": 15,
+      "coordinate_x": 71.625375,
+      "coordinate_y": 44.6375,
+      "id": "bus_stop_id_1",
+      "passenger_list": [
+        {
+          "passenger_id": "passenger_id_10"
+        },
+        {
+          "passenger_id": "passenger_id_7"
+        },
+        {
+          "passenger_id": "passenger_id_23"
+        },
+        {
+          "passenger_id": "passenger_id_6"
+        },
+        {
+          "passenger_id": "passenger_id_22"
+        },
+        {
+          "passenger_id": "passenger_id_25"
+        },
+        {
+          "passenger_id": "passenger_id_9"
+        },
+        {
+          "passenger_id": "passenger_id_25"
+        },
+        {
+          "passenger_id": "passenger_id_23"
+        },
+        {
+          "passenger_id": "passenger_id_22"
+        },
+        {
+          "passenger_id": "passenger_id_10"
+        },
+        {
+          "passenger_id": "passenger_id_9"
+        },
+        {
+          "passenger_id": "passenger_id_8"
+        },
+        {
+          "passenger_id": "passenger_id_7"
+        },
+        {
+          "passenger_id": "passenger_id_6"
+        }
+      ]
+    },
+    {
+      "total_passengers_assigned": 5,
+      "coordinate_x": 88.76150000000001,
+      "coordinate_y": 42.698,
+      "id": "bus_stop_id_2",
+      "passenger_list": [
+        {
+          "passenger_id": "passenger_id_8"
+        },
+        {
+          "passenger_id": "passenger_id_24"
+        },
+        {
+          "passenger_id": "passenger_id_21"
+        },
+        {
+          "passenger_id": "passenger_id_24"
+        },
+        {
+          "passenger_id": "passenger_id_21"
+        }
+      ]
+    },
+    {
+      "total_passengers_assigned": 10,
+      "coordinate_x": 16.268,
+      "coordinate_y": 33.0926,
+      "id": "bus_stop_id_3",
+      "passenger_list": [
+        {
+          "passenger_id": "passenger_id_18"
+        },
+        {
+          "passenger_id": "passenger_id_16"
+        },
+        {
+          "passenger_id": "passenger_id_19"
+        },
+        {
+          "passenger_id": "passenger_id_11"
+        },
+        {
+          "passenger_id": "passenger_id_5"
+        },
+        {
+          "passenger_id": "passenger_id_19"
+        },
+        {
+          "passenger_id": "passenger_id_18"
+        },
+        {
+          "passenger_id": "passenger_id_16"
+        },
+        {
+          "passenger_id": "passenger_id_11"
+        },
+        {
+          "passenger_id": "passenger_id_5"
+        }
+      ]
+    },
+    {
+      "total_passengers_assigned": 10,
+      "coordinate_x": 35.73479999999999,
+      "coordinate_y": 27.675599999999996,
+      "id": "bus_stop_id_4",
+      "passenger_list": [
+        {
+          "passenger_id": "passenger_id_13"
+        },
+        {
+          "passenger_id": "passenger_id_17"
+        },
+        {
+          "passenger_id": "passenger_id_15"
+        },
+        {
+          "passenger_id": "passenger_id_4"
+        },
+        {
+          "passenger_id": "passenger_id_12"
+        },
+        {
+          "passenger_id": "passenger_id_17"
+        },
+        {
+          "passenger_id": "passenger_id_15"
+        },
+        {
+          "passenger_id": "passenger_id_13"
+        },
+        {
+          "passenger_id": "passenger_id_12"
+        },
+        {
+          "passenger_id": "passenger_id_4"
+        }
+      ]
+    },
+    {
+      "total_passengers_assigned": 2,
+      "coordinate_x": 30.596,
+      "coordinate_y": 46.303,
+      "id": "bus_stop_id_5",
+      "passenger_list": [
+        {
+          "passenger_id": "passenger_id_14"
+        },
+        {
+          "passenger_id": "passenger_id_14"
+        }
+      ]
+    },
+    {
+      "total_passengers_assigned": 8,
+      "coordinate_x": 20.35675,
+      "coordinate_y": 46.117999999999995,
+      "id": "bus_stop_id_6",
+      "passenger_list": [
+        {
+          "passenger_id": "passenger_id_1"
+        },
+        {
+          "passenger_id": "passenger_id_20"
+        },
+        {
+          "passenger_id": "passenger_id_2"
+        },
+        {
+          "passenger_id": "passenger_id_3"
+        },
+        {
+          "passenger_id": "passenger_id_20"
+        },
+        {
+          "passenger_id": "passenger_id_3"
+        },
+        {
+          "passenger_id": "passenger_id_2"
+        },
+        {
+          "passenger_id": "passenger_id_1"
+        }
+      ]
+    }
+  ],
+  "max_bus_stop_capacity": 15,
+  "min_coordinate": -100.0,
+  "passenger_list": [
+    {
+      "coordinate_x": 18.739,
+      "coordinate_y": 55.899,
+      "id": "passenger_id_1"
+    },
+    {
+      "coordinate_x": 24.256,
+      "coordinate_y": 44.891,
+      "id": "passenger_id_2"
+    },
+    {
+      "coordinate_x": 19.146,
+      "coordinate_y": 43.959,
+      "id": "passenger_id_3"
+    },
+    {
+      "coordinate_x": 38.909,
+      "coordinate_y": 28.062,
+      "id": "passenger_id_4"
+    },
+    {
+      "coordinate_x": 15.373,
+      "coordinate_y": 33.366,
+      "id": "passenger_id_5"
+    },
+    {
+      "coordinate_x": 71.879,
+      "coordinate_y": 51.229,
+      "id": "passenger_id_6"
+    },
+    {
+      "coordinate_x": 60.315,
+      "coordinate_y": 44.304,
+      "id": "passenger_id_7"
+    },
+    {
+      "coordinate_x": 83.471,
+      "coordinate_y": 51.662,
+      "id": "passenger_id_8"
+    },
+    {
+      "coordinate_x": 70.179,
+      "coordinate_y": 42.393,
+      "id": "passenger_id_9"
+    },
+    {
+      "coordinate_x": 71.707,
+      "coordinate_y": 32.348,
+      "id": "passenger_id_10"
+    },
+    {
+      "coordinate_x": 14.718,
+      "coordinate_y": 30.2,
+      "id": "passenger_id_11"
+    },
+    {
+      "coordinate_x": 38.31,
+      "coordinate_y": 26.971,
+      "id": "passenger_id_12"
+    },
+    {
+      "coordinate_x": 28.194,
+      "coordinate_y": 26.234,
+      "id": "passenger_id_13"
+    },
+    {
+      "coordinate_x": 30.596,
+      "coordinate_y": 46.303,
+      "id": "passenger_id_14"
+    },
+    {
+      "coordinate_x": 34.3,
+      "coordinate_y": 31.154,
+      "id": "passenger_id_15"
+    },
+    {
+      "coordinate_x": 21.998,
+      "coordinate_y": 33.4,
+      "id": "passenger_id_16"
+    },
+    {
+      "coordinate_x": 38.961,
+      "coordinate_y": 25.957,
+      "id": "passenger_id_17"
+    },
+    {
+      "coordinate_x": 8.802,
+      "coordinate_y": 36.367,
+      "id": "passenger_id_18"
+    },
+    {
+      "coordinate_x": 20.449,
+      "coordinate_y": 32.13,
+      "id": "passenger_id_19"
+    },
+    {
+      "coordinate_x": 19.286,
+      "coordinate_y": 39.723,
+      "id": "passenger_id_20"
+    },
+    {
+      "coordinate_x": 89.921,
+      "coordinate_y": 47.481,
+      "id": "passenger_id_21"
+    },
+    {
+      "coordinate_x": 71.709,
+      "coordinate_y": 38.405,
+      "id": "passenger_id_22"
+    },
+    {
+      "coordinate_x": 74.44,
+      "coordinate_y": 49.491,
+      "id": "passenger_id_23"
+    },
+    {
+      "coordinate_x": 87.602,
+      "coordinate_y": 37.915,
+      "id": "passenger_id_24"
+    },
+    {
+      "coordinate_x": 69.303,
+      "coordinate_y": 47.268,
+      "id": "passenger_id_25"
+    }
+  ]
+}

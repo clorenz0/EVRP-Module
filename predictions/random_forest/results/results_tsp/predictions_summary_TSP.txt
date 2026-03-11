@@ -1,0 +1,8 @@
+Per-instance prediction results for TSP saved to predictions_by_instance_TSP.csv
+First few predictions:
+     Instance                               True_Optimal_Method                                  Predicted_Method  Correct      Instance  Distance  Nodes  Objective      Time                                    Optimal_Method
+ulysses16.txt PATH_MOST_CONSTRAINED_ARC_and_GENERIC_TABU_SEARCH PATH_MOST_CONSTRAINED_ARC_and_GENERIC_TABU_SEARCH     True ulysses16.txt manhattan     16       80.0  0.003792 PATH_MOST_CONSTRAINED_ARC_and_GENERIC_TABU_SEARCH
+    pr107.txt          FIRST_UNBOUND_MIN_VALUEandGREEDY_DESCENT          FIRST_UNBOUND_MIN_VALUEandGREEDY_DESCENT     True     pr107.txt chebyshev    107    41700.0 60.000228          FIRST_UNBOUND_MIN_VALUEandGREEDY_DESCENT
+    att48.txt         PATH_CHEAPEST_ARC_and_GUIDED_LOCAL_SEARCH         PATH_CHEAPEST_ARC_and_GUIDED_LOCAL_SEARCH     True     att48.txt haversine     48   129506.0  0.118003         PATH_CHEAPEST_ARC_and_GUIDED_LOCAL_SEARCH
+    pr107.txt          FIRST_UNBOUND_MIN_VALUEandGREEDY_DESCENT          FIRST_UNBOUND_MIN_VALUEandGREEDY_DESCENT     True     pr107.txt chebyshev    107    41900.0 60.000168          FIRST_UNBOUND_MIN_VALUEandGREEDY_DESCENT
+     pr76.txt         PATH_CHEAPEST_ARC_and_GUIDED_LOCAL_SEARCH         PATH_CHEAPEST_ARC_and_GUIDED_LOCAL_SEARCH     True      pr76.txt haversine     76   136087.0  0.871216         PATH_CHEAPEST_ARC_and_GUIDED_LOCAL_SEARCH
