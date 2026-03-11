@@ -27,6 +27,9 @@ def process_string_instance(instance_string, distance_type: DistanceType = None,
         elif 'tsp_instances' in instance_string:
             data = read_file_tsp(instance_string, distance_type, vehicle_max_time, vehicle_speed,
                                  vehicle_maximum_travel_distance, integer)
+        elif 'evrp_instances' in instance_string:
+            data = read_file_evrp(instance_string, distance_type, vehicle_max_time,
+                       vehicle_speed, vehicle_maximum_travel_distance, integer)
         else:
             data = read_file_tw(instance_string, distance_type, vehicle_max_time, vehicle_speed,
                                 vehicle_maximum_travel_distance, integer)
