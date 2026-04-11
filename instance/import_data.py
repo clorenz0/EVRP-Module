@@ -290,26 +290,52 @@ def get_distance_matrix(locations, distance_type, integer=False):
 #######################
 
 def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
-                       vehicle_speed=None, vehicle_maximum_travel_distance=None, integer=False):
+                   vehicle_speed=None, vehicle_maximum_travel_distance=None, integer=False):
     """
-    Opción usando csv.DictReader (módulo estándar).
-    ✓ Sin dependencias externas
-    ✓ Rápido y simple
-    ✓ Muy legible
-    ✗ Un poco más código que pandas
+    Lee una instancia EVRP desde un archivo .txt con secciones:
+        # PROBLEMA, # DEPOSITO, # CLIENTES, # ESTACIONES_DE_CARGA
+
+    Parámetros de batería eléctrica (OBLIGATORIOS, no tienen relación con la
+    carga de mercancía del vehículo):
+        vehicle_maximum_travel_distance → fuel_capacity        (unidades de energía)
+        vehicle_speed                   → fuel_consumption_rate (energía / km)
+
+    Parámetros leídos del archivo (carga de mercancía):
+        num_vehicles      → número de vehículos de la flota
+        vehicle_capacity  → capacidad máxima de mercancía por vehículo
+
+    SEPARACIÓN EXPLÍCITA:
+        'vehicle_capacity' (mercancía)  ≠  'fuel_capacity' (batería eléctrica)
+        Nunca se copian ni mezclan entre sí.
     """
-    import csv
-    from io import StringIO
 
-    fuel_capacity = int(vehicle_maximum_travel_distance) if vehicle_maximum_travel_distance else 100
-    fuel_consumption_rate = float(vehicle_speed) if vehicle_speed else 1.0
+    # ── Parámetros de batería: DEBEN venir del llamador, no del archivo ────
+    # Si no se pasan, se lanza un error claro en lugar de usar un default
+    # silencioso que podría confundirse con vehicle_capacity.
+    if vehicle_maximum_travel_distance is None:
+        raise ValueError(
+            "Debes pasar 'vehicle_maximum_travel_distance' (capacidad de batería en km). "
+            "Este valor es independiente de la capacidad de carga de mercancía del vehículo."
+        )
+    if vehicle_speed is None:
+        raise ValueError(
+            "Debes pasar 'vehicle_speed' (tasa de consumo de batería en energía/km). "
+            "Este valor es independiente de la capacidad de carga de mercancía del vehículo."
+        )
 
-    locations = []
-    demands = []
-    charging_stations = []
+    # Nombres explícitos para que nunca haya ambigüedad en el resto del código
+    fuel_capacity         = int(vehicle_maximum_travel_distance)   # batería eléctrica
+    fuel_consumption_rate = float(vehicle_speed)                   # consumo eléctrico
+
+    # ── Variables de carga de mercancía (vienen del archivo) ───────────────
+    num_vehicles     = None   # flota (leído de # PROBLEMA)
+    vehicle_capacity = None   # capacidad de mercancía (leído de # PROBLEMA)
+                              # ↑ NUNCA se asigna a fuel_capacity
+
+    locations              = []
+    demands                = []
+    charging_stations      = []
     charging_station_names = {}
-    num_vehicles = None
-    vehicle_capacity = None
 
     # ── Leer todo el archivo ────────────────────────────────────────────────
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -325,76 +351,100 @@ def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
         if not line or line.startswith('#'):
             continue
 
-        # Split para parsear CSV manualmente
         fields = [f.strip() for f in line.split(',')]
 
-        # ── PROBLEMA: "5,200" ───────────────────────────────────────────────
+        # ── PROBLEMA: "5,300"  →  flota y capacidad de MERCANCÍA ───────────
         if num_vehicles is None and len(fields) == 2:
             try:
-                num_vehicles = int(fields[0])
-                vehicle_capacity = int(fields[1])
+                num_vehicles     = int(fields[0])
+                vehicle_capacity = int(fields[1])   # capacidad de mercancía
+                # NOTA: vehicle_capacity NO se copia a fuel_capacity aquí ni nunca.
                 continue
             except ValueError:
                 pass
 
         # ── DEPÓSITO: "DEPOSITO,46.5,-72.0" ────────────────────────────────
         if fields[0] == 'DEPOSITO' and len(fields) >= 3:
-            lat, lon = float(fields[1]), float(fields[2])
-            locations.append((lat, lon))
+            locations.append((float(fields[1]), float(fields[2])))
             demands.append(0)
             continue
 
         # ── CLIENTES: "C_001,46.124,-73.456,18" ────────────────────────────
         if fields[0].startswith('C_') and len(fields) >= 4:
             try:
-                lat = float(fields[1])
-                lon = float(fields[2])
-                demand = int(fields[3])
-                locations.append((lat, lon))
-                demands.append(demand)
+                locations.append((float(fields[1]), float(fields[2])))
+                demands.append(int(fields[3]))
                 continue
             except ValueError:
                 pass
 
-        # ── ESTACIONES: "82842,Nissan Sorel-Tracy,46.024,-73.154,..." ──────
+        # ── ESTACIONES DE CARGA: "82842,Nissan Sorel-Tracy,46.024,-73.154,..."
         if len(fields) >= 4:
             try:
-                # Intenta parsear como estación de carga
-                station_id = int(fields[0])
-                name = fields[1]
-                lat = float(fields[2])
-                lon = float(fields[3])
+                station_id = int(fields[0])   # solo para validar que es numérico
+                name       = fields[1]
+                lat        = float(fields[2])
+                lon        = float(fields[3])
 
                 node_index = len(locations)
                 locations.append((lat, lon))
-                demands.append(0)
+                demands.append(0)             # las estaciones no tienen demanda de mercancía
                 charging_stations.append(node_index)
                 charging_station_names[node_index] = name
                 continue
             except (ValueError, IndexError):
                 pass
 
-    # ── Calcular matriz de distancias ───────────────────────────────────────
-    num_locations = len(locations)
+    # ── Validaciones post-lectura ───────────────────────────────────────────
+    if num_vehicles is None or vehicle_capacity is None:
+        raise ValueError(
+            f"No se encontró la sección '# PROBLEMA' en '{file_path}'. "
+            "El archivo debe contener una línea 'num_vehiculos,capacidad_vehiculo'."
+        )
+
+    # Advertencia explícita si la instancia es infactible por capacidad de mercancía
+    num_clients   = len(locations) - len(charging_stations) - 1  # -1 por depósito
+    total_demand  = sum(demands[1: num_clients + 1])
+    total_capacity = num_vehicles * vehicle_capacity
+    if total_demand > total_capacity:
+        import warnings
+        warnings.warn(
+            f"INSTANCIA INFACTIBLE por capacidad de mercancía: "
+            f"demanda total ({total_demand}) > capacidad de flota "
+            f"({num_vehicles} × {vehicle_capacity} = {total_capacity}). "
+            f"Déficit: {total_demand - total_capacity} unidades. "
+            f"Algunos clientes serán descartados. "
+            f"Revisa num_vehicles o vehicle_capacity en el archivo de instancia.",
+            stacklevel=2,
+        )
+
+    # ── Matriz de distancias ────────────────────────────────────────────────
+    num_locations   = len(locations)
     distance_matrix = [[0] * num_locations for _ in range(num_locations)]
-    for i in range(num_locations):
-        for j in range(num_locations):
-            if i != j:
-                distance_matrix[i][j] = calculate_distance(
-                    locations[i], locations[j], distance_type, integer
+    for ii in range(num_locations):
+        for jj in range(num_locations):
+            if ii != jj:
+                distance_matrix[ii][jj] = calculate_distance(
+                    locations[ii], locations[jj], distance_type, integer
                 )
 
+    # ── Retorno: claves de batería y mercancía claramente separadas ─────────
     return {
-        "num_vehicles": num_vehicles,
-        "vehicle_capacity": vehicle_capacity,
-        "vehicle_capacities": [vehicle_capacity] * num_vehicles,
-        "locations": locations,
-        "num_locations": num_locations,
-        "demands": demands,
-        "depot": 0,
-        "distance_matrix": distance_matrix,
-        "fuel_capacity": fuel_capacity,
+        # — Flota y carga de MERCANCÍA (del archivo) —
+        "num_vehicles"        : num_vehicles,
+        "vehicle_capacity"    : vehicle_capacity,
+        "vehicle_capacities"  : [vehicle_capacity] * num_vehicles,
+
+        # — Batería ELÉCTRICA (de los parámetros del llamador) —
+        "fuel_capacity"       : fuel_capacity,         # ← NUNCA = vehicle_capacity
         "fuel_consumption_rate": fuel_consumption_rate,
-        "charging_stations": charging_stations,
-        "charging_station_names": charging_station_names,
+
+        # — Topología —
+        "locations"               : locations,
+        "num_locations"           : num_locations,
+        "demands"                 : demands,
+        "depot"                   : 0,
+        "distance_matrix"         : distance_matrix,
+        "charging_stations"       : charging_stations,
+        "charging_station_names"  : charging_station_names,
     }

@@ -27,7 +27,7 @@ CYAN   = "\033[96m"
 BOLD   = "\033[1m"
 RESET  = "\033[0m"
 
-INSTANCE_PATH = "D:/Proyectos/Github/ORTools-main/instances_data/evrp_instances/quebec_50c_5ev_5cs.txt"
+INSTANCE_PATH = "D:/Proyectos/Github/EVRP-Module/instances_data/evrp_instances/quebec_50c_5ev_5cs.txt"
 
 passed = 0
 failed = 0
@@ -65,8 +65,8 @@ try:
 
     data = read_file_evrp(
         INSTANCE_PATH,
-        distance_type=DistanceType.HAVERSINE,
-        vehicle_maximum_travel_distance=200,   # fuel_capacity  = 200 unidades
+        distance_type=DistanceType.MANHATTAN,
+        vehicle_maximum_travel_distance=100,   # fuel_capacity  = 100 unidades (autonomía real del EV)
         vehicle_speed=1.0,                     # fuel_consumption_rate = 1.0 / km
         integer=True
     )
@@ -100,10 +100,10 @@ try:
     else:
         fail("Número de vehículos esperado: 5", f"Obtenido: {data['num_vehicles']}")
 
-    if data['vehicle_capacity'] == 200:
+    if data['vehicle_capacity'] == 400:
         ok(f"Capacidad de vehículo correcta: {data['vehicle_capacity']}")
     else:
-        fail("Capacidad de vehículo esperada: 200", f"Obtenida: {data['vehicle_capacity']}")
+        fail("Capacidad de vehículo esperada: 400", f"Obtenida: {data['vehicle_capacity']}")
 
     # ── 1.4 Depósito ──────────────────────────────────────────────────────────
     depot_loc = data['locations'][0]
@@ -150,10 +150,10 @@ try:
         fail("No se cargaron bien los nombres de estaciones")
 
     # ── 1.7 Batería ───────────────────────────────────────────────────────────
-    if data['fuel_capacity'] == 200:
+    if data['fuel_capacity'] == 100:
         ok(f"fuel_capacity correcto: {data['fuel_capacity']}")
     else:
-        fail("fuel_capacity esperado: 200", f"Obtenido: {data['fuel_capacity']}")
+        fail("fuel_capacity esperado: 100", f"Obtenido: {data['fuel_capacity']}")
 
     if data['fuel_consumption_rate'] == 1.0:
         ok(f"fuel_consumption_rate correcto: {data['fuel_consumption_rate']}")
@@ -281,7 +281,13 @@ else:
         if routing:
             try:
                 search_params = pywrapcp.DefaultRoutingSearchParameters()
+                # BUG CORREGIDO: first_solution_strategy debe usar FirstSolutionStrategy,
+                # NO LocalSearchMetaheuristic. Son enums distintos con distinto propósito.
                 search_params.first_solution_strategy = (
+                    routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC
+                )
+                # LocalSearchMetaheuristic va en su propio campo
+                search_params.local_search_metaheuristic = (
                     routing_enums_pb2.LocalSearchMetaheuristic.SIMULATED_ANNEALING
                 )
                 search_params.time_limit.seconds = 15
@@ -359,8 +365,7 @@ else:
                 if load_val > vehicle_capacity:
                     capacity_violations += 1
 
-                index = assignment_next = solution.Value(routing.NextVar(index))
-                index = assignment_next
+                index = solution.Value(routing.NextVar(index))
 
             if route_used:
                 total_vehicles_used += 1

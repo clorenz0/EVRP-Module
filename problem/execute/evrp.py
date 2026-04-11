@@ -71,6 +71,20 @@ def add_capacity_constraints(routing, manager, data, demand_evaluator_index):
     """
     Restricción de capacidad de carga del vehículo.
     Las estaciones de carga tienen demanda 0, por lo que no afectan esta dimensión.
+
+    Sobre la penalización de clientes (drop_penalty):
+    ─────────────────────────────────────────────────
+    OR-Tools permite descartar un cliente si el costo de servirlo supera la
+    penalización. Una penalización baja (ej. 100_000) puede ser competitiva
+    con el costo de distancia y el solver preferirá omitir clientes.
+
+    PRECONDICIÓN DE FACTIBILIDAD:
+        sum(demandas_clientes) ≤ num_vehicles × vehicle_capacity
+
+    Si esa condición no se cumple, es IMPOSIBLE servir todos los clientes
+    independientemente de la penalización. En ese caso el solver descartará
+    clientes aunque la penalización sea infinita.
+    Comprueba los parámetros de la instancia (num_vehicles, vehicle_capacity).
     """
     vehicle_capacity = data['vehicle_capacity']
     routing.AddDimension(
@@ -82,12 +96,37 @@ def add_capacity_constraints(routing, manager, data, demand_evaluator_index):
     )
     capacity_dimension = routing.GetDimensionOrDie('Capacity')
 
-    # Clientes: sin slack, con penalización alta si se omiten
-    num_clients = data['num_locations'] - len(data['charging_stations']) - 1  # -1 por depósito
+    # Verificar factibilidad antes de construir el modelo
+    num_clients = data['num_locations'] - len(data['charging_stations']) - 1
+    total_demand = sum(data['demands'][1: num_clients + 1])
+    total_capacity = data['num_vehicles'] * vehicle_capacity
+    if total_demand > total_capacity:
+        import warnings
+        warnings.warn(
+            f"INSTANCIA INFACTIBLE: demanda total ({total_demand}) > "
+            f"capacidad total de la flota ({data['num_vehicles']} × {vehicle_capacity} = {total_capacity}). "
+            f"Algunos clientes serán descartados inevitablemente. "
+            f"Aumenta num_vehicles o vehicle_capacity.",
+            stacklevel=2
+        )
+
+    # Penalización suficientemente alta para desincentivar descartes:
+    # debe superar con margen el costo máximo posible de un arco.
+    # Se usa 10× el valor mayor entre la distancia máxima de la matriz y
+    # la demanda máxima, escalado a un orden de magnitud seguro.
+    max_distance = max(
+        data['distance_matrix'][i][j]
+        for i in range(data['num_locations'])
+        for j in range(data['num_locations'])
+        if i != j
+    )
+    drop_penalty = max(10_000_000, int(max_distance) * 100)
+
+    # Clientes: visita obligatoria (descarte solo si la instancia es infactible)
     for node in range(1, num_clients + 1):
         node_index = manager.NodeToIndex(node)
         capacity_dimension.SlackVar(node_index).SetValue(0)
-        routing.AddDisjunction([node_index], 100_000)
+        routing.AddDisjunction([node_index], drop_penalty)
 
     # Estaciones de carga: opcionales sin penalización (costo 0)
     for cs_node in data['charging_stations']:
@@ -298,6 +337,27 @@ def execute(
     )
 
     for instance, data in instances_data.items():
+        # ── Separar carga de mercancía vs. batería eléctrica ──────────────────
+        # 'vehicle_capacity' (carga de mercancía) viene del archivo de instancia
+        # y NO debe usarse como capacidad de batería.
+        # Los parámetros de batería se imponen explícitamente aquí para evitar
+        # que process_files/read_file_evrp copie capacidad_vehiculo a fuel_capacity.
+        if vehicle_maximum_travel_distance is not None:
+            data['fuel_capacity'] = vehicle_maximum_travel_distance
+        if vehicle_speed is not None:
+            data['fuel_consumption_rate'] = vehicle_speed
+
+        if 'fuel_capacity' not in data:
+            raise KeyError(
+                "El diccionario de datos no contiene 'fuel_capacity'. "
+                "Asegúrate de pasar vehicle_maximum_travel_distance al llamar a execute()."
+            )
+        if 'fuel_consumption_rate' not in data:
+            raise KeyError(
+                "El diccionario de datos no contiene 'fuel_consumption_rate'. "
+                "Asegúrate de pasar vehicle_speed al llamar a execute()."
+            )
+
         # ── Índice Manager ────────────────────────────────────────────────────
         manager = pywrapcp.RoutingIndexManager(
             data['num_locations'],

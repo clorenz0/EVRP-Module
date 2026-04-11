@@ -1,6 +1,6 @@
 # PROBLEMA
 # total_vehiculos, capacidad_vehiculo
-5,200
+5,400
 
 # DEPOSITO
 # id, latitud, longitud
