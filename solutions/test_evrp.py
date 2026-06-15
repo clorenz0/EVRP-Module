@@ -27,7 +27,7 @@ CYAN   = "\033[96m"
 BOLD   = "\033[1m"
 RESET  = "\033[0m"
 
-INSTANCE_PATH = "D:/Proyectos/Github/EVRP-Module/instances_data/evrp_instances/quebec_50c_5ev_5cs.txt"
+INSTANCE_PATH = "D:/Proyectos/Github/EVRP-Module/instances_data/evrp_instances/quebec_40c_4ev_6cs.txt"
 
 passed = 0
 failed = 0
@@ -233,7 +233,7 @@ else:
         # ── 2.3 Evaluador de distancia ────────────────────────────────────────
         if routing:
             try:
-                dist_eval = create_distance_evaluator(data, DistanceType.EUCLIDEAN)
+                dist_eval = create_distance_evaluator(data, DistanceType.MANHATTAN)
                 dist_idx = routing.RegisterTransitCallback(partial(dist_eval, manager))
                 routing.SetArcCostEvaluatorOfAllVehicles(dist_idx)
                 ok("Evaluador de distancia registrado")
@@ -284,7 +284,7 @@ else:
                 # BUG CORREGIDO: first_solution_strategy debe usar FirstSolutionStrategy,
                 # NO LocalSearchMetaheuristic. Son enums distintos con distinto propósito.
                 search_params.first_solution_strategy = (
-                    routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC
+                    routing_enums_pb2.FirstSolutionStrategy.AUTOMATIC
                 )
                 # LocalSearchMetaheuristic va en su propio campo
                 search_params.local_search_metaheuristic = (

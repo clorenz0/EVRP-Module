@@ -29,7 +29,7 @@ def process_string_instance(instance_string, distance_type: DistanceType = None,
                                  vehicle_maximum_travel_distance, integer)
         elif 'evrp_instances' in instance_string:
             data = read_file_evrp(instance_string, distance_type, vehicle_max_time,
-                       vehicle_speed, vehicle_maximum_travel_distance, integer)
+                                  vehicle_speed, vehicle_maximum_travel_distance, integer)
         else:
             data = read_file_tw(instance_string, distance_type, vehicle_max_time, vehicle_speed,
                                 vehicle_maximum_travel_distance, integer)
@@ -324,17 +324,17 @@ def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
         )
 
     # Nombres explícitos para que nunca haya ambigüedad en el resto del código
-    fuel_capacity         = int(vehicle_maximum_travel_distance)   # batería eléctrica
-    fuel_consumption_rate = float(vehicle_speed)                   # consumo eléctrico
+    fuel_capacity = int(vehicle_maximum_travel_distance)  # batería eléctrica
+    fuel_consumption_rate = float(vehicle_speed)  # consumo eléctrico
 
     # ── Variables de carga de mercancía (vienen del archivo) ───────────────
-    num_vehicles     = None   # flota (leído de # PROBLEMA)
-    vehicle_capacity = None   # capacidad de mercancía (leído de # PROBLEMA)
-                              # ↑ NUNCA se asigna a fuel_capacity
+    num_vehicles = None  # flota (leído de # PROBLEMA)
+    vehicle_capacity = None  # capacidad de mercancía (leído de # PROBLEMA)
+    # ↑ NUNCA se asigna a fuel_capacity
 
-    locations              = []
-    demands                = []
-    charging_stations      = []
+    locations = []
+    demands = []
+    charging_stations = []
     charging_station_names = {}
 
     # ── Leer todo el archivo ────────────────────────────────────────────────
@@ -356,8 +356,8 @@ def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
         # ── PROBLEMA: "5,300"  →  flota y capacidad de MERCANCÍA ───────────
         if num_vehicles is None and len(fields) == 2:
             try:
-                num_vehicles     = int(fields[0])
-                vehicle_capacity = int(fields[1])   # capacidad de mercancía
+                num_vehicles = int(fields[0])
+                vehicle_capacity = int(fields[1])  # capacidad de mercancía
                 # NOTA: vehicle_capacity NO se copia a fuel_capacity aquí ni nunca.
                 continue
             except ValueError:
@@ -381,14 +381,14 @@ def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
         # ── ESTACIONES DE CARGA: "82842,Nissan Sorel-Tracy,46.024,-73.154,..."
         if len(fields) >= 4:
             try:
-                station_id = int(fields[0])   # solo para validar que es numérico
-                name       = fields[1]
-                lat        = float(fields[2])
-                lon        = float(fields[3])
+                station_id = int(fields[0])  # solo para validar que es numérico
+                name = fields[1]
+                lat = float(fields[2])
+                lon = float(fields[3])
 
                 node_index = len(locations)
                 locations.append((lat, lon))
-                demands.append(0)             # las estaciones no tienen demanda de mercancía
+                demands.append(0)  # las estaciones no tienen demanda de mercancía
                 charging_stations.append(node_index)
                 charging_station_names[node_index] = name
                 continue
@@ -403,8 +403,8 @@ def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
         )
 
     # Advertencia explícita si la instancia es infactible por capacidad de mercancía
-    num_clients   = len(locations) - len(charging_stations) - 1  # -1 por depósito
-    total_demand  = sum(demands[1: num_clients + 1])
+    num_clients = len(locations) - len(charging_stations) - 1  # -1 por depósito
+    total_demand = sum(demands[1: num_clients + 1])
     total_capacity = num_vehicles * vehicle_capacity
     if total_demand > total_capacity:
         import warnings
@@ -419,7 +419,7 @@ def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
         )
 
     # ── Matriz de distancias ────────────────────────────────────────────────
-    num_locations   = len(locations)
+    num_locations = len(locations)
     distance_matrix = [[0] * num_locations for _ in range(num_locations)]
     for ii in range(num_locations):
         for jj in range(num_locations):
@@ -431,20 +431,20 @@ def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
     # ── Retorno: claves de batería y mercancía claramente separadas ─────────
     return {
         # — Flota y carga de MERCANCÍA (del archivo) —
-        "num_vehicles"        : num_vehicles,
-        "vehicle_capacity"    : vehicle_capacity,
-        "vehicle_capacities"  : [vehicle_capacity] * num_vehicles,
+        "num_vehicles": num_vehicles,
+        "vehicle_capacity": vehicle_capacity,
+        "vehicle_capacities": [vehicle_capacity] * num_vehicles,
 
         # — Batería ELÉCTRICA (de los parámetros del llamador) —
-        "fuel_capacity"       : fuel_capacity,         # ← NUNCA = vehicle_capacity
+        "fuel_capacity": fuel_capacity,  # ← NUNCA = vehicle_capacity
         "fuel_consumption_rate": fuel_consumption_rate,
 
         # — Topología —
-        "locations"               : locations,
-        "num_locations"           : num_locations,
-        "demands"                 : demands,
-        "depot"                   : 0,
-        "distance_matrix"         : distance_matrix,
-        "charging_stations"       : charging_stations,
-        "charging_station_names"  : charging_station_names,
+        "locations": locations,
+        "num_locations": num_locations,
+        "demands": demands,
+        "depot": 0,
+        "distance_matrix": distance_matrix,
+        "charging_stations": charging_stations,
+        "charging_station_names": charging_station_names,
     }

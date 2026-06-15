@@ -1,7 +1,7 @@
 from enum import Enum
 import os
 from distance.distance_type import DistanceType, calculate_distance
-from instance.import_data import read_file_tsp, read_file_bh, read_file_tw, read_file_md, read_file_bss, read_file_hf, process_string_instance
+from instance.import_data import read_file_tsp, read_file_bh, read_file_tw, read_file_md, read_file_bss, read_file_hf, read_file_evrp, process_string_instance
 
 
 class InstanceType(Enum):

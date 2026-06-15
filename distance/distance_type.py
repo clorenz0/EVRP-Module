@@ -25,7 +25,7 @@ def calculate_distance(point_1, point_2, distance_type=None, integer=False):
 
 
 def calculate_haversine(point_1, point_2):
-    r = 6371
+    r = 6371.0
     lat1, lon1 = map(math.radians, point_1)
     lat2, lon2 = map(math.radians, point_2)
     dlat = lat2 - lat1

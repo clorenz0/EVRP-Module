@@ -245,8 +245,9 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
             if metaheuristic:
                 f.write(f'Metaheuristic: {metaheuristic}\n\n')
             f.write(f'Distance type: {distance_type_str}\n\n')
-            f.write(f'Fuel capacity: {data["fuel_capacity"]}\n')
-            f.write(f'Fuel consumption rate: {data["fuel_consumption_rate"]}\n\n')
+            f.write(f'Vehicle capacity: {data["vehicle_capacity"]}\n')
+            f.write(f'Battery capacity: {data["fuel_capacity"]}\n')
+            f.write(f'Battery consumption rate: {data["fuel_consumption_rate"]}\n\n')
 
             capacity_dimension = routing.GetDimensionOrDie('Capacity')
             fuel_dimension = routing.GetDimensionOrDie('Fuel')
@@ -281,13 +282,13 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                         plan_output += (
                             f' {node}{cs_label} '
                             f'Load({assignment.Min(load_var)}) '
-                            f'Fuel({assignment.Min(fuel_var)}) ->'
+                            f'Bat({assignment.Min(fuel_var)}) ->'
                         )
                     else:
                         plan_output += (
                             f' {node} '
                             f'Load({assignment.Min(load_var)}) '
-                            f'Fuel({assignment.Min(fuel_var)}) ->'
+                            f'Bat({assignment.Min(fuel_var)}) ->'
                         )
 
                     previous_index = index
@@ -300,16 +301,16 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                 plan_output += (
                     f' {manager.IndexToNode(index)} '
                     f'Load({assignment.Min(load_var)}) '
-                    f'Fuel({assignment.Min(fuel_var)})\n'
+                    f'Bat({assignment.Min(fuel_var)})\n'
                 )
-                plan_output += f'Distance of the route: {route_distance}m\n'
+                plan_output += f'Distance of the route: {route_distance}km\n'
                 plan_output += f'Load of the route: {assignment.Min(load_var)}\n\n'
 
                 f.write(plan_output)
                 total_distance += route_distance
                 total_load += assignment.Min(load_var)
 
-            f.write(f'Total Distance of all routes: {total_distance}m\n\n')
+            f.write(f'Total Distance of all routes: {total_distance}km\n\n')
             f.write(f'Total Load of all routes: {total_load}\n\n')
 
         print(f"Solution saved successfully in {filename}")
