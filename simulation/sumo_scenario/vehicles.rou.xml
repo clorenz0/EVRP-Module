@@ -1,0 +1,61 @@
+<routes>
+  <vType id="ev_type" vClass="passenger" emissionClass="Energy/unknown" length="4.5" maxSpeed="13.89" accel="2.6" decel="4.5" sigma="0.5" mass="1500" frontSurfaceArea="2.6" airDragCoefficient="0.35" internalMomentOfInertia="0.01" radialDragCoefficient="0.1" rollDragCoefficient="0.01" constantPowerIntake="100" propulsionEfficiency="0.9" recuperationEfficiency="0.0" stoppingThreshold="0.1">
+    <param key="has.battery.device" value="true"/>
+    <param key="device.battery.maximumBatteryCapacity" value="300"/>
+    <param key="device.battery.actualBatteryCapacity" value="300"/>
+    <param key="device.battery.recuperationEfficiency" value="0.0"/>
+  </vType>
+  <route id="route_0" edges="e0_15  e15_39  e39_7  e7_27  e27_3  e3_35  e35_55  e55_43  e43_23  e23_34  e34_18  e18_22  e22_0"/>
+  <vehicle id="ev_0" type="ev_type" route="route_0" depart="0" color="1,0,0">
+    <stop lane="e0_15_0" endPos="1066.68" duration="40"/>
+    <stop lane="e15_39_0" endPos="327.63" duration="10"/>
+    <stop lane="e39_7_0" endPos="227.93" duration="38"/>
+    <stop lane="e7_27_0" endPos="293.09" duration="14"/>
+    <stop lane="e27_3_0" endPos="148.53" duration="30"/>
+    <stop lane="e3_35_0" endPos="140.41" duration="10"/>
+    <stop chargingStation="cs_55" duration="300"/>
+    <stop lane="e55_43_0" endPos="406.3" duration="86"/>
+    <stop lane="e43_23_0" endPos="272.31" duration="18"/>
+    <stop lane="e23_34_0" endPos="537.54" duration="74"/>
+    <stop lane="e34_18_0" endPos="107.49" duration="58"/>
+    <stop lane="e18_22_0" endPos="135.08" duration="62"/>
+  </vehicle>
+  <route id="route_1" edges="e0_2  e2_50  e50_12  e12_42  e42_10  e10_26  e26_0"/>
+  <vehicle id="ev_1" type="ev_type" route="route_1" depart="5" color="0,0.7,0">
+    <stop lane="e0_2_0" endPos="348.04" duration="44"/>
+    <stop lane="e2_50_0" endPos="192.51" duration="100"/>
+    <stop lane="e50_12_0" endPos="252.09" duration="46"/>
+    <stop lane="e12_42_0" endPos="269.21" duration="84"/>
+    <stop lane="e42_10_0" endPos="135.5" duration="50"/>
+    <stop lane="e10_26_0" endPos="143.38" duration="66"/>
+  </vehicle>
+  <route id="route_2" edges="e0_11  e11_30  e30_6  e6_0"/>
+  <vehicle id="ev_2" type="ev_type" route="route_2" depart="10" color="0,0,1">
+    <stop lane="e0_11_0" endPos="1208.63" duration="28"/>
+    <stop lane="e11_30_0" endPos="984.66" duration="70"/>
+    <stop lane="e30_6_0" endPos="60.11" duration="48"/>
+  </vehicle>
+  <route id="route_3" edges="e0_53  e53_32  e32_16  e16_24  e24_48  e48_36  e36_14  e14_0"/>
+  <vehicle id="ev_3" type="ev_type" route="route_3" depart="15" color="1,0.5,0">
+    <stop chargingStation="cs_53" duration="300"/>
+    <stop lane="e53_32_0" endPos="690.52" duration="72"/>
+    <stop lane="e32_16_0" endPos="212.61" duration="56"/>
+    <stop lane="e16_24_0" endPos="222.66" duration="64"/>
+    <stop lane="e24_48_0" endPos="35.14" duration="96"/>
+    <stop lane="e48_36_0" endPos="120.44" duration="76"/>
+    <stop lane="e36_14_0" endPos="531.73" duration="52"/>
+  </vehicle>
+  <route id="route_4" edges="e0_40  e40_8  e8_5  e5_28  e28_44  e44_20  e20_51  e51_1  e1_38  e38_46  e46_0"/>
+  <vehicle id="ev_4" type="ev_type" route="route_4" depart="20" color="0.5,0,0.5">
+    <stop lane="e0_40_0" endPos="1412.81" duration="80"/>
+    <stop lane="e40_8_0" endPos="432.9" duration="42"/>
+    <stop lane="e8_5_0" endPos="204.68" duration="26"/>
+    <stop lane="e5_28_0" endPos="209.81" duration="68"/>
+    <stop lane="e28_44_0" endPos="100.08" duration="88"/>
+    <stop lane="e44_20_0" endPos="121.82" duration="60"/>
+    <stop chargingStation="cs_51" duration="300"/>
+    <stop lane="e51_1_0" endPos="131.04" duration="36"/>
+    <stop lane="e1_38_0" endPos="329.38" duration="78"/>
+    <stop lane="e38_46_0" endPos="143.38" duration="92"/>
+  </vehicle>
+</routes>

@@ -1,0 +1,8 @@
+{
+  "total_vehicles": 5,
+  "completed_vehicles": 5,
+  "total_distance_km": 15.07,
+  "total_energy_consumed_wh": 0.0,
+  "total_energy_charged_wh": 0,
+  "avg_consumption_wh_per_km": 0.0
+}

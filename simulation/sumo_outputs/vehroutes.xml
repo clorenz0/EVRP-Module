@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-05-21T10:25:49.934757-05:00 by Eclipse SUMO sumo 1.26.0
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="sumo_scenario\network.net.xml"/>
+        <route-files value="sumo_scenario\vehicles.rou.xml"/>
+        <additional-files value="sumo_scenario\additional.add.xml"/>
+    </input>
+
+    <output>
+        <emission-output value="sumo_outputs\emissions.xml"/>
+        <battery-output value="sumo_outputs\battery.xml"/>
+        <chargingstations-output value="sumo_outputs\chargingstations.xml"/>
+        <fcd-output value="sumo_outputs\fcd.xml"/>
+        <tripinfo-output value="sumo_outputs\tripinfo.xml"/>
+        <vehroute-output value="sumo_outputs\vehroutes.xml"/>
+    </output>
+
+    <time>
+        <begin value="0"/>
+        <end value="86400"/>
+        <step-length value="1.0"/>
+    </time>
+
+    <processing>
+        <collision.action value="warn"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <no-warnings value="true"/>
+    </report>
+
+    <battery>
+        <device.battery.probability value="1.0"/>
+    </battery>
+
+    <traci_server>
+        <remote-port value="59415"/>
+    </traci_server>
+
+</sumoConfiguration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vehicle id="ev_2" type="ev_type" depart="10.00" color="blue" arrival="367.00">
+        <route edges="e0_11 e11_30 e30_6 e6_0"/>
+        <stop lane="e0_11_0" endPos="1208.63" duration="28.00"/>
+        <stop lane="e11_30_0" endPos="984.66" duration="70.00"/>
+        <stop lane="e30_6_0" endPos="60.11" duration="48.00"/>
+    </vehicle>
+
+    <vehicle id="ev_1" type="ev_type" depart="5.00" color="0,179,0" arrival="562.00">
+        <route edges="e0_2 e2_50 e50_12 e12_42 e42_10 e10_26 e26_0"/>
+        <stop lane="e0_2_0" endPos="348.04" duration="44.00"/>
+        <stop lane="e2_50_0" endPos="192.51" duration="100.00"/>
+        <stop lane="e50_12_0" endPos="252.09" duration="46.00"/>
+        <stop lane="e12_42_0" endPos="269.21" duration="84.00"/>
+        <stop lane="e42_10_0" endPos="135.50" duration="50.00"/>
+        <stop lane="e10_26_0" endPos="143.38" duration="66.00"/>
+    </vehicle>
+
+    <vehicle id="ev_3" type="ev_type" depart="15.00" color="orange" arrival="974.00">
+        <route edges="e0_53 e53_32 e32_16 e16_24 e24_48 e48_36 e36_14 e14_0"/>
+        <stop chargingStation="cs_53" duration="300.00"/>
+        <stop lane="e53_32_0" endPos="690.52" duration="72.00"/>
+        <stop lane="e32_16_0" endPos="212.61" duration="56.00"/>
+        <stop lane="e16_24_0" endPos="222.66" duration="64.00"/>
+        <stop lane="e24_48_0" endPos="35.14" duration="96.00"/>
+        <stop lane="e48_36_0" endPos="120.44" duration="76.00"/>
+        <stop lane="e36_14_0" endPos="531.73" duration="52.00"/>
+    </vehicle>
+
+    <vehicle id="ev_0" type="ev_type" depart="0.00" color="red" arrival="1142.00">
+        <route edges="e0_15 e15_39 e39_7 e7_27 e27_3 e3_35 e35_55 e55_43 e43_23 e23_34 e34_18 e18_22 e22_0"/>
+        <stop lane="e0_15_0" endPos="1066.68" duration="40.00"/>
+        <stop lane="e15_39_0" endPos="327.63" duration="10.00"/>
+        <stop lane="e39_7_0" endPos="227.93" duration="38.00"/>
+        <stop lane="e7_27_0" endPos="293.09" duration="14.00"/>
+        <stop lane="e27_3_0" endPos="148.53" duration="30.00"/>
+        <stop lane="e3_35_0" endPos="140.41" duration="10.00"/>
+        <stop chargingStation="cs_55" duration="300.00"/>
+        <stop lane="e55_43_0" endPos="406.30" duration="86.00"/>
+        <stop lane="e43_23_0" endPos="272.31" duration="18.00"/>
+        <stop lane="e23_34_0" endPos="537.54" duration="74.00"/>
+        <stop lane="e34_18_0" endPos="107.49" duration="58.00"/>
+        <stop lane="e18_22_0" endPos="135.08" duration="62.00"/>
+    </vehicle>
+
+    <vehicle id="ev_4" type="ev_type" depart="20.00" color="128,0,128" arrival="1240.00">
+        <route edges="e0_40 e40_8 e8_5 e5_28 e28_44 e44_20 e20_51 e51_1 e1_38 e38_46 e46_0"/>
+        <stop lane="e0_40_0" endPos="1412.81" duration="80.00"/>
+        <stop lane="e40_8_0" endPos="432.90" duration="42.00"/>
+        <stop lane="e8_5_0" endPos="204.68" duration="26.00"/>
+        <stop lane="e5_28_0" endPos="209.81" duration="68.00"/>
+        <stop lane="e28_44_0" endPos="100.08" duration="88.00"/>
+        <stop lane="e44_20_0" endPos="121.82" duration="60.00"/>
+        <stop chargingStation="cs_51" duration="300.00"/>
+        <stop lane="e51_1_0" endPos="131.04" duration="36.00"/>
+        <stop lane="e1_38_0" endPos="329.38" duration="78.00"/>
+        <stop lane="e38_46_0" endPos="143.38" duration="92.00"/>
+    </vehicle>
+
+</routes>

@@ -1,0 +1,39 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 27
+
+Execution Time: 10.000075817108154
+
+Heuristic: CHRISTOFIDES
+
+Metaheuristic: SIMULATED_ANNEALING
+
+Distance type: haversine
+
+Fuel capacity: 250
+Fuel consumption rate: 1.0
+
+Route for vehicle 0:
+ 0 Load(0) Fuel(250) -> 30 Load(0) Fuel(250) -> 44[CS:Recharge Saint-Roch] Load(28) Fuel(250) -> 28 Load(28) Fuel(250) -> 19 Load(37) Fuel(249) -> 46[CS:Circuit Électrique Lévis] Load(61) Fuel(248) -> 10 Load(61) Fuel(250) -> 22 Load(96) Fuel(250) -> 33 Load(125) Fuel(249) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(150) Fuel(249) -> 0 Load(150) Fuel(249)
+Distance of the route: 5m
+Load of the route: 150
+
+Route for vehicle 1:
+ 0 Load(0) Fuel(250) -> 8 Load(0) Fuel(250) -> 3 Load(28) Fuel(248) -> 15 Load(58) Fuel(248) -> 37 Load(85) Fuel(247) -> 16 Load(108) Fuel(246) -> 31 Load(122) Fuel(245) -> 25 Load(138) Fuel(244) -> 13 Load(164) Fuel(244) -> 7 Load(181) Fuel(243) -> 42[CS:Station IGA Sainte-Foy] Load(200) Fuel(243) -> 36 Load(200) Fuel(243) -> 39 Load(217) Fuel(242) -> 4 Load(231) Fuel(242) -> 0 Load(246) Fuel(241)
+Distance of the route: 10m
+Load of the route: 246
+
+Route for vehicle 2:
+ 0 Load(0) Fuel(250) -> 27 Load(0) Fuel(250) -> 38 Load(34) Fuel(250) -> 14 Load(61) Fuel(250) -> 6 Load(84) Fuel(250) -> 18 Load(109) Fuel(250) -> 12 Load(125) Fuel(250) -> 45[CS:Borne IKEA Beauport] Load(157) Fuel(250) -> 24 Load(157) Fuel(250) -> 35 Load(178) Fuel(250) -> 2 Load(208) Fuel(250) -> 0 Load(226) Fuel(248)
+Distance of the route: 3m
+Load of the route: 226
+
+Route for vehicle 3:
+ 0 Load(0) Fuel(250) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Fuel(250) -> 17 Load(0) Fuel(250) -> 1 Load(31) Fuel(249) -> 32 Load(51) Fuel(249) -> 21 Load(71) Fuel(248) -> 29 Load(82) Fuel(247) -> 40 Load(104) Fuel(247) -> 9 Load(123) Fuel(246) -> 23 Load(135) Fuel(245) -> 34 Load(153) Fuel(245) -> 11 Load(165) Fuel(245) -> 5 Load(175) Fuel(245) -> 26 Load(197) Fuel(245) -> 20 Load(210) Fuel(245) -> 0 Load(243) Fuel(241)
+Distance of the route: 9m
+Load of the route: 243
+
+Total Distance of all routes: 27m
+
+Total Load of all routes: 865
+

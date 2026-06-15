@@ -1,0 +1,5 @@
+<additional>
+  <chargingStation id="cs_51" name="Nissan Sorel-Tracy" lane="e20_51_0" startPos="35.5" endPos="319.51" chargePerTimeStep="1.0" chargeEfficiency="1.0" chargeDelay="0"/>
+  <chargingStation id="cs_53" name="BMR Yamachiche" lane="e0_53_0" startPos="36.71" endPos="330.36" chargePerTimeStep="1.0" chargeEfficiency="1.0" chargeDelay="0"/>
+  <chargingStation id="cs_55" name="Château Repotel Henri IV" lane="e35_55_0" startPos="41.34" endPos="372.05" chargePerTimeStep="1.0" chargeEfficiency="1.0" chargeDelay="0"/>
+</additional>

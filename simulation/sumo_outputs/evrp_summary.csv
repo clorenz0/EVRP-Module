@@ -1,0 +1,6 @@
+vehicle_id,route_length_m,duration_s,waiting_time_s,vaporized,energy_consumed_wh,energy_charged_wh,final_soc_wh,consumption_wh_per_km,completed
+ev_2,2545.2,357.0,0.0,,0.0,0.0,17260.31,0.0,True
+ev_1,1623.53,557.0,1.0,,0.0,0.0,17332.05,0.0,True
+ev_3,2675.5,959.0,1.0,,0.0,0.0,18974.61,0.0,True
+ev_0,4367.19,1142.0,3.0,,0.0,0.0,18834.17,0.0,True
+ev_4,3855.71,1220.0,0.0,,0.0,0.0,18871.54,0.0,True

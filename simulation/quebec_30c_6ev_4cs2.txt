@@ -1,0 +1,49 @@
+Instance: quebec_30c_6ev_4cs.txt
+
+Objective: 41
+
+Execution Time: 10.01547622680664
+
+Heuristic: CHRISTOFIDES
+
+Metaheuristic: SIMULATED_ANNEALING
+
+Distance type: haversine
+
+Fuel capacity: 150
+Fuel consumption rate: 1.0
+
+Route for vehicle 0:
+ 0 Load(0) Fuel(150) -> 4 Load(0) Fuel(150) -> 28 Load(27) Fuel(150) -> 13 Load(39) Fuel(149) -> 7 Load(56) Fuel(147) -> 16 Load(75) Fuel(146) -> 0 Load(103) Fuel(144)
+Distance of the route: 6m
+Load of the route: 103
+
+Route for vehicle 1:
+ 0 Load(0) Fuel(150) -> 0 Load(0) Fuel(150)
+Distance of the route: 0m
+Load of the route: 0
+
+Route for vehicle 2:
+ 0 Load(0) Fuel(150) -> 8 Load(0) Fuel(150) -> 3 Load(21) Fuel(149) -> 15 Load(36) Fuel(148) -> 30 Load(56) Fuel(147) -> 31[CS:Circuit Électrique Longueuil Centre] Load(76) Fuel(146) -> 12 Load(76) Fuel(150) -> 6 Load(99) Fuel(149) -> 34[CS:Station Rapide Saint-Lambert] Load(123) Fuel(149) -> 0 Load(123) Fuel(146)
+Distance of the route: 9m
+Load of the route: 123
+
+Route for vehicle 3:
+ 0 Load(0) Fuel(150) -> 22 Load(0) Fuel(149) -> 10 Load(31) Fuel(148) -> 25 Load(56) Fuel(147) -> 19 Load(64) Fuel(144) -> 0 Load(75) Fuel(143)
+Distance of the route: 7m
+Load of the route: 75
+
+Route for vehicle 4:
+ 0 Load(0) Fuel(150) -> 27 Load(0) Fuel(150) -> 18 Load(16) Fuel(149) -> 9 Load(45) Fuel(149) -> 29 Load(61) Fuel(149) -> 21 Load(79) Fuel(149) -> 24 Load(89) Fuel(148) -> 17 Load(121) Fuel(147) -> 33[CS:Borne EV Vieux-Montréal] Load(133) Fuel(145) -> 0 Load(133) Fuel(144)
+Distance of the route: 8m
+Load of the route: 133
+
+Route for vehicle 5:
+ 0 Load(0) Fuel(150) -> 26 Load(0) Fuel(148) -> 5 Load(14) Fuel(147) -> 20 Load(27) Fuel(147) -> 11 Load(57) Fuel(146) -> 14 Load(71) Fuel(145) -> 23 Load(97) Fuel(143) -> 2 Load(106) Fuel(142) -> 1 Load(128) Fuel(141) -> 0 Load(146) Fuel(139)
+Distance of the route: 11m
+Load of the route: 146
+
+Total Distance of all routes: 41m
+
+Total Load of all routes: 580
+

@@ -1,0 +1,69 @@
+Instance: quebec_90c_10ev_10cs.txt
+
+Objective: 48
+
+Execution Time: 10.003070831298828
+
+Heuristic: CHRISTOFIDES
+
+Metaheuristic: SIMULATED_ANNEALING
+
+Distance type: haversine
+
+Fuel capacity: 180
+Fuel consumption rate: 1.0
+
+Route for vehicle 0:
+ 0 Load(0) Fuel(180) -> 8 Load(0) Fuel(180) -> 13 Load(20) Fuel(180) -> 33 Load(33) Fuel(180) -> 65 Load(43) Fuel(180) -> 49 Load(65) Fuel(180) -> 81 Load(87) Fuel(180) -> 44 Load(106) Fuel(179) -> 11 Load(120) Fuel(179) -> 28 Load(131) Fuel(179) -> 41 Load(139) Fuel(178) -> 89 Load(151) Fuel(178) -> 57 Load(160) Fuel(178) -> 17 Load(169) Fuel(177) -> 96[CS:Recharge Hôtel Delta TR] Load(178) Fuel(177) -> 0 Load(178) Fuel(175)
+Distance of the route: 7m
+Load of the route: 178
+
+Route for vehicle 1:
+ 0 Load(0) Fuel(180) -> 74 Load(0) Fuel(180) -> 26 Load(13) Fuel(180) -> 63 Load(29) Fuel(180) -> 15 Load(41) Fuel(180) -> 60 Load(57) Fuel(180) -> 31 Load(78) Fuel(180) -> 47 Load(91) Fuel(180) -> 9 Load(111) Fuel(180) -> 69 Load(128) Fuel(180) -> 3 Load(136) Fuel(180) -> 24 Load(148) Fuel(179) -> 92[CS:Recharge EV Cap-de-la-Madeleine] Load(159) Fuel(179) -> 54 Load(159) Fuel(180) -> 100[CS:Station Rapide Bécancour] Load(174) Fuel(179) -> 0 Load(174) Fuel(176)
+Distance of the route: 5m
+Load of the route: 174
+
+Route for vehicle 2:
+ 0 Load(0) Fuel(180) -> 35 Load(0) Fuel(180) -> 72 Load(18) Fuel(180) -> 21 Load(38) Fuel(180) -> 94[CS:Circuit Électrique Shawinigan Sud] Load(58) Fuel(179) -> 75 Load(58) Fuel(180) -> 51 Load(84) Fuel(180) -> 67 Load(110) Fuel(180) -> 38 Load(121) Fuel(180) -> 5 Load(130) Fuel(180) -> 86 Load(140) Fuel(180) -> 78 Load(161) Fuel(180) -> 97[CS:Station EV Université UQTR] Load(177) Fuel(180) -> 0 Load(177) Fuel(177)
+Distance of the route: 8m
+Load of the route: 177
+
+Route for vehicle 3:
+ 0 Load(0) Fuel(180) -> 37 Load(0) Fuel(180) -> 53 Load(27) Fuel(180) -> 40 Load(45) Fuel(179) -> 19 Load(61) Fuel(179) -> 1 Load(76) Fuel(179) -> 83 Load(91) Fuel(179) -> 43 Load(105) Fuel(179) -> 30 Load(124) Fuel(179) -> 59 Load(141) Fuel(179) -> 88 Load(155) Fuel(179) -> 0 Load(179) Fuel(178)
+Distance of the route: 2m
+Load of the route: 179
+
+Route for vehicle 4:
+ 0 Load(0) Fuel(180) -> 85 Load(0) Fuel(180) -> 56 Load(11) Fuel(180) -> 14 Load(31) Fuel(179) -> 62 Load(50) Fuel(179) -> 46 Load(75) Fuel(179) -> 48 Load(86) Fuel(178) -> 27 Load(103) Fuel(178) -> 64 Load(125) Fuel(178) -> 80 Load(144) Fuel(178) -> 77 Load(156) Fuel(178) -> 0 Load(178) Fuel(178)
+Distance of the route: 2m
+Load of the route: 178
+
+Route for vehicle 5:
+ 0 Load(0) Fuel(180) -> 10 Load(0) Fuel(180) -> 70 Load(23) Fuel(179) -> 22 Load(47) Fuel(179) -> 95[CS:Borne IGA Trois-Rivières] Load(61) Fuel(178) -> 32 Load(61) Fuel(178) -> 16 Load(90) Fuel(178) -> 7 Load(114) Fuel(178) -> 61 Load(128) Fuel(178) -> 12 Load(144) Fuel(178) -> 0 Load(172) Fuel(175)
+Distance of the route: 8m
+Load of the route: 172
+
+Route for vehicle 6:
+ 0 Load(0) Fuel(180) -> 66 Load(0) Fuel(178) -> 42 Load(17) Fuel(178) -> 87 Load(41) Fuel(178) -> 79 Load(58) Fuel(178) -> 55 Load(87) Fuel(178) -> 45 Load(110) Fuel(177) -> 58 Load(138) Fuel(176) -> 50 Load(165) Fuel(176) -> 0 Load(178) Fuel(174)
+Distance of the route: 6m
+Load of the route: 178
+
+Route for vehicle 7:
+ 0 Load(0) Fuel(180) -> 34 Load(0) Fuel(180) -> 29 Load(23) Fuel(180) -> 90 Load(48) Fuel(180) -> 82 Load(68) Fuel(180) -> 39 Load(91) Fuel(180) -> 2 Load(112) Fuel(180) -> 52 Load(130) Fuel(180) -> 20 Load(140) Fuel(180) -> 4 Load(158) Fuel(179) -> 98[CS:Borne Saint-Louis-de-France] Load(180) Fuel(177) -> 0 Load(180) Fuel(176)
+Distance of the route: 5m
+Load of the route: 180
+
+Route for vehicle 8:
+ 0 Load(0) Fuel(180) -> 18 Load(0) Fuel(180) -> 84 Load(21) Fuel(179) -> 36 Load(48) Fuel(179) -> 76 Load(63) Fuel(179) -> 25 Load(73) Fuel(179) -> 93[CS:Station Rapide Trois-Rivières Ouest] Load(103) Fuel(179) -> 73 Load(103) Fuel(179) -> 68 Load(121) Fuel(178) -> 6 Load(149) Fuel(178) -> 0 Load(174) Fuel(177)
+Distance of the route: 4m
+Load of the route: 174
+
+Route for vehicle 9:
+ 0 Load(0) Fuel(180) -> 91[CS:Borne Trois-Rivières Centre] Load(0) Fuel(180) -> 23 Load(0) Fuel(180) -> 71 Load(26) Fuel(180) -> 0 Load(41) Fuel(179)
+Distance of the route: 1m
+Load of the route: 41
+
+Total Distance of all routes: 48m
+
+Total Load of all routes: 1631
+

@@ -1,0 +1,46 @@
+Instance: quebec_50c_5ev_5cs.txt
+
+Objective: 150002779
+
+Execution Time: 9.999906301498413
+
+Heuristic: CHRISTOFIDES
+
+Metaheuristic: SIMULATED_ANNEALING
+
+Distance type: haversine
+
+Fuel capacity: 300
+Fuel consumption rate: 1.0
+
+Dropped clients: [4, 9, 13, 17, 19, 21, 25, 29, 31, 33, 37, 41, 45, 47, 49]
+
+Route for vehicle 0:
+ 0 Load(0) Fuel(300) -> 15 Load(0) Fuel(300) -> 39 Load(20) Fuel(237) -> 7 Load(21) Fuel(194) -> 27 Load(40) Fuel(137) -> 3 Load(47) Fuel(109) -> 35 Load(62) Fuel(82) -> 55[CS:Château Repotel Henri IV] Load(65) Fuel(6) -> 43 Load(65) Fuel(221) -> 23 Load(108) Fuel(169) -> 34 Load(117) Fuel(65) -> 18 Load(154) Fuel(45) -> 22 Load(183) Fuel(19) -> 0 Load(214) Fuel(0)
+Distance of the route: 801m
+Load of the route: 214
+
+Route for vehicle 1:
+ 0 Load(0) Fuel(300) -> 2 Load(0) Fuel(232) -> 50 Load(22) Fuel(195) -> 12 Load(72) Fuel(146) -> 42 Load(95) Fuel(94) -> 10 Load(137) Fuel(68) -> 26 Load(162) Fuel(40) -> 0 Load(195) Fuel(0)
+Distance of the route: 300m
+Load of the route: 195
+
+Route for vehicle 2:
+ 0 Load(0) Fuel(300) -> 11 Load(0) Fuel(233) -> 30 Load(14) Fuel(43) -> 6 Load(49) Fuel(32) -> 0 Load(73) Fuel(0)
+Distance of the route: 467m
+Load of the route: 73
+
+Route for vehicle 3:
+ 0 Load(0) Fuel(300) -> 53[CS:BMR Yamachiche] Load(0) Fuel(300) -> 32 Load(0) Fuel(292) -> 16 Load(36) Fuel(251) -> 24 Load(64) Fuel(208) -> 48 Load(96) Fuel(202) -> 36 Load(144) Fuel(179) -> 14 Load(182) Fuel(75) -> 0 Load(208) Fuel(0)
+Distance of the route: 495m
+Load of the route: 208
+
+Route for vehicle 4:
+ 0 Load(0) Fuel(300) -> 40 Load(0) Fuel(300) -> 8 Load(40) Fuel(214) -> 5 Load(61) Fuel(174) -> 28 Load(74) Fuel(133) -> 44 Load(108) Fuel(114) -> 20 Load(152) Fuel(90) -> 51[CS:Nissan Sorel-Tracy] Load(182) Fuel(25) -> 1 Load(182) Fuel(138) -> 38 Load(200) Fuel(74) -> 46 Load(239) Fuel(47) -> 0 Load(285) Fuel(0)
+Distance of the route: 716m
+Load of the route: 285
+
+Total Distance of all routes: 2779m
+
+Total Load of all routes: 975
+

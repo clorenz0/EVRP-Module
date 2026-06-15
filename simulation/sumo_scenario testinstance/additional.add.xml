@@ -1,0 +1,10 @@
+<additional>
+  <chargingStation id="cs_51" name="Estacion Norte" lane="e49_51_0" startPos="140.59" endPos="1265.35" chargePerTimeStep="1.3333" chargeEfficiency="1.0" chargeDelay="0"/>
+  <chargingStation id="cs_52" name="Estacion Noreste" lane="e53_52_0" startPos="60.88" endPos="547.92" chargePerTimeStep="1.3333" chargeEfficiency="1.0" chargeDelay="0"/>
+  <chargingStation id="cs_53" name="Estacion Este" lane="e33_53_0" startPos="42.12" endPos="379.05" chargePerTimeStep="1.3333" chargeEfficiency="1.0" chargeDelay="0"/>
+  <chargingStation id="cs_54" name="Estacion Sureste" lane="e55_54_0" startPos="133.73" endPos="1203.58" chargePerTimeStep="1.3333" chargeEfficiency="1.0" chargeDelay="0"/>
+  <chargingStation id="cs_55" name="Estacion Sur" lane="e43_55_0" startPos="126.2" endPos="1135.8" chargePerTimeStep="1.3333" chargeEfficiency="1.0" chargeDelay="0"/>
+  <chargingStation id="cs_56" name="Estacion Suroeste" lane="e48_56_0" startPos="133.01" endPos="1197.1" chargePerTimeStep="1.3333" chargeEfficiency="1.0" chargeDelay="0"/>
+  <chargingStation id="cs_57" name="Estacion Oeste" lane="e17_57_0" startPos="52.06" endPos="468.51" chargePerTimeStep="1.3333" chargeEfficiency="1.0" chargeDelay="0"/>
+  <chargingStation id="cs_58" name="Estacion Noroeste" lane="e0_58_0" startPos="145.7" endPos="1311.3" chargePerTimeStep="1.3333" chargeEfficiency="1.0" chargeDelay="0"/>
+</additional>
