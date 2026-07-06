@@ -1,1 +1,3 @@
 /.venv/
+/osrm_data/
+/instances_data/osrm_cache/
