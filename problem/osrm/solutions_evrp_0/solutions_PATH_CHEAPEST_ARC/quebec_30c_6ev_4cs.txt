@@ -1,0 +1,69 @@
+Instance: quebec_30c_6ev_4cs.txt
+
+Objective: 200101
+
+Execution Time: 0.07808852195739746
+
+Heuristic: PATH_CHEAPEST_ARC
+
+Distance type: osrm
+
+Vehicle capacity: 150
+Battery capacity: 100
+Battery consumption rate: 1.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
+Distance of the route: 0km
+Recharges in the route: 0
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
+Distance of the route: 0km
+Recharges in the route: 0
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 9 Load(0) Bat(96) -> 15 Load(16) Bat(90) -> 12 Load(36) Bat(81) -> 6 Load(59) Bat(78) -> 30 Load(83) Bat(76) -> 25 Load(103) Bat(71) -> 10 Load(111) Bat(62) -> 0 Load(136) Bat(59)
+Distance of the route: 41km
+Recharges in the route: 0
+Time of the route: 5047s
+Load of the route: 136
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 17 Load(0) Bat(97) -> 24 Load(12) Bat(96) -> 21 Load(44) Bat(94) -> 29 Load(54) Bat(93) -> 18 Load(72) Bat(92) -> 2 Load(101) Bat(89) -> 14 Load(123) Bat(85) -> 0 Load(149) Bat(77)
+Distance of the route: 23km
+Recharges in the route: 0
+Time of the route: 3587s
+Load of the route: 149
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 4 Load(0) Bat(99) -> 28 Load(27) Bat(98) -> 7 Load(39) Bat(95) -> 16 Load(58) Bat(93) -> 13 Load(86) Bat(90) -> 19 Load(103) Bat(88) -> 22 Load(114) Bat(84) -> 0 Load(145) Bat(81)
+Distance of the route: 19km
+Recharges in the route: 0
+Time of the route: 3519s
+Load of the route: 145
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 8 Load(0) Bat(99) -> 3 Load(21) Bat(98) -> 26 Load(36) Bat(93) -> 5 Load(50) Bat(92) -> 23 Load(63) Bat(92) -> 20 Load(72) Bat(91) -> 11 Load(102) Bat(90) -> 1 Load(116) Bat(86) -> 27 Load(134) Bat(85) -> 0 Load(150) Bat(82)
+Distance of the route: 18km
+Recharges in the route: 0
+Time of the route: 3304s
+Load of the route: 150
+
+Total Distance of all routes: 101km
+
+Total Load of all routes: 580
+
+Total Time of all routes: 15457s
+
+--- Desglose del objetivo ponderado ---
+f1 Distancia total (pura, sin penalizaciones): 101
+f2 Numero de recargas (visitas a estaciones): 0  [peso recharge_weight = 2000]
+f3 Numero de vehiculos usados: 4  [costo fijo vehicle_fixed_cost = 50000]
+f4 Tiempo total real de viaje (segundos, OSRM): 15457  [peso time_weight = 0]
+Objetivo ponderado F = f1 + recharge_weight*f2_arcos + vehicle_fixed_cost*f3 + time_weight*f4_arcos: 200101
+
