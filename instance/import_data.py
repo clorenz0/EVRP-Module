@@ -418,15 +418,24 @@ def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
             stacklevel=2,
         )
 
-    # ── Matriz de distancias ────────────────────────────────────────────────
+    # ── Matriz de distancias (y de tiempo, solo disponible con OSRM) ─────────
     num_locations = len(locations)
-    distance_matrix = [[0] * num_locations for _ in range(num_locations)]
-    for ii in range(num_locations):
-        for jj in range(num_locations):
-            if ii != jj:
-                distance_matrix[ii][jj] = calculate_distance(
-                    locations[ii], locations[jj], distance_type, integer
-                )
+    time_matrix = None
+    if distance_type == DistanceType.OSRM:
+        # Una sola llamada bulk al servicio /table de OSRM para toda la matriz.
+        # No se puede usar calculate_distance() aquí (ver distance/osrm_client.py).
+        from distance.osrm_client import get_osrm_matrix
+        osrm_result = get_osrm_matrix(locations)
+        distance_matrix = osrm_result['distance_matrix']
+        time_matrix = osrm_result['time_matrix']
+    else:
+        distance_matrix = [[0] * num_locations for _ in range(num_locations)]
+        for ii in range(num_locations):
+            for jj in range(num_locations):
+                if ii != jj:
+                    distance_matrix[ii][jj] = calculate_distance(
+                        locations[ii], locations[jj], distance_type, integer
+                    )
 
     # ── Retorno: claves de batería y mercancía claramente separadas ─────────
     return {
@@ -445,6 +454,7 @@ def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
         "demands": demands,
         "depot": 0,
         "distance_matrix": distance_matrix,
+        "time_matrix": time_matrix,  # None salvo cuando distance_type == DistanceType.OSRM
         "charging_stations": charging_stations,
         "charging_station_names": charging_station_names,
     }

@@ -8,9 +8,16 @@ class DistanceType(Enum):
     MANHATTAN = 'manhattan'
     HAVERSINE = 'haversine'
     CHEBYSHEV = 'chebyshev'
+    OSRM = 'osrm'  # distancia y tiempo reales de carretera (ver distance/osrm_client.py)
 
 
 def calculate_distance(point_1, point_2, distance_type=None, integer=False):
+    if distance_type == DistanceType.OSRM:
+        raise ValueError(
+            "DistanceType.OSRM no se calcula par a par con calculate_distance(). "
+            "Requiere una sola llamada bulk al servicio /table de OSRM: "
+            "usa distance.osrm_client.get_osrm_matrix(locations)."
+        )
     if distance_type == DistanceType.EUCLIDEAN:
         result = math.sqrt((point_2[0] - point_1[0]) ** 2 + (point_2[1] - point_1[1]) ** 2) + 0.5
     elif distance_type == DistanceType.MANHATTAN or not distance_type:
