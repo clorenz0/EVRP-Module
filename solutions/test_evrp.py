@@ -8,8 +8,6 @@ Qué prueba:
     Nivel 1 — Carga de datos       : read_file_evrp lee bien la instancia
     Nivel 2 — Modelo OR-Tools      : se construye sin errores y el solver devuelve solución
     Nivel 3 — Validación física    : las rutas respetan batería y capacidad de carga
-    Nivel 4 — Objetivo ponderado   : evrp.execute() con recharge_weight / vehicle_fixed_cost
-                                     produce el desglose f1/f2/f3 esperado
 
 Instancia usada: instances_data/evrp_instances/quebec_40c_4ev_6cs.txt
     4 vehículos, capacidad 250, depósito (46.8139,-71.2080),
@@ -223,7 +221,6 @@ else:
         from ortools.constraint_solver import pywrapcp, routing_enums_pb2
         from problem.execute.evrp import (
             create_distance_evaluator,
-            create_objective_evaluator,
             create_demand_evaluator,
             create_fuel_evaluator,
             add_capacity_constraints,
@@ -252,26 +249,17 @@ else:
                 fail("Error creando RoutingModel", str(e))
                 routing = None
 
-        # ── 2.3 Evaluador de distancia pura (sin distance_type: usa distance_matrix) ──
+        # ── 2.3 Evaluador de distancia (costo de arco: distancia pura desde distance_matrix) ──
         if routing:
             try:
                 dist_eval = create_distance_evaluator(data)
                 dist_idx = routing.RegisterTransitCallback(partial(dist_eval, manager))
-                ok("Evaluador de distancia pura registrado")
+                routing.SetArcCostEvaluatorOfAllVehicles(dist_idx)
+                ok("Evaluador de distancia registrado como costo de arco")
             except Exception as e:
                 fail("Error registrando evaluador de distancia", str(e))
 
-        # ── 2.4 Evaluador de objetivo ponderado (arc cost real del modelo) ────
-        if routing:
-            try:
-                objective_eval = create_objective_evaluator(data, recharge_weight=2000)
-                objective_idx = routing.RegisterTransitCallback(partial(objective_eval, manager))
-                routing.SetArcCostEvaluatorOfAllVehicles(objective_idx)
-                ok("Evaluador de objetivo ponderado (distancia + recarga) registrado")
-            except Exception as e:
-                fail("Error registrando evaluador de objetivo ponderado", str(e))
-
-        # ── 2.5 Dimensión de capacidad ────────────────────────────────────────
+        # ── 2.4 Dimensión de capacidad ────────────────────────────────────────
         if routing:
             try:
                 demand_eval = create_demand_evaluator(data)
@@ -282,7 +270,7 @@ else:
             except Exception as e:
                 fail("Error añadiendo dimensión Capacity", str(e))
 
-        # ── 2.6 Dimensión de batería ──────────────────────────────────────────
+        # ── 2.5 Dimensión de batería ──────────────────────────────────────────
         if routing:
             try:
                 fuel_eval = create_fuel_evaluator(data)
@@ -293,7 +281,7 @@ else:
             except Exception as e:
                 fail("Error añadiendo dimensión Fuel", str(e))
 
-        # ── 2.7 Tránsito negativo de batería ──────────────────────────────────
+        # ── 2.6 Tránsito negativo de batería ──────────────────────────────────
         if routing:
             distance_0_1 = data['distance_matrix'][0][1]
             transit = -int(distance_0_1 * data['fuel_consumption_rate'])
@@ -306,7 +294,7 @@ else:
                 fail("Tránsito de batería es positivo - debe ser negativo para drenar la batería",
                      f"Valor: {transit}")
 
-        # ── 2.8 Resolver (tiempo límite corto para el test) ───────────────────
+        # ── 2.7 Resolver (tiempo límite corto para el test) ───────────────────
         if routing:
             try:
                 search_params = pywrapcp.DefaultRoutingSearchParameters()
@@ -462,82 +450,6 @@ else:
     except Exception as e:
         fail("Error inesperado en Nivel 3", str(e))
         traceback.print_exc()
-
-
-# ════════════════════════════════════════════════════════════════
-# NIVEL 4 — OBJETIVO PONDERADO (evrp.execute end-to-end)
-# ════════════════════════════════════════════════════════════════
-
-section("NIVEL 4 - Objetivo ponderado (evrp.execute con recharge_weight / vehicle_fixed_cost)")
-
-try:
-    from instance.instance_type import InstanceType
-    from problem.execute import evrp
-    from problem.strategy_type import HeuristicType
-
-    def run_and_parse(recharge_weight=0, vehicle_fixed_cost=0):
-        """Ejecuta evrp.execute() sobre TODAS las instancias de evrp_instances/ y
-        parsea el desglose f1/f2/f3 del archivo de salida de quebec_40c_4ev_6cs.txt."""
-        evrp.execute(
-            0, InstanceType.EVRP, time_limit=5,
-            vehicle_maximum_travel_distance=100,
-            vehicle_speed=1.0,
-            distance_type=DistanceType.OSRM,
-            heuristic=HeuristicType.PATH_CHEAPEST_ARC,
-            recharge_weight=recharge_weight,
-            vehicle_fixed_cost=vehicle_fixed_cost,
-        )
-        out_path = os.path.join(
-            os.path.dirname(__file__), "..",
-            "problem", "osrm", "solutions_evrp_0",
-            "solutions_PATH_CHEAPEST_ARC", "quebec_40c_4ev_6cs.txt"
-        )
-        text = open(out_path, encoding="utf-8").read()
-        result = {}
-        for line in text.splitlines():
-            if line.startswith("Objective:"):
-                result['objective'] = int(line.split(":")[1].strip())
-            elif line.startswith("f1 Distancia total"):
-                result['f1'] = int(line.split(":")[1].strip())
-            elif line.startswith("f2 Numero de recargas"):
-                result['f2'] = int(line.split(":")[1].split("[")[0].strip())
-            elif line.startswith("f3 Numero de vehiculos"):
-                result['f3'] = int(line.split(":")[1].split("[")[0].strip())
-        return result
-
-    prev_dir = os.getcwd()
-    os.chdir(os.path.join(os.path.dirname(__file__), ".."))
-    try:
-        baseline = run_and_parse(recharge_weight=0, vehicle_fixed_cost=0)
-        weighted = run_and_parse(recharge_weight=2000, vehicle_fixed_cost=50000)
-    finally:
-        os.chdir(prev_dir)
-
-    # ── 4.1 Baseline: objetivo == f1 cuando los pesos son 0 ───────────────────
-    if baseline.get('objective') == baseline.get('f1'):
-        ok(f"Baseline (pesos=0): Objetivo == f1 == {baseline.get('objective')}")
-    else:
-        fail("Baseline: el objetivo debería ser igual a f1 cuando los pesos son 0",
-             f"Objective={baseline.get('objective')} f1={baseline.get('f1')}")
-
-    # ── 4.2 Fórmula F = f1 + recharge_weight*f2 + vehicle_fixed_cost*f3 ───────
-    expected = weighted.get('f1', 0) + 2000 * weighted.get('f2', 0) + 50000 * weighted.get('f3', 0)
-    if weighted.get('objective') == expected:
-        ok(f"F = f1 + recharge_weight*f2 + vehicle_fixed_cost*f3 se cumple exactamente: "
-           f"{weighted.get('objective')} == {weighted.get('f1')} + 2000*{weighted.get('f2')} + 50000*{weighted.get('f3')}")
-    else:
-        fail("La fórmula del objetivo ponderado no coincide",
-             f"Objective={weighted.get('objective')} esperado={expected}")
-
-    # ── 4.3 El desglose reporta todos los componentes ─────────────────────────
-    if all(k in weighted for k in ('f1', 'f2', 'f3', 'objective')):
-        ok("El archivo de solución reporta f1, f2, f3 y Objective por separado")
-    else:
-        fail("Falta algún componente del desglose en el archivo de solución", str(weighted))
-
-except Exception as e:
-    fail("Error inesperado en Nivel 4", str(e))
-    traceback.print_exc()
 
 
 # ════════════════════════════════════════════════════════════════

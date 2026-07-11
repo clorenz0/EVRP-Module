@@ -1,8 +1,8 @@
 Instance: quebec_30c_6ev_4cs.txt
 
-Objective: 200101
+Objective: 117
 
-Execution Time: 0.07808852195739746
+Execution Time: 0.11297726631164551
 
 Heuristic: PATH_CHEAPEST_ARC
 
@@ -15,55 +15,42 @@ Battery consumption rate: 1.0
 Route for vehicle 0:
  0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
 Distance of the route: 0km
-Recharges in the route: 0
 Time of the route: 0s
 Load of the route: 0
 
 Route for vehicle 1:
  0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
 Distance of the route: 0km
-Recharges in the route: 0
 Time of the route: 0s
 Load of the route: 0
 
 Route for vehicle 2:
- 0 Load(0) Bat(100) -> 9 Load(0) Bat(96) -> 15 Load(16) Bat(90) -> 12 Load(36) Bat(81) -> 6 Load(59) Bat(78) -> 30 Load(83) Bat(76) -> 25 Load(103) Bat(71) -> 10 Load(111) Bat(62) -> 0 Load(136) Bat(59)
-Distance of the route: 41km
-Recharges in the route: 0
-Time of the route: 5047s
-Load of the route: 136
+ 0 Load(0) Bat(100) -> 30 Load(0) Bat(92) -> 6 Load(20) Bat(90) -> 12 Load(44) Bat(87) -> 15 Load(67) Bat(81) -> 10 Load(87) Bat(72) -> 22 Load(112) Bat(71) -> 0 Load(143) Bat(68)
+Distance of the route: 32km
+Time of the route: 4346s
+Load of the route: 143
 
 Route for vehicle 3:
- 0 Load(0) Bat(100) -> 17 Load(0) Bat(97) -> 24 Load(12) Bat(96) -> 21 Load(44) Bat(94) -> 29 Load(54) Bat(93) -> 18 Load(72) Bat(92) -> 2 Load(101) Bat(89) -> 14 Load(123) Bat(85) -> 0 Load(149) Bat(77)
-Distance of the route: 23km
-Recharges in the route: 0
-Time of the route: 3587s
-Load of the route: 149
+ 0 Load(0) Bat(100) -> 27 Load(0) Bat(100) -> 9 Load(16) Bat(98) -> 32[CS:Recharge Brossard Quartier DIX30] Load(32) Bat(89) -> 25 Load(32) Bat(84) -> 13 Load(40) Bat(72) -> 7 Load(57) Bat(67) -> 20 Load(76) Bat(64) -> 2 Load(106) Bat(61) -> 1 Load(128) Bat(59) -> 0 Load(146) Bat(56)
+Distance of the route: 47km
+Time of the route: 5975s
+Load of the route: 146
 
 Route for vehicle 4:
- 0 Load(0) Bat(100) -> 4 Load(0) Bat(99) -> 28 Load(27) Bat(98) -> 7 Load(39) Bat(95) -> 16 Load(58) Bat(93) -> 13 Load(86) Bat(90) -> 19 Load(103) Bat(88) -> 22 Load(114) Bat(84) -> 0 Load(145) Bat(81)
-Distance of the route: 19km
-Recharges in the route: 0
-Time of the route: 3519s
+ 0 Load(0) Bat(100) -> 19 Load(0) Bat(98) -> 4 Load(11) Bat(96) -> 28 Load(38) Bat(95) -> 16 Load(50) Bat(94) -> 26 Load(78) Bat(92) -> 5 Load(92) Bat(91) -> 14 Load(105) Bat(88) -> 11 Load(131) Bat(86) -> 0 Load(145) Bat(80)
+Distance of the route: 20km
+Time of the route: 3583s
 Load of the route: 145
 
 Route for vehicle 5:
- 0 Load(0) Bat(100) -> 8 Load(0) Bat(99) -> 3 Load(21) Bat(98) -> 26 Load(36) Bat(93) -> 5 Load(50) Bat(92) -> 23 Load(63) Bat(92) -> 20 Load(72) Bat(91) -> 11 Load(102) Bat(90) -> 1 Load(116) Bat(86) -> 27 Load(134) Bat(85) -> 0 Load(150) Bat(82)
+ 0 Load(0) Bat(100) -> 8 Load(0) Bat(99) -> 3 Load(21) Bat(98) -> 17 Load(36) Bat(95) -> 24 Load(48) Bat(94) -> 21 Load(80) Bat(92) -> 29 Load(90) Bat(91) -> 18 Load(108) Bat(90) -> 23 Load(137) Bat(86) -> 0 Load(146) Bat(82)
 Distance of the route: 18km
-Recharges in the route: 0
-Time of the route: 3304s
-Load of the route: 150
+Time of the route: 3037s
+Load of the route: 146
 
-Total Distance of all routes: 101km
+Total Distance of all routes: 117km
 
 Total Load of all routes: 580
 
-Total Time of all routes: 15457s
-
---- Desglose del objetivo ponderado ---
-f1 Distancia total (pura, sin penalizaciones): 101
-f2 Numero de recargas (visitas a estaciones): 0  [peso recharge_weight = 2000]
-f3 Numero de vehiculos usados: 4  [costo fijo vehicle_fixed_cost = 50000]
-f4 Tiempo total real de viaje (segundos, OSRM): 15457  [peso time_weight = 0]
-Objetivo ponderado F = f1 + recharge_weight*f2_arcos + vehicle_fixed_cost*f3 + time_weight*f4_arcos: 200101
+Total Time of all routes: 16941s
 

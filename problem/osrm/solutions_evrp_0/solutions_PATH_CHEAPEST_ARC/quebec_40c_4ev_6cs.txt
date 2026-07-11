@@ -1,8 +1,8 @@
 Instance: quebec_40c_4ev_6cs.txt
 
-Objective: 200081
+Objective: 75
 
-Execution Time: 0.16380643844604492
+Execution Time: 0.20772624015808105
 
 Heuristic: PATH_CHEAPEST_ARC
 
@@ -13,43 +13,32 @@ Battery capacity: 100
 Battery consumption rate: 1.0
 
 Route for vehicle 0:
- 0 Load(0) Bat(100) -> 30 Load(0) Bat(99) -> 3 Load(28) Bat(96) -> 9 Load(58) Bat(93) -> 20 Load(70) Bat(91) -> 15 Load(103) Bat(89) -> 16 Load(130) Bat(87) -> 31 Load(144) Bat(84) -> 25 Load(160) Bat(82) -> 13 Load(186) Bat(79) -> 39 Load(203) Bat(76) -> 8 Load(217) Bat(75) -> 0 Load(245) Bat(74)
-Distance of the route: 26km
-Recharges in the route: 0
-Time of the route: 3827s
-Load of the route: 245
+ 0 Load(0) Bat(100) -> 39 Load(0) Bat(100) -> 15 Load(14) Bat(97) -> 16 Load(41) Bat(95) -> 42[CS:Station IGA Sainte-Foy] Load(55) Bat(93) -> 31 Load(55) Bat(100) -> 36 Load(71) Bat(98) -> 7 Load(88) Bat(98) -> 25 Load(107) Bat(97) -> 13 Load(133) Bat(94) -> 19 Load(150) Bat(93) -> 8 Load(174) Bat(91) -> 44[CS:Recharge Saint-Roch] Load(202) Bat(91) -> 0 Load(202) Bat(90)
+Distance of the route: 20km
+Time of the route: 3288s
+Load of the route: 202
 
 Route for vehicle 1:
- 0 Load(0) Bat(100) -> 17 Load(0) Bat(99) -> 22 Load(31) Bat(93) -> 10 Load(60) Bat(93) -> 14 Load(95) Bat(88) -> 27 Load(118) Bat(86) -> 0 Load(152) Bat(82)
-Distance of the route: 18km
-Recharges in the route: 0
-Time of the route: 4823s
-Load of the route: 152
+ 0 Load(0) Bat(100) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Bat(100) -> 38 Load(0) Bat(99) -> 22 Load(27) Bat(94) -> 10 Load(56) Bat(94) -> 14 Load(91) Bat(89) -> 27 Load(114) Bat(87) -> 28 Load(148) Bat(83) -> 4 Load(157) Bat(83) -> 33 Load(172) Bat(82) -> 0 Load(197) Bat(80)
+Distance of the route: 20km
+Time of the route: 5286s
+Load of the route: 197
 
 Route for vehicle 2:
- 0 Load(0) Bat(100) -> 5 Load(0) Bat(94) -> 23 Load(22) Bat(94) -> 34 Load(40) Bat(94) -> 11 Load(52) Bat(94) -> 26 Load(62) Bat(93) -> 37 Load(75) Bat(93) -> 36 Load(98) Bat(88) -> 7 Load(115) Bat(88) -> 19 Load(134) Bat(87) -> 28 Load(158) Bat(85) -> 4 Load(167) Bat(85) -> 33 Load(182) Bat(84) -> 38 Load(207) Bat(82) -> 0 Load(234) Bat(80)
-Distance of the route: 20km
-Recharges in the route: 0
-Time of the route: 3369s
+ 0 Load(0) Bat(100) -> 35 Load(0) Bat(100) -> 45[CS:Borne IKEA Beauport] Load(30) Bat(100) -> 18 Load(30) Bat(100) -> 6 Load(46) Bat(100) -> 24 Load(71) Bat(100) -> 2 Load(92) Bat(100) -> 12 Load(110) Bat(98) -> 21 Load(142) Bat(93) -> 40 Load(153) Bat(91) -> 29 Load(172) Bat(91) -> 32 Load(194) Bat(89) -> 1 Load(214) Bat(89) -> 0 Load(234) Bat(87)
+Distance of the route: 17km
+Time of the route: 2964s
 Load of the route: 234
 
 Route for vehicle 3:
- 0 Load(0) Bat(100) -> 35 Load(0) Bat(96) -> 6 Load(30) Bat(96) -> 18 Load(55) Bat(96) -> 24 Load(71) Bat(96) -> 2 Load(92) Bat(96) -> 12 Load(110) Bat(94) -> 21 Load(142) Bat(89) -> 40 Load(153) Bat(87) -> 29 Load(172) Bat(87) -> 32 Load(194) Bat(85) -> 1 Load(214) Bat(85) -> 0 Load(234) Bat(83)
-Distance of the route: 17km
-Recharges in the route: 0
-Time of the route: 2968s
-Load of the route: 234
+ 0 Load(0) Bat(100) -> 30 Load(0) Bat(99) -> 3 Load(28) Bat(96) -> 9 Load(58) Bat(93) -> 11 Load(70) Bat(90) -> 34 Load(80) Bat(90) -> 23 Load(92) Bat(90) -> 5 Load(110) Bat(90) -> 26 Load(132) Bat(89) -> 37 Load(145) Bat(89) -> 20 Load(168) Bat(88) -> 17 Load(201) Bat(83) -> 0 Load(232) Bat(82)
+Distance of the route: 18km
+Time of the route: 2916s
+Load of the route: 232
 
-Total Distance of all routes: 81km
+Total Distance of all routes: 75km
 
 Total Load of all routes: 865
 
-Total Time of all routes: 14987s
-
---- Desglose del objetivo ponderado ---
-f1 Distancia total (pura, sin penalizaciones): 81
-f2 Numero de recargas (visitas a estaciones): 0  [peso recharge_weight = 2000]
-f3 Numero de vehiculos usados: 4  [costo fijo vehicle_fixed_cost = 50000]
-f4 Tiempo total real de viaje (segundos, OSRM): 14987  [peso time_weight = 0]
-Objetivo ponderado F = f1 + recharge_weight*f2_arcos + vehicle_fixed_cost*f3 + time_weight*f4_arcos: 200081
+Total Time of all routes: 14454s
 

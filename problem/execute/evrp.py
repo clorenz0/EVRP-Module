@@ -11,18 +11,14 @@ Las estaciones de carga son nodos opcionales (AddDisjunction con costo 0)
 y son los únicos nodos donde el SlackVar de la dimensión Fuel puede ser > 0
 (es decir, donde la batería puede recargarse).
 
-Función objetivo (escalarización ponderada):
-    F = f1(distancia) + recharge_weight * f2(nº de recargas)
-                       + costo fijo por f3(nº de vehículos)
-                       + time_weight * f4(tiempo real de viaje)
+Función objetivo: distancia total (costo de arco = data['distance_matrix']).
 Todas las distancias usadas en el modelo (costo de arco, batería, penalización de
 descarte) provienen de la MISMA fuente: data['distance_matrix']. No se recalcula
 la distancia por otro camino en ningún punto del módulo.
 
-f4 (tiempo) solo está disponible cuando la instancia se cargó con
-DistanceType.OSRM (data['time_matrix'] viene del servicio /table de OSRM,
-ver distance/osrm_client.py). Con otros DistanceType, data['time_matrix'] es
-None y time_weight debe quedarse en 0.
+data['time_matrix'] solo está disponible cuando la instancia se cargó con
+DistanceType.OSRM (viene del servicio /table de OSRM, ver distance/osrm_client.py).
+Con otros DistanceType es None. No se usa en el costo de arco.
 """
 
 from functools import partial
@@ -59,51 +55,6 @@ def create_distance_evaluator(data):
         return _distances[manager.IndexToNode(from_node)][manager.IndexToNode(to_node)]
 
     return distance_evaluator
-
-
-def create_objective_evaluator(data, recharge_weight=0, time_weight=0):
-    """
-    Callback de costo de arco para el objetivo ponderado:
-        costo(i, j) = distancia(i, j)
-                    + recharge_weight            si j es estación de carga
-                    + time_weight * tiempo(i, j)  si hay data['time_matrix'] (solo con OSRM)
-
-    recharge_weight es un proxy de "número de recargas" (f2): al cobrarse cada
-    vez que se ENTRA a una estación, penaliza visitarlas más veces de las
-    necesarias.
-    time_weight pondera f4 (tiempo real de viaje, en segundos) — solo disponible
-    cuando la instancia se cargó con DistanceType.OSRM (ver distance/osrm_client.py).
-    Con todos los pesos en 0 el costo de arco es distancia pura.
-    """
-    distance_matrix = data['distance_matrix']
-    time_matrix = data.get('time_matrix')
-    charging_set = set(data['charging_stations'])
-
-    if time_weight and time_matrix is None:
-        raise ValueError(
-            "time_weight > 0 pero data['time_matrix'] es None. "
-            "El tiempo real solo está disponible al cargar la instancia con "
-            "DistanceType.OSRM."
-        )
-
-    _cost = {}
-    for from_node in range(data['num_locations']):
-        _cost[from_node] = {}
-        for to_node in range(data['num_locations']):
-            if from_node == to_node:
-                _cost[from_node][to_node] = 0
-            else:
-                cost = int(distance_matrix[from_node][to_node])
-                if to_node in charging_set:
-                    cost += recharge_weight
-                if time_weight:
-                    cost += int(time_weight * time_matrix[from_node][to_node])
-                _cost[from_node][to_node] = cost
-
-    def objective_evaluator(manager, from_node, to_node):
-        return _cost[manager.IndexToNode(from_node)][manager.IndexToNode(to_node)]
-
-    return objective_evaluator
 
 
 def create_demand_evaluator(data):
@@ -270,15 +221,13 @@ def add_fuel_constraints(routing, manager, data, fuel_evaluator_index):
 # ═══════════════════════════════════════════════════════════════
 
 def save_solution(data, manager, routing, assignment, instance, heuristic, metaheuristic,
-                  elapsed_time, i, distance_type, recharge_weight=0, vehicle_fixed_cost=0, time_weight=0):
+                  elapsed_time, i, distance_type):
     """
     Exporta la solución a un archivo .txt con el mismo estilo que el resto del repo.
     Añade información de batería (Fuel) en cada nodo de la ruta.
 
-    La distancia reportada se recalcula directamente desde data['distance_matrix'],
-    NO desde routing.GetArcCostForVehicle: el costo de arco registrado en el modelo
-    es el objetivo ponderado (distancia + penalización de recarga), así que leerlo
-    como si fuera "distancia" daría un número mezclado y mal etiquetado.
+    La distancia reportada se recalcula directamente desde data['distance_matrix']
+    (misma fuente que el costo de arco), no desde routing.GetArcCostForVehicle.
     """
     distance_type_str, solution_name = get_distance_and_solution_name(distance_type, heuristic, metaheuristic)
     output_dir = os.path.join(f"problem/{distance_type_str}/solutions_evrp_{i}/solutions_{solution_name}")
@@ -325,17 +274,13 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
             time_matrix = data.get('time_matrix')
             total_distance = 0
             total_load = 0
-            total_recharges = 0
             total_time = 0
-            vehicles_used = 0
 
             for vehicle_id in range(data['num_vehicles']):
                 index = routing.Start(vehicle_id)
                 plan_output = f'Route for vehicle {vehicle_id}:\n'
                 route_distance = 0
-                route_recharges = 0
                 route_time = 0
-                route_has_nodes = False
 
                 while not routing.IsEnd(index):
                     node = manager.IndexToNode(index)
@@ -350,16 +295,12 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                             f'Load({assignment.Min(load_var)}) '
                             f'Bat({assignment.Min(fuel_var)}) ->'
                         )
-                        route_recharges += 1
                     else:
                         plan_output += (
                             f' {node} '
                             f'Load({assignment.Min(load_var)}) '
                             f'Bat({assignment.Min(fuel_var)}) ->'
                         )
-
-                    if node != data['depot']:
-                        route_has_nodes = True
 
                     previous_node = node
                     index = assignment.Value(routing.NextVar(index))
@@ -377,7 +318,6 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                     f'Bat({assignment.Min(fuel_var)})\n'
                 )
                 plan_output += f'Distance of the route: {route_distance}km\n'
-                plan_output += f'Recharges in the route: {route_recharges}\n'
                 if time_matrix is not None:
                     plan_output += f'Time of the route: {route_time}s\n'
                 plan_output += f'Load of the route: {assignment.Min(load_var)}\n\n'
@@ -385,28 +325,12 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                 f.write(plan_output)
                 total_distance += route_distance
                 total_load += assignment.Min(load_var)
-                total_recharges += route_recharges
                 total_time += route_time
-                if route_has_nodes:
-                    vehicles_used += 1
 
             f.write(f'Total Distance of all routes: {total_distance}km\n\n')
             f.write(f'Total Load of all routes: {total_load}\n\n')
             if time_matrix is not None:
                 f.write(f'Total Time of all routes: {total_time}s\n\n')
-
-            f.write('--- Desglose del objetivo ponderado ---\n')
-            f.write(f'f1 Distancia total (pura, sin penalizaciones): {total_distance}\n')
-            f.write(f'f2 Numero de recargas (visitas a estaciones): {total_recharges}'
-                    f'  [peso recharge_weight = {recharge_weight}]\n')
-            f.write(f'f3 Numero de vehiculos usados: {vehicles_used}'
-                    f'  [costo fijo vehicle_fixed_cost = {vehicle_fixed_cost}]\n')
-            if time_matrix is not None:
-                f.write(f'f4 Tiempo total real de viaje (segundos, OSRM): {total_time}'
-                        f'  [peso time_weight = {time_weight}]\n')
-            f.write(f'Objetivo ponderado F = f1 + recharge_weight*f2_arcos + vehicle_fixed_cost*f3'
-                    f'{" + time_weight*f4_arcos" if time_matrix is not None else ""}: '
-                    f'{assignment.ObjectiveValue()}\n\n')
 
         print(f"Solution saved successfully in {filename}")
     except OSError as error:
@@ -425,10 +349,7 @@ def execute(
         distance_type: DistanceType = None,
         heuristic: HeuristicType = None,
         metaheuristic: MetaheuristicType = None,
-        initial_routes=None,
-        recharge_weight: int = 0,        # peso de f2 (nº de recargas): 0 = comportamiento anterior
-        vehicle_fixed_cost: int = 0,     # peso de f3 (nº de vehículos): 0 = comportamiento anterior
-        time_weight: int = 0             # peso de f4 (tiempo real, requiere DistanceType.OSRM): 0 = ignora tiempo
+        initial_routes=None
 ):
     instances_data = process_files(
         instance_type, distance_type,
@@ -467,15 +388,11 @@ def execute(
         # ── Modelo de ruteo ───────────────────────────────────────────────────
         routing = pywrapcp.RoutingModel(manager)
 
-        # ── Costo de arco: objetivo ponderado (distancia + f2 recargas + f4 tiempo) ──
-        objective_evaluator_index = routing.RegisterTransitCallback(
-            partial(create_objective_evaluator(data, recharge_weight, time_weight), manager)
+        # ── Costo de arco: distancia ──────────────────────────────────────────
+        distance_evaluator_index = routing.RegisterTransitCallback(
+            partial(create_distance_evaluator(data), manager)
         )
-        routing.SetArcCostEvaluatorOfAllVehicles(objective_evaluator_index)
-
-        # ── f3: costo fijo por vehículo usado (minimiza nº de vehículos) ───────
-        for vehicle_id in range(data['num_vehicles']):
-            routing.SetFixedCostOfVehicle(vehicle_fixed_cost, vehicle_id)
+        routing.SetArcCostEvaluatorOfAllVehicles(distance_evaluator_index)
 
         # ── Dimensión: capacidad de carga ─────────────────────────────────────
         demand_evaluator_index = routing.RegisterUnaryTransitCallback(
@@ -491,8 +408,6 @@ def execute(
 
         # ── Resolver ──────────────────────────────────────────────────────────
         execute_solution(
-            partial(save_solution, recharge_weight=recharge_weight,
-                   vehicle_fixed_cost=vehicle_fixed_cost, time_weight=time_weight),
-            heuristic, metaheuristic, i, distance_type,
+            save_solution, heuristic, metaheuristic, i, distance_type,
             routing, time_limit, data, manager, instance, initial_routes
         )

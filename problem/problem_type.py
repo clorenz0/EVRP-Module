@@ -17,7 +17,7 @@ def execute(
         problem_type: ProblemType, instance, distance_type: DistanceType = None,
         time_limit=None, executions=None, vehicle_maximum_travel_distance=None, vehicle_max_time=None,
         vehicle_speed=None, heuristic: HeuristicType = None, metaheuristic: MetaheuristicType = None,
-        initial_routes=None, recharge_weight: int = 0, vehicle_fixed_cost: int = 0, time_weight: int = 0
+        initial_routes=None
 ):
     if not executions:
         executions = 1
@@ -28,16 +28,14 @@ def execute(
     for i in range(0, executions):
         execute_problem(
             i, problem_type, instance, distance_type, time_limit, vehicle_maximum_travel_distance,
-            vehicle_max_time, vehicle_speed, heuristic, metaheuristic, initial_routes,
-            recharge_weight, vehicle_fixed_cost, time_weight
+            vehicle_max_time, vehicle_speed, heuristic, metaheuristic, initial_routes
         )
 
 
 def execute_problem(
         i, problem_type: ProblemType, instance, distance_type: DistanceType = None,
         time_limit=None, vehicle_maximum_travel_distance=None, vehicle_max_time=None, vehicle_speed=None,
-        heuristic: HeuristicType = None, metaheuristic: MetaheuristicType = None, initial_routes=None,
-        recharge_weight: int = 0, vehicle_fixed_cost: int = 0, time_weight: int = 0
+        heuristic: HeuristicType = None, metaheuristic: MetaheuristicType = None, initial_routes=None
 ):
     if problem_type == ProblemType.CVRP:
         return cvrp.execute(i, instance, time_limit, distance_type, heuristic, metaheuristic, initial_routes)
@@ -54,6 +52,5 @@ def execute_problem(
                              metaheuristic, initial_routes)
     if problem_type == ProblemType.EVRP:
         return evrp.execute(i, instance, time_limit, vehicle_maximum_travel_distance, vehicle_max_time,
-                            vehicle_speed, distance_type, heuristic, metaheuristic, initial_routes,
-                            recharge_weight, vehicle_fixed_cost, time_weight)
+                            vehicle_speed, distance_type, heuristic, metaheuristic, initial_routes)
     return print("The problem type is not supported")

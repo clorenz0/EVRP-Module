@@ -1,8 +1,8 @@
 Instance: quebec_50c_5ev_5cs.txt
 
-Objective: 250147
+Objective: 144
 
-Execution Time: 0.19044041633605957
+Execution Time: 0.25034356117248535
 
 Heuristic: PATH_CHEAPEST_ARC
 
@@ -13,50 +13,38 @@ Battery capacity: 100
 Battery consumption rate: 1.0
 
 Route for vehicle 0:
- 0 Load(0) Bat(100) -> 26 Load(0) Bat(95) -> 34 Load(30) Bat(81) -> 16 Load(48) Bat(75) -> 15 Load(75) Bat(75) -> 13 Load(105) Bat(71) -> 21 Load(119) Bat(70) -> 19 Load(139) Bat(70) -> 12 Load(160) Bat(60) -> 0 Load(185) Bat(58)
-Distance of the route: 42km
-Recharges in the route: 0
-Time of the route: 3334s
-Load of the route: 185
+ 0 Load(0) Bat(100) -> 1 Load(0) Bat(100) -> 26 Load(13) Bat(98) -> 53[CS:Station Rapide TR Ouest] Load(43) Bat(95) -> 34 Load(43) Bat(100) -> 16 Load(61) Bat(94) -> 15 Load(88) Bat(94) -> 19 Load(118) Bat(88) -> 21 Load(139) Bat(88) -> 13 Load(159) Bat(87) -> 35 Load(173) Bat(82) -> 12 Load(193) Bat(79) -> 51[CS:Borne Trois-Rivieres Centre] Load(218) Bat(78) -> 0 Load(218) Bat(78)
+Distance of the route: 40km
+Time of the route: 3828s
+Load of the route: 218
 
 Route for vehicle 1:
- 0 Load(0) Bat(100) -> 11 Load(0) Bat(97) -> 20 Load(8) Bat(89) -> 8 Load(18) Bat(87) -> 44 Load(44) Bat(82) -> 43 Load(54) Bat(82) -> 30 Load(76) Bat(82) -> 14 Load(101) Bat(80) -> 45 Load(120) Bat(79) -> 36 Load(138) Bat(77) -> 9 Load(163) Bat(75) -> 39 Load(187) Bat(74) -> 37 Load(202) Bat(74) -> 31 Load(221) Bat(64) -> 0 Load(236) Bat(62)
-Distance of the route: 38km
-Recharges in the route: 0
-Time of the route: 3329s
-Load of the route: 236
+ 0 Load(0) Bat(100) -> 24 Load(0) Bat(100) -> 20 Load(20) Bat(94) -> 55[CS:Borne IGA Trois-Rivieres] Load(30) Bat(92) -> 8 Load(30) Bat(92) -> 44 Load(56) Bat(87) -> 43 Load(66) Bat(87) -> 30 Load(88) Bat(87) -> 14 Load(113) Bat(85) -> 45 Load(132) Bat(84) -> 36 Load(150) Bat(82) -> 9 Load(175) Bat(80) -> 39 Load(199) Bat(79) -> 37 Load(214) Bat(79) -> 31 Load(233) Bat(69) -> 0 Load(248) Bat(67)
+Distance of the route: 37km
+Time of the route: 3452s
+Load of the route: 248
 
 Route for vehicle 2:
- 0 Load(0) Bat(100) -> 49 Load(0) Bat(97) -> 46 Load(27) Bat(96) -> 28 Load(43) Bat(90) -> 17 Load(54) Bat(89) -> 25 Load(78) Bat(86) -> 32 Load(108) Bat(86) -> 48 Load(127) Bat(86) -> 7 Load(147) Bat(77) -> 23 Load(161) Bat(75) -> 6 Load(189) Bat(67) -> 27 Load(208) Bat(67) -> 0 Load(235) Bat(63)
-Distance of the route: 37km
-Recharges in the route: 0
-Time of the route: 4447s
+ 0 Load(0) Bat(100) -> 28 Load(0) Bat(100) -> 17 Load(11) Bat(99) -> 25 Load(35) Bat(96) -> 32 Load(65) Bat(96) -> 48 Load(84) Bat(96) -> 46 Load(104) Bat(92) -> 49 Load(120) Bat(91) -> 52[CS:Recharge EV Cap-de-la-Madeleine] Load(147) Bat(89) -> 7 Load(147) Bat(87) -> 23 Load(161) Bat(85) -> 6 Load(189) Bat(77) -> 27 Load(208) Bat(77) -> 0 Load(235) Bat(73)
+Distance of the route: 36km
+Time of the route: 4238s
 Load of the route: 235
 
 Route for vehicle 3:
  0 Load(0) Bat(100) -> 38 Load(0) Bat(96) -> 50 Load(22) Bat(95) -> 40 Load(42) Bat(94) -> 42 Load(72) Bat(93) -> 41 Load(89) Bat(91) -> 18 Load(119) Bat(89) -> 10 Load(127) Bat(89) -> 4 Load(145) Bat(89) -> 0 Load(172) Bat(84)
 Distance of the route: 16km
-Recharges in the route: 0
 Time of the route: 2133s
 Load of the route: 172
 
 Route for vehicle 4:
- 0 Load(0) Bat(100) -> 5 Load(0) Bat(99) -> 47 Load(27) Bat(97) -> 1 Load(56) Bat(96) -> 33 Load(69) Bat(93) -> 2 Load(86) Bat(93) -> 29 Load(96) Bat(92) -> 24 Load(109) Bat(91) -> 35 Load(129) Bat(90) -> 3 Load(149) Bat(90) -> 22 Load(178) Bat(88) -> 0 Load(192) Bat(86)
-Distance of the route: 14km
-Recharges in the route: 0
-Time of the route: 2150s
-Load of the route: 192
+ 0 Load(0) Bat(100) -> 5 Load(0) Bat(99) -> 47 Load(27) Bat(97) -> 11 Load(56) Bat(96) -> 33 Load(64) Bat(92) -> 2 Load(81) Bat(92) -> 29 Load(91) Bat(91) -> 3 Load(104) Bat(89) -> 22 Load(133) Bat(87) -> 0 Load(147) Bat(85)
+Distance of the route: 15km
+Time of the route: 2037s
+Load of the route: 147
 
-Total Distance of all routes: 147km
+Total Distance of all routes: 144km
 
 Total Load of all routes: 1020
 
-Total Time of all routes: 15393s
-
---- Desglose del objetivo ponderado ---
-f1 Distancia total (pura, sin penalizaciones): 147
-f2 Numero de recargas (visitas a estaciones): 0  [peso recharge_weight = 2000]
-f3 Numero de vehiculos usados: 5  [costo fijo vehicle_fixed_cost = 50000]
-f4 Tiempo total real de viaje (segundos, OSRM): 15393  [peso time_weight = 0]
-Objetivo ponderado F = f1 + recharge_weight*f2_arcos + vehicle_fixed_cost*f3 + time_weight*f4_arcos: 250147
+Total Time of all routes: 15688s
 
