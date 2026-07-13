@@ -1,3 +1,6 @@
 /.venv/
 /osrm_data/
 /instances_data/osrm_cache/
+/simulation/sumo_network/
+/simulation/sumo_scenario/
+/simulation/__pycache__/
