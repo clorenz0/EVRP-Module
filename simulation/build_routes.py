@@ -241,12 +241,25 @@ def write_sumocfg(out_dir, net_file):
 # ---------------------------------------------------------------------------
 # MAIN
 # ---------------------------------------------------------------------------
+# Rutas absolutas (basadas en la ubicacion de este archivo, no en el cwd) para
+# que se pueda correr con el boton Play de PyCharm sin configurar argumentos
+# ni working directory.
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DEFAULT_INSTANCE = os.path.join(REPO_ROOT, "instances_data", "evrp_instances", "quebec_40c_4ev_6cs.txt")
+DEFAULT_SOLUTION = os.path.join(
+    REPO_ROOT, "problem", "osrm", "solutions_evrp_0",
+    "solutions_PATH_CHEAPEST_ARC", "quebec_40c_4ev_6cs.txt"
+)
+DEFAULT_NET_FILE = os.path.join(REPO_ROOT, "simulation", "sumo_network", "network.net.xml")
+DEFAULT_OUTPUT_DIR = os.path.join(REPO_ROOT, "simulation", "sumo_scenario")
+
+
 def parse_args():
     p = argparse.ArgumentParser(description="Fase 2: rutas EVRP -> trips SUMO -> duarouter -> sumocfg")
-    p.add_argument("--instance", required=True)
-    p.add_argument("--solution", required=True)
-    p.add_argument("--net-file", default=os.path.join("simulation", "sumo_network", "network.net.xml"))
-    p.add_argument("--output-dir", "-o", default=os.path.join("simulation", "sumo_scenario"))
+    p.add_argument("--instance", default=DEFAULT_INSTANCE)
+    p.add_argument("--solution", default=DEFAULT_SOLUTION)
+    p.add_argument("--net-file", default=DEFAULT_NET_FILE)
+    p.add_argument("--output-dir", "-o", default=DEFAULT_OUTPUT_DIR)
     return p.parse_args()
 
 
