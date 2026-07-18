@@ -19,6 +19,24 @@ la distancia por otro camino en ningún punto del módulo.
 data['time_matrix'] solo está disponible cuando la instancia se cargó con
 DistanceType.OSRM (viene del servicio /table de OSRM, ver distance/osrm_client.py).
 Con otros DistanceType es None. No se usa en el costo de arco.
+
+Re-planeación dinámica (vehicle_states)
+────────────────────────────────────────
+Por defecto todo vehículo arranca en el depósito con batería llena y carga 0
+(el comportamiento de siempre). Para re-optimizar un sub-problema a mitad de
+ruta (ej. un vehículo ya en camino, con batería parcial y algo ya entregado),
+execute() acepta vehicle_states: una lista de largo num_vehicles, con un dict
+opcional por vehículo:
+    {'start_node': int, 'initial_fuel': num, 'initial_load': num}
+Si se omite una clave, usa el default de siempre para esa clave. Si
+vehicle_states es None, el comportamiento es exactamente el de antes.
+
+IMPORTANTE: 'start_node' debe ser un nodo que NO sea también una parada
+obligatoria (cliente) en esa misma corrida — típicamente el depósito, una
+estación de carga, o un nodo "virtual" que el llamador agrega a data para
+representar la posición actual del vehículo. Reutilizar el índice de un
+cliente pendiente como start_node no está soportado (OR-Tools trataría el
+inicio de ruta y la parada de ese cliente como dos ocurrencias separadas).
 """
 
 from functools import partial
@@ -71,10 +89,14 @@ def create_demand_evaluator(data):
 # 2. DIMENSIÓN DE CAPACIDAD DE CARGA
 # ═══════════════════════════════════════════════════════════════
 
-def add_capacity_constraints(routing, manager, data, demand_evaluator_index):
+def add_capacity_constraints(routing, manager, data, demand_evaluator_index, initial_loads=None):
     """
     Restricción de capacidad de carga del vehículo.
     Las estaciones de carga tienen demanda 0, por lo que no afectan esta dimensión.
+
+    initial_loads: lista opcional (largo num_vehicles) con la carga ya
+    acumulada de cada vehículo al arrancar (re-planeación dinámica). Si es
+    None, todos arrancan en 0 (comportamiento de siempre).
 
     Sobre la penalización de clientes (drop_penalty):
     ─────────────────────────────────────────────────
@@ -93,12 +115,17 @@ def add_capacity_constraints(routing, manager, data, demand_evaluator_index):
     vehicle_capacity = data['vehicle_capacity']
     routing.AddDimension(
         demand_evaluator_index,
-        0,                   # sin slack en capacidad
+        0,                                # sin slack en capacidad
         vehicle_capacity,
-        True,                # empieza en 0
+        initial_loads is None,            # fix_start_cumul_to_zero: solo si no hay carga inicial
         'Capacity'
     )
     capacity_dimension = routing.GetDimensionOrDie('Capacity')
+
+    if initial_loads is not None:
+        for vehicle_id in range(data['num_vehicles']):
+            start_index = routing.Start(vehicle_id)
+            capacity_dimension.CumulVar(start_index).SetValue(initial_loads[vehicle_id])
 
     # Verificar factibilidad antes de construir el modelo
     num_clients = data['num_locations'] - len(data['charging_stations']) - 1
@@ -168,7 +195,7 @@ def create_fuel_evaluator(data):
     return fuel_evaluator
 
 
-def add_fuel_constraints(routing, manager, data, fuel_evaluator_index):
+def add_fuel_constraints(routing, manager, data, fuel_evaluator_index, initial_fuels=None):
     """
     Añade la dimensión de batería al modelo.
 
@@ -176,8 +203,13 @@ def add_fuel_constraints(routing, manager, data, fuel_evaluator_index):
     - CumulVar(nodo): nivel de batería al LLEGAR al nodo.
     - SlackVar(nodo): cantidad de energía recargada en ese nodo.
     - Solo las estaciones de carga pueden tener SlackVar > 0.
-    - Los vehículos parten con la batería llena (fix_start_cumul_to_zero=False,
-      CumulVar del inicio fijado a fuel_capacity).
+    - Los vehículos parten con la batería llena por defecto
+      (fix_start_cumul_to_zero=False, CumulVar del inicio fijado a fuel_capacity),
+      o con la batería parcial indicada en initial_fuels (re-planeación dinámica).
+
+    initial_fuels: lista opcional (largo num_vehicles) con la batería restante
+    de cada vehículo al arrancar. Si es None, todos arrancan con fuel_capacity
+    (comportamiento de siempre).
 
     Restricciones garantizadas por AddDimension():
     - CumulVar(nodo) <= fuel_capacity (capacidad máxima de batería)
@@ -190,15 +222,16 @@ def add_fuel_constraints(routing, manager, data, fuel_evaluator_index):
         fuel_evaluator_index,
         fuel_capacity,       # slack máximo (recarga máxima posible en un nodo)
         fuel_capacity,       # capacidad máxima de batería
-        False,               # NO fijar inicio a 0: los vehículos salen con batería llena
+        False,               # NO fijar inicio a 0: los vehículos salen con batería llena (o parcial)
         'Fuel'
     )
     fuel_dimension = routing.GetDimensionOrDie('Fuel')
 
-    # Vehículos salen con batería llena
+    # Vehículos salen con batería llena, o con la batería parcial indicada
     for vehicle_id in range(data['num_vehicles']):
         start_index = routing.Start(vehicle_id)
-        fuel_dimension.CumulVar(start_index).SetValue(fuel_capacity)
+        start_fuel = fuel_capacity if initial_fuels is None else initial_fuels[vehicle_id]
+        fuel_dimension.CumulVar(start_index).SetValue(start_fuel)
 
     charging_set = set(data['charging_stations'])
 
@@ -349,7 +382,8 @@ def execute(
         distance_type: DistanceType = None,
         heuristic: HeuristicType = None,
         metaheuristic: MetaheuristicType = None,
-        initial_routes=None
+        initial_routes=None,
+        vehicle_states=None   # re-planeación dinámica: ver docstring del módulo
 ):
     instances_data = process_files(
         instance_type, distance_type,
@@ -378,12 +412,28 @@ def execute(
                 "Asegúrate de pasar vehicle_speed al llamar a execute()."
             )
 
+        if vehicle_states is not None and len(vehicle_states) != data['num_vehicles']:
+            raise ValueError(
+                f"vehicle_states debe tener un elemento por vehículo "
+                f"({data['num_vehicles']}), recibí {len(vehicle_states)}."
+            )
+
         # ── Índice Manager ────────────────────────────────────────────────────
-        manager = pywrapcp.RoutingIndexManager(
-            data['num_locations'],
-            data['num_vehicles'],
-            data['depot']
-        )
+        # Sin vehicle_states: todos arrancan y terminan en el depósito (de siempre).
+        # Con vehicle_states: cada vehículo puede arrancar en un nodo distinto
+        # (su posición actual), pero siempre termina en el depósito real.
+        if vehicle_states is not None:
+            starts = [vs.get('start_node', data['depot']) for vs in vehicle_states]
+            ends = [data['depot']] * data['num_vehicles']
+            manager = pywrapcp.RoutingIndexManager(
+                data['num_locations'], data['num_vehicles'], starts, ends
+            )
+        else:
+            manager = pywrapcp.RoutingIndexManager(
+                data['num_locations'],
+                data['num_vehicles'],
+                data['depot']
+            )
 
         # ── Modelo de ruteo ───────────────────────────────────────────────────
         routing = pywrapcp.RoutingModel(manager)
@@ -394,17 +444,23 @@ def execute(
         )
         routing.SetArcCostEvaluatorOfAllVehicles(distance_evaluator_index)
 
+        initial_loads = None
+        initial_fuels = None
+        if vehicle_states is not None:
+            initial_loads = [vs.get('initial_load', 0) for vs in vehicle_states]
+            initial_fuels = [vs.get('initial_fuel', data['fuel_capacity']) for vs in vehicle_states]
+
         # ── Dimensión: capacidad de carga ─────────────────────────────────────
         demand_evaluator_index = routing.RegisterUnaryTransitCallback(
             partial(create_demand_evaluator(data), manager)
         )
-        add_capacity_constraints(routing, manager, data, demand_evaluator_index)
+        add_capacity_constraints(routing, manager, data, demand_evaluator_index, initial_loads)
 
         # ── Dimensión: batería (EVRP) ─────────────────────────────────────────
         fuel_evaluator_index = routing.RegisterTransitCallback(
             partial(create_fuel_evaluator(data), manager)
         )
-        add_fuel_constraints(routing, manager, data, fuel_evaluator_index)
+        add_fuel_constraints(routing, manager, data, fuel_evaluator_index, initial_fuels)
 
         # ── Resolver ──────────────────────────────────────────────────────────
         execute_solution(

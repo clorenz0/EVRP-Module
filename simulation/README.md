@@ -58,6 +58,12 @@ python simulation/build_routes.py \
   --solution "problem/osrm/solutions_evrp_0/solutions_PATH_CHEAPEST_ARC/quebec_40c_4ev_6cs.txt"
 ```
 
+> `--instance` y `--solution` son opcionales: si no se pasan, usan por
+> defecto la instancia piloto (`quebec_40c_4ev_6cs`). Esto permite correr
+> el script directo con el botón ▶️ **Run** de PyCharm, sin configurar
+> argumentos ni "Working directory" — los defaults se calculan desde la
+> ubicación del propio archivo, no desde el directorio de trabajo.
+
 Genera `simulation/sumo_scenario/{trips.xml, routes.rou.xml, scenario.sumocfg}`.
 
 Visualizar:
