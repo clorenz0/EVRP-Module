@@ -41,7 +41,7 @@ sys.path.insert(0, os.path.join(os.environ.get("SUMO_HOME", r"D:\SUMO"), "tools"
 import sumolib  # noqa: E402
 
 from build_routes import (  # noqa: E402
-    parse_instance, parse_solution, snap_nodes_to_edges,
+    parse_instance, parse_solution, snap_route_sequential,
     find_sumo_tool, _write_pretty_xml,
     MIN_CLIENT_STOP_S, SERVICE_TIME_PER_UNIT_S,
 )
@@ -80,18 +80,21 @@ def add_battery_vtype(root, battery_capacity_wh):
     ET.SubElement(vtype, "param", key="device.battery.recuperationEfficiency", value="0.0")
 
 
-def build_battery_trips(routes, snapped, instance, out_path, battery_capacity_wh, charging_enabled):
+def build_battery_trips(routes, net, instance, out_path, battery_capacity_wh, charging_enabled):
     root = ET.Element("routes")
     add_battery_vtype(root, battery_capacity_wh)
 
     colors = ["1,0,0", "0,0.7,0", "0,0,1", "1,0.5,0", "0.5,0,0.5", "0,0.8,0.8"]
     written, skipped_routes, cs_used = 0, [], set()
+    all_snapped = {}
 
     for vid, route in enumerate(routes):
-        edges = [snapped.get(n) for n in route]
-        if any(e is None for e in edges):
+        snapped = snap_route_sequential(net, route, instance["node_coords"])
+        if snapped is None:
             skipped_routes.append(vid)
             continue
+        all_snapped.update(snapped)
+        edges = [snapped[n] for n in route]
         dedup = [edges[0]]
         for e in edges[1:]:
             if e != dedup[-1]:
@@ -134,7 +137,7 @@ def build_battery_trips(routes, snapped, instance, out_path, battery_capacity_wh
     _write_pretty_xml(root, out_path)
     print(f"  OK: {written} vehiculo(s), {len(cs_used)} estacion(es) de carga en uso"
           + (f", {len(skipped_routes)} ruta(s) omitida(s): {skipped_routes}" if skipped_routes else ""))
-    return cs_used
+    return cs_used, all_snapped
 
 
 def write_charging_additional(out_path, instance, snapped, cs_used, net, power_w):
@@ -273,12 +276,11 @@ def main():
     print(f"Rango EVRP a preservar (Battery capacity de la solucion): {fuel_capacity_km} km\n")
 
     net = sumolib.net.readNet(args.net_file)
-    snapped = snap_nodes_to_edges(net, inst["node_coords"])
 
     # ---- Pasada 1: calibración (batería "infinita", sin carga real) ----
     print("== Pasada 1/2: calibracion de consumo real (Wh/km) ==")
     trips_cal = os.path.join(args.output_dir, "trips_battery_calibration.xml")
-    build_battery_trips(sol["routes"], snapped, inst, trips_cal, CALIBRATION_CAPACITY_WH, charging_enabled=False)
+    build_battery_trips(sol["routes"], net, inst, trips_cal, CALIBRATION_CAPACITY_WH, charging_enabled=False)
     routes_cal_renamed = os.path.join(args.output_dir, "routes_calibration.rou.xml")
     run_duarouter_to(args.net_file, trips_cal, routes_cal_renamed)
     cfg_cal = write_sumocfg(args.output_dir, args.net_file, routes_cal_renamed)
@@ -299,14 +301,16 @@ def main():
     print("== Pasada 2/2: escenario final con carga real en estaciones ==")
     charge_power_w = CHARGE_POWER_W  # potencia fija realista (150 kW), no calibrada a la capacidad
     trips_final = os.path.join(args.output_dir, "trips_battery.xml")
-    cs_used = build_battery_trips(sol["routes"], snapped, inst, trips_final, battery_capacity_wh, charging_enabled=True)
+    cs_used, snapped_final = build_battery_trips(
+        sol["routes"], net, inst, trips_final, battery_capacity_wh, charging_enabled=True
+    )
 
     # El additional.add.xml con las chargingStation debe existir ANTES de duarouter:
     # necesita conocerlas para poder resolver los <stop chargingStation="cs_..">.
     additional_file = None
     if cs_used:
         additional_file = os.path.join(args.output_dir, "additional_battery.add.xml")
-        write_charging_additional(additional_file, inst, snapped, cs_used, net, charge_power_w)
+        write_charging_additional(additional_file, inst, snapped_final, cs_used, net, charge_power_w)
 
     routes_final_renamed = os.path.join(args.output_dir, "routes_battery.rou.xml")
     run_duarouter_to(args.net_file, trips_final, routes_final_renamed, additional_file)

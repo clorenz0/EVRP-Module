@@ -42,10 +42,16 @@ python simulation/extract_osm_bbox.py --instance instances_data/evrp_instances/q
 python simulation/build_real_network.py --osm-file simulation/sumo_network/clipped.osm
 ```
 
-- `extract_osm_bbox.py` tarda ~25-30 min (dos pasadas sobre el `.pbf` de
-  ~1.1 GB) — es normal, no se cuelga. Genera `simulation/sumo_network/clipped.osm`.
-- `build_real_network.py` tarda ~30-40s. Genera `simulation/sumo_network/network.net.xml`
-  (la red real de Quebec City — no se sube a git por tamaño, ~180MB).
+- `extract_osm_bbox.py` usa un margen de **0.1° (~10km)** por defecto alrededor
+  de la instancia. Tarda entre 5 y 30 min según el tamaño del área (dos pasadas
+  sobre el `.pbf` de ~1.1 GB) — es normal, no se cuelga. Genera
+  `simulation/sumo_network/clipped.osm`.
+  **No bajes el margen por debajo de 0.1°**: con un margen chico (se probó con
+  0.03°/~3km) algunos clientes de la instancia quedaron en "islas" desconectadas
+  de la red — la única calle que los conectaba con el resto de la ciudad caía
+  fuera del recorte, y `duarouter` los descartaba (ver Fase 2 más abajo).
+- `build_real_network.py` tarda ~1 min. Genera `simulation/sumo_network/network.net.xml`
+  (la red real de Quebec City — no se sube a git por tamaño, ~340MB).
 
 Este paso solo hay que repetirlo si cambias de instancia/ciudad. El
 resultado se reutiliza en las fases siguientes.
@@ -76,10 +82,12 @@ Dale ▶️ (play) o barra espaciadora — arranca pausado. Deberías ver los
 vehículos de la solución EVRP recorriendo calles reales y deteniéndose en
 cada cliente/estación de su ruta.
 
-> Nota: no todos los vehículos garantizan tener ruta válida — si dos paradas
-> consecutivas caen en calles sin conexión directa (ej. sentido único),
-> `duarouter` descarta ese vehículo y lo reporta en consola. Es una
-> limitación conocida del snapping automático a la red real, no un error.
+> El snapping (`snap_route_sequential` en `build_routes.py`) elige, para cada
+> parada, el arco real más cercano que además tenga camino verificado
+> (`net.getShortestPath`) desde la parada anterior — no solo el más cercano a
+> ciegas. Si aun así un vehículo queda sin ruta válida, casi siempre es porque
+> el recorte de la Fase 1 dejó una zona desconectada (ver el aviso sobre el
+> margen arriba), no un problema de este script.
 
 ## Fase 3 — Tráfico de fondo (PENDIENTE, no ejecutar tal cual)
 
@@ -122,6 +130,34 @@ sumo-gui -c simulation/sumo_scenario/scenario_battery.sumocfg
 > encima de 100% — la parada de carga tiene duración fija (300s) y SUMO no
 > la corta sola al llegar al tope. Una versión más precisa cortaría la
 > parada dinámicamente vía TraCI (no implementado en esta versión).
+
+## EVRP dinámico (re-planeación por horizonte rodante) — EN CONSTRUCCIÓN
+
+Objetivo: reaccionar a cambios (tráfico, fallos) re-resolviendo con OR-Tools
+solo la parte de la ruta que falta, en vez de un solver dedicado (ACO/GA).
+Reutiliza el motor de OR-Tools tal cual — solo cambia cuándo y con qué datos
+se lo llama.
+
+- **Punto 1 (listo)**: `evrp.execute()` acepta `vehicle_states`, una lista
+  opcional con el punto de partida real de cada vehículo (nodo, batería y
+  carga iniciales), en vez de forzar siempre depósito + batería llena.
+  Probado contra las 20 heurísticas/metaheurísticas de OR-Tools disponibles
+  en el proyecto.
+- **Punto 2 (listo)**: `simulation/traci_state_probe.py` pausa una simulación
+  SUMO en un checkpoint dado y extrae, por vehículo, posición real, batería
+  restante y qué paradas ya cumplió — en el mismo formato que espera
+  `vehicle_states`.
+  ```bash
+  python simulation/traci_state_probe.py \
+    --instance instances_data/evrp_instances/quebec_40c_4ev_6cs.txt \
+    --solution "problem/osrm/solutions_evrp_0/solutions_PATH_CHEAPEST_ARC/quebec_40c_4ev_6cs.txt" \
+    --config simulation/sumo_scenario/scenario_battery.sumocfg \
+    --checkpoint-time 1200
+  ```
+- **Punto 3 (pendiente)**: disparador de re-planeación (evento controlado o
+  tráfico de fondo real de la Fase 3).
+- **Punto 4 (pendiente)**: el orquestador que cierra el ciclo completo
+  (extraer estado → re-resolver → reinyectar ruta nueva a un vehículo activo).
 
 ## Qué archivos son código y cuáles son generados
 

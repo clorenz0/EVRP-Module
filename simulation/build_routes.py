@@ -104,30 +104,59 @@ def parse_solution(path: str) -> dict:
 # ---------------------------------------------------------------------------
 # SNAPPING: coordenada EVRP -> arco real de la red
 # ---------------------------------------------------------------------------
-def snap_nodes_to_edges(net, node_coords: dict) -> dict:
-    """Para cada nodo del EVRP (lat, lon), busca el arco real más cercano que
-    admita vehículos tipo 'passenger'. Devuelve {node_idx: edge_id}."""
-    snapped, missing = {}, []
-    for idx, (lat, lon) in node_coords.items():
+def snap_route_sequential(net, route, node_coords: dict, max_radius=SNAP_RADIUS_M, max_candidates=6):
+    """
+    Snapea cada nodo de UNA ruta (en el orden en que se visitan) a un arco
+    real, verificando que haya un camino real (ruteable, con net.getShortestPath)
+    desde el arco elegido para la parada anterior.
+
+    Por qué: snapear cada nodo de forma independiente (al arco más cercano,
+    sin mirar el resto de la ruta) podía elegir dos arcos reales sin conexión
+    directa entre paradas consecutivas (ej. por sentido único) — duarouter no
+    podía construir la ruta y descartaba el vehículo completo. Snapeando en
+    orden y verificando conectividad contra la parada anterior, se prefiere
+    un candidato un poco más lejos pero conectado, en vez del más cercano
+    pero inalcanzable.
+
+    Devuelve {node_idx: edge_id} solo para los nodos de esta ruta, o None si
+    algún nodo no tiene ningún arco real dentro del radio de búsqueda.
+    """
+    snapped = {}
+    prev_edge_obj = None
+    for node in route:
+        lat, lon = node_coords[node]
         x, y = net.convertLonLat2XY(lon, lat)
-        candidates = [
-            (e, d) for e, d in net.getNeighboringEdges(x, y, r=SNAP_RADIUS_M)
-            if e.allows("passenger")
-        ]
+        candidates = sorted(
+            (t for t in net.getNeighboringEdges(x, y, r=max_radius) if t[0].allows("passenger")),
+            key=lambda t: t[1]
+        )[:max_candidates]
         if not candidates:
-            missing.append(idx)
-            continue
-        candidates.sort(key=lambda t: t[1])
-        snapped[idx] = candidates[0][0].getID()
-    if missing:
-        print(f"  ADVERTENCIA: {len(missing)} nodo(s) sin arco real a <{SNAP_RADIUS_M}m: {missing}")
+            return None
+
+        if prev_edge_obj is None:
+            chosen = candidates[0][0]
+        else:
+            chosen = None
+            for edge_obj, _dist in candidates:
+                path, _cost = net.getShortestPath(prev_edge_obj, edge_obj, vClass="passenger")
+                if path is not None:
+                    chosen = edge_obj
+                    break
+            if chosen is None:
+                # Ninguno de los candidatos cercanos conecta con la parada anterior.
+                # Se usa el más cercano de todos modos (mejor esfuerzo); duarouter
+                # con --repair puede resolverlo igual, o descartar el vehículo si no.
+                chosen = candidates[0][0]
+
+        snapped[node] = chosen.getID()
+        prev_edge_obj = chosen
     return snapped
 
 
 # ---------------------------------------------------------------------------
 # TRIPS.XML
 # ---------------------------------------------------------------------------
-def build_trips(routes, snapped, instance, out_path):
+def build_trips(routes, net, instance, out_path):
     root = ET.Element("routes")
     vtype = ET.SubElement(
         root, "vType", id="ev_type", vClass="passenger",
@@ -139,10 +168,11 @@ def build_trips(routes, snapped, instance, out_path):
     written, skipped_routes = 0, []
 
     for vid, route in enumerate(routes):
-        edges = [snapped.get(n) for n in route]
-        if any(e is None for e in edges):
+        snapped = snap_route_sequential(net, route, instance["node_coords"])
+        if snapped is None:
             skipped_routes.append(vid)
             continue
+        edges = [snapped[n] for n in route]
         # Colapsar arcos consecutivos repetidos (dos paradas que cayeron en el mismo arco real)
         dedup = [edges[0]]
         for e in edges[1:]:
@@ -276,11 +306,9 @@ def main():
     print(f"Nodos en la instancia: {len(inst['node_coords'])}  Rutas en la solucion: {len(sol['routes'])}")
 
     net = sumolib.net.readNet(args.net_file)
-    snapped = snap_nodes_to_edges(net, inst["node_coords"])
-    print(f"Nodos snapeados a arcos reales: {len(snapped)}/{len(inst['node_coords'])}")
 
     trips_path = os.path.join(args.output_dir, "trips.xml")
-    build_trips(sol["routes"], snapped, inst, trips_path)
+    build_trips(sol["routes"], net, inst, trips_path)
 
     run_duarouter(args.net_file, trips_path, args.output_dir)
     cfg = write_sumocfg(args.output_dir, args.net_file)

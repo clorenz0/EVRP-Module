@@ -15,6 +15,15 @@ Por qué existe este paso:
     sus nodos, incluso los que caen fuera del recorte) para no dejar calles
     con extremos colgantes que rompan la topología de la red.
 
+    OJO — esto NO evita que se formen "islas" desconectadas: si la ÚNICA
+    calle que conecta un vecindario entero con el resto de la red tiene sus
+    dos extremos fuera del bbox, esa calle nunca se incluye, y ese vecindario
+    queda aislado (duarouter no puede rutear hacia/desde ahí, aunque las
+    calles del vecindario en sí sí estén completas). Se detectó exactamente
+    este caso con margin-deg=0.03 (~3km) — un cliente de la instancia quedó
+    en una isla desconectada del depósito. Con margin-deg=0.1 (~10km, el
+    default actual) no se ha reproducido el problema.
+
 Uso:
     python simulation/extract_osm_bbox.py --instance instances_data/evrp_instances/quebec_40c_4ev_6cs.txt
 
@@ -83,8 +92,10 @@ def parse_args():
                     help="Instancia EVRP de la que derivar el bbox (con --margin-deg de holgura)")
     p.add_argument("--bbox", default=None,
                     help="Bbox manual 'west,south,east,north' (alternativa a --instance)")
-    p.add_argument("--margin-deg", type=float, default=0.03,
-                    help="Margen en grados alrededor de la instancia (~3km por defecto)")
+    p.add_argument("--margin-deg", type=float, default=0.1,
+                    help="Margen en grados alrededor de la instancia (~10km por defecto). "
+                         "Un margen chico (ej. 0.03/~3km) puede dejar 'islas' desconectadas de la "
+                         "red si la unica calle conectora de un vecindario cae fuera del recorte.")
     p.add_argument("--output", "-o", default=os.path.join("simulation", "sumo_network", "clipped.osm"))
     return p.parse_args()
 
