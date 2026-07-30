@@ -41,7 +41,7 @@ sys.path.insert(0, os.path.join(os.environ.get("SUMO_HOME", r"D:\SUMO"), "tools"
 import sumolib  # noqa: E402
 
 from build_routes import (  # noqa: E402
-    parse_instance, parse_solution, snap_route_sequential,
+    parse_instance, parse_solution, snap_route_sequential, snap_single_node,
     find_sumo_tool, _write_pretty_xml,
     MIN_CLIENT_STOP_S, SERVICE_TIME_PER_UNIT_S,
 )
@@ -141,9 +141,23 @@ def build_battery_trips(routes, net, instance, out_path, battery_capacity_wh, ch
 
 
 def write_charging_additional(out_path, instance, snapped, cs_used, net, power_w):
+    """
+    Escribe una chargingStation real para TODAS las estaciones de la instancia,
+    no solo las que alguna ruta visita — así se ven todas en el mapa como
+    referencia, aunque el EVRP no las haya necesitado en esta solución.
+
+    Las que sí forman parte de una ruta usan el arco ya snapeado (coherente
+    con la parada real); las que no, se snapean de forma independiente
+    (snap_single_node) porque nunca pasaron por el snapping secuencial de
+    build_battery_trips.
+    """
     root = ET.Element("additional")
-    for node in sorted(cs_used):
-        edge_id = snapped[node]
+    written, missing = 0, []
+    for node in sorted(instance["stations"]):
+        edge_id = snapped.get(node) or snap_single_node(net, node, instance["node_coords"])
+        if edge_id is None:
+            missing.append(node)
+            continue
         edge = net.getEdge(edge_id)
         length = edge.getLength()
         s, e = round(length * 0.1, 2), round(length * 0.9, 2)
@@ -157,8 +171,11 @@ def write_charging_additional(out_path, instance, snapped, cs_used, net, power_w
             # ignoran silenciosamente aqui, por eso no se cargaba nada).
             power=str(round(power_w, 1)), efficiency="1.0", chargeDelay="0",
         )
+        written += 1
     _write_pretty_xml(root, out_path)
-    print(f"  OK: additional.add.xml con {len(cs_used)} chargingStation(s), potencia={power_w:.0f} W")
+    print(f"  OK: additional.add.xml con {written}/{len(instance['stations'])} chargingStation(s) "
+          f"({len(cs_used)} usadas por alguna ruta), potencia={power_w:.0f} W"
+          + (f" — SIN ARCO: {missing}" if missing else ""))
 
 
 # ---------------------------------------------------------------------------
@@ -307,8 +324,10 @@ def main():
 
     # El additional.add.xml con las chargingStation debe existir ANTES de duarouter:
     # necesita conocerlas para poder resolver los <stop chargingStation="cs_..">.
+    # Se escriben TODAS las estaciones de la instancia (no solo las usadas por
+    # una ruta), para que se vean todas en el mapa como referencia.
     additional_file = None
-    if cs_used:
+    if inst["stations"]:
         additional_file = os.path.join(args.output_dir, "additional_battery.add.xml")
         write_charging_additional(additional_file, inst, snapped_final, cs_used, net, charge_power_w)
 

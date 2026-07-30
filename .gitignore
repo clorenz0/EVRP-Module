@@ -4,3 +4,4 @@
 /simulation/sumo_network/
 /simulation/sumo_scenario/
 /simulation/__pycache__/
+**/dynamic_replan.txt

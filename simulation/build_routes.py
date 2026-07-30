@@ -153,6 +153,19 @@ def snap_route_sequential(net, route, node_coords: dict, max_radius=SNAP_RADIUS_
     return snapped
 
 
+def snap_single_node(net, node, node_coords: dict, max_radius=SNAP_RADIUS_M):
+    """Snapea un solo nodo (sin contexto de ruta) al arco real más cercano.
+    Para nodos que no forman parte de ninguna ruta (ej. una estación de carga
+    que ningún vehículo visitó) pero que igual se quieren mostrar en el mapa."""
+    lat, lon = node_coords[node]
+    x, y = net.convertLonLat2XY(lon, lat)
+    candidates = sorted(
+        (t for t in net.getNeighboringEdges(x, y, r=max_radius) if t[0].allows("passenger")),
+        key=lambda t: t[1]
+    )
+    return candidates[0][0].getID() if candidates else None
+
+
 # ---------------------------------------------------------------------------
 # TRIPS.XML
 # ---------------------------------------------------------------------------
