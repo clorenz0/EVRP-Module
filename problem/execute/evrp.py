@@ -37,6 +37,19 @@ estación de carga, o un nodo "virtual" que el llamador agrega a data para
 representar la posición actual del vehículo. Reutilizar el índice de un
 cliente pendiente como start_node no está soportado (OR-Tools trataría el
 inicio de ruta y la parada de ese cliente como dos ocurrencias separadas).
+
+Re-planeación dinámica (data_override)
+────────────────────────────────────────
+execute() normalmente carga los datos desde archivo vía process_files()
+(basado en instance_type/distance_type). Para re-optimizar un sub-problema
+con una matriz de distancia/tiempo "viva" (ej. medida en tiempo real desde
+SUMO/TraCI, reflejando congestión actual — ver simulation/dynamic_replanning.py),
+se puede pasar data_override: un dict con la misma forma que produce
+read_file_evrp (num_locations, locations, demands, distance_matrix,
+charging_stations, vehicle_capacity, fuel_capacity, fuel_consumption_rate,
+etc.). Si se da, process_files() se salta por completo y ese dict se usa tal
+cual — instance_type/distance_type dejan de tener efecto sobre los datos
+(distance_type se sigue usando solo para nombrar la carpeta de salida).
 """
 
 from functools import partial
@@ -383,12 +396,17 @@ def execute(
         heuristic: HeuristicType = None,
         metaheuristic: MetaheuristicType = None,
         initial_routes=None,
-        vehicle_states=None   # re-planeación dinámica: ver docstring del módulo
+        vehicle_states=None,    # re-planeación dinámica: ver docstring del módulo
+        data_override=None,     # re-planeación dinámica: dict de datos ya construido (salta process_files)
+        instance_name=None      # nombre a usar para la clave/archivo de salida cuando se usa data_override
 ):
-    instances_data = process_files(
-        instance_type, distance_type,
-        vehicle_max_time, vehicle_speed, vehicle_maximum_travel_distance
-    )
+    if data_override is not None:
+        instances_data = {instance_name or "dynamic_replan": data_override}
+    else:
+        instances_data = process_files(
+            instance_type, distance_type,
+            vehicle_max_time, vehicle_speed, vehicle_maximum_travel_distance
+        )
 
     for instance, data in instances_data.items():
         # ── Separar carga de mercancía vs. batería eléctrica ──────────────────

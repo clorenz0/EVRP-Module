@@ -131,42 +131,167 @@ sumo-gui -c simulation/sumo_scenario/scenario_battery.sumocfg
 > la corta sola al llegar al tope. Una versión más precisa cortaría la
 > parada dinámicamente vía TraCI (no implementado en esta versión).
 
-## EVRP dinámico (re-planeación por horizonte rodante) — EN CONSTRUCCIÓN
+## EVRP dinámico (re-planeación por horizonte rodante)
 
-Objetivo: reaccionar a cambios (tráfico, fallos) re-resolviendo con OR-Tools
-solo la parte de la ruta que falta, en vez de un solver dedicado (ACO/GA).
-Reutiliza el motor de OR-Tools tal cual — solo cambia cuándo y con qué datos
-se lo llama.
+Objetivo: reaccionar a cambios (congestión real) re-resolviendo con OR-Tools
+solo la parte de la ruta que falta, en vez de un solver dedicado (ACO/GA) —
+el mismo motor de siempre (Guided Local Search, Tabu Search, etc.), solo que
+se lo llama varias veces con datos actualizados en vez de una sola vez con
+datos estáticos. Enfoque respaldado por Ünal et al. (2025), que usa un
+patrón de reacción similar (heurística de reasignación + SUMO para tráfico)
+en vez de un metaheurístico poblacional nuevo.
 
-- **Punto 1 (listo)**: `evrp.execute()` acepta `vehicle_states`, una lista
-  opcional con el punto de partida real de cada vehículo (nodo, batería y
-  carga iniciales), en vez de forzar siempre depósito + batería llena.
-  Probado contra las 20 heurísticas/metaheurísticas de OR-Tools disponibles
-  en el proyecto.
-- **Punto 2 (listo)**: `simulation/traci_state_probe.py` pausa una simulación
-  SUMO en un checkpoint dado y extrae, por vehículo, posición real, batería
-  restante y qué paradas ya cumplió — en el mismo formato que espera
-  `vehicle_states`.
-  ```bash
-  python simulation/traci_state_probe.py \
-    --instance instances_data/evrp_instances/quebec_40c_4ev_6cs.txt \
-    --solution "problem/osrm/solutions_evrp_0/solutions_PATH_CHEAPEST_ARC/quebec_40c_4ev_6cs.txt" \
-    --config simulation/sumo_scenario/scenario_battery.sumocfg \
-    --checkpoint-time 1200
-  ```
-- **Punto 3 (pendiente)**: disparador de re-planeación (evento controlado o
-  tráfico de fondo real de la Fase 3).
-- **Punto 4 (pendiente)**: el orquestador que cierra el ciclo completo
-  (extraer estado → re-resolver → reinyectar ruta nueva a un vehículo activo).
+Requiere haber corrido la **Fase 4** primero (necesita `scenario_battery.sumocfg`
+y su Battery Device activo, para tener batería real que leer del checkpoint).
+
+### Los 4 pasos del ciclo
+
+1. **`vehicle_states` en `evrp.py`** — parámetro opcional de `execute()`: una
+   lista (largo `num_vehicles`) con `{'start_node', 'initial_fuel', 'initial_load'}`
+   por vehículo, para que arranque donde está realmente (no siempre depósito +
+   batería llena). Probado contra las 20 heurísticas/metaheurísticas de
+   OR-Tools del proyecto.
+2. **`data_override` en `evrp.py`** — parámetro opcional de `execute()`: un
+   dict de datos ya construido (con matriz de distancia/tiempo propia), que
+   se usa tal cual en vez de leer un archivo de instancia con `process_files()`.
+   Necesario para pasarle a OR-Tools una matriz medida en vivo por SUMO, no
+   la estática de OSRM.
+3. **`simulation/traci_state_probe.py`** — pausa una simulación SUMO en un
+   checkpoint y extrae, por vehículo activo, posición real, batería restante
+   y qué paradas ya cumplió vs. cuáles faltan (script de solo lectura, no
+   modifica nada, útil para inspeccionar sin re-planear):
+   ```bash
+   python simulation/traci_state_probe.py \
+     --instance instances_data/evrp_instances/quebec_40c_4ev_6cs.txt \
+     --solution "problem/osrm/solutions_evrp_0/solutions_PATH_CHEAPEST_ARC/quebec_40c_4ev_6cs.txt" \
+     --config simulation/sumo_scenario/scenario_battery.sumocfg \
+     --checkpoint-time 1200
+   ```
+4. **`simulation/traci_congestion_trigger.py`** — fuerza congestión real en
+   un tramo (baja el límite de velocidad vía TraCI) y confirma, con
+   `traci.simulation.findRoute()`, que el tiempo de viaje sube de verdad. Es
+   el script donde se probó esto por primera vez, aislado. **Ya no hace falta
+   correrlo aparte** — `dynamic_replanning.py` (más abajo) incluye la misma
+   prueba antes/después integrada en su única corrida. Se deja disponible
+   por si se quiere probar la retroalimentación sola, sin el resto del ciclo:
+   ```bash
+   python simulation/traci_congestion_trigger.py \
+     --instance instances_data/evrp_instances/quebec_40c_4ev_6cs.txt \
+     --solution "problem/osrm/solutions_evrp_0/solutions_PATH_CHEAPEST_ARC/quebec_40c_4ev_6cs.txt" \
+     --config simulation/sumo_scenario/scenario_battery.sumocfg \
+     --checkpoint-time 1200
+   ```
+
+### El orquestador completo: `simulation/dynamic_replanning.py`
+
+Une los 4 pasos anteriores en un solo flujo — **un solo comando para toda la demo**
+(incluye el antes/después de la congestión impreso en consola, no hace falta
+correr `traci_congestion_trigger.py` aparte para tener esa evidencia):
+
+```bash
+python simulation/dynamic_replanning.py \
+  --instance instances_data/evrp_instances/quebec_40c_4ev_6cs.txt \
+  --solution "problem/osrm/solutions_evrp_0/solutions_PATH_CHEAPEST_ARC/quebec_40c_4ev_6cs.txt" \
+  --checkpoint-time 1200
+```
+
+Qué hace, en orden (y qué buscar en la consola si es para mostrar la
+retroalimentación, ej. en un video para tu tutora):
+1. Corre SUMO con TraCI hasta el checkpoint y extrae el estado real de cada
+   vehículo activo con paradas pendientes.
+2. Fuerza un evento de congestión controlado cerca de uno de ellos, e imprime
+   un bloque **"ANTES / DESPUÉS"** con el tiempo de viaje real medido por SUMO
+   antes y después del evento (ej. `+119.2s (+34.4%)`) — **esta es la prueba
+   concreta de la retroalimentación**, todo en la misma corrida.
+3. Arma una sub-instancia (posición actual de cada vehículo activo + el pool
+   de sus clientes pendientes + todas las estaciones de carga), con una
+   matriz de distancia/tiempo consultada **en vivo** a SUMO (`findRoute()`,
+   con la congestión ya reflejada) — no la matriz estática original de OSRM.
+   Se imprime `"Consultando matriz de tiempo/distancia VIVA con SUMO..."`.
+4. Llama a `evrp.execute()` con `data_override` + `vehicle_states` para
+   re-optimizar esa sub-instancia (mismo motor OR-Tools, ninguna heurística
+   nueva).
+5. Reconstruye la nueva solución como ruta real (encadenando `findRoute()`
+   entre paradas consecutivas) e inyecta esa ruta y sus paradas al vehículo
+   activo.
+6. Exporta el plan resultante a un escenario **independiente** (sin TraCI):
+   `simulation/sumo_scenario/scenario_dynamic_replan.sumocfg`.
+
+Para el cierre visual (opcional, segundo y último comando), visualizar el
+resultado desde el segundo 0, ya con el plan re-optimizado:
+
+```bash
+sumo-gui -c simulation/sumo_scenario/scenario_dynamic_replan.sumocfg
+```
+
+> **Por qué se exporta a un escenario aparte en vez de dejar la ventana de
+> TraCI abierta**: un `sumo-gui` manejado por TraCI no se puede "soltar" para
+> que quede libre — si el script termina sin un cierre limpio de la conexión,
+> SUMO lo toma como un error (`peer shutdown`) y se apaga solo. Por eso el
+> flujo real es: corre el orquestador (headless, rápido) → abre el `.sumocfg`
+> exportado por separado, a tu ritmo.
+
+> Nota de escala: en la instancia piloto hay un cliente bastante alejado del
+> depósito (~20 km de detour real) — si al abrir la ventana solo ves 1-2
+> vehículos, usa "zoom to fit" antes de darle play; los otros pueden estar
+> circulando fuera del área visible por defecto. Confirmado con `tripinfo`
+> headless que los 4 vehículos sí completan su ruta sin errores.
+
+## Limitaciones conocidas
+
+### Cada estación de carga se puede visitar una sola vez en toda la solución
+
+En el modelo actual (`problem/execute/evrp.py`), cada estación de carga es
+**un solo nodo** en el grafo que le pasamos a OR-Tools. Como cada nodo se
+visita a lo sumo una vez (restricción estándar de VRP), esto significa que
+una misma estación física no puede ser usada por dos vehículos distintos, ni
+por el mismo vehículo dos veces, dentro de una misma solución.
+
+El paper de referencia (Anastasiadou et al., ACO-DEVRP) resuelve esto
+"duplicando" cada estación en β_i copias (mismo lugar físico, nodos
+distintos para el solver), permitiendo múltiples visitas. Este proyecto no
+implementa esa duplicación todavía.
+
+**Evaluación de qué tan grande sería el cambio** (hecha 2026-07-29, sin
+implementar aún):
+
+- El cambio quedaría casi contenido en `instance/import_data.py` →
+  `read_file_evrp()`: en vez de agregar un nodo por estación, agregar β
+  copias (mismas coordenadas, demanda 0, mismo nombre en
+  `charging_station_names` para que la solución se lea igual de claro).
+- `evrp.py` **no necesitaría cambios**: `add_capacity_constraints` y
+  `add_fuel_constraints` ya iteran `data['charging_stations']` como una
+  lista genérica, sin asumir una sola aparición por estación. La fórmula
+  `num_clients = num_locations - len(charging_stations) - 1` tampoco se ve
+  afectada por cuántas copias haya.
+- Los scripts de `simulation/` **no necesitarían cambios**: leen el archivo
+  `.txt` de instancia original (una estación física = una línea), no la
+  representación interna con copias — esa expansión sería un detalle
+  interno de `read_file_evrp`, invisible para SUMO.
+- Sí haría falta decidir β (cuántas copias por estación). El valor del
+  paper (`β_i = 2 × num_clientes`) es un peor caso muy generoso pensado
+  para instancias pequeñas; para las instancias de este proyecto
+  (10-90 clientes) infla demasiado el modelo y podría ralentizar a
+  OR-Tools sin necesidad. Un valor más razonable para esta escala sería
+  `β = num_vehicles` (en el peor caso, cada vehículo visita esa estación
+  una vez).
+- Nota aparte: el orquestador de re-planeación dinámica
+  (`dynamic_replanning.py`) arma su propia sub-instancia a mano, sin pasar
+  por `read_file_evrp` — si se quiere que las copias también apliquen ahí,
+  sería un segundo cambio pequeño e independiente.
+
+**Conclusión**: cambio acotado, mayormente en un solo archivo. Pendiente de
+implementar hasta que se decida si vale la pena para el alcance de la tesis.
 
 ## Qué archivos son código y cuáles son generados
 
 | Carpeta/archivo | Es código (va a git) | Se genera al correr |
 |---|---|---|
 | `simulation/*.py` | ✅ | — |
-| `simulation/sumo_network/` | ❌ (gitignored, ~180MB) | Fase 1 |
-| `simulation/sumo_scenario/` | ❌ (gitignored) | Fases 2 y 4 |
+| `simulation/sumo_network/` | ❌ (gitignored, ~340MB) | Fase 1 |
+| `simulation/sumo_scenario/` | ❌ (gitignored) | Fases 2, 4 y re-planeación dinámica |
 | `osrm_data/*.osm.pbf` | ❌ (gitignored, ~1.1GB) | Descarga manual |
+| `problem/osrm/solutions_evrp_0/.../dynamic_replan.txt` | ❌ (solución temporal del sub-problema) | `dynamic_replanning.py` |
 
 Todo lo generado se reproduce corriendo los scripts en orden — no hace
 falta bajarlo de ningún lado más que este repo.
