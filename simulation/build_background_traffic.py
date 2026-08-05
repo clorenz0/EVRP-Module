@@ -63,7 +63,14 @@ def run_random_trips(net_file, scenario_dir, end, period, seed):
         "--remove-loops",
     ]
     print(f"Generando trafico de fondo: begin=0 end={end}s period={period}s seed={seed}")
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=900)
+    except subprocess.TimeoutExpired:
+        sys.exit(
+            "ERROR: randomTrips.py no termino en 15 min. A esta escala (end/period grande) "
+            "el --validate de randomTrips.py puede volverse muy lento en una red de 79k arcos. "
+            "Prueba con --end mas chico o --period mas grande."
+        )
     if not os.path.isfile(routes_out):
         print("ERROR randomTrips.py:\n" + result.stderr[-3000:])
         sys.exit(1)
@@ -72,7 +79,7 @@ def run_random_trips(net_file, scenario_dir, end, period, seed):
     return routes_out
 
 
-def update_sumocfg(scenario_dir, net_file, background_routes):
+def update_sumocfg(scenario_dir, net_file, background_routes, end):
     cfg_path = os.path.join(scenario_dir, "scenario.sumocfg")
     root = ET.Element("configuration")
     inp = ET.SubElement(root, "input")
@@ -80,8 +87,14 @@ def update_sumocfg(scenario_dir, net_file, background_routes):
     ET.SubElement(inp, "route-files", value="routes.rou.xml,background.rou.xml")
     t = ET.SubElement(root, "time")
     ET.SubElement(t, "begin", value="0")
+    # Limite duro de tiempo simulado: sin esto, unos pocos vehiculos de fondo
+    # embotellados en una interseccion sin semaforo (ver README) pueden dejar
+    # la simulacion corriendo indefinidamente esperando a que terminen.
+    ET.SubElement(t, "end", value=str(end + 1800))
     pr = ET.SubElement(root, "processing")
-    ET.SubElement(pr, "time-to-teleport", value="-1")
+    # 300s (default de SUMO) en vez de -1: un vehiculo realmente atascado se
+    # teletransporta fuera de la red en vez de colgar la corrida para siempre.
+    ET.SubElement(pr, "time-to-teleport", value="300")
     from xml.dom import minidom
     raw = ET.tostring(root, encoding="unicode")
     dom = minidom.parseString(raw)
@@ -111,10 +124,16 @@ def run_sim_and_compare(cfg_path, scenario_dir, osrm_times):
         find_sumo_tool("sumo"), "-c", cfg_path,
         "--no-warnings", "true",
         "--tripinfo-output", tripinfo,
-        "--time-to-teleport", "-1",
     ]
     print("\nCorriendo simulacion con trafico de fondo (headless)...")
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=900)
+    except subprocess.TimeoutExpired:
+        sys.exit(
+            "ERROR: sumo no termino en 15 min pese al limite de --end en el .sumocfg y "
+            "time-to-teleport=300. Revisa tripinfo_phase3.xml (queda parcial) para ver "
+            "que vehiculos no completaron."
+        )
     if not os.path.isfile(tripinfo):
         print("ERROR sumo:\n" + result.stderr[-3000:])
         sys.exit(1)
@@ -151,7 +170,7 @@ def main():
         sys.exit(f"ERROR: no se encontro {routes_rou}. Corre primero build_routes.py (Fase 2)")
 
     bg_routes = run_random_trips(args.net_file, args.scenario_dir, args.end, args.period, args.seed)
-    cfg = update_sumocfg(args.scenario_dir, args.net_file, bg_routes)
+    cfg = update_sumocfg(args.scenario_dir, args.net_file, bg_routes, args.end)
     osrm_times = parse_osrm_times(args.solution)
     run_sim_and_compare(cfg, args.scenario_dir, osrm_times)
 

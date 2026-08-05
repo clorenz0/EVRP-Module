@@ -9,6 +9,20 @@ Todo lo de esta carpeta es independiente del resto del proyecto (`problem/`,
 instancia `.txt` y un archivo de solución `.txt` (los que ya produce
 `evrp.py`). No requiere tocar ni importar ese código.
 
+## Menú interactivo (opcional)
+
+En vez de escribir cada comando de las fases de abajo a mano, puedes correr:
+
+```bash
+python simulation/run.py
+```
+
+Muestra un menú numerado (Fase 1, 2, 4, EVRP dinámico, diagnósticos, abrir
+`sumo-gui`) y pide solo los parámetros que cambian (instancia, solución,
+checkpoint), con la instancia piloto ya precargada como valor por defecto —
+das Enter para aceptarla. Internamente llama a los mismos scripts
+documentados abajo, con los mismos flags.
+
 ## Prerrequisitos
 
 1. **Docker Desktop** — solo si necesitas generar una solución EVRP nueva
@@ -89,20 +103,67 @@ cada cliente/estación de su ruta.
 > el recorte de la Fase 1 dejó una zona desconectada (ver el aviso sobre el
 > margen arriba), no un problema de este script.
 
-## Fase 3 — Tráfico de fondo (PENDIENTE, no ejecutar tal cual)
-
-`simulation/build_background_traffic.py` existe pero **no se ha logrado
-correr con éxito**: la generación de tráfico de fondo con `randomTrips.py`
-sobre la red completa (79k arcos) se colgó ~10 horas en el intento. Sospecha
-principal: falta el paquete `rtree` (indexado espacial), forzando búsquedas
-por fuerza bruta. Antes de reintentar:
+## Fase 3 — Tráfico de fondo
 
 ```bash
-pip install rtree
+python simulation/build_background_traffic.py \
+  --solution "problem/osrm/solutions_evrp_0/solutions_PATH_CHEAPEST_ARC/quebec_40c_4ev_6cs.txt" \
+  --end 3000 --period 2
 ```
 
-y probar primero con una ventana de tiempo corta (`--end 600 --period 5`)
-para verificar que termina en un tiempo razonable antes de escalar.
+Genera tráfico de fondo aleatorio con `randomTrips.py` sobre la red completa
+y lo combina con las rutas del EVRP en `scenario.sumocfg`, luego compara el
+tiempo real de cada vehículo `ev_*` (con tráfico) contra el tiempo que había
+estimado OSRM.
+
+- `--end`/`--period` controlan la cantidad de autos de fondo: aprox.
+  `end / period` vehículos (ej. `--end 2000 --period 2` → ~1000). No hay un
+  tope fijo en el código, solo estos dos parámetros.
+- **Historial**: la primera vez que se intentó correr sobre la red completa
+  (79k arcos) se colgó ~10 horas. La causa raíz era la falta del paquete
+  `rtree` (indexado espacial) — sin él, `sumolib` cae a búsqueda por fuerza
+  bruta. Ya está en `requirements.txt` y verificado (probado con `--end 600
+  --period 5` → 120 autos, y `--end 2000 --period 2` → 1000 autos, ambos en
+  segundos, no horas). Asegúrate de correr los scripts con el `python` del
+  `.venv` del proyecto (`.venv/Scripts/python.exe` en Windows) — un `python`
+  del sistema sin `rtree` instalado reproduce el fallback lento.
+- **Limitación conocida — no hay semáforos**: la red generada en la Fase 1
+  no tiene ningún `<tlLogic>` (se verificó: 0 uniones tipo `traffic_light`,
+  todas son `priority`/`right_before_left`/`dead_end`). `netconvert` recibe
+  `--tls.guess-signals` pero no infirió ninguno para esta zona (posiblemente
+  descartados por `--tls.discard-simple`/`--tls.join`, o el extracto OSM no
+  trae suficientes tags `highway=traffic_signals`). Efecto práctico: la
+  congestión que se ve en esta fase es solo por volumen/capacidad de la vía,
+  no por tiempos de ciclo de semáforo — pendiente de investigar si hace
+  falta para la tesis.
+- **Segundo cuelgue (real, no de caché) y su fix**: al probar `--end 6000`
+  la corrida quedó colgada >1h; con `--end 3000` se confirmó la causa exacta
+  revisando el `tripinfo_phase3.xml` a medio escribir (XML sin cerrar =
+  prueba de que `sumo` seguía vivo): de 1504 vehículos insertados, 1493
+  terminaban bien (los 4 EV incluidos) y **11 vehículos de fondo quedaban
+  embotellados sin terminar nunca**. La causa era la combinación de
+  `time-to-teleport=-1` (desactiva el rescate de SUMO para vehículos
+  atascados) + sin semáforos (arriba) + ningún `<end>` de simulación en el
+  `.sumocfg` — unos pocos vehículos en un embotellamiento real en una
+  intersección sin control dejaban la simulación corriendo indefinidamente
+  esperando a que terminaran. Fix aplicado en `build_background_traffic.py`:
+  `time-to-teleport` a 300s (el default de SUMO, en vez de `-1`) y un
+  `<end>` explícito en el `.sumocfg` (`--end` + 1800s de margen) como límite
+  duro adicional, más un timeout de 15 min en cada subproceso (`randomTrips.py`
+  y `sumo`) que corta con un mensaje claro en vez de colgarse en silencio.
+  Verificado con `--end 3000 --period 2` (1500 autos) y `--end 6000 --period 2`
+  (3000 autos) tras el fix: ambos terminan sin colgarse.
+- **Conclusión: el tráfico de fondo aleatorio no genera congestión detectable
+  a esta escala.** Con 1500 y con 3000 vehículos de fondo, los tiempos de los
+  4 EV salen prácticamente idénticos (ej. ev_2: -30.0% vs OSRM en ambos
+  casos) — duplicar el tráfico no cambió nada. Tiene sentido: son viajes
+  aleatorios repartidos sobre los ~79k arcos de toda Quebec City, así que la
+  probabilidad de que caigan justo en las calles que usan los EV es baja y
+  el efecto por arco es casi nulo. **Para demostrar congestión real (ej. en
+  el video para la tutora), el evento de congestión controlado del Punto 3/4
+  (`traci_congestion_trigger.py` / el bloque ANTES-DESPUÉS del orquestador
+  dinámico, ver más abajo) es el mecanismo confiable — ya está verificado
+  con un impacto medido de +34.4%.**
 
 ## Fase 4 — Batería real (Battery Device de SUMO)
 
