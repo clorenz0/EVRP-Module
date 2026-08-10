@@ -88,15 +88,13 @@ def opt_fase2():
 
 
 def opt_fase3():
-    print("\n--- Fase 3: trafico de fondo (PENDIENTE, no se ha logrado correr con exito) ---")
-    print("Ver README: se colgo ~10h en el intento anterior. Se recomienda probar")
-    print("primero con una ventana corta antes de escalar.")
-    confirm = ask("Continuar de todas formas? (s/n)", "n")
-    if confirm.lower() != "s":
-        return
+    print("\n--- Fase 3: trafico de fondo ---")
+    print("Nota (ver README): a esta escala el trafico de fondo aleatorio no genera")
+    print("congestion detectable en las rutas de los EV (muy disperso sobre la red).")
+    print("Para demostrar congestion real, usa la opcion 5 (EVRP dinamico) o la 7.")
     solution = ask("Solucion (.txt)", DEFAULT_SOLUTION)
-    end = ask("--end (ventana de insercion, s)", "600")
-    period = ask("--period (s promedio entre inserciones)", "5")
+    end = ask("--end (ventana de insercion, s; ~end/period vehiculos)", "3000")
+    period = ask("--period (s promedio entre inserciones)", "2")
     run_script("build_background_traffic.py", ["--solution", solution, "--end", end, "--period", period])
 
 
@@ -161,7 +159,7 @@ def opt_gui():
 MENU = [
     ("1", "Fase 1 - Construir red vial real (OSM -> SUMO)", opt_fase1),
     ("2", "Fase 2 - Generar rutas EVRP sobre la red real", opt_fase2),
-    ("3", "Fase 3 - Trafico de fondo (PENDIENTE, no recomendado)", opt_fase3),
+    ("3", "Fase 3 - Trafico de fondo", opt_fase3),
     ("4", "Fase 4 - Escenario de bateria real", opt_fase4),
     ("5", "EVRP dinamico - re-planeacion (Punto 4, orquestador completo)", opt_dynamic),
     ("6", "[Diagnostico] Ver estado de vehiculos en un checkpoint", opt_probe),
