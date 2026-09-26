@@ -114,6 +114,12 @@ def parse_args():
                     help="Segundos extra de simulacion tras inyectar la ruta nueva, para confirmar que se sigue")
     p.add_argument("--gui", action="store_true",
                     help="Usa sumo-gui en vez de sumo headless, para ver el proceso completo en vivo")
+    p.add_argument("--heuristic", default="PATH_CHEAPEST_ARC",
+                    help="Heuristica de OR-Tools para la re-optimizacion (nombre de HeuristicType, ej. PATH_CHEAPEST_ARC). "
+                         "Vacio ('') para no usar ninguna.")
+    p.add_argument("--metaheuristic", default=None,
+                    help="Metaheuristica de OR-Tools para la re-optimizacion (nombre de MetaheuristicType, "
+                         "ej. GUIDED_LOCAL_SEARCH). Por defecto ninguna.")
     return p.parse_args()
 
 
