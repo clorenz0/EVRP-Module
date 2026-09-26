@@ -41,7 +41,7 @@ sys.path.insert(0, os.path.join(os.environ.get("SUMO_HOME", r"D:\SUMO"), "tools"
 import sumolib  # noqa: E402
 
 from build_routes import (  # noqa: E402
-    parse_instance, parse_solution, snap_route_sequential, snap_single_node,
+    parse_instance, parse_solution, snap_route_sequential, snap_single_node, stop_lane_id,
     find_sumo_tool, _write_pretty_xml,
     MIN_CLIENT_STOP_S, SERVICE_TIME_PER_UNIT_S,
 )
@@ -89,6 +89,12 @@ def build_battery_trips(routes, net, instance, out_path, battery_capacity_wh, ch
     all_snapped = {}
 
     for vid, route in enumerate(routes):
+        if not route[1:-1]:
+            # Vehiculo sin clientes asignados por OR-Tools (ruta deposito->deposito,
+            # 0 de distancia) — no hay nada que simular, no se agrega ningun trip.
+            # Insertarlo como viaje de distancia 0 (from==to) puede quedar pegado
+            # en el arco del deposito y bloquear la salida de los demas vehiculos.
+            continue
         snapped = snap_route_sequential(net, route, instance["node_coords"])
         if snapped is None:
             skipped_routes.append(vid)
@@ -99,13 +105,17 @@ def build_battery_trips(routes, net, instance, out_path, battery_capacity_wh, ch
         for e in edges[1:]:
             if e != dedup[-1]:
                 dedup.append(e)
-        if len(dedup) < 2:
-            skipped_routes.append(vid)
-            continue
+        # Si TODAS las paradas (deposito incluido, pero con >=1 cliente real)
+        # caen en el mismo arco real (cliente muy cerca del deposito), dedup
+        # queda con un solo elemento. SUMO soporta trips con from==to (el
+        # vehiculo no necesita moverse a otro arco) para este caso.
 
+        trip_attrs = {"from": dedup[0], "to": dedup[-1]}
+        if len(dedup) > 2:
+            trip_attrs["via"] = " ".join(dedup[1:-1])  # SUMO no acepta via="" (arco unico: sin via)
         trip = ET.SubElement(
             root, "trip", id=f"ev_{vid}", type="ev_type", depart=str(vid * 10),
-            **{"from": dedup[0]}, to=dedup[-1], via=" ".join(dedup[1:-1]),
+            **trip_attrs,
             color=colors[vid % len(colors)],
         )
         seen_edges = {dedup[0]}  # arcos ya usados por una parada anterior en ESTE vehiculo
@@ -121,7 +131,7 @@ def build_battery_trips(routes, net, instance, out_path, battery_capacity_wh, ch
             if node in instance["clients"]:
                 demand = instance["clients"][node]["demand"]
                 duration = max(MIN_CLIENT_STOP_S, demand * SERVICE_TIME_PER_UNIT_S)
-                ET.SubElement(trip, "stop", lane=f"{edge}_0", duration=str(duration), parking="true")
+                ET.SubElement(trip, "stop", lane=stop_lane_id(net, edge), duration=str(duration), parking="true")
                 trip.append(ET.Comment(f" cliente {node} (demanda={demand}) "))
             elif node in instance["stations"] and charging_enabled and not edge_shared:
                 ET.SubElement(trip, "stop", chargingStation=f"cs_{node}", duration=str(CS_STOP_DURATION_S))
@@ -130,7 +140,7 @@ def build_battery_trips(routes, net, instance, out_path, battery_capacity_wh, ch
             else:
                 # estacion de carga en pasada de calibracion, o degradada por arco compartido
                 reason = "calibracion" if not charging_enabled else "arco compartido con parada anterior"
-                ET.SubElement(trip, "stop", lane=f"{edge}_0", duration=str(CS_STOP_DURATION_S), parking="true")
+                ET.SubElement(trip, "stop", lane=stop_lane_id(net, edge), duration=str(CS_STOP_DURATION_S), parking="true")
                 trip.append(ET.Comment(f" parada sin carga real ({reason}): nodo {node} "))
         written += 1
 
@@ -165,7 +175,7 @@ def write_charging_additional(out_path, instance, snapped, cs_used, net, power_w
             s, e = 0.0, length
         ET.SubElement(
             root, "chargingStation", id=f"cs_{node}", name=instance["stations"][node]["name"],
-            lane=f"{edge_id}_0", startPos=str(s), endPos=str(e),
+            lane=stop_lane_id(net, edge_id), startPos=str(s), endPos=str(e),
             # Nombres reales del XSD de esta version de SUMO: 'power' (W) y 'efficiency'
             # (chargePerTimeStep/chargeEfficiency son de versiones viejas de SUMO y se
             # ignoran silenciosamente aqui, por eso no se cargaba nada).
@@ -195,9 +205,9 @@ def run_duarouter_to(net_file, trips_file, output_path, additional_file=None):
         # necesario para que duarouter reconozca los <stop chargingStation="..."/>
         cmd += ["--additional-files", additional_file]
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=900)
     except subprocess.TimeoutExpired:
-        sys.exit("ERROR: duarouter tardo mas de 120s (timeout de seguridad) — revisar antes de reintentar.")
+        sys.exit("ERROR: duarouter tardo mas de 900s (timeout de seguridad) — revisar antes de reintentar.")
     if not os.path.isfile(output_path):
         print("  ERROR duarouter:\n" + result.stderr[-3000:])
         sys.exit(1)
@@ -216,12 +226,11 @@ def run_headless(cfg_path, tripinfo_path, extra_args=None):
         "--no-warnings", "true",
         "--tripinfo-output", tripinfo_path,
         "--device.battery.probability", "1.0",
-        "--time-to-teleport", "-1",
     ] + (extra_args or [])
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
     except subprocess.TimeoutExpired:
-        sys.exit("ERROR: sumo (headless) tardo mas de 180s (timeout de seguridad) — revisar antes de reintentar.")
+        sys.exit("ERROR: sumo (headless) tardo mas de 600s (timeout de seguridad) — revisar antes de reintentar.")
     if not os.path.isfile(tripinfo_path):
         print("ERROR sumo:\n" + result.stderr[-3000:])
         sys.exit(1)
@@ -257,8 +266,13 @@ def write_sumocfg(out_dir, net_file, routes_file, additional_file=None):
         ET.SubElement(inp, "additional-files", value=os.path.basename(additional_file))
     t = ET.SubElement(root, "time")
     ET.SubElement(t, "begin", value="0")
+    # Limite duro de tiempo simulado + teleport finito: sin esto, un vehiculo
+    # realmente atascado (embotellamiento real en una interseccion, red muy
+    # grande) puede dejar la simulacion corriendo indefinidamente esperando a
+    # que termine (mismo problema diagnosticado en Fase 3, ver README).
+    ET.SubElement(t, "end", value="7200")
     pr = ET.SubElement(root, "processing")
-    ET.SubElement(pr, "time-to-teleport", value="-1")
+    ET.SubElement(pr, "time-to-teleport", value="300")
     _write_pretty_xml(root, cfg)
     return cfg
 

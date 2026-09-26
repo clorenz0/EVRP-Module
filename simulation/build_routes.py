@@ -166,6 +166,25 @@ def snap_single_node(net, node, node_coords: dict, max_radius=SNAP_RADIUS_M):
     return candidates[0][0].getID() if candidates else None
 
 
+def stop_lane_id(net, edge_id, vclass="passenger"):
+    """
+    Devuelve el id de carril (ej. 'edge_1') de `edge_id` que SI permite a
+    `vclass` circular/detenerse, en vez de asumir siempre el carril 0.
+
+    Por qué: un arco puede pasar el filtro `edge.allows(vclass)` (alcanza con
+    que UN carril lo permita) pero tener el carril 0 reservado para otra
+    clase (ej. carril bus/bici) — SUMO rechaza el <stop> con
+    "Vehicle X is not allowed to stop on lane Y" si se hardcodea "_0" en ese
+    caso. Se verificó en la red de Montreal (mucho más grande/densa, con más
+    carriles exclusivos que la de Quebec City, donde nunca se dio el caso).
+    """
+    edge = net.getEdge(edge_id)
+    for lane in edge.getLanes():
+        if lane.allows(vclass):
+            return lane.getID()
+    return f"{edge_id}_0"  # no deberia pasar (el arco ya se filtro por allows), respaldo
+
+
 # ---------------------------------------------------------------------------
 # TRIPS.XML
 # ---------------------------------------------------------------------------
@@ -213,7 +232,7 @@ def build_trips(routes, net, instance, out_path):
                 duration = STOP_DURATION_S
                 label = instance["stations"].get(node, {}).get("name", str(node))
 
-            ET.SubElement(trip, "stop", lane=f"{edge}_0", duration=str(duration), parking="true")
+            ET.SubElement(trip, "stop", lane=stop_lane_id(net, edge), duration=str(duration), parking="true")
             trip.append(ET.Comment(f" parada: nodo {node} ({label}) "))
         written += 1
 

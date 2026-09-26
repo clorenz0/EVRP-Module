@@ -1,8 +1,8 @@
 Instance: quebec_40c_4ev_6cs.txt
 
-Objective: 73
+Objective: 75
 
-Execution Time: 0.13568878173828125
+Execution Time: 0.07797050476074219
 
 Heuristic: PATH_CHEAPEST_ARC
 
@@ -13,16 +13,16 @@ Battery capacity: 100
 Battery consumption rate: 1.0
 
 Route for vehicle 0:
- 41[CS:Borne Rapide Haute-Ville] Load(50) Bat(60) -> 27 Load(50) Bat(57) -> 14 Load(84) Bat(55) -> 10 Load(107) Bat(50) -> 22 Load(142) Bat(50) -> 38 Load(171) Bat(45) -> 0 Load(198) Bat(43)
-Distance of the route: 17km
-Time of the route: 4802s
-Load of the route: 198
+ 0 Load(0) Bat(100) -> 39 Load(0) Bat(100) -> 15 Load(14) Bat(97) -> 16 Load(41) Bat(95) -> 42[CS:Station IGA Sainte-Foy] Load(55) Bat(93) -> 31 Load(55) Bat(100) -> 36 Load(71) Bat(98) -> 7 Load(88) Bat(98) -> 25 Load(107) Bat(97) -> 13 Load(133) Bat(94) -> 19 Load(150) Bat(93) -> 8 Load(174) Bat(91) -> 44[CS:Recharge Saint-Roch] Load(202) Bat(91) -> 0 Load(202) Bat(90)
+Distance of the route: 20km
+Time of the route: 3288s
+Load of the route: 202
 
 Route for vehicle 1:
- 0 Load(0) Bat(100) -> 15 Load(0) Bat(100) -> 16 Load(27) Bat(98) -> 26 Load(41) Bat(95) -> 37 Load(54) Bat(95) -> 34 Load(77) Bat(94) -> 11 Load(89) Bat(94) -> 23 Load(99) Bat(94) -> 5 Load(117) Bat(94) -> 20 Load(139) Bat(93) -> 9 Load(172) Bat(91) -> 3 Load(184) Bat(88) -> 8 Load(214) Bat(85) -> 44[CS:Recharge Saint-Roch] Load(242) Bat(85) -> 0 Load(242) Bat(84)
+ 0 Load(0) Bat(100) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Bat(100) -> 38 Load(0) Bat(99) -> 22 Load(27) Bat(94) -> 10 Load(56) Bat(94) -> 14 Load(91) Bat(89) -> 27 Load(114) Bat(87) -> 28 Load(148) Bat(83) -> 4 Load(157) Bat(83) -> 33 Load(172) Bat(82) -> 0 Load(197) Bat(80)
 Distance of the route: 20km
-Time of the route: 3262s
-Load of the route: 242
+Time of the route: 5286s
+Load of the route: 197
 
 Route for vehicle 2:
  0 Load(0) Bat(100) -> 35 Load(0) Bat(100) -> 45[CS:Borne IKEA Beauport] Load(30) Bat(100) -> 18 Load(30) Bat(100) -> 6 Load(46) Bat(100) -> 24 Load(71) Bat(100) -> 2 Load(92) Bat(100) -> 12 Load(110) Bat(98) -> 21 Load(142) Bat(93) -> 40 Load(153) Bat(91) -> 29 Load(172) Bat(91) -> 32 Load(194) Bat(89) -> 1 Load(214) Bat(89) -> 0 Load(234) Bat(87)
@@ -31,14 +31,14 @@ Time of the route: 2964s
 Load of the route: 234
 
 Route for vehicle 3:
- 0 Load(0) Bat(100) -> 39 Load(0) Bat(100) -> 36 Load(14) Bat(98) -> 7 Load(31) Bat(98) -> 42[CS:Station IGA Sainte-Foy] Load(50) Bat(97) -> 31 Load(50) Bat(96) -> 25 Load(66) Bat(94) -> 13 Load(92) Bat(91) -> 19 Load(109) Bat(90) -> 28 Load(133) Bat(88) -> 4 Load(142) Bat(88) -> 33 Load(157) Bat(87) -> 30 Load(182) Bat(85) -> 17 Load(210) Bat(84) -> 0 Load(241) Bat(83)
-Distance of the route: 19km
-Time of the route: 3320s
-Load of the route: 241
+ 0 Load(0) Bat(100) -> 30 Load(0) Bat(99) -> 3 Load(28) Bat(96) -> 9 Load(58) Bat(93) -> 11 Load(70) Bat(90) -> 34 Load(80) Bat(90) -> 23 Load(92) Bat(90) -> 5 Load(110) Bat(90) -> 26 Load(132) Bat(89) -> 37 Load(145) Bat(89) -> 20 Load(168) Bat(88) -> 17 Load(201) Bat(83) -> 0 Load(232) Bat(82)
+Distance of the route: 18km
+Time of the route: 2916s
+Load of the route: 232
 
-Total Distance of all routes: 73km
+Total Distance of all routes: 75km
 
-Total Load of all routes: 915
+Total Load of all routes: 865
 
-Total Time of all routes: 14348s
+Total Time of all routes: 14454s
 

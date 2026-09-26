@@ -42,7 +42,7 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, REPO_ROOT)
 
 from build_routes import (  # noqa: E402
-    parse_instance, parse_solution, snap_single_node, _write_pretty_xml,
+    parse_instance, parse_solution, snap_single_node, stop_lane_id, _write_pretty_xml,
     MIN_CLIENT_STOP_S, SERVICE_TIME_PER_UNIT_S, STOP_DURATION_S,
 )
 from problem.execute import evrp  # noqa: E402
@@ -55,7 +55,7 @@ REPLAN_TIME_LIMIT = 15
 REPLAN_INSTANCE_NAME = "dynamic_replan.txt"
 
 
-def write_replanned_scenario(out_dir, net_file, vehicle_routes: dict, vehicle_stops: dict):
+def write_replanned_scenario(out_dir, net_file, vehicle_routes: dict, vehicle_stops: dict, net):
     """
     Exporta las rutas YA re-optimizadas a un .rou.xml + .sumocfg independiente
     (sin TraCI), para abrir en sumo-gui manualmente desde el segundo 0 con el
@@ -83,7 +83,7 @@ def write_replanned_scenario(out_dir, net_file, vehicle_routes: dict, vehicle_st
             depart=str(i * 5), color=colors[i % len(colors)],
         )
         for edge_id, duration, label in vehicle_stops.get(vid, []):
-            ET.SubElement(veh, "stop", lane=f"{edge_id}_0", duration=str(duration), parking="true")
+            ET.SubElement(veh, "stop", lane=stop_lane_id(net, edge_id), duration=str(duration), parking="true")
             veh.append(ET.Comment(f" parada: {label} "))
 
     routes_path = os.path.join(out_dir, "routes_dynamic_replan.rou.xml")
@@ -192,7 +192,7 @@ def main():
 
     print(f"Config     : {args.config}")
     print(f"Checkpoint : {args.checkpoint_time}s")
-    print(f"GUI        : {'si' if args.gui else 'no'}\n")
+    print(f"GUI        : {'yes' if args.gui else 'no'}\n")
     traci.start(cmd)
 
     try:
@@ -221,12 +221,12 @@ def main():
                 "pending_nodes": pending,
                 "load_collected": load_collected,
             }
-            print(f"{vid}: en {vehicles_state[vid]['current_edge']}, "
-                  f"bateria={battery_wh:.0f}/{max_wh:.0f}Wh, "
-                  f"{len(pending)} paradas pendientes: {pending}")
+            print(f"{vid}: at {vehicles_state[vid]['current_edge']}, "
+                  f"battery={battery_wh:.0f}/{max_wh:.0f}Wh, "
+                  f"{len(pending)} pending stop(s): {pending}")
 
         if not vehicles_state:
-            sys.exit("Ningun vehiculo activo con paradas pendientes en este checkpoint — nada que re-planear.")
+            sys.exit("No active vehicle with pending stops at this checkpoint — nothing to re-plan.")
 
         # ── 2. Congestion controlada cerca del primer vehiculo activo (Punto 3) ──
         # Se imprime ANTES/DESPUES del evento: es la evidencia concreta de que
@@ -237,10 +237,10 @@ def main():
         probe_target = vehicles_state[first_vid]["pending_nodes"][0]
         probe_edge = snap_single_node(net, probe_target, inst["node_coords"])
 
-        print(f"\n{'─' * 70}\n  RETROALIMENTACION: midiendo impacto de un evento de congestion\n{'─' * 70}")
+        print(f"\n{'-' * 70}\n  FEEDBACK LOOP: measuring the impact of a congestion event\n{'-' * 70}")
         stage_before = traci.simulation.findRoute(vehicles_state[first_vid]["current_edge"], probe_edge)
-        print(f"  ANTES  ({first_vid} -> nodo {probe_target}): "
-              f"tiempo={stage_before.travelTime:.1f}s  distancia={stage_before.length:.0f}m")
+        print(f"  BEFORE ({first_vid} -> node {probe_target}): "
+              f"time={stage_before.travelTime:.1f}s  distance={stage_before.length:.0f}m")
 
         route_edges = list(stage_before.edges)
         n_congest = max(1, int(len(route_edges) * CONGESTION_FRACTION))
@@ -248,19 +248,19 @@ def main():
         congested_edges = route_edges[start_idx:start_idx + n_congest]
         for e in congested_edges:
             traci.edge.setMaxSpeed(e, CONGESTED_SPEED_MPS)
-        print(f"  Congestion forzada en {len(congested_edges)} arco(s) reales "
-              f"(limite bajado a {CONGESTED_SPEED_MPS} m/s ~ {CONGESTED_SPEED_MPS * 3.6:.0f} km/h)")
+        print(f"  Congestion forced on {len(congested_edges)} real edge(s) "
+              f"(speed limit lowered to {CONGESTED_SPEED_MPS} m/s ~ {CONGESTED_SPEED_MPS * 3.6:.0f} km/h)")
 
         stage_after = traci.simulation.findRoute(vehicles_state[first_vid]["current_edge"], probe_edge)
         delta_t = stage_after.travelTime - stage_before.travelTime
         pct = (delta_t / stage_before.travelTime * 100) if stage_before.travelTime else 0
-        print(f"  DESPUES ({first_vid} -> nodo {probe_target}): "
-              f"tiempo={stage_after.travelTime:.1f}s  distancia={stage_after.length:.0f}m"
+        print(f"  AFTER  ({first_vid} -> node {probe_target}): "
+              f"time={stage_after.travelTime:.1f}s  distance={stage_after.length:.0f}m"
               f"   ->  +{delta_t:.1f}s ({pct:+.1f}%)")
-        print(f"{'─' * 70}\n"
-              f"  Esta diferencia es la señal real que ahora se usa para construir\n"
-              f"  la matriz que ve OR-Tools (paso siguiente), no la estimacion original.\n"
-              f"{'─' * 70}\n")
+        print(f"{'-' * 70}\n"
+              f"  This difference is the real signal now used to build\n"
+              f"  the matrix OR-Tools sees (next step), not the original estimate.\n"
+              f"{'-' * 70}\n")
 
         # ── 3. Sub-instancia con matriz VIVA (Punto 3) ────────────────────────
         # Orden de nodos EXIGIDO por evrp.py: 0=deposito, 1..C=clientes,
@@ -302,7 +302,7 @@ def main():
             node_coord[idx] = (lat, lon)
             vehicle_start_node[vid] = idx
             station_sub_nodes.append(idx)  # tratado como nodo opcional, ver arriba
-            station_names[idx] = f"posicion_actual_{vid}"
+            station_names[idx] = f"current_position_{vid}"
             idx += 1
 
         num_locations = idx
@@ -310,10 +310,10 @@ def main():
         for n, sub_idx in client_sub_node.items():
             demands[sub_idx] = inst["clients"][n]["demand"]
 
-        print(f"Sub-instancia: {num_locations} nodos ({len(vids)} vehiculos, "
-              f"{num_clients} clientes pendientes, {len(inst['stations'])} estaciones)")
-        print("Consultando matriz de tiempo/distancia VIVA con SUMO "
-              "(findRoute, con la congestion ya activa)...")
+        print(f"Sub-instance: {num_locations} nodes ({len(vids)} vehicle(s), "
+              f"{num_clients} pending client(s), {len(inst['stations'])} station(s))")
+        print("Querying LIVE time/distance matrix from SUMO "
+              "(findRoute, with congestion already active)...")
 
         distance_matrix = [[0.0] * num_locations for _ in range(num_locations)]
         time_matrix = [[0.0] * num_locations for _ in range(num_locations)]
@@ -354,7 +354,7 @@ def main():
             "charging_station_names": station_names,
         }
 
-        print("\nRe-optimizando con OR-Tools (evrp.execute con data_override + vehicle_states)...\n")
+        print("\nRe-optimizing with OR-Tools (evrp.execute with data_override + vehicle_states)...\n")
         evrp.execute(
             0, "dynamic_replan_instance", time_limit=REPLAN_TIME_LIMIT,
             distance_type=DistanceType.OSRM,
@@ -370,31 +370,31 @@ def main():
             "solutions_PATH_CHEAPEST_ARC", REPLAN_INSTANCE_NAME
         )
         if not os.path.isfile(new_sol_path):
-            sys.exit(f"ERROR: no se genero solucion nueva en {new_sol_path} (revisar log de arriba)")
+            sys.exit(f"ERROR: no new solution was generated at {new_sol_path} (check the log above)")
         new_sol = parse_solution(new_sol_path)
 
         client_sub_to_orig = {v: k for k, v in client_sub_node.items()}
 
-        print(f"\n{'=' * 70}\n  NUEVO PLAN (re-optimizado con datos en vivo de SUMO)\n{'=' * 70}")
+        print(f"\n{'=' * 70}\n  NEW PLAN (re-optimized with live SUMO data)\n{'=' * 70}")
         vehicle_routes = {}
         vehicle_stops = {}
         for k, new_route in enumerate(new_sol["routes"]):
             if k >= len(vids):
                 break
             vid = vids[k]
-            print(f"\n{vid}: nueva secuencia (nodos del sub-problema): {new_route}")
+            print(f"\n{vid}: new sequence (sub-problem nodes): {new_route}")
 
             full_edges = chain_real_route(new_route, node_edge)
             if not full_edges:
-                print(f"  ADVERTENCIA: no se pudo reconstruir una ruta real para {vid}, se deja como estaba")
+                print(f"  WARNING: could not rebuild a real route for {vid}, leaving it as is")
                 continue
             vehicle_routes[vid] = full_edges
 
             try:
                 traci.vehicle.setRoute(vid, full_edges)
-                print(f"  OK: ruta real inyectada ({len(full_edges)} arcos)")
+                print(f"  OK: real route injected ({len(full_edges)} edges)")
             except traci.TraCIException as e:
-                print(f"  ERROR inyectando ruta a {vid}: {e}")
+                print(f"  ERROR injecting route for {vid}: {e}")
                 continue
 
             stops = []
@@ -402,32 +402,33 @@ def main():
                 if node in client_sub_to_orig:
                     demand = demands[node]
                     duration = max(MIN_CLIENT_STOP_S, demand * SERVICE_TIME_PER_UNIT_S)
-                    label = f"cliente {client_sub_to_orig[node]} (demanda={demand})"
+                    label = f"client {client_sub_to_orig[node]} (demand={demand})"
                 else:
                     duration = STOP_DURATION_S
-                    label = station_names.get(node, f"nodo {node}")
+                    label = station_names.get(node, f"node {node}")
                 stops.append((node_edge[node], duration, label))
+                lane_idx = int(stop_lane_id(net, node_edge[node]).rsplit("_", 1)[-1])
                 try:
-                    traci.vehicle.setStop(vid, node_edge[node], duration=duration)
+                    traci.vehicle.setStop(vid, node_edge[node], duration=duration, laneIndex=lane_idx)
                 except traci.TraCIException:
                     pass
             vehicle_stops[vid] = stops
-            print(f"  {len(stops)} parada(s): {[s[2] for s in stops]}")
+            print(f"  {len(stops)} stop(s): {[s[2] for s in stops]}")
 
-        print(f"\nCorriendo {args.run_after}s mas para confirmar que el vehiculo sigue el plan nuevo...")
+        print(f"\nRunning {args.run_after}s more to confirm the vehicle follows the new plan...")
         end_time = traci.simulation.getTime() + args.run_after
         while traci.simulation.getTime() < end_time and traci.simulation.getMinExpectedNumber() > 0:
             traci.simulationStep()
-        print(f"Tiempo final de simulacion: {traci.simulation.getTime():.0f}s")
+        print(f"Final simulation time: {traci.simulation.getTime():.0f}s")
 
-        # ── 6. Exportar el plan nuevo a un escenario independiente ───────────
-        # Un sumo-gui manejado por TraCI no se puede "soltar" para dejarlo
-        # abierto (cortar la conexion sin cierre limpio lo hace fallar) — se
-        # exporta un .sumocfg aparte para abrir manualmente, a tu ritmo.
+        # ── 6. Export the new plan as a standalone scenario ──────────────────
+        # A sumo-gui driven by TraCI can't be "released" to stay open (cutting
+        # the connection without a clean close makes it fail) — a separate
+        # .sumocfg is exported to open manually, at your own pace.
         out_dir = os.path.dirname(args.config)
-        replan_cfg = write_replanned_scenario(out_dir, args.net_file, vehicle_routes, vehicle_stops)
-        print(f"\nPlan nuevo exportado a un escenario independiente:\n  {replan_cfg}")
-        print(f"Para verlo (desde el segundo 0, ya con el plan re-optimizado):\n"
+        replan_cfg = write_replanned_scenario(out_dir, args.net_file, vehicle_routes, vehicle_stops, net)
+        print(f"\nNew plan exported to a standalone scenario:\n  {replan_cfg}")
+        print(f"To view it (from second 0, already with the re-optimized plan):\n"
               f"  sumo-gui -c {replan_cfg}")
 
     finally:

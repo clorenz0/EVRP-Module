@@ -2,7 +2,7 @@ Instance: quebec_30c_6ev_4cs.txt
 
 Objective: 117
 
-Execution Time: 0.11297726631164551
+Execution Time: 0.07384800910949707
 
 Heuristic: PATH_CHEAPEST_ARC
 
