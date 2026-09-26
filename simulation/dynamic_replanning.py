@@ -47,7 +47,8 @@ from build_routes import (  # noqa: E402
 )
 from problem.execute import evrp  # noqa: E402
 from distance.distance_type import DistanceType  # noqa: E402
-from problem.strategy_type import HeuristicType  # noqa: E402
+from problem.strategy_type import HeuristicType, MetaheuristicType  # noqa: E402
+from utils.execute_algorithm import get_distance_and_solution_name  # noqa: E402
 
 CONGESTED_SPEED_MPS = 2.0
 CONGESTION_FRACTION = 0.4
@@ -157,6 +158,10 @@ def read_original_params(solution_path):
                 params["fuel_capacity"] = int(float(re.search(r"([\d.]+)", line).group(1)))
             elif line.startswith("Battery consumption rate:"):
                 params["fuel_consumption_rate"] = float(re.search(r"([\d.]+)", line).group(1))
+            elif line.startswith("Heuristic:"):
+                params["heuristic"] = line.split(":", 1)[1].strip()
+            elif line.startswith("Metaheuristic:"):
+                params["metaheuristic"] = line.split(":", 1)[1].strip()
     return params
 
 
@@ -184,6 +189,15 @@ def main():
     net = sumolib.net.readNet(args.net_file)
     original_params = read_original_params(args.solution)
     routes_by_vehicle = {f"ev_{vid}": route for vid, route in enumerate(sol["routes"])}
+
+    # El sub-problema se re-optimiza con el MISMO algoritmo que produjo la
+    # solucion de entrada (leido del encabezado "Heuristic:"/"Metaheuristic:"
+    # que ya escribe evrp.py) -- si se pasa una solucion de GUIDED_LOCAL_SEARCH,
+    # la re-planeacion tambien usa GUIDED_LOCAL_SEARCH, no un algoritmo fijo.
+    replan_heuristic = HeuristicType[original_params["heuristic"]] if "heuristic" in original_params else None
+    replan_metaheuristic = (
+        MetaheuristicType[original_params["metaheuristic"]] if "metaheuristic" in original_params else None
+    )
 
     sumo_bin = "sumo-gui" if args.gui else "sumo"
     cmd = [sumo_bin, "-c", args.config, "--no-warnings", "true",
@@ -360,20 +374,30 @@ def main():
             "charging_station_names": station_names,
         }
 
-        print("\nRe-optimizing with OR-Tools (evrp.execute with data_override + vehicle_states)...\n")
+        print(f"\nRe-optimizing with OR-Tools (evrp.execute with data_override + vehicle_states, "
+              f"heuristic={replan_heuristic}, metaheuristic={replan_metaheuristic})...\n")
         evrp.execute(
             0, "dynamic_replan_instance", time_limit=REPLAN_TIME_LIMIT,
             distance_type=DistanceType.OSRM,
-            heuristic=HeuristicType.PATH_CHEAPEST_ARC,
+            heuristic=replan_heuristic,
+            metaheuristic=replan_metaheuristic,
             vehicle_states=vehicle_states,
             data_override=sub_data,
             instance_name=REPLAN_INSTANCE_NAME,
         )
 
         # ── 5. Leer la nueva solucion e inyectarla como ruta real en SUMO ────
+        # Mismo esquema de nombre de carpeta que usa evrp.py::save_solution
+        # (solutions_<heuristica>[_and_<metaheuristica>]) para el algoritmo
+        # detectado arriba -- no siempre "solutions_PATH_CHEAPEST_ARC".
+        _, replan_solution_name = get_distance_and_solution_name(
+            DistanceType.OSRM,
+            replan_heuristic.value if replan_heuristic else None,
+            replan_metaheuristic.value if replan_metaheuristic else None,
+        )
         new_sol_path = os.path.join(
             REPO_ROOT, "problem", "osrm", "solutions_evrp_0",
-            "solutions_PATH_CHEAPEST_ARC", REPLAN_INSTANCE_NAME
+            f"solutions_{replan_solution_name}", REPLAN_INSTANCE_NAME
         )
         if not os.path.isfile(new_sol_path):
             sys.exit(f"ERROR: no new solution was generated at {new_sol_path} (check the log above)")
