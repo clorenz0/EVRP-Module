@@ -31,7 +31,9 @@ Uso:
 import argparse
 import os
 import re
+import shutil
 import sys
+import time
 import xml.etree.ElementTree as ET
 
 sys.path.insert(0, os.path.join(os.environ.get("SUMO_HOME", r"D:\SUMO"), "tools"))
@@ -53,7 +55,23 @@ from utils.execute_algorithm import get_distance_and_solution_name  # noqa: E402
 CONGESTED_SPEED_MPS = 2.0
 CONGESTION_FRACTION = 0.4
 REPLAN_TIME_LIMIT = 15
-REPLAN_INSTANCE_NAME = "dynamic_replan.txt"
+
+# Carpeta dedicada para las trazas de cada corrida (con y sin retroalimentacion),
+# separadas de problem/.../solutions_evrp_0 para poder comparar runs en el tiempo
+# sin que una corrida borre la anterior.
+RESULTS_DIR = os.path.join(REPO_ROOT, "simulation", "dynamic_replan_results")
+
+
+def unique_path(path):
+    """Si `path` ya existe, le agrega _2, _3, ... hasta encontrar uno libre.
+    Nunca sobreescribe una traza existente (se necesitan todas para comparar)."""
+    if not os.path.exists(path):
+        return path
+    base, ext = os.path.splitext(path)
+    n = 2
+    while os.path.exists(f"{base}_{n}{ext}"):
+        n += 1
+    return f"{base}_{n}{ext}"
 
 
 def write_replanned_scenario(out_dir, net_file, vehicle_routes: dict, vehicle_stops: dict, net):
@@ -111,8 +129,6 @@ def parse_args():
     p.add_argument("--config", default=os.path.join(REPO_ROOT, "simulation", "sumo_scenario", "scenario_battery.sumocfg"))
     p.add_argument("--net-file", default=os.path.join(REPO_ROOT, "simulation", "sumo_network", "network.net.xml"))
     p.add_argument("--checkpoint-time", type=float, default=1200.0)
-    p.add_argument("--run-after", type=float, default=300.0,
-                    help="Segundos extra de simulacion tras inyectar la ruta nueva, para confirmar que se sigue")
     p.add_argument("--gui", action="store_true",
                     help="Usa sumo-gui en vez de sumo headless, para ver el proceso completo en vivo")
     p.add_argument("--heuristic", default="PATH_CHEAPEST_ARC",
@@ -121,6 +137,14 @@ def parse_args():
     p.add_argument("--metaheuristic", default=None,
                     help="Metaheuristica de OR-Tools para la re-optimizacion (nombre de MetaheuristicType, "
                          "ej. GUIDED_LOCAL_SEARCH). Por defecto ninguna.")
+    p.add_argument("--no-replan", action="store_true",
+                    help="Baseline 'sin retroalimentacion': fuerza la MISMA congestion pero NO llama a OR-Tools "
+                         "ni inyecta ruta nueva -- el vehiculo sigue su plan original a traves del evento. "
+                         "Corre hasta que termine su ruta (o --max-complete-time), para comparar tiempo/distancia "
+                         "reales contra el modo normal (con re-planeacion).")
+    p.add_argument("--max-complete-time", type=float, default=7200.0,
+                    help="Tope de seguridad (s de simulacion) esperando a que los vehiculos activos terminen su "
+                         "ruta, tanto en modo normal como en --no-replan.")
     return p.parse_args()
 
 
@@ -182,6 +206,72 @@ def chain_real_route(node_seq, node_edge):
     return full_edges
 
 
+def run_until_done(vids, max_extra_time):
+    """
+    Corre la simulacion hasta que todos los vehiculos en `vids` terminen su
+    ruta (desaparecen de traci.vehicle.getIDList() al llegar) o se agote
+    max_extra_time. Devuelve {vid: {'distance_m', 'time_s'}} con el ultimo
+    valor registrado de cada uno (el step justo antes de desaparecer, cuando
+    ya terminaron) y el set de vids que NO llegaron a tiempo.
+
+    Se usa tanto en el modo normal (con re-planeacion) como en --no-replan,
+    para poder comparar tiempo/distancia reales bajo la MISMA congestion.
+    """
+    stats = {}
+    remaining = set(vids)
+    start_time = traci.simulation.getTime()
+    while remaining and (traci.simulation.getTime() - start_time) < max_extra_time:
+        traci.simulationStep()
+        still_active = set(traci.vehicle.getIDList())
+        elapsed = traci.simulation.getTime() - start_time
+        for vid in list(remaining):
+            if vid in still_active:
+                stats[vid] = {"distance_m": traci.vehicle.getDistance(vid), "time_s": elapsed}
+            else:
+                remaining.discard(vid)  # ya llego (desaparecio de la simulacion)
+    return stats, remaining
+
+
+def write_baseline_report(path, instance_base, checkpoint_time, event_description,
+                           vehicles_state, vids, stats, unfinished, max_complete_time):
+    """Guarda la traza del modo --no-replan (sin retroalimentacion): mismo
+    evento de congestion, pero el vehiculo sigue su plan original."""
+    lines = [
+        f"Instance: {instance_base}",
+        "Mode: NO FEEDBACK (baseline) -- original plan kept through the congestion event",
+        f"Checkpoint: {checkpoint_time:.0f}s",
+        "",
+        event_description,
+        "",
+        "Vehicle state at checkpoint:",
+    ]
+    for vid in vids:
+        st = vehicles_state[vid]
+        lines.append(f"  {vid}: distance before event={st['distance_before_m']:.0f}m, "
+                      f"{len(st['pending_nodes'])} pending stop(s): {st['pending_nodes']}")
+    lines += ["", "Result (original plan, same congestion, no re-optimization):"]
+    total_time, total_dist_m = 0.0, 0.0
+    for vid in vids:
+        before_m = vehicles_state[vid]["distance_before_m"]
+        if vid in stats:
+            total_m = before_m + stats[vid]["distance_m"]
+            total_time += stats[vid]["time_s"]
+            total_dist_m += total_m
+            lines.append(f"  {vid}: finished -- extra time={stats[vid]['time_s']:.1f}s, "
+                          f"total distance (before+after)={total_m / 1000.0:.3f}km")
+        else:
+            lines.append(f"  {vid}: DID NOT finish within max_complete_time={max_complete_time:.0f}s")
+    lines.append("")
+    lines.append(f"TOTAL (finished vehicles only): extra time={total_time:.1f}s, "
+                 f"total distance={total_dist_m / 1000.0:.3f}km")
+    if unfinished:
+        lines.append(f"WARNING: {len(unfinished)} vehicle(s) did not finish: {sorted(unfinished)}")
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+    print(f"\nBaseline report saved to {path}")
+
+
 def main():
     args = parse_args()
     inst = parse_instance(args.instance)
@@ -189,6 +279,11 @@ def main():
     net = sumolib.net.readNet(args.net_file)
     original_params = read_original_params(args.solution)
     routes_by_vehicle = {f"ev_{vid}": route for vid, route in enumerate(sol["routes"])}
+
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+    instance_base = os.path.splitext(os.path.basename(args.instance))[0]
+    run_id = time.strftime("%Y%m%d_%H%M%S")
+    replan_instance_name = f"dynamic_replan_{instance_base}_{run_id}.txt"
 
     # El sub-problema se re-optimiza con el MISMO algoritmo que produjo la
     # solucion de entrada (leido del encabezado "Heuristic:"/"Metaheuristic:"
@@ -240,9 +335,14 @@ def main():
                 "max_wh": max_wh,
                 "pending_nodes": pending,
                 "load_collected": load_collected,
+                # Distancia ya recorrida ANTES del evento -- para que el costo
+                # total reportado despues cubra el viaje completo, no solo el
+                # tramo restante del sub-problema.
+                "distance_before_m": traci.vehicle.getDistance(vid),
             }
             print(f"{vid}: at {vehicles_state[vid]['current_edge']}, "
                   f"battery={battery_wh:.0f}/{max_wh:.0f}Wh, "
+                  f"distance so far={vehicles_state[vid]['distance_before_m']:.0f}m, "
                   f"{len(pending)} pending stop(s): {pending}")
 
         if not vehicles_state:
@@ -281,6 +381,42 @@ def main():
               f"  This difference is the real signal now used to build\n"
               f"  the matrix OR-Tools sees (next step), not the original estimate.\n"
               f"{'-' * 70}\n")
+
+        event_description = (
+            f"Event: congestion forced at checkpoint {args.checkpoint_time:.0f}s on "
+            f"{len(congested_edges)} real edge(s) (speed limit lowered to {CONGESTED_SPEED_MPS} m/s). "
+            f"Probe {first_vid} -> node {probe_target}: travel time {stage_before.travelTime:.1f}s -> "
+            f"{stage_after.travelTime:.1f}s ({pct:+.1f}%), distance {stage_before.length:.0f}m -> "
+            f"{stage_after.length:.0f}m. Congested edges: {', '.join(congested_edges)}."
+        )
+        prior_distance_km_total = sum(vehicles_state[v]["distance_before_m"] for v in vids) / 1000.0
+
+        # ── Baseline "sin retroalimentacion": misma congestion, sin re-planear ──
+        # El vehiculo sigue su plan original a traves del evento (sin llamar a
+        # OR-Tools). Se corre hasta que termine (o --max-complete-time) para
+        # poder comparar tiempo/distancia reales contra el modo normal.
+        if args.no_replan:
+            print(f"\n{'=' * 70}\n  BASELINE (no feedback): keeping the original plan through the event\n{'=' * 70}")
+            stats, unfinished = run_until_done(vids, args.max_complete_time)
+            for vid in vids:
+                before_m = vehicles_state[vid]["distance_before_m"]
+                if vid in stats:
+                    total_m = before_m + stats[vid]["distance_m"]
+                    print(f"  {vid}: finished -- extra time={stats[vid]['time_s']:.1f}s, "
+                          f"total distance (before+after)={total_m / 1000.0:.3f}km")
+                else:
+                    print(f"  {vid}: DID NOT finish within --max-complete-time={args.max_complete_time:.0f}s")
+            if unfinished:
+                print(f"  WARNING: {len(unfinished)} vehicle(s) did not finish: {sorted(unfinished)}")
+
+            baseline_path = unique_path(
+                os.path.join(RESULTS_DIR, f"{instance_base}_NO_feedback_{run_id}.txt")
+            )
+            write_baseline_report(
+                baseline_path, instance_base, args.checkpoint_time, event_description,
+                vehicles_state, vids, stats, unfinished, args.max_complete_time,
+            )
+            return
 
         # ── 3. Sub-instancia con matriz VIVA (Punto 3) ────────────────────────
         # Orden de nodos EXIGIDO por evrp.py: 0=deposito, 1..C=clientes,
@@ -372,6 +508,8 @@ def main():
             "time_matrix": time_matrix,
             "charging_stations": station_sub_nodes,
             "charging_station_names": station_names,
+            "extra_info": event_description,
+            "prior_distance_km": prior_distance_km_total,
         }
 
         print(f"\nRe-optimizing with OR-Tools (evrp.execute with data_override + vehicle_states, "
@@ -383,7 +521,7 @@ def main():
             metaheuristic=replan_metaheuristic,
             vehicle_states=vehicle_states,
             data_override=sub_data,
-            instance_name=REPLAN_INSTANCE_NAME,
+            instance_name=replan_instance_name,
         )
 
         # ── 5. Leer la nueva solucion e inyectarla como ruta real en SUMO ────
@@ -397,7 +535,7 @@ def main():
         )
         new_sol_path = os.path.join(
             REPO_ROOT, "problem", "osrm", "solutions_evrp_0",
-            f"solutions_{replan_solution_name}", REPLAN_INSTANCE_NAME
+            f"solutions_{replan_solution_name}", replan_instance_name
         )
         if not os.path.isfile(new_sol_path):
             sys.exit(f"ERROR: no new solution was generated at {new_sol_path} (check the log above)")
@@ -445,11 +583,43 @@ def main():
             vehicle_stops[vid] = stops
             print(f"  {len(stops)} stop(s): {[s[2] for s in stops]}")
 
-        print(f"\nRunning {args.run_after}s more to confirm the vehicle follows the new plan...")
-        end_time = traci.simulation.getTime() + args.run_after
-        while traci.simulation.getTime() < end_time and traci.simulation.getMinExpectedNumber() > 0:
-            traci.simulationStep()
+        print(f"\n{'=' * 70}\n  WITH FEEDBACK: running until the injected vehicles finish\n{'=' * 70}")
+        stats, unfinished = run_until_done(vehicle_routes.keys(), args.max_complete_time)
+        completion_lines = ["", "Completion stats (real simulated time/distance after re-planning):"]
+        total_time, total_dist_m = 0.0, 0.0
+        for vid in vehicle_routes.keys():
+            before_m = vehicles_state[vid]["distance_before_m"]
+            if vid in stats:
+                total_m = before_m + stats[vid]["distance_m"]
+                total_time += stats[vid]["time_s"]
+                total_dist_m += total_m
+                line = (f"  {vid}: finished -- extra time={stats[vid]['time_s']:.1f}s, "
+                        f"total distance (before+after)={total_m / 1000.0:.3f}km")
+            else:
+                line = f"  {vid}: DID NOT finish within --max-complete-time={args.max_complete_time:.0f}s"
+            print(line)
+            completion_lines.append(line)
+        completion_lines.append(f"TOTAL (finished vehicles only): extra time={total_time:.1f}s, "
+                                 f"total distance={total_dist_m / 1000.0:.3f}km")
+        if unfinished:
+            warn = f"WARNING: {len(unfinished)} vehicle(s) did not finish: {sorted(unfinished)}"
+            print(f"  {warn}")
+            completion_lines.append(warn)
         print(f"Final simulation time: {traci.simulation.getTime():.0f}s")
+
+        # Agrega las estadisticas de finalizacion real al mismo .txt que ya
+        # escribio evrp.execute() (solo se conocen DESPUES de correr la
+        # simulacion hasta el final, no al momento de resolver el sub-problema).
+        with open(new_sol_path, "a", encoding="utf-8") as f:
+            f.write("\n".join(completion_lines) + "\n")
+
+        # Copia con nombre unico a la carpeta de resultados dedicada -- nunca
+        # sobreescribe una traza anterior (se necesitan todas para comparar).
+        with_feedback_path = unique_path(
+            os.path.join(RESULTS_DIR, f"{instance_base}_WITH_feedback_{run_id}.txt")
+        )
+        shutil.copy2(new_sol_path, with_feedback_path)
+        print(f"\nWith-feedback report saved to {with_feedback_path}")
 
         # ── 6. Export the new plan as a standalone scenario ──────────────────
         # A sumo-gui driven by TraCI can't be "released" to stay open (cutting

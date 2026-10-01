@@ -291,6 +291,12 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
     try:
         with open(filename, 'w', encoding='utf-8') as f:
             f.write(f'Instance: {instance}\n\n')
+            # Contexto opcional (ej. descripcion de un evento de congestion que
+            # disparo esta re-optimizacion) -- ver simulation/dynamic_replanning.py.
+            # evrp.py no sabe que es un "evento", solo escribe lo que le pasen.
+            extra_info = data.get('extra_info')
+            if extra_info:
+                f.write(f'{extra_info}\n\n')
             f.write(f'Objective: {assignment.ObjectiveValue()}\n\n')
             f.write(f'Execution Time: {elapsed_time}\n\n')
             if heuristic:
@@ -387,6 +393,16 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
             f.write(f'Total recharges: {total_recharges}\n\n')
             if min_soc is not None:
                 f.write(f'Minimum battery (SoC) reached: {min_soc}\n\n')
+
+            # Distancia ya recorrida ANTES de este sub-problema (ej. lo que cada
+            # vehiculo ya manejo antes de un evento de congestion) -- sin esto,
+            # el Objective de arriba solo refleja el costo del tramo restante,
+            # no el costo real total del viaje completo.
+            prior_distance_km = data.get('prior_distance_km')
+            if prior_distance_km:
+                f.write(f'Distance already traveled before this sub-problem: {prior_distance_km:.3f}km\n\n')
+                f.write(f'Total Distance including distance before event: '
+                        f'{total_distance + prior_distance_km:.3f}km\n\n')
 
         print(f"Solution saved successfully in {filename}")
     except OSError as error:
