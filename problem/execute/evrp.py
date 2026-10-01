@@ -321,6 +321,8 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
             total_distance = 0
             total_load = 0
             total_time = 0
+            total_recharges = 0
+            min_soc = None
 
             for vehicle_id in range(data['num_vehicles']):
                 index = routing.Start(vehicle_id)
@@ -332,20 +334,23 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                     node = manager.IndexToNode(index)
                     load_var = capacity_dimension.CumulVar(index)
                     fuel_var = fuel_dimension.CumulVar(index)
+                    soc = assignment.Min(fuel_var)
+                    min_soc = soc if min_soc is None else min(min_soc, soc)
 
                     # Etiqueta especial para estaciones de carga
                     if node in charging_set:
+                        total_recharges += 1
                         cs_label = f'[CS:{cs_names.get(node, node)}]'
                         plan_output += (
                             f' {node}{cs_label} '
                             f'Load({assignment.Min(load_var)}) '
-                            f'Bat({assignment.Min(fuel_var)}) ->'
+                            f'Bat({soc}) ->'
                         )
                     else:
                         plan_output += (
                             f' {node} '
                             f'Load({assignment.Min(load_var)}) '
-                            f'Bat({assignment.Min(fuel_var)}) ->'
+                            f'Bat({soc}) ->'
                         )
 
                     previous_node = node
@@ -358,10 +363,12 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                 # Nodo final (depósito de llegada)
                 load_var = capacity_dimension.CumulVar(index)
                 fuel_var = fuel_dimension.CumulVar(index)
+                soc = assignment.Min(fuel_var)
+                min_soc = soc if min_soc is None else min(min_soc, soc)
                 plan_output += (
                     f' {manager.IndexToNode(index)} '
                     f'Load({assignment.Min(load_var)}) '
-                    f'Bat({assignment.Min(fuel_var)})\n'
+                    f'Bat({soc})\n'
                 )
                 plan_output += f'Distance of the route: {route_distance}km\n'
                 if time_matrix is not None:
@@ -377,6 +384,9 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
             f.write(f'Total Load of all routes: {total_load}\n\n')
             if time_matrix is not None:
                 f.write(f'Total Time of all routes: {total_time}s\n\n')
+            f.write(f'Total recharges: {total_recharges}\n\n')
+            if min_soc is not None:
+                f.write(f'Minimum battery (SoC) reached: {min_soc}\n\n')
 
         print(f"Solution saved successfully in {filename}")
     except OSError as error:
