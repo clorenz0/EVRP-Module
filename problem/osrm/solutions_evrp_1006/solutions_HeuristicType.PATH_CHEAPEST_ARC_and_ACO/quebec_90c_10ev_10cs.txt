@@ -1,0 +1,84 @@
+Instance: quebec_90c_10ev_10cs.txt
+
+Objective: 163
+
+Execution Time: 10.06950068473816
+
+Metaheuristic: ACO (8 iteraciones)
+
+Distance type: osrm
+
+Vehicle capacity: 180
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 2 Load(18) Bat(92) -> 52 Load(28) Bat(90) -> 76 Load(38) Bat(88) -> 36 Load(53) Bat(88) -> 25 Load(83) Bat(85) -> 79 Load(112) Bat(55) -> 87 Load(129) Bat(55) -> 84 Load(156) Bat(47) -> 20 Load(174) Bat(47) -> 0 Load(174) Bat(36)
+Distance of the route: 18km
+Time of the route: 2035s
+Load of the route: 174
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 37 Load(27) Bat(98) -> 77 Load(49) Bat(98) -> 85 Load(60) Bat(97) -> 53 Load(78) Bat(96) -> 56 Load(98) Bat(94) -> 88 Load(122) Bat(94) -> 0 Load(122) Bat(89)
+Distance of the route: 1km
+Time of the route: 853s
+Load of the route: 122
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 34 Load(23) Bat(96) -> 82 Load(46) Bat(96) -> 90 Load(66) Bat(94) -> 18 Load(87) Bat(94) -> 39 Load(108) Bat(93) -> 68 Load(136) Bat(88) -> 6 Load(161) Bat(85) -> 0 Load(161) Bat(80)
+Distance of the route: 4km
+Time of the route: 932s
+Load of the route: 161
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 74 Load(13) Bat(95) -> 83 Load(27) Bat(84) -> 1 Load(42) Bat(84) -> 40 Load(58) Bat(81) -> 43 Load(77) Bat(77) -> 69 Load(85) Bat(72) -> 3 Load(97) Bat(71) -> 21 Load(117) Bat(66) -> 51 Load(143) Bat(59) -> 67 Load(154) Bat(58) -> 24 Load(165) Bat(53) -> 0 Load(165) Bat(42)
+Distance of the route: 14km
+Time of the route: 2719s
+Load of the route: 165
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 73 Load(18) Bat(84) -> 4 Load(40) Bat(80) -> 58 Load(67) Bat(57) -> 42 Load(91) Bat(57) -> 50 Load(104) Bat(57) -> 66 Load(121) Bat(57) -> 45 Load(149) Bat(55) -> 55 Load(172) Bat(44) -> 0 Load(172) Bat(21)
+Distance of the route: 23km
+Time of the route: 1856s
+Load of the route: 172
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 63 Load(12) Bat(92) -> 15 Load(28) Bat(88) -> 75 Load(54) Bat(74) -> 5 Load(64) Bat(69) -> 86 Load(85) Bat(69) -> 78 Load(101) Bat(69) -> 38 Load(110) Bat(68) -> 54 Load(125) Bat(68) -> 35 Load(143) Bat(63) -> 19 Load(158) Bat(62) -> 72 Load(178) Bat(59) -> 0 Load(178) Bat(48)
+Distance of the route: 13km
+Time of the route: 1575s
+Load of the route: 178
+
+Route for vehicle 6:
+ 0 Load(0) Bat(100) -> 98[CS:Borne Saint-Louis-de-France] Load(0) Bat(94) -> 12 Load(28) Bat(68) -> 61 Load(44) Bat(67) -> 16 Load(68) Bat(66) -> 29 Load(93) Bat(59) -> 80 Load(105) Bat(54) -> 46 Load(116) Bat(50) -> 14 Load(135) Bat(49) -> 62 Load(160) Bat(48) -> 48 Load(177) Bat(40) -> 98[CS:Borne Saint-Louis-de-France] Load(177) Bat(7) -> 0 Load(177) Bat(93)
+Distance of the route: 31km
+Time of the route: 3181s
+Load of the route: 177
+
+Route for vehicle 7:
+ 0 Load(0) Bat(100) -> 23 Load(26) Bat(96) -> 71 Load(41) Bat(94) -> 17 Load(50) Bat(86) -> 81 Load(69) Bat(81) -> 57 Load(78) Bat(79) -> 65 Load(100) Bat(71) -> 49 Load(122) Bat(70) -> 13 Load(135) Bat(68) -> 33 Load(145) Bat(67) -> 8 Load(165) Bat(62) -> 0 Load(165) Bat(52)
+Distance of the route: 10km
+Time of the route: 2082s
+Load of the route: 165
+
+Route for vehicle 8:
+ 0 Load(0) Bat(100) -> 98[CS:Borne Saint-Louis-de-France] Load(0) Bat(94) -> 32 Load(29) Bat(67) -> 7 Load(43) Bat(67) -> 64 Load(62) Bat(60) -> 10 Load(85) Bat(57) -> 27 Load(107) Bat(55) -> 30 Load(124) Bat(50) -> 59 Load(138) Bat(48) -> 70 Load(162) Bat(35) -> 22 Load(176) Bat(34) -> 98[CS:Borne Saint-Louis-de-France] Load(176) Bat(4) -> 0 Load(176) Bat(93)
+Distance of the route: 33km
+Time of the route: 2975s
+Load of the route: 176
+
+Route for vehicle 9:
+ 0 Load(0) Bat(100) -> 47 Load(20) Bat(92) -> 60 Load(41) Bat(84) -> 11 Load(52) Bat(82) -> 44 Load(66) Bat(80) -> 28 Load(74) Bat(75) -> 41 Load(86) Bat(69) -> 89 Load(95) Bat(67) -> 31 Load(108) Bat(51) -> 9 Load(125) Bat(45) -> 26 Load(141) Bat(44) -> 0 Load(141) Bat(37)
+Distance of the route: 16km
+Time of the route: 2308s
+Load of the route: 141
+
+Total Distance of all routes: 163km
+
+Total Load of all routes: 1631
+
+Total Time of all routes: 20516s
+
+Total recharges: 4
+
+Minimum battery (SoC) reached: 4
+

@@ -28,6 +28,7 @@ Los parametros del algoritmo estan abajo, en ACO_PARAMS.
 """
 import argparse
 import glob
+import random
 import os
 import re
 import shutil
@@ -76,7 +77,21 @@ ACO_PARAMS = dict(
     initial_time_limit=2,
 )
 
-ALL_SEEDS = [1, 2, 3, 4, 5, 6]
+############
+#  QUE EJECUTAR (se edita aqui; la consola es opcional y tiene prioridad si se usa)
+############
+# HEURISTIC:
+#   None                        -> TODO: ACO solo (todas las semillas) + ACO con CADA heuristica de OR-Tools
+#   "ACO"                       -> solo ACO independiente
+#   HeuristicType.SAVINGS (o "SAVINGS") -> solo ACO + esa heuristica
+#   [HeuristicType.SAVINGS, HeuristicType.PATH_CHEAPEST_ARC] -> ACO + cada una de esas
+# Cada combinacion ACO+heuristica es UNA corrida (una semilla sorteada de SEEDS), como las de OR-Tools.
+HEURISTIC = None
+INSTANCES = "all"            # "all" o lista de nombres, p.ej. ["quebec_50c_5ev_5cs"]
+SEEDS = [1, 2, 3, 4, 5, 6]   # semillas de ACO solo; en las combinaciones con heuristica se sortea una
+TIME_LIMIT = 10              # segundos por instancia y semilla
+
+ALL_SEEDS = SEEDS
 INSTANCES_DIR = os.path.join("instances_data", "evrp_instances")
 OUT_ROOT = os.path.join("problem", "osrm")
 
@@ -99,49 +114,35 @@ def resolve_instances(names):
     return paths
 
 
-def main():
-    ap = argparse.ArgumentParser(description="ACO independiente para EVRP")
-    ap.add_argument("--instance", nargs="+", default=["all"],
-                    help="nombre(s) de instancia (ej. quebec_50c_5ev_5cs) o 'all' (por defecto)")
-    group = ap.add_mutually_exclusive_group()
-    group.add_argument("--seed", type=int, help="usar solo esta semilla")
-    group.add_argument("--seeds", nargs="+", help="lista de semillas, o 'all' (1-6, por defecto)")
-    ap.add_argument("--time", type=int, default=10, help="segundos por instancia y semilla (por defecto 10)")
-    ap.add_argument("--heuristic", default=None,
-                    help="heuristica de OR-Tools que aporta la solucion inicial (ej. PATH_CHEAPEST_ARC); por defecto ACO solo")
-    args = ap.parse_args()
-    params = dict(ACO_PARAMS)
-    if args.heuristic:
-        params["initial_heuristic"] = args.heuristic
-    combo = f"{params['initial_heuristic'].name if hasattr(params['initial_heuristic'], 'name') else params['initial_heuristic']}_and_ACO" \
-        if params.get("initial_heuristic") else "ACO"
+def combo_name(heuristic):
+    return "ACO" if heuristic is None else f"{heuristic.name}_and_ACO"
 
-    if args.seed is not None:
-        seeds = [args.seed]
-    elif args.seeds and args.seeds != ["all"]:
-        seeds = [int(s) for s in args.seeds]
-    else:
-        seeds = ALL_SEEDS
-    instances = resolve_instances(args.instance)
-    print(f"{combo} | instancias: {[os.path.basename(p) for p in instances]} | semillas: {seeds} | {args.time}s")
+
+def run_combo(heuristic, instances, seeds, time_limit):
+    """Una combinacion: ACO solo (heuristic=None, varias semillas) o ACO + heuristica (una semilla)."""
+    params = dict(ACO_PARAMS)
+    params["initial_heuristic"] = heuristic
+    combo = combo_name(heuristic)
+    hybrid = heuristic is not None
+    if hybrid and len(seeds) > 1:
+        seeds = [random.choice(seeds)]
+    print(f"\n##### {combo} | instancias: {[os.path.basename(p) for p in instances]} | semillas: {seeds} | {time_limit}s")
 
     results = {}   # nombre -> {semilla: (objetivo, ruta_archivo)}
     for seed in seeds:
-        out_i = 1000 + seed
+        out_i = 0 if hybrid else 1000 + seed   # hibrido: junto a las combinaciones de OR-Tools (solutions_evrp_0)
         for path in instances:
-            print(f"\n=== {os.path.basename(path)} | semilla {seed} ===")
-            evrp_aco.execute(
-                i=out_i,
-                instance_type=path,                 # ruta .txt = una sola instancia
-                time_limit=args.time,
-                seed=seed,
-                **params,
-            )
+            print(f"\n=== {combo} | {os.path.basename(path)} | semilla {seed} ===")
+            evrp_aco.execute(i=out_i, instance_type=path, time_limit=time_limit, seed=seed, **params)
             name = os.path.basename(path)
             sol = os.path.join(OUT_ROOT, f"solutions_evrp_{out_i}", f"solutions_{combo}", name)
             if os.path.isfile(sol):
                 results.setdefault(name, {})[seed] = (objective_of(sol), sol)
 
+    summary = {n: min(v[0] for v in by.values()) for n, by in results.items()}
+    if hybrid:
+        print(f"\n{combo} (semilla {seeds[0]}): " + ", ".join(f"{n[7:10]}={o}" for n, o in sorted(summary.items())))
+        return summary
     best_dir = os.path.join(OUT_ROOT, "solutions_evrp_best", f"solutions_{combo}")
     os.makedirs(best_dir, exist_ok=True)
     print(f"\n{'instancia':<28}{'mejor ACO':>10}{'semilla':>9}   objetivo por semilla")
@@ -149,9 +150,57 @@ def main():
         by_seed = results[name]
         best_seed = min(by_seed, key=lambda s: by_seed[s][0])
         shutil.copyfile(by_seed[best_seed][1], os.path.join(best_dir, name))
-        per_seed = {s: by_seed[s][0] for s in sorted(by_seed)}
-        print(f"{name:<28}{by_seed[best_seed][0]:>10}{best_seed:>9}   {per_seed}")
-    print(f"\nMejores guardadas en {best_dir}")
+        print(f"{name:<28}{by_seed[best_seed][0]:>10}{best_seed:>9}   {({s: by_seed[s][0] for s in sorted(by_seed)})}")
+    print(f"Mejores guardadas en {best_dir}")
+    return summary
+
+
+def parse_heuristics(value):
+    """None -> [None] + todas; 'ACO' -> [None]; nombre/enum/lista -> [heuristicas]."""
+    from p_mh.ACO.ortools_seed import as_heuristic
+    from problem.strategy_type import HeuristicType
+    if value is None:
+        return [None] + list(HeuristicType)
+    items = value if isinstance(value, (list, tuple)) else [value]
+    return [None if (isinstance(v, str) and v.upper() == "ACO") else as_heuristic(v) for v in items]
+
+
+def main():
+    ap = argparse.ArgumentParser(description="ACO independiente para EVRP (todo se puede fijar arriba, en el archivo)")
+    ap.add_argument("--instance", nargs="+", default=None, help="sobrescribe INSTANCES")
+    group = ap.add_mutually_exclusive_group()
+    group.add_argument("--seed", type=int, help="sobrescribe SEEDS con una sola semilla")
+    group.add_argument("--seeds", nargs="+", help="sobrescribe SEEDS ('all' = 1-6)")
+    ap.add_argument("--time", type=int, default=None, help="sobrescribe TIME_LIMIT")
+    ap.add_argument("--heuristic", nargs="+", default=None,
+                    help="sobrescribe HEURISTIC: 'ACO' (solo ACO), 'all' (todo) o nombre(s) de heuristica")
+    args = ap.parse_args()
+
+    if args.seed is not None:
+        seeds = [args.seed]
+    elif args.seeds:
+        seeds = ALL_SEEDS if args.seeds == ["all"] else [int(x) for x in args.seeds]
+    else:
+        seeds = list(SEEDS)
+    instances = resolve_instances(args.instance if args.instance else ([INSTANCES] if isinstance(INSTANCES, str) else INSTANCES))
+    time_limit = args.time if args.time is not None else TIME_LIMIT
+    if args.heuristic:
+        wanted = None if args.heuristic == ["all"] else (args.heuristic if len(args.heuristic) > 1 else args.heuristic[0])
+    else:
+        wanted = HEURISTIC
+    combos = parse_heuristics(wanted)
+    print(f"Combinaciones a ejecutar ({len(combos)}): {[combo_name(h) for h in combos]}")
+
+    table = {}
+    for h in combos:
+        try:
+            table[combo_name(h)] = run_combo(h, instances, seeds, time_limit)
+        except Exception as error:   # una combinacion que falla no detiene las demas
+            print(f"!! {combo_name(h)} fallo: {type(error).__name__}: {error}")
+    print("\n=== RESUMEN ===")
+    for name, summary in table.items():
+        print(f"{name:<52}" + "  ".join(f"{n[7:10]}={o}" for n, o in sorted(summary.items())))
+    print(f"\nLos hibridos quedan en {os.path.join(OUT_ROOT, 'solutions_evrp_0')}; ACO solo en solutions_evrp_<1000+semilla>. Siguiente paso: python friedman_ranking.py")
 
 
 if __name__ == "__main__":

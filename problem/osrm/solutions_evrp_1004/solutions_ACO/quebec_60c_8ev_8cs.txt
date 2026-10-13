@@ -2,7 +2,7 @@ Instance: quebec_60c_8ev_8cs.txt
 
 Objective: 128
 
-Execution Time: 10.06798005104065
+Execution Time: 10.76691722869873
 
 Metaheuristic: ACO (23 iteraciones)
 

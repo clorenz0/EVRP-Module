@@ -2,9 +2,9 @@ Instance: quebec_60c_8ev_8cs.txt
 
 Objective: 131
 
-Execution Time: 10.253870248794556
+Execution Time: 11.011673927307129
 
-Metaheuristic: ACO (28 iteraciones)
+Metaheuristic: ACO (15 iteraciones)
 
 Distance type: osrm
 
@@ -13,9 +13,9 @@ Battery capacity: 100
 Battery consumption rate: 3.0
 
 Route for vehicle 0:
- 0 Load(0) Bat(100) -> 34 Load(11) Bat(96) -> 29 Load(39) Bat(89) -> 13 Load(59) Bat(85) -> 3 Load(69) Bat(80) -> 12 Load(91) Bat(60) -> 15 Load(117) Bat(60) -> 25 Load(126) Bat(57) -> 6 Load(156) Bat(57) -> 0 Load(156) Bat(53)
+ 0 Load(0) Bat(100) -> 34 Load(11) Bat(96) -> 29 Load(39) Bat(89) -> 13 Load(59) Bat(85) -> 3 Load(69) Bat(80) -> 12 Load(91) Bat(60) -> 15 Load(117) Bat(60) -> 6 Load(147) Bat(57) -> 25 Load(156) Bat(57) -> 0 Load(156) Bat(54)
 Distance of the route: 13km
-Time of the route: 4619s
+Time of the route: 4534s
 Load of the route: 156
 
 Route for vehicle 1:
@@ -43,16 +43,16 @@ Time of the route: 2524s
 Load of the route: 167
 
 Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 19 Load(19) Bat(88) -> 5 Load(27) Bat(84) -> 41 Load(49) Bat(73) -> 14 Load(77) Bat(67) -> 50 Load(103) Bat(59) -> 17 Load(113) Bat(58) -> 57 Load(142) Bat(57) -> 20 Load(171) Bat(55) -> 60 Load(186) Bat(46) -> 0 Load(186) Bat(39)
+Distance of the route: 17km
+Time of the route: 2692s
+Load of the route: 186
+
+Route for vehicle 6:
  0 Load(0) Bat(100) -> 31 Load(26) Bat(89) -> 45 Load(40) Bat(85) -> 55 Load(54) Bat(82) -> 28 Load(82) Bat(79) -> 58 Load(106) Bat(71) -> 48 Load(117) Bat(69) -> 0 Load(117) Bat(60)
 Distance of the route: 11km
 Time of the route: 1671s
 Load of the route: 117
-
-Route for vehicle 6:
- 0 Load(0) Bat(100) -> 60 Load(15) Bat(93) -> 41 Load(37) Bat(83) -> 57 Load(66) Bat(78) -> 17 Load(76) Bat(77) -> 50 Load(102) Bat(75) -> 14 Load(130) Bat(68) -> 20 Load(159) Bat(64) -> 5 Load(167) Bat(53) -> 19 Load(186) Bat(48) -> 0 Load(186) Bat(36)
-Distance of the route: 17km
-Time of the route: 2874s
-Load of the route: 186
 
 Route for vehicle 7:
  0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
@@ -64,7 +64,7 @@ Total Distance of all routes: 131km
 
 Total Load of all routes: 1189
 
-Total Time of all routes: 23402s
+Total Time of all routes: 23135s
 
 Total recharges: 0
 

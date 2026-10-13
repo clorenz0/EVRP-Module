@@ -181,7 +181,7 @@ def main():
     excluded = {}    # nombre -> motivo
     for folder in sorted(glob.glob(os.path.join(args.ortools_root, "solutions_*"))):
         name = os.path.basename(folder)[len("solutions_"):]
-        if name.endswith("ACO"):      # corridas viejas de ACO guardadas junto a OR-Tools: ACO entra por --aco-root
+        if name == "ACO":      # corridas viejas de ACO guardadas junto a OR-Tools: ACO entra por --aco-root
             continue
         missing = [f for f in INSTANCES if not os.path.isfile(os.path.join(folder, f))]
         if missing:
@@ -197,7 +197,7 @@ def main():
     # ── ACO (y ACO + heuristica): UNA semilla (sorteada o elegida), la misma en todas las instancias ──
     def aco_combos(seed):
         root = os.path.join(args.aco_root, f"solutions_evrp_{1000 + seed}")
-        return {os.path.basename(d)[len("solutions_"):]: d for d in glob.glob(os.path.join(root, "solutions_*ACO"))
+        return {os.path.basename(d)[len("solutions_"):]: d for d in glob.glob(os.path.join(root, "solutions_ACO"))
                 if all(os.path.isfile(os.path.join(d, f)) for f in INSTANCES)}
 
     available = [s_ for s_ in range(1, 100) if "ACO" in aco_combos(s_)]
