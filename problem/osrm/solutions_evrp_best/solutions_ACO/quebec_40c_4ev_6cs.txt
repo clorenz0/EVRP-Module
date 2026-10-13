@@ -2,9 +2,9 @@ Instance: quebec_40c_4ev_6cs.txt
 
 Objective: 73
 
-Execution Time: 10.006873846054077
+Execution Time: 10.111626625061035
 
-Metaheuristic: ACO (102 iteraciones)
+Metaheuristic: ACO (99 iteraciones)
 
 Distance type: osrm
 
@@ -25,16 +25,16 @@ Time of the route: 3230s
 Load of the route: 239
 
 Route for vehicle 2:
- 0 Load(0) Bat(100) -> 30 Load(28) Bat(96) -> 15 Load(55) Bat(86) -> 16 Load(69) Bat(80) -> 31 Load(85) Bat(70) -> 7 Load(104) Bat(63) -> 36 Load(121) Bat(63) -> 25 Load(147) Bat(59) -> 13 Load(164) Bat(50) -> 19 Load(188) Bat(47) -> 8 Load(216) Bat(39) -> 0 Load(216) Bat(34)
-Distance of the route: 19km
-Time of the route: 2908s
-Load of the route: 216
-
-Route for vehicle 3:
  0 Load(0) Bat(100) -> 38 Load(27) Bat(93) -> 28 Load(36) Bat(83) -> 4 Load(51) Bat(83) -> 33 Load(76) Bat(80) -> 14 Load(99) Bat(65) -> 27 Load(133) Bat(59) -> 10 Load(168) Bat(48) -> 22 Load(197) Bat(47) -> 0 Load(197) Bat(30)
 Distance of the route: 21km
 Time of the route: 5289s
 Load of the route: 197
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 30 Load(28) Bat(96) -> 15 Load(55) Bat(86) -> 16 Load(69) Bat(80) -> 31 Load(85) Bat(70) -> 7 Load(104) Bat(63) -> 36 Load(121) Bat(63) -> 25 Load(147) Bat(59) -> 13 Load(164) Bat(50) -> 19 Load(188) Bat(47) -> 8 Load(216) Bat(39) -> 0 Load(216) Bat(34)
+Distance of the route: 19km
+Time of the route: 2908s
+Load of the route: 216
 
 Total Distance of all routes: 73km
 

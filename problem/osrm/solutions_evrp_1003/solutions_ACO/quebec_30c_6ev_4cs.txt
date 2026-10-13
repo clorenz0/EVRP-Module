@@ -1,10 +1,10 @@
 Instance: quebec_30c_6ev_4cs.txt
 
-Objective: 92
+Objective: 93
 
-Execution Time: 10.326307535171509
+Execution Time: 10.000260591506958
 
-Metaheuristic: ACO (163 iteraciones)
+Metaheuristic: ACO (99 iteraciones)
 
 Distance type: osrm
 
@@ -19,16 +19,16 @@ Time of the route: 4777s
 Load of the route: 139
 
 Route for vehicle 1:
- 0 Load(0) Bat(100) -> 26 Load(14) Bat(88) -> 5 Load(27) Bat(84) -> 23 Load(36) Bat(82) -> 20 Load(66) Bat(78) -> 11 Load(80) Bat(73) -> 14 Load(106) Bat(64) -> 2 Load(128) Bat(50) -> 27 Load(144) Bat(42) -> 0 Load(144) Bat(32)
+ 0 Load(0) Bat(100) -> 26 Load(14) Bat(88) -> 5 Load(27) Bat(84) -> 23 Load(36) Bat(82) -> 20 Load(66) Bat(78) -> 11 Load(80) Bat(73) -> 14 Load(106) Bat(64) -> 2 Load(128) Bat(50) -> 1 Load(146) Bat(44) -> 0 Load(146) Bat(33)
 Distance of the route: 19km
-Time of the route: 3372s
-Load of the route: 144
+Time of the route: 3293s
+Load of the route: 146
 
 Route for vehicle 2:
- 0 Load(0) Bat(100) -> 9 Load(16) Bat(86) -> 21 Load(26) Bat(81) -> 29 Load(44) Bat(78) -> 18 Load(73) Bat(73) -> 1 Load(91) Bat(67) -> 7 Load(110) Bat(50) -> 16 Load(138) Bat(43) -> 28 Load(150) Bat(40) -> 0 Load(150) Bat(32)
-Distance of the route: 19km
-Time of the route: 3501s
-Load of the route: 150
+ 0 Load(0) Bat(100) -> 9 Load(16) Bat(86) -> 21 Load(26) Bat(81) -> 29 Load(44) Bat(78) -> 18 Load(73) Bat(73) -> 27 Load(89) Bat(66) -> 28 Load(101) Bat(55) -> 16 Load(129) Bat(50) -> 7 Load(148) Bat(43) -> 0 Load(148) Bat(26)
+Distance of the route: 20km
+Time of the route: 3638s
+Load of the route: 148
 
 Route for vehicle 3:
  0 Load(0) Bat(100) -> 4 Load(27) Bat(95) -> 19 Load(38) Bat(89) -> 13 Load(55) Bat(82) -> 10 Load(80) Bat(63) -> 22 Load(111) Bat(58) -> 8 Load(132) Bat(50) -> 3 Load(147) Bat(47) -> 0 Load(147) Bat(40)
@@ -48,13 +48,13 @@ Distance of the route: 0km
 Time of the route: 0s
 Load of the route: 0
 
-Total Distance of all routes: 92km
+Total Distance of all routes: 93km
 
 Total Load of all routes: 580
 
-Total Time of all routes: 14495s
+Total Time of all routes: 14553s
 
 Total recharges: 1
 
-Minimum battery (SoC) reached: 28
+Minimum battery (SoC) reached: 26
 

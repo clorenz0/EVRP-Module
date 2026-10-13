@@ -2,9 +2,9 @@ Instance: quebec_60c_8ev_8cs.txt
 
 Objective: 127
 
-Execution Time: 10.027185916900635
+Execution Time: 10.318516969680786
 
-Metaheuristic: ACO (24 iteraciones)
+Metaheuristic: ACO (21 iteraciones)
 
 Distance type: osrm
 
@@ -37,9 +37,9 @@ Time of the route: 2922s
 Load of the route: 190
 
 Route for vehicle 4:
- 0 Load(0) Bat(100) -> 59 Load(10) Bat(84) -> 30 Load(25) Bat(84) -> 27 Load(51) Bat(76) -> 36 Load(71) Bat(76) -> 4 Load(81) Bat(66) -> 1 Load(97) Bat(61) -> 39 Load(122) Bat(57) -> 23 Load(142) Bat(55) -> 53 Load(165) Bat(53) -> 7 Load(191) Bat(45) -> 0 Load(191) Bat(27)
+ 0 Load(0) Bat(100) -> 30 Load(15) Bat(84) -> 27 Load(41) Bat(76) -> 36 Load(61) Bat(76) -> 4 Load(71) Bat(66) -> 1 Load(87) Bat(61) -> 39 Load(112) Bat(57) -> 23 Load(132) Bat(55) -> 53 Load(155) Bat(53) -> 7 Load(181) Bat(45) -> 59 Load(191) Bat(42) -> 0 Load(191) Bat(25)
 Distance of the route: 20km
-Time of the route: 2920s
+Time of the route: 2975s
 Load of the route: 191
 
 Route for vehicle 5:
@@ -64,7 +64,7 @@ Total Distance of all routes: 127km
 
 Total Load of all routes: 1189
 
-Total Time of all routes: 22832s
+Total Time of all routes: 22887s
 
 Total recharges: 0
 

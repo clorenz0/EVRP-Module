@@ -2,9 +2,9 @@ Instance: quebec_50c_5ev_5cs.txt
 
 Objective: 135
 
-Execution Time: 10.055116176605225
+Execution Time: 10.06635308265686
 
-Metaheuristic: ACO (67 iteraciones)
+Metaheuristic: ACO (70 iteraciones)
 
 Distance type: osrm
 

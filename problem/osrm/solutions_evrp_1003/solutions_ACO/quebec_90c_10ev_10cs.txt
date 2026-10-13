@@ -2,9 +2,9 @@ Instance: quebec_90c_10ev_10cs.txt
 
 Objective: 155
 
-Execution Time: 10.566740989685059
+Execution Time: 10.087347507476807
 
-Metaheuristic: ACO (28 iteraciones)
+Metaheuristic: ACO (27 iteraciones)
 
 Distance type: osrm
 
@@ -43,34 +43,34 @@ Time of the route: 2616s
 Load of the route: 162
 
 Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 81 Load(19) Bat(86) -> 57 Load(28) Bat(84) -> 49 Load(50) Bat(76) -> 13 Load(63) Bat(74) -> 33 Load(73) Bat(73) -> 65 Load(95) Bat(73) -> 17 Load(104) Bat(71) -> 8 Load(124) Bat(67) -> 23 Load(150) Bat(59) -> 71 Load(165) Bat(57) -> 0 Load(165) Bat(53)
+Distance of the route: 10km
+Time of the route: 2000s
+Load of the route: 165
+
+Route for vehicle 6:
  0 Load(0) Bat(100) -> 16 Load(24) Bat(60) -> 61 Load(40) Bat(59) -> 12 Load(68) Bat(58) -> 66 Load(85) Bat(58) -> 42 Load(109) Bat(58) -> 50 Load(122) Bat(58) -> 58 Load(149) Bat(58) -> 45 Load(177) Bat(56) -> 0 Load(177) Bat(21)
 Distance of the route: 24km
 Time of the route: 1777s
 Load of the route: 177
 
-Route for vehicle 6:
+Route for vehicle 7:
  0 Load(0) Bat(100) -> 73 Load(18) Bat(84) -> 4 Load(40) Bat(80) -> 25 Load(70) Bat(76) -> 36 Load(85) Bat(73) -> 84 Load(112) Bat(73) -> 76 Load(122) Bat(73) -> 52 Load(132) Bat(71) -> 20 Load(150) Bat(70) -> 0 Load(150) Bat(59)
 Distance of the route: 11km
 Time of the route: 1375s
 Load of the route: 150
 
-Route for vehicle 7:
+Route for vehicle 8:
+ 0 Load(0) Bat(100) -> 77 Load(22) Bat(98) -> 56 Load(42) Bat(93) -> 88 Load(66) Bat(93) -> 53 Load(84) Bat(91) -> 0 Load(84) Bat(88)
+Distance of the route: 2km
+Time of the route: 844s
+Load of the route: 84
+
+Route for vehicle 9:
  0 Load(0) Bat(100) -> 82 Load(23) Bat(96) -> 90 Load(43) Bat(94) -> 18 Load(64) Bat(94) -> 34 Load(87) Bat(92) -> 2 Load(105) Bat(87) -> 68 Load(133) Bat(86) -> 39 Load(154) Bat(81) -> 6 Load(179) Bat(79) -> 0 Load(179) Bat(74)
 Distance of the route: 4km
 Time of the route: 1132s
 Load of the route: 179
-
-Route for vehicle 8:
- 0 Load(0) Bat(100) -> 81 Load(19) Bat(86) -> 57 Load(28) Bat(84) -> 49 Load(50) Bat(76) -> 13 Load(63) Bat(74) -> 65 Load(85) Bat(73) -> 33 Load(95) Bat(73) -> 17 Load(104) Bat(71) -> 8 Load(124) Bat(67) -> 23 Load(150) Bat(59) -> 71 Load(165) Bat(57) -> 0 Load(165) Bat(53)
-Distance of the route: 10km
-Time of the route: 2000s
-Load of the route: 165
-
-Route for vehicle 9:
- 0 Load(0) Bat(100) -> 77 Load(22) Bat(98) -> 88 Load(46) Bat(93) -> 56 Load(66) Bat(93) -> 53 Load(84) Bat(91) -> 0 Load(84) Bat(88)
-Distance of the route: 2km
-Time of the route: 844s
-Load of the route: 84
 
 Total Distance of all routes: 155km
 

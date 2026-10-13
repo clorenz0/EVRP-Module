@@ -1,0 +1,72 @@
+Instance: quebec_60c_8ev_8cs.txt
+
+Objective: 131
+
+Execution Time: 12.04656457901001
+
+Metaheuristic: ACO (9 iteraciones)
+
+Distance type: osrm
+
+Vehicle capacity: 200
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 45 Load(14) Bat(86) -> 55 Load(28) Bat(83) -> 28 Load(56) Bat(80) -> 54 Load(80) Bat(73) -> 51 Load(103) Bat(70) -> 53 Load(126) Bat(62) -> 7 Load(152) Bat(54) -> 59 Load(162) Bat(51) -> 30 Load(177) Bat(51) -> 37 Load(193) Bat(41) -> 0 Load(193) Bat(31)
+Distance of the route: 20km
+Time of the route: 2788s
+Load of the route: 193
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 40 Load(18) Bat(87) -> 18 Load(38) Bat(74) -> 44 Load(55) Bat(74) -> 52 Load(80) Bat(73) -> 38 Load(88) Bat(52) -> 47 Load(96) Bat(49) -> 49 Load(113) Bat(48) -> 43 Load(137) Bat(43) -> 56 Load(167) Bat(42) -> 31 Load(193) Bat(28) -> 0 Load(193) Bat(17)
+Distance of the route: 24km
+Time of the route: 2838s
+Load of the route: 193
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 12 Load(22) Bat(93) -> 15 Load(48) Bat(93) -> 6 Load(78) Bat(90) -> 0 Load(78) Bat(86)
+Distance of the route: 4km
+Time of the route: 817s
+Load of the route: 78
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 33 Load(24) Bat(80) -> 21 Load(52) Bat(76) -> 24 Load(82) Bat(75) -> 42 Load(98) Bat(64) -> 22 Load(123) Bat(55) -> 46 Load(148) Bat(50) -> 10 Load(159) Bat(47) -> 8 Load(172) Bat(44) -> 0 Load(172) Bat(27)
+Distance of the route: 21km
+Time of the route: 5381s
+Load of the route: 172
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 26 Load(18) Bat(75) -> 36 Load(38) Bat(64) -> 27 Load(64) Bat(64) -> 4 Load(74) Bat(54) -> 1 Load(90) Bat(49) -> 39 Load(115) Bat(45) -> 23 Load(135) Bat(43) -> 9 Load(147) Bat(29) -> 58 Load(171) Bat(25) -> 48 Load(182) Bat(23) -> 25 Load(191) Bat(15) -> 0 Load(191) Bat(12)
+Distance of the route: 24km
+Time of the route: 3313s
+Load of the route: 191
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 34 Load(11) Bat(96) -> 29 Load(39) Bat(89) -> 3 Load(49) Bat(81) -> 13 Load(69) Bat(76) -> 19 Load(88) Bat(59) -> 5 Load(96) Bat(55) -> 20 Load(125) Bat(44) -> 41 Load(147) Bat(41) -> 60 Load(162) Bat(31) -> 0 Load(162) Bat(24)
+Distance of the route: 21km
+Time of the route: 5576s
+Load of the route: 162
+
+Route for vehicle 6:
+ 0 Load(0) Bat(100) -> 57 Load(29) Bat(85) -> 17 Load(39) Bat(84) -> 50 Load(65) Bat(82) -> 2 Load(76) Bat(77) -> 16 Load(105) Bat(74) -> 11 Load(124) Bat(69) -> 35 Load(153) Bat(64) -> 14 Load(181) Bat(57) -> 32 Load(200) Bat(42) -> 0 Load(200) Bat(38)
+Distance of the route: 17km
+Time of the route: 2782s
+Load of the route: 200
+
+Route for vehicle 7:
+ 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
+Distance of the route: 0km
+Time of the route: 0s
+Load of the route: 0
+
+Total Distance of all routes: 131km
+
+Total Load of all routes: 1189
+
+Total Time of all routes: 23495s
+
+Total recharges: 0
+
+Minimum battery (SoC) reached: 12
+

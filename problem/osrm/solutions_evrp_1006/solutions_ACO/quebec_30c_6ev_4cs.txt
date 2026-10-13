@@ -2,9 +2,9 @@ Instance: quebec_30c_6ev_4cs.txt
 
 Objective: 92
 
-Execution Time: 10.0200514793396
+Execution Time: 10.009282112121582
 
-Metaheuristic: ACO (215 iteraciones)
+Metaheuristic: ACO (202 iteraciones)
 
 Distance type: osrm
 
@@ -19,10 +19,10 @@ Time of the route: 4777s
 Load of the route: 139
 
 Route for vehicle 1:
- 0 Load(0) Bat(100) -> 27 Load(16) Bat(89) -> 1 Load(34) Bat(85) -> 26 Load(48) Bat(79) -> 5 Load(61) Bat(75) -> 20 Load(91) Bat(71) -> 7 Load(110) Bat(60) -> 16 Load(138) Bat(53) -> 28 Load(150) Bat(50) -> 0 Load(150) Bat(42)
-Distance of the route: 16km
-Time of the route: 3157s
-Load of the route: 150
+ 0 Load(0) Bat(100) -> 4 Load(27) Bat(95) -> 19 Load(38) Bat(89) -> 13 Load(55) Bat(82) -> 10 Load(80) Bat(63) -> 22 Load(111) Bat(58) -> 8 Load(132) Bat(50) -> 3 Load(147) Bat(47) -> 0 Load(147) Bat(40)
+Distance of the route: 17km
+Time of the route: 2845s
+Load of the route: 147
 
 Route for vehicle 2:
  0 Load(0) Bat(100) -> 9 Load(16) Bat(86) -> 21 Load(26) Bat(81) -> 29 Load(44) Bat(78) -> 18 Load(73) Bat(73) -> 2 Load(95) Bat(64) -> 14 Load(121) Bat(51) -> 11 Load(135) Bat(43) -> 23 Load(144) Bat(36) -> 0 Load(144) Bat(22)
@@ -31,10 +31,10 @@ Time of the route: 3788s
 Load of the route: 144
 
 Route for vehicle 3:
- 0 Load(0) Bat(100) -> 4 Load(27) Bat(95) -> 19 Load(38) Bat(89) -> 13 Load(55) Bat(82) -> 10 Load(80) Bat(63) -> 22 Load(111) Bat(58) -> 8 Load(132) Bat(50) -> 3 Load(147) Bat(47) -> 0 Load(147) Bat(40)
-Distance of the route: 17km
-Time of the route: 2845s
-Load of the route: 147
+ 0 Load(0) Bat(100) -> 27 Load(16) Bat(89) -> 1 Load(34) Bat(85) -> 26 Load(48) Bat(79) -> 5 Load(61) Bat(75) -> 20 Load(91) Bat(71) -> 7 Load(110) Bat(60) -> 16 Load(138) Bat(53) -> 28 Load(150) Bat(50) -> 0 Load(150) Bat(42)
+Distance of the route: 16km
+Time of the route: 3157s
+Load of the route: 150
 
 Route for vehicle 4:
  0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
