@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1150 910" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1150" height="910" fill="white"/>
+<text x="575.0" y="38" font-size="21" font-weight="bold" text-anchor="middle">Patrón Template Method en el algoritmo ACO (p_mh)</text>
+<polygon points="575.0,332.0 584.0,350.0 566.0,350.0" fill="white" stroke="black" stroke-width="1.4"/>
+<path d="M575.0,462.0 L575.0,350.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polygon points="575.0,606.0 584.0,624.0 566.0,624.0" fill="white" stroke="black" stroke-width="1.4"/>
+<path d="M575.0,736.0 L575.0,624.0" fill="none" stroke="black" stroke-width="1.4"/>
+<rect x="265.0" y="90" width="620" height="242" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="575.0" y="107.0" font-size="16" text-anchor="middle" font-style="italic" font-weight="bold">ACOBase</text>
+<line x1="265.0" y1="124" x2="885.0" y2="124" stroke="black" stroke-width="1.2"/>
+<text x="277.0" y="142.0" font-size="14">- feromonas: matriz</text>
+<text x="277.0" y="162.0" font-size="14">- alpha: float</text>
+<text x="277.0" y="182.0" font-size="14">- beta: float</text>
+<line x1="265.0" y1="198" x2="885.0" y2="198" stroke="black" stroke-width="1.2"/>
+<text x="277.0" y="216.0" font-size="14">+ resolver(instancia): Solución   {método plantilla}</text>
+<text x="277.0" y="236.0" font-size="14"># construir_ruta(hormiga): Ruta   {abstract}</text>
+<text x="277.0" y="256.0" font-size="14"># es_factible(ruta, nodo): bool   {abstract}</text>
+<text x="277.0" y="276.0" font-size="14"># actualizar_estado(ruta, nodo): Estado   {abstract}</text>
+<text x="277.0" y="296.0" font-size="14">+ evaporar_feromonas(): void</text>
+<text x="277.0" y="316.0" font-size="14">+ depositar_feromonas(ruta): void</text>
+<rect x="295.0" y="462" width="560" height="144" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="575.0" y="479.0" font-size="16" text-anchor="middle" font-weight="bold">ACO_EVRP</text>
+<line x1="295.0" y1="496" x2="855.0" y2="496" stroke="black" stroke-width="1.2"/>
+<line x1="295.0" y1="512" x2="855.0" y2="512" stroke="black" stroke-width="1.2"/>
+<text x="307.0" y="530.0" font-size="14"># es_factible(ruta, nodo): bool</text>
+<text x="307.0" y="550.0" font-size="14">     verifica capacidad Q y autonomía B</text>
+<text x="307.0" y="570.0" font-size="14"># actualizar_estado(ruta, nodo): Estado</text>
+<text x="307.0" y="590.0" font-size="14">     actualiza carga y batería; recarga en estaciones</text>
+<rect x="295.0" y="736" width="560" height="124" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="575.0" y="753.0" font-size="16" text-anchor="middle" font-weight="bold">ACO_DEVRP</text>
+<line x1="295.0" y1="770" x2="855.0" y2="770" stroke="black" stroke-width="1.2"/>
+<line x1="295.0" y1="786" x2="855.0" y2="786" stroke="black" stroke-width="1.2"/>
+<text x="307.0" y="804.0" font-size="14"># construir_ruta(hormiga): Ruta</text>
+<text x="307.0" y="824.0" font-size="14">     incorpora reacción a evento dinámico</text>
+<text x="307.0" y="844.0" font-size="14">     detectado vía SUMO/TraCI</text>
+</svg>

@@ -1,0 +1,283 @@
+"""
+friedman_ranking.py — ranking de Friedman de ACO frente a todas las
+combinaciones heuristica/metaheuristica de OR-Tools.
+
+Diseño del experimento
+  - Bloques  : las instancias EVRP (una fila por instancia).
+  - Tratamientos: cada combinacion de OR-Tools (carpeta solutions_<combo>) y ACO.
+  - Medida   : objetivo (distancia total). Menor es mejor.
+  - Solo participan algoritmos con las 5 instancias resueltas Y todas factibles con
+    bateria fisica estricta (>= 0 en todos los tramos, sin clientes descartados). Una
+    combinacion con algun error, falta o solucion infactible se EXCLUYE completa
+    (Friedman necesita bloques completos); el script lista cada exclusion y su motivo.
+  - ACO entra con UNA semilla (sorteada entre las corridas completas de run_aco.py, o
+    la que se indique), la misma en todas las instancias, igual que cada combinacion
+    de OR-Tools es una sola corrida.
+
+Uso (raiz del repo, OSRM o cache disponible):
+    python friedman_ranking.py                     # semilla de ACO sorteada
+    python friedman_ranking.py --aco-seed 3        # semilla fija
+    python friedman_ranking.py --pick-seed 42      # sorteo repetible
+    python friedman_ranking.py --holm              # ademas, Holm contra ACO (opcional)
+
+Salida: ranking por rango medio, estadistico de Friedman (con correccion por empates),
+p-valor y un CSV con el ranking.
+"""
+import argparse
+import csv
+import glob
+import math
+import os
+import random
+import re
+
+from distance.distance_type import DistanceType
+from instance.instance_type import InstanceType, process_files
+
+CAP = 100
+RATE = 3.0
+INSTANCES = [
+    "quebec_30c_6ev_4cs.txt", "quebec_40c_4ev_6cs.txt", "quebec_50c_5ev_5cs.txt",
+    "quebec_60c_8ev_8cs.txt", "quebec_90c_10ev_10cs.txt",
+]
+
+
+# ───────────────────────── estadistica (sin scipy) ─────────────────────────
+
+def _gammaincc(a, x):
+    """Gamma incompleta regularizada superior Q(a, x) (Numerical Recipes)."""
+    if x <= 0:
+        return 1.0
+    gln = math.lgamma(a)
+    if x < a + 1:   # serie para P(a,x)
+        ap, s, d = a, 1.0 / a, 1.0 / a
+        for _ in range(500):
+            ap += 1
+            d *= x / ap
+            s += d
+            if abs(d) < abs(s) * 1e-14:
+                break
+        return 1.0 - s * math.exp(-x + a * math.log(x) - gln)
+    b = x + 1 - a   # fraccion continua para Q(a,x)
+    c, d = 1e300, 1.0 / b
+    h = d
+    for i in range(1, 500):
+        an = -i * (i - a)
+        b += 2
+        d = an * d + b
+        d = 1e-300 if abs(d) < 1e-300 else d
+        c = b + an / c
+        c = 1e-300 if abs(c) < 1e-300 else c
+        d = 1.0 / d
+        delta = d * c
+        h *= delta
+        if abs(delta - 1) < 1e-14:
+            break
+    return math.exp(-x + a * math.log(x) - gln) * h
+
+
+def chi2_sf(stat, df):
+    return _gammaincc(df / 2.0, stat / 2.0)
+
+
+def average_ranks(values):
+    """Rangos 1..k (menor valor = rango 1), con empates promediados."""
+    order = sorted(range(len(values)), key=lambda i: values[i])
+    ranks = [0.0] * len(values)
+    i = 0
+    while i < len(order):
+        j = i
+        while j + 1 < len(order) and values[order[j + 1]] == values[order[i]]:
+            j += 1
+        avg = (i + j) / 2.0 + 1.0
+        for k in range(i, j + 1):
+            ranks[order[k]] = avg
+        i = j + 1
+    return ranks
+
+
+def friedman(rank_matrix):
+    """rank_matrix[i][j]: rango del algoritmo j en la instancia i. Devuelve (Q corregido, df, p)."""
+    n, k = len(rank_matrix), len(rank_matrix[0])
+    rj = [sum(row[j] for row in rank_matrix) for j in range(k)]
+    q = 12.0 / (n * k * (k + 1)) * sum(r * r for r in rj) - 3.0 * n * (k + 1)
+    # correccion por empates
+    tie_sum = 0.0
+    for row in rank_matrix:
+        counts = {}
+        for r in row:
+            counts[r] = counts.get(r, 0) + 1
+        tie_sum += sum(t ** 3 - t for t in counts.values())
+    correction = 1.0 - tie_sum / (n * k * (k * k - 1))
+    q = q / correction if correction > 0 else float('nan')
+    return q, k - 1, chi2_sf(q, k - 1)
+
+
+def holm(pvalues):
+    """Ajuste de Holm. pvalues: lista; devuelve ajustados en el mismo orden."""
+    m = len(pvalues)
+    order = sorted(range(m), key=lambda i: pvalues[i])
+    adj = [0.0] * m
+    running = 0.0
+    for pos, i in enumerate(order):
+        running = max(running, min(1.0, (m - pos) * pvalues[i]))
+        adj[i] = running
+    return adj
+
+
+# ───────────────────────── lectura y factibilidad ─────────────────────────
+
+def read_solution(path, data):
+    """Devuelve el objetivo, o None si hay clientes descartados / es infactible / no existe."""
+    if not os.path.isfile(path):
+        return None
+    txt = open(path, encoding="utf-8").read()
+    if "Dropped clients" in txt:
+        return None
+    m = re.search(r"Battery consumption rate: ([\d.]+)", txt)
+    if m and abs(float(m.group(1)) - RATE) > 1e-9:   # archivo viejo de otra configuracion (no se re-ejecuto)
+        return None
+    obj = int(float(re.search(r"Objective: ([\d.]+)", txt).group(1)))
+    dm, cs = data["distance_matrix"], set(data["charging_stations"])
+    n_clients = data["num_locations"] - len(cs) - 1
+    served = []
+    for blk in re.findall(r"Route for vehicle \d+:\n (.*?)\nDistance", txt):
+        nodes = [int(re.match(r"(\d+)", s.strip()).group(1)) for s in blk.split("->")]
+        bat = CAP
+        for a, b in zip(nodes, nodes[1:]):
+            bat -= int(dm[a][b] * RATE)
+            if bat < 0:
+                return None
+            if b in cs:
+                bat = CAP
+            elif b != 0:
+                served.append(b)
+    if sorted(served) != list(range(1, n_clients + 1)):
+        return None
+    return obj
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--ortools-root", default=os.path.join("problem", "osrm", "solutions_evrp_0"))
+    # (ACO: ver --aco-root / --aco-seed abajo)
+    ap.add_argument("--aco-root", default=os.path.join("problem", "osrm"),
+                    help="carpeta con solutions_evrp_<1000+semilla>/solutions_ACO (las que deja run_aco.py)")
+    ap.add_argument("--aco-seed", default="random",
+                    help="semilla de ACO a usar en el ranking (1-6) o 'random' (por defecto): una sola semilla, "
+                         "igual que cada combinacion de OR-Tools es una sola corrida")
+    ap.add_argument("--pick-seed", type=int, default=None,
+                    help="semilla del sorteo cuando --aco-seed random (para poder repetir el sorteo)")
+    ap.add_argument("--holm", action="store_true", help="ademas, compara cada algoritmo contra ACO con Holm (opcional)")
+    ap.add_argument("--out", default=os.path.join("problem", "osrm", "friedman_ranking.csv"))
+    ap.add_argument("--keel-out", default=os.path.join("problem", "osrm", "friedman_keel.csv"),
+                    help="CSV con formato KEEL (instancias x algoritmos)")
+    args = ap.parse_args()
+
+    data_all = process_files(InstanceType.EVRP, DistanceType.OSRM, None, RATE, CAP)
+
+    # ── Combinaciones de OR-Tools: solo las que tienen las 5 instancias y TODAS factibles ──
+    algos = {}       # nombre -> [objetivo por instancia]
+    excluded = {}    # nombre -> motivo
+    for folder in sorted(glob.glob(os.path.join(args.ortools_root, "solutions_*"))):
+        name = os.path.basename(folder)[len("solutions_"):]
+        if name.endswith("ACO"):      # corridas viejas de ACO guardadas junto a OR-Tools: ACO entra por --aco-root
+            continue
+        missing = [f for f in INSTANCES if not os.path.isfile(os.path.join(folder, f))]
+        if missing:
+            excluded[name] = f"faltan {len(missing)} instancia(s) (error o sin ejecutar)"
+            continue
+        values = [read_solution(os.path.join(folder, f), data_all[f]) for f in INSTANCES]
+        bad = sum(v is None for v in values)
+        if bad:
+            excluded[name] = f"{bad} solucion(es) infactible(s) o con clientes descartados"
+            continue
+        algos[name] = values
+
+    # ── ACO (y ACO + heuristica): UNA semilla (sorteada o elegida), la misma en todas las instancias ──
+    def aco_combos(seed):
+        root = os.path.join(args.aco_root, f"solutions_evrp_{1000 + seed}")
+        return {os.path.basename(d)[len("solutions_"):]: d for d in glob.glob(os.path.join(root, "solutions_*ACO"))
+                if all(os.path.isfile(os.path.join(d, f)) for f in INSTANCES)}
+
+    available = [s_ for s_ in range(1, 100) if "ACO" in aco_combos(s_)]
+    if not available:
+        raise SystemExit("No hay corridas de ACO completas: ejecuta run_aco.py (las 5 instancias) primero.")
+    if args.aco_seed == "random":
+        rng = random.Random(args.pick_seed)
+        aco_seed = rng.choice(available)
+        print(f"Semilla de ACO sorteada entre {available}: {aco_seed}"
+              + (f" (sorteo con --pick-seed {args.pick_seed})" if args.pick_seed is not None else ""))
+    else:
+        aco_seed = int(args.aco_seed)
+        if aco_seed not in available:
+            raise SystemExit(f"La semilla {aco_seed} no tiene las 5 instancias; disponibles: {available}")
+    aco_names = []
+    for name, d in sorted(aco_combos(aco_seed).items()):
+        values = [read_solution(os.path.join(d, f), data_all[f]) for f in INSTANCES]
+        if any(v is None for v in values):
+            excluded[name] = f"semilla {aco_seed}: solucion infactible"
+            continue
+        algos[name] = values
+        aco_names.append(name)
+    if "ACO" not in algos:
+        raise SystemExit(f"La semilla {aco_seed} de ACO tiene alguna solucion infactible: no se puede rankear.")
+
+    if excluded:
+        print(f"\nExcluidas del ranking ({len(excluded)}):")
+        for name, reason in excluded.items():
+            print(f"  - {name}: {reason}")
+
+    names = list(algos)
+    n, k = len(INSTANCES), len(names)
+    if k < 3:
+        raise SystemExit(f"Solo hay {k} algoritmos completos y factibles; Friedman necesita al menos 3.")
+    rank_matrix = [average_ranks([algos[a][i] for a in names]) for i in range(n)]
+    mean_rank = [sum(rank_matrix[i][j] for i in range(n)) / n for j in range(k)]
+    q, df, p = friedman(rank_matrix)
+
+    order = sorted(range(k), key=lambda j: mean_rank[j])
+    aco_set = {names.index(n_) for n_ in aco_names}
+    aco_j = names.index("ACO")
+    p_holm = {}
+    if args.holm:
+        se = math.sqrt(k * (k + 1) / (6.0 * n))
+        others = [j for j in range(k) if j != aco_j]
+        pvals = [math.erfc(abs(mean_rank[j] - mean_rank[aco_j]) / se / math.sqrt(2)) for j in others]
+        p_holm = dict(zip(others, holm(pvals)))
+
+    print(f"\nFriedman: {k} algoritmos x {n} instancias | Q = {q:.3f}, gl = {df}, p = {p:.4g}")
+    header = f"{'pos':>3}  {'algoritmo':<58}{'rango':>6}  " + "  ".join(f"{i[7:10]:>7}" for i in INSTANCES)
+    print(header + ("  p Holm vs ACO" if args.holm else ""))
+    rows = []
+    for pos, j in enumerate(order, start=1):
+        a = names[j]
+        objs = [str(algos[a][i]) for i in range(n)]
+        ph = "" if (j == aco_j or not args.holm) else f"{p_holm[j]:.3f}"
+        mark = f"  <== ACO (semilla {aco_seed})" if j in aco_set else ""
+        print(f"{pos:>3}  {a:<58}{mean_rank[j]:>6.2f}  " + "  ".join(f"{o:>7}" for o in objs) + (f"  {ph:>6}" if args.holm else "") + mark)
+        rows.append([pos, a, round(mean_rank[j], 3)] + objs + ([ph] if args.holm else []))
+
+    aco_pos = order.index(aco_j) + 1
+    print(f"\nACO (semilla {aco_seed}) queda en la posicion {aco_pos} de {k} (rango medio {mean_rank[aco_j]:.2f}).")
+    if args.holm:
+        print("Aviso: con pocas instancias el test tiene poca potencia; un p Holm alto significa que no se puede afirmar diferencia con ACO.")
+
+    with open(args.out, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["posicion", "algoritmo", "rango_medio"] + [i.replace(".txt", "") for i in INSTANCES] + (["p_holm_vs_ACO"] if args.holm else []))
+        w.writerows(rows)
+    print(f"CSV: {args.out}")
+
+    # CSV formato KEEL: filas = instancias, columnas = algoritmos (orden alfabetico), primera celda vacia
+    keel_names = sorted(names)
+    with open(args.keel_out, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow([""] + keel_names)
+        for i, inst in enumerate(INSTANCES):
+            w.writerow([inst.replace("quebec_", "").replace(".txt", "")] + [algos[a][i] for a in keel_names])
+    print(f"CSV KEEL ({len(keel_names)} algoritmos): {args.keel_out}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,74 @@
+Instance: quebec_90c_10ev_10cs.txt
+
+Objective: 51
+
+Execution Time: 10.00159239768982
+
+Heuristic: LOCAL_CHEAPEST_COST_INSERTION
+
+Metaheuristic: SIMULATED_ANNEALING
+
+Distance type: haversine
+
+Vehicle capacity: 180
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 91[CS:Borne Trois-Rivières Centre] Load(0) Bat(100) -> 9 Load(0) Bat(100) -> 28 Load(17) Bat(83) -> 11 Load(25) Bat(78) -> 41 Load(36) Bat(67) -> 89 Load(48) Bat(62) -> 57 Load(57) Bat(57) -> 81 Load(66) Bat(55) -> 49 Load(85) Bat(50) -> 17 Load(107) Bat(46) -> 96[CS:Recharge Hôtel Delta TR] Load(116) Bat(41) -> 2 Load(116) Bat(41) -> 79 Load(134) Bat(25) -> 87 Load(163) Bat(23) -> 0 Load(180) Bat(0)
+Distance of the route: 11km
+Load of the route: 180
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 1 Load(0) Bat(100) -> 19 Load(15) Bat(97) -> 92[CS:Recharge EV Cap-de-la-Madeleine] Load(30) Bat(92) -> 54 Load(30) Bat(100) -> 38 Load(45) Bat(100) -> 5 Load(54) Bat(98) -> 97[CS:Station EV Université UQTR] Load(64) Bat(93) -> 30 Load(64) Bat(83) -> 14 Load(81) Bat(78) -> 46 Load(100) Bat(78) -> 62 Load(111) Bat(78) -> 48 Load(136) Bat(67) -> 0 Load(153) Bat(54)
+Distance of the route: 6km
+Load of the route: 153
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 8 Load(0) Bat(84) -> 65 Load(20) Bat(79) -> 33 Load(42) Bat(79) -> 13 Load(52) Bat(78) -> 73 Load(65) Bat(60) -> 4 Load(83) Bat(57) -> 25 Load(105) Bat(52) -> 55 Load(135) Bat(42) -> 0 Load(158) Bat(19)
+Distance of the route: 9km
+Load of the route: 158
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 85 Load(0) Bat(100) -> 21 Load(11) Bat(83) -> 72 Load(31) Bat(78) -> 35 Load(51) Bat(73) -> 24 Load(69) Bat(68) -> 86 Load(80) Bat(58) -> 78 Load(101) Bat(58) -> 67 Load(117) Bat(53) -> 75 Load(128) Bat(48) -> 51 Load(154) Bat(45) -> 100[CS:Station Rapide Bécancour] Load(180) Bat(40) -> 0 Load(180) Bat(17)
+Distance of the route: 6km
+Load of the route: 180
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 77 Load(0) Bat(96) -> 88 Load(22) Bat(91) -> 80 Load(46) Bat(89) -> 64 Load(58) Bat(84) -> 27 Load(77) Bat(79) -> 10 Load(99) Bat(74) -> 29 Load(122) Bat(64) -> 18 Load(147) Bat(59) -> 0 Load(168) Bat(48)
+Distance of the route: 2km
+Load of the route: 168
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 26 Load(0) Bat(90) -> 47 Load(16) Bat(85) -> 31 Load(36) Bat(80) -> 60 Load(49) Bat(75) -> 44 Load(70) Bat(75) -> 15 Load(84) Bat(70) -> 63 Load(100) Bat(66) -> 0 Load(112) Bat(52)
+Distance of the route: 3km
+Load of the route: 112
+
+Route for vehicle 6:
+ 0 Load(0) Bat(100) -> 82 Load(0) Bat(91) -> 34 Load(23) Bat(91) -> 90 Load(46) Bat(89) -> 58 Load(66) Bat(84) -> 50 Load(93) Bat(83) -> 42 Load(106) Bat(80) -> 66 Load(130) Bat(77) -> 39 Load(147) Bat(67) -> 0 Load(168) Bat(57)
+Distance of the route: 3km
+Load of the route: 168
+
+Route for vehicle 7:
+ 0 Load(0) Bat(100) -> 71 Load(0) Bat(100) -> 23 Load(15) Bat(98) -> 6 Load(41) Bat(94) -> 68 Load(66) Bat(89) -> 52 Load(94) Bat(84) -> 84 Load(104) Bat(81) -> 76 Load(131) Bat(81) -> 36 Load(141) Bat(81) -> 20 Load(156) Bat(80) -> 98[CS:Borne Saint-Louis-de-France] Load(174) Bat(72) -> 0 Load(174) Bat(61)
+Distance of the route: 3km
+Load of the route: 174
+
+Route for vehicle 8:
+ 0 Load(0) Bat(100) -> 74 Load(0) Bat(95) -> 53 Load(13) Bat(90) -> 69 Load(31) Bat(85) -> 3 Load(39) Bat(83) -> 40 Load(51) Bat(78) -> 83 Load(67) Bat(73) -> 43 Load(81) Bat(69) -> 59 Load(100) Bat(66) -> 56 Load(114) Bat(61) -> 37 Load(134) Bat(56) -> 0 Load(161) Bat(52)
+Distance of the route: 0km
+Load of the route: 161
+
+Route for vehicle 9:
+ 0 Load(0) Bat(100) -> 70 Load(0) Bat(100) -> 22 Load(24) Bat(96) -> 16 Load(38) Bat(86) -> 45 Load(62) Bat(81) -> 32 Load(90) Bat(76) -> 7 Load(119) Bat(76) -> 95[CS:Borne IGA Trois-Rivières] Load(133) Bat(76) -> 61 Load(133) Bat(71) -> 12 Load(149) Bat(66) -> 0 Load(177) Bat(45)
+Distance of the route: 8km
+Load of the route: 177
+
+Total Distance of all routes: 51km
+
+Total Load of all routes: 1631
+
+Total recharges: 7
+
+Minimum battery (SoC) reached: 0
+

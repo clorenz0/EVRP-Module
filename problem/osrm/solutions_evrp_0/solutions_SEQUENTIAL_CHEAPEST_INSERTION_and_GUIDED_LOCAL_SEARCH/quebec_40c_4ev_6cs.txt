@@ -1,0 +1,50 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 73
+
+Execution Time: 9.998356103897095
+
+Heuristic: SEQUENTIAL_CHEAPEST_INSERTION
+
+Metaheuristic: GUIDED_LOCAL_SEARCH
+
+Distance type: osrm
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 8 Load(0) Bat(96) -> 44[CS:Recharge Saint-Roch] Load(28) Bat(96) -> 39 Load(28) Bat(97) -> 36 Load(42) Bat(90) -> 7 Load(59) Bat(90) -> 42[CS:Station IGA Sainte-Foy] Load(78) Bat(86) -> 31 Load(78) Bat(82) -> 25 Load(94) Bat(75) -> 13 Load(120) Bat(66) -> 19 Load(137) Bat(63) -> 28 Load(161) Bat(56) -> 4 Load(170) Bat(56) -> 33 Load(185) Bat(53) -> 0 Load(210) Bat(46)
+Distance of the route: 17km
+Time of the route: 2756s
+Load of the route: 210
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 27 Load(0) Bat(86) -> 14 Load(34) Bat(80) -> 10 Load(57) Bat(63) -> 22 Load(92) Bat(62) -> 38 Load(121) Bat(45) -> 41[CS:Borne Rapide Haute-Ville] Load(148) Bat(40) -> 17 Load(148) Bat(35) -> 0 Load(179) Bat(30)
+Distance of the route: 19km
+Time of the route: 5388s
+Load of the route: 179
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 15 Load(0) Bat(86) -> 16 Load(27) Bat(80) -> 5 Load(41) Bat(69) -> 23 Load(63) Bat(67) -> 11 Load(81) Bat(66) -> 34 Load(91) Bat(66) -> 37 Load(103) Bat(61) -> 26 Load(126) Bat(61) -> 9 Load(139) Bat(52) -> 20 Load(151) Bat(45) -> 3 Load(184) Bat(42) -> 30 Load(214) Bat(33) -> 0 Load(242) Bat(29)
+Distance of the route: 20km
+Time of the route: 3233s
+Load of the route: 242
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 35 Load(0) Bat(88) -> 6 Load(30) Bat(86) -> 18 Load(55) Bat(86) -> 24 Load(71) Bat(85) -> 2 Load(92) Bat(83) -> 12 Load(110) Bat(76) -> 21 Load(142) Bat(61) -> 29 Load(153) Bat(55) -> 40 Load(175) Bat(54) -> 32 Load(194) Bat(46) -> 1 Load(214) Bat(44) -> 0 Load(234) Bat(36)
+Distance of the route: 17km
+Time of the route: 2967s
+Load of the route: 234
+
+Total Distance of all routes: 73km
+
+Total Load of all routes: 865
+
+Total Time of all routes: 14344s
+
+Total recharges: 3
+
+Minimum battery (SoC) reached: 29
+

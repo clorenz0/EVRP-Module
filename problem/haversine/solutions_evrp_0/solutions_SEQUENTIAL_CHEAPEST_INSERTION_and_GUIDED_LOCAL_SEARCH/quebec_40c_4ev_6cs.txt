@@ -1,0 +1,44 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 25
+
+Execution Time: 9.999706745147705
+
+Heuristic: SEQUENTIAL_CHEAPEST_INSERTION
+
+Metaheuristic: GUIDED_LOCAL_SEARCH
+
+Distance type: haversine
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 15 Load(0) Bat(100) -> 16 Load(27) Bat(89) -> 31 Load(41) Bat(81) -> 7 Load(57) Bat(70) -> 36 Load(76) Bat(70) -> 42[CS:Station IGA Sainte-Foy] Load(93) Bat(65) -> 25 Load(93) Bat(100) -> 13 Load(119) Bat(95) -> 19 Load(136) Bat(88) -> 10 Load(160) Bat(77) -> 22 Load(195) Bat(74) -> 33 Load(224) Bat(66) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(249) Bat(61) -> 0 Load(249) Bat(60)
+Distance of the route: 10km
+Load of the route: 249
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 17 Load(0) Bat(93) -> 1 Load(31) Bat(83) -> 30 Load(51) Bat(76) -> 8 Load(79) Bat(71) -> 39 Load(107) Bat(67) -> 4 Load(121) Bat(62) -> 28 Load(136) Bat(62) -> 0 Load(145) Bat(52)
+Distance of the route: 4km
+Load of the route: 145
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 3 Load(0) Bat(78) -> 20 Load(30) Bat(73) -> 26 Load(63) Bat(68) -> 37 Load(76) Bat(67) -> 11 Load(99) Bat(62) -> 23 Load(109) Bat(60) -> 34 Load(127) Bat(60) -> 5 Load(139) Bat(56) -> 9 Load(161) Bat(48) -> 29 Load(173) Bat(39) -> 40 Load(195) Bat(39) -> 21 Load(214) Bat(29) -> 32 Load(225) Bat(18) -> 0 Load(245) Bat(3)
+Distance of the route: 9km
+Load of the route: 245
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Bat(100) -> 2 Load(0) Bat(100) -> 24 Load(18) Bat(97) -> 35 Load(39) Bat(95) -> 12 Load(69) Bat(90) -> 45[CS:Borne IKEA Beauport] Load(101) Bat(85) -> 18 Load(101) Bat(85) -> 6 Load(117) Bat(82) -> 14 Load(142) Bat(77) -> 38 Load(165) Bat(72) -> 27 Load(192) Bat(70) -> 0 Load(226) Bat(59)
+Distance of the route: 2km
+Load of the route: 226
+
+Total Distance of all routes: 25km
+
+Total Load of all routes: 865
+
+Total recharges: 4
+
+Minimum battery (SoC) reached: 3
+

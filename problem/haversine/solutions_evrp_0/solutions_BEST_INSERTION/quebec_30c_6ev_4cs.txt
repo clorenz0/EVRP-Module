@@ -1,0 +1,52 @@
+Instance: quebec_30c_6ev_4cs.txt
+
+Objective: 46
+
+Execution Time: 0.6262340545654297
+
+Heuristic: BEST_INSERTION
+
+Distance type: haversine
+
+Vehicle capacity: 150
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 22 Load(0) Bat(89) -> 10 Load(31) Bat(83) -> 25 Load(56) Bat(77) -> 19 Load(64) Bat(56) -> 16 Load(75) Bat(40) -> 28 Load(103) Bat(35) -> 4 Load(115) Bat(30) -> 0 Load(142) Bat(25)
+Distance of the route: 8km
+Load of the route: 142
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 21 Load(0) Bat(72) -> 24 Load(10) Bat(61) -> 12 Load(42) Bat(50) -> 6 Load(65) Bat(40) -> 30 Load(89) Bat(30) -> 15 Load(109) Bat(21) -> 8 Load(129) Bat(6) -> 0 Load(150) Bat(1)
+Distance of the route: 11km
+Load of the route: 150
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 3 Load(0) Bat(88) -> 17 Load(15) Bat(77) -> 9 Load(27) Bat(66) -> 27 Load(43) Bat(57) -> 1 Load(59) Bat(53) -> 23 Load(77) Bat(42) -> 5 Load(86) Bat(39) -> 20 Load(99) Bat(34) -> 26 Load(129) Bat(24) -> 0 Load(143) Bat(8)
+Distance of the route: 9km
+Load of the route: 143
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 29 Load(0) Bat(99) -> 18 Load(18) Bat(94) -> 2 Load(47) Bat(81) -> 14 Load(69) Bat(62) -> 11 Load(95) Bat(53) -> 7 Load(109) Bat(35) -> 13 Load(128) Bat(18) -> 0 Load(145) Bat(0)
+Distance of the route: 18km
+Load of the route: 145
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
+Distance of the route: 0km
+Load of the route: 0
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
+Distance of the route: 0km
+Load of the route: 0
+
+Total Distance of all routes: 46km
+
+Total Load of all routes: 580
+
+Total recharges: 0
+
+Minimum battery (SoC) reached: 0
+

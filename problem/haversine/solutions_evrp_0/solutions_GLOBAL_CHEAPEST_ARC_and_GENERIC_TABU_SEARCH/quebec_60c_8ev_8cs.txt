@@ -1,0 +1,64 @@
+Instance: quebec_60c_8ev_8cs.txt
+
+Objective: 58
+
+Execution Time: 10.000563383102417
+
+Heuristic: GLOBAL_CHEAPEST_ARC
+
+Metaheuristic: GENERIC_TABU_SEARCH
+
+Distance type: haversine
+
+Vehicle capacity: 200
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 3 Load(0) Bat(100) -> 52 Load(10) Bat(91) -> 44 Load(35) Bat(83) -> 18 Load(52) Bat(80) -> 49 Load(72) Bat(76) -> 47 Load(89) Bat(74) -> 38 Load(97) Bat(71) -> 43 Load(105) Bat(66) -> 56 Load(129) Bat(64) -> 65[CS:Borne IKEA Beauport] Load(159) Bat(53) -> 40 Load(159) Bat(49) -> 0 Load(177) Bat(33)
+Distance of the route: 7km
+Load of the route: 177
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 32 Load(0) Bat(98) -> 50 Load(19) Bat(75) -> 26 Load(45) Bat(63) -> 16 Load(63) Bat(60) -> 2 Load(92) Bat(55) -> 35 Load(103) Bat(50) -> 11 Load(132) Bat(45) -> 14 Load(151) Bat(34) -> 60 Load(179) Bat(11) -> 0 Load(194) Bat(0)
+Distance of the route: 11km
+Load of the route: 194
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 34 Load(0) Bat(98) -> 29 Load(11) Bat(91) -> 13 Load(39) Bat(86) -> 15 Load(59) Bat(78) -> 12 Load(85) Bat(75) -> 6 Load(107) Bat(70) -> 0 Load(137) Bat(66)
+Distance of the route: 2km
+Load of the route: 137
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 64[CS:Recharge Saint-Roch] Load(0) Bat(100) -> 5 Load(0) Bat(100) -> 57 Load(8) Bat(89) -> 62[CS:Station IGA Sainte-Foy] Load(37) Bat(86) -> 17 Load(37) Bat(84) -> 20 Load(47) Bat(79) -> 41 Load(76) Bat(74) -> 22 Load(98) Bat(62) -> 42 Load(123) Bat(56) -> 19 Load(139) Bat(39) -> 0 Load(158) Bat(26)
+Distance of the route: 10km
+Load of the route: 158
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 10 Load(0) Bat(100) -> 46 Load(11) Bat(97) -> 66[CS:Circuit Electrique Levis] Load(36) Bat(96) -> 21 Load(36) Bat(85) -> 33 Load(64) Bat(81) -> 24 Load(88) Bat(76) -> 8 Load(118) Bat(73) -> 0 Load(131) Bat(58)
+Distance of the route: 5km
+Load of the route: 131
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 63[CS:EV Charging Hotel Quebec] Load(0) Bat(100) -> 61[CS:Borne Rapide Haute-Ville] Load(0) Bat(100) -> 54 Load(0) Bat(100) -> 51 Load(24) Bat(96) -> 53 Load(47) Bat(85) -> 23 Load(70) Bat(82) -> 39 Load(90) Bat(78) -> 1 Load(115) Bat(73) -> 4 Load(131) Bat(71) -> 36 Load(141) Bat(61) -> 27 Load(161) Bat(60) -> 59 Load(187) Bat(49) -> 68[CS:Recharge Limoilou] Load(197) Bat(26) -> 0 Load(197) Bat(18)
+Distance of the route: 13km
+Load of the route: 197
+
+Route for vehicle 6:
+ 0 Load(0) Bat(100) -> 37 Load(0) Bat(100) -> 30 Load(16) Bat(86) -> 7 Load(31) Bat(81) -> 9 Load(57) Bat(70) -> 28 Load(69) Bat(60) -> 67[CS:Station EV Charlesbourg] Load(97) Bat(49) -> 45 Load(97) Bat(46) -> 55 Load(111) Bat(41) -> 31 Load(125) Bat(31) -> 58 Load(151) Bat(23) -> 48 Load(175) Bat(19) -> 25 Load(186) Bat(8) -> 0 Load(195) Bat(4)
+Distance of the route: 10km
+Load of the route: 195
+
+Route for vehicle 7:
+ 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
+Distance of the route: 0km
+Load of the route: 0
+
+Total Distance of all routes: 58km
+
+Total Load of all routes: 1189
+
+Total recharges: 8
+
+Minimum battery (SoC) reached: 0
+

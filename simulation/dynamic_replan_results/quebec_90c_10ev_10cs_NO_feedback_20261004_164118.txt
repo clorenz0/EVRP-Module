@@ -1,0 +1,31 @@
+Instance: quebec_90c_10ev_10cs
+Mode: NO FEEDBACK (baseline) -- original plan kept through the congestion event
+Checkpoint: 1200s
+
+Event: congestion forced at checkpoint 1200s on 7 real edge(s) (speed limit lowered to 2.0 m/s). Probe ev_0 -> node 43: travel time 155.2s -> 500.3s (+222.3%), distance 2194m -> 2235m. Congested edges: -71332947, -487232879, 43084653#0, 43084653#1, -43084587#3, -43084587#2, -43084548#1.
+
+Vehicle state at checkpoint:
+  ev_0: distance before event=14826m, 4 pending stop(s): [43, 24, 72, 69]
+  ev_1: distance before event=16322m, 8 pending stop(s): [29, 10, 46, 30, 14, 80, 27, 98]
+  ev_2: distance before event=13839m, 1 pending stop(s): [88]
+  ev_3: distance before event=9651m, 6 pending stop(s): [75, 51, 67, 92, 97, 3]
+  ev_4: distance before event=13702m, 7 pending stop(s): [59, 62, 70, 22, 79, 55, 87]
+  ev_5: distance before event=9031m, 2 pending stop(s): [18, 6]
+  ev_6: distance before event=9432m, 4 pending stop(s): [16, 32, 84, 20]
+  ev_7: distance before event=8369m, 7 pending stop(s): [89, 41, 28, 44, 21, 31, 74]
+  ev_8: distance before event=7363m, 7 pending stop(s): [65, 33, 49, 13, 8, 71, 23]
+  ev_9: distance before event=15849m, 4 pending stop(s): [45, 42, 12, 61]
+
+Result (original plan, same congestion, no re-optimization):
+  ev_0: finished -- extra time=1602.0s, total distance (before+after)=40.285km
+  ev_1: finished -- extra time=1894.0s, total distance (before+after)=54.282km
+  ev_2: finished -- extra time=1166.0s, total distance (before+after)=51.768km
+  ev_3: finished -- extra time=1726.0s, total distance (before+after)=32.210km
+  ev_4: finished -- extra time=1836.0s, total distance (before+after)=61.345km
+  ev_5: finished -- extra time=445.0s, total distance (before+after)=21.525km
+  ev_6: finished -- extra time=1342.0s, total distance (before+after)=39.833km
+  ev_7: finished -- extra time=1919.0s, total distance (before+after)=37.669km
+  ev_8: finished -- extra time=1382.0s, total distance (before+after)=25.765km
+  ev_9: finished -- extra time=1454.0s, total distance (before+after)=50.165km
+
+TOTAL (finished vehicles only): extra time=14766.0s, total distance=414.847km

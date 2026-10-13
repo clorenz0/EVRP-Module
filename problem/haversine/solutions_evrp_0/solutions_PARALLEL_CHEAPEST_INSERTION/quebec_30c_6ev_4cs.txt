@@ -1,0 +1,52 @@
+Instance: quebec_30c_6ev_4cs.txt
+
+Objective: 46
+
+Execution Time: 0.04732918739318848
+
+Heuristic: PARALLEL_CHEAPEST_INSERTION
+
+Distance type: haversine
+
+Vehicle capacity: 150
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 4 Load(0) Bat(95) -> 0 Load(27) Bat(90)
+Distance of the route: 0km
+Load of the route: 27
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 19 Load(0) Bat(98) -> 13 Load(11) Bat(86) -> 7 Load(28) Bat(69) -> 11 Load(47) Bat(51) -> 14 Load(61) Bat(42) -> 20 Load(87) Bat(26) -> 26 Load(117) Bat(16) -> 0 Load(131) Bat(0)
+Distance of the route: 14km
+Load of the route: 131
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 17 Load(0) Bat(100) -> 31[CS:Circuit Électrique Longueuil Centre] Load(12) Bat(85) -> 12 Load(12) Bat(78) -> 24 Load(35) Bat(67) -> 21 Load(67) Bat(56) -> 29 Load(77) Bat(51) -> 18 Load(95) Bat(46) -> 9 Load(124) Bat(41) -> 0 Load(140) Bat(20)
+Distance of the route: 11km
+Load of the route: 140
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 22 Load(0) Bat(89) -> 10 Load(31) Bat(83) -> 25 Load(56) Bat(77) -> 30 Load(64) Bat(55) -> 15 Load(84) Bat(46) -> 3 Load(104) Bat(37) -> 8 Load(119) Bat(31) -> 0 Load(140) Bat(26)
+Distance of the route: 9km
+Load of the route: 140
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 33[CS:Borne EV Vieux-Montréal] Load(0) Bat(100) -> 34[CS:Station Rapide Saint-Lambert] Load(0) Bat(100) -> 6 Load(0) Bat(95) -> 27 Load(24) Bat(69) -> 1 Load(40) Bat(65) -> 2 Load(58) Bat(56) -> 23 Load(80) Bat(48) -> 5 Load(89) Bat(45) -> 16 Load(102) Bat(31) -> 28 Load(130) Bat(26) -> 0 Load(142) Bat(15)
+Distance of the route: 12km
+Load of the route: 142
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
+Distance of the route: 0km
+Load of the route: 0
+
+Total Distance of all routes: 46km
+
+Total Load of all routes: 580
+
+Total recharges: 3
+
+Minimum battery (SoC) reached: 0
+

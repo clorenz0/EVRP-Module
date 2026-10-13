@@ -1,0 +1,76 @@
+Instance: quebec_60c_8ev_8cs.txt
+
+Objective: 10000126
+
+Execution Time: 10.012088775634766
+
+Heuristic: LOCAL_CHEAPEST_COST_INSERTION
+
+Metaheuristic: GENERIC_TABU_SEARCH
+
+Distance type: osrm
+
+Vehicle capacity: 200
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Dropped clients: [42]
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 61[CS:Borne Rapide Haute-Ville] Load(0) Bat(98) -> 19 Load(0) Bat(91) -> 5 Load(19) Bat(87) -> 62[CS:Station IGA Sainte-Foy] Load(27) Bat(76) -> 35 Load(27) Bat(69) -> 2 Load(56) Bat(64) -> 50 Load(67) Bat(59) -> 17 Load(93) Bat(58) -> 57 Load(103) Bat(57) -> 20 Load(132) Bat(55) -> 41 Load(161) Bat(52) -> 60 Load(183) Bat(42) -> 0 Load(198) Bat(35)
+Distance of the route: 17km
+Time of the route: 3237s
+Load of the route: 198
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 9 Load(0) Bat(85) -> 28 Load(12) Bat(78) -> 54 Load(40) Bat(71) -> 51 Load(64) Bat(68) -> 4 Load(87) Bat(51) -> 1 Load(97) Bat(46) -> 39 Load(113) Bat(42) -> 23 Load(138) Bat(40) -> 53 Load(158) Bat(38) -> 55 Load(181) Bat(27) -> 68[CS:Recharge Limoilou] Load(195) Bat(16) -> 0 Load(195) Bat(12)
+Distance of the route: 24km
+Time of the route: 3274s
+Load of the route: 195
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
+Distance of the route: 0km
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 32 Load(0) Bat(95) -> 40 Load(19) Bat(82) -> 65[CS:Borne IKEA Beauport] Load(37) Bat(81) -> 18 Load(37) Bat(67) -> 44 Load(57) Bat(67) -> 52 Load(74) Bat(66) -> 38 Load(99) Bat(45) -> 47 Load(107) Bat(42) -> 49 Load(115) Bat(41) -> 56 Load(132) Bat(37) -> 43 Load(162) Bat(36) -> 45 Load(186) Bat(25) -> 0 Load(200) Bat(11)
+Distance of the route: 25km
+Time of the route: 3561s
+Load of the route: 200
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 59 Load(0) Bat(84) -> 7 Load(10) Bat(81) -> 30 Load(36) Bat(77) -> 36 Load(51) Bat(69) -> 27 Load(71) Bat(69) -> 26 Load(97) Bat(58) -> 16 Load(115) Bat(52) -> 11 Load(144) Bat(47) -> 14 Load(163) Bat(39) -> 64[CS:Recharge Saint-Roch] Load(191) Bat(25) -> 0 Load(191) Bat(20)
+Distance of the route: 22km
+Time of the route: 3179s
+Load of the route: 191
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 15 Load(0) Bat(93) -> 12 Load(26) Bat(93) -> 34 Load(48) Bat(89) -> 29 Load(59) Bat(82) -> 3 Load(87) Bat(74) -> 13 Load(97) Bat(69) -> 33 Load(117) Bat(58) -> 21 Load(141) Bat(54) -> 24 Load(169) Bat(53) -> 0 Load(199) Bat(36)
+Distance of the route: 17km
+Time of the route: 5241s
+Load of the route: 199
+
+Route for vehicle 6:
+ 0 Load(0) Bat(100) -> 31 Load(0) Bat(89) -> 58 Load(26) Bat(84) -> 37 Load(50) Bat(81) -> 48 Load(66) Bat(79) -> 25 Load(77) Bat(71) -> 6 Load(86) Bat(71) -> 46 Load(116) Bat(51) -> 22 Load(141) Bat(46) -> 66[CS:Circuit Electrique Levis] Load(166) Bat(41) -> 10 Load(166) Bat(39) -> 8 Load(177) Bat(36) -> 0 Load(190) Bat(19)
+Distance of the route: 21km
+Time of the route: 5617s
+Load of the route: 190
+
+Route for vehicle 7:
+ 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
+Distance of the route: 0km
+Time of the route: 0s
+Load of the route: 0
+
+Total Distance of all routes: 126km
+
+Total Load of all routes: 1173
+
+Total Time of all routes: 24109s
+
+Total recharges: 6
+
+Minimum battery (SoC) reached: 11
+

@@ -1,0 +1,42 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 34
+
+Execution Time: 0.047361135482788086
+
+Heuristic: SAVINGS
+
+Distance type: haversine
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 13 Load(0) Bat(95) -> 25 Load(17) Bat(90) -> 31 Load(43) Bat(80) -> 16 Load(59) Bat(72) -> 37 Load(73) Bat(62) -> 26 Load(96) Bat(61) -> 5 Load(109) Bat(56) -> 34 Load(131) Bat(52) -> 11 Load(143) Bat(51) -> 23 Load(153) Bat(49) -> 9 Load(171) Bat(38) -> 20 Load(183) Bat(27) -> 3 Load(216) Bat(22) -> 0 Load(246) Bat(0)
+Distance of the route: 12km
+Load of the route: 246
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Bat(100) -> 35 Load(0) Bat(100) -> 24 Load(30) Bat(98) -> 2 Load(51) Bat(95) -> 38 Load(69) Bat(90) -> 14 Load(96) Bat(85) -> 6 Load(119) Bat(80) -> 45[CS:Borne IKEA Beauport] Load(144) Bat(77) -> 18 Load(144) Bat(77) -> 12 Load(160) Bat(72) -> 21 Load(192) Bat(57) -> 29 Load(203) Bat(47) -> 40 Load(225) Bat(47) -> 0 Load(244) Bat(18)
+Distance of the route: 8km
+Load of the route: 244
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 44[CS:Recharge Saint-Roch] Load(0) Bat(100) -> 30 Load(0) Bat(100) -> 32 Load(28) Bat(90) -> 1 Load(48) Bat(88) -> 15 Load(68) Bat(72) -> 42[CS:Station IGA Sainte-Foy] Load(95) Bat(65) -> 7 Load(95) Bat(100) -> 36 Load(114) Bat(100) -> 19 Load(131) Bat(90) -> 46[CS:Circuit Électrique Lévis] Load(155) Bat(79) -> 10 Load(155) Bat(77) -> 22 Load(190) Bat(74) -> 4 Load(219) Bat(68) -> 0 Load(234) Bat(57)
+Distance of the route: 9km
+Load of the route: 234
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 27 Load(0) Bat(100) -> 17 Load(34) Bat(89) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(65) Bat(81) -> 33 Load(65) Bat(76) -> 8 Load(90) Bat(65) -> 39 Load(118) Bat(61) -> 28 Load(132) Bat(56) -> 0 Load(141) Bat(46)
+Distance of the route: 5km
+Load of the route: 141
+
+Total Distance of all routes: 34km
+
+Total Load of all routes: 865
+
+Total recharges: 6
+
+Minimum battery (SoC) reached: 0
+

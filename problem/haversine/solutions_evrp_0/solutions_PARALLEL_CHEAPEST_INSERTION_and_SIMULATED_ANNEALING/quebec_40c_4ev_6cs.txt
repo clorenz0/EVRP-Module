@@ -1,0 +1,44 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 26
+
+Execution Time: 9.997575044631958
+
+Heuristic: PARALLEL_CHEAPEST_INSERTION
+
+Metaheuristic: SIMULATED_ANNEALING
+
+Distance type: haversine
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 44[CS:Recharge Saint-Roch] Load(0) Bat(100) -> 39 Load(0) Bat(100) -> 7 Load(14) Bat(89) -> 42[CS:Station IGA Sainte-Foy] Load(33) Bat(84) -> 36 Load(33) Bat(85) -> 13 Load(50) Bat(75) -> 25 Load(67) Bat(70) -> 31 Load(93) Bat(60) -> 16 Load(109) Bat(52) -> 15 Load(123) Bat(41) -> 1 Load(150) Bat(25) -> 32 Load(170) Bat(23) -> 30 Load(190) Bat(13) -> 8 Load(218) Bat(8) -> 0 Load(246) Bat(0)
+Distance of the route: 10km
+Load of the route: 246
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 3 Load(0) Bat(87) -> 20 Load(30) Bat(82) -> 26 Load(63) Bat(77) -> 5 Load(76) Bat(72) -> 37 Load(98) Bat(68) -> 11 Load(121) Bat(63) -> 23 Load(131) Bat(61) -> 34 Load(149) Bat(61) -> 9 Load(161) Bat(50) -> 29 Load(173) Bat(41) -> 40 Load(195) Bat(41) -> 21 Load(214) Bat(31) -> 24 Load(225) Bat(15) -> 0 Load(246) Bat(0)
+Distance of the route: 10km
+Load of the route: 246
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 4 Load(0) Bat(100) -> 28 Load(15) Bat(100) -> 19 Load(24) Bat(92) -> 46[CS:Circuit Électrique Lévis] Load(48) Bat(81) -> 10 Load(48) Bat(100) -> 22 Load(83) Bat(97) -> 33 Load(112) Bat(89) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(137) Bat(84) -> 0 Load(137) Bat(83)
+Distance of the route: 4km
+Load of the route: 137
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Bat(100) -> 17 Load(0) Bat(100) -> 2 Load(31) Bat(93) -> 35 Load(49) Bat(92) -> 12 Load(79) Bat(87) -> 45[CS:Borne IKEA Beauport] Load(111) Bat(82) -> 18 Load(111) Bat(82) -> 6 Load(127) Bat(79) -> 14 Load(152) Bat(74) -> 38 Load(175) Bat(69) -> 27 Load(202) Bat(67) -> 0 Load(236) Bat(56)
+Distance of the route: 2km
+Load of the route: 236
+
+Total Distance of all routes: 26km
+
+Total Load of all routes: 865
+
+Total recharges: 6
+
+Minimum battery (SoC) reached: 0
+

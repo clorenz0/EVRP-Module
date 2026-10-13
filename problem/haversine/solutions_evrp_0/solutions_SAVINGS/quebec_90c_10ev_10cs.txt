@@ -1,0 +1,72 @@
+Instance: quebec_90c_10ev_10cs.txt
+
+Objective: 52
+
+Execution Time: 0.253664493560791
+
+Heuristic: SAVINGS
+
+Distance type: haversine
+
+Vehicle capacity: 180
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 60 Load(0) Bat(100) -> 44 Load(21) Bat(100) -> 31 Load(35) Bat(95) -> 15 Load(48) Bat(94) -> 28 Load(64) Bat(83) -> 11 Load(72) Bat(78) -> 41 Load(83) Bat(67) -> 89 Load(95) Bat(62) -> 57 Load(104) Bat(57) -> 81 Load(113) Bat(55) -> 49 Load(132) Bat(50) -> 13 Load(154) Bat(48) -> 17 Load(167) Bat(43) -> 96[CS:Recharge Hôtel Delta TR] Load(176) Bat(38) -> 0 Load(176) Bat(25)
+Distance of the route: 7km
+Load of the route: 176
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 12 Load(0) Bat(100) -> 95[CS:Borne IGA Trois-Rivières] Load(28) Bat(95) -> 61 Load(28) Bat(90) -> 45 Load(44) Bat(90) -> 32 Load(72) Bat(85) -> 16 Load(101) Bat(83) -> 7 Load(125) Bat(81) -> 22 Load(139) Bat(71) -> 70 Load(153) Bat(67) -> 0 Load(177) Bat(39)
+Distance of the route: 8km
+Load of the route: 177
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 91[CS:Borne Trois-Rivières Centre] Load(0) Bat(100) -> 24 Load(0) Bat(100) -> 35 Load(11) Bat(95) -> 97[CS:Station EV Université UQTR] Load(29) Bat(90) -> 19 Load(29) Bat(100) -> 92[CS:Recharge EV Cap-de-la-Madeleine] Load(44) Bat(95) -> 86 Load(44) Bat(100) -> 78 Load(65) Bat(100) -> 54 Load(81) Bat(98) -> 5 Load(96) Bat(96) -> 38 Load(106) Bat(94) -> 51 Load(115) Bat(89) -> 75 Load(141) Bat(86) -> 67 Load(167) Bat(81) -> 100[CS:Station Rapide Bécancour] Load(178) Bat(76) -> 0 Load(178) Bat(53)
+Distance of the route: 5km
+Load of the route: 178
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 55 Load(0) Bat(100) -> 79 Load(23) Bat(98) -> 76 Load(52) Bat(89) -> 36 Load(62) Bat(89) -> 93[CS:Station Rapide Trois-Rivières Ouest] Load(77) Bat(80) -> 73 Load(77) Bat(77) -> 4 Load(95) Bat(74) -> 25 Load(117) Bat(69) -> 20 Load(147) Bat(64) -> 52 Load(165) Bat(61) -> 0 Load(175) Bat(44)
+Distance of the route: 7km
+Load of the route: 175
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 64 Load(0) Bat(87) -> 48 Load(19) Bat(87) -> 27 Load(36) Bat(82) -> 10 Load(58) Bat(77) -> 62 Load(81) Bat(67) -> 46 Load(106) Bat(67) -> 14 Load(117) Bat(67) -> 30 Load(136) Bat(62) -> 43 Load(153) Bat(57) -> 0 Load(172) Bat(43)
+Distance of the route: 5km
+Load of the route: 172
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 69 Load(0) Bat(89) -> 26 Load(8) Bat(84) -> 63 Load(24) Bat(79) -> 47 Load(36) Bat(79) -> 9 Load(56) Bat(74) -> 3 Load(73) Bat(69) -> 21 Load(85) Bat(62) -> 72 Load(105) Bat(57) -> 1 Load(125) Bat(48) -> 40 Load(140) Bat(43) -> 83 Load(156) Bat(38) -> 0 Load(170) Bat(22)
+Distance of the route: 5km
+Load of the route: 170
+
+Route for vehicle 6:
+ 0 Load(0) Bat(100) -> 8 Load(0) Bat(100) -> 33 Load(20) Bat(95) -> 65 Load(30) Bat(95) -> 68 Load(52) Bat(78) -> 2 Load(80) Bat(77) -> 84 Load(98) Bat(70) -> 42 Load(125) Bat(60) -> 58 Load(149) Bat(58) -> 98[CS:Borne Saint-Louis-de-France] Load(176) Bat(48) -> 0 Load(176) Bat(37)
+Distance of the route: 8km
+Load of the route: 176
+
+Route for vehicle 7:
+ 0 Load(0) Bat(100) -> 82 Load(0) Bat(91) -> 39 Load(23) Bat(86) -> 34 Load(44) Bat(81) -> 18 Load(67) Bat(81) -> 29 Load(88) Bat(76) -> 90 Load(113) Bat(71) -> 50 Load(133) Bat(68) -> 66 Load(146) Bat(68) -> 87 Load(163) Bat(61) -> 0 Load(180) Bat(38)
+Distance of the route: 5km
+Load of the route: 180
+
+Route for vehicle 8:
+ 0 Load(0) Bat(100) -> 6 Load(0) Bat(92) -> 23 Load(25) Bat(88) -> 71 Load(51) Bat(86) -> 37 Load(66) Bat(76) -> 80 Load(93) Bat(71) -> 59 Load(105) Bat(66) -> 88 Load(119) Bat(61) -> 56 Load(143) Bat(60) -> 85 Load(163) Bat(55) -> 0 Load(174) Bat(51)
+Distance of the route: 2km
+Load of the route: 174
+
+Route for vehicle 9:
+ 0 Load(0) Bat(100) -> 74 Load(0) Bat(95) -> 53 Load(13) Bat(90) -> 77 Load(31) Bat(85) -> 0 Load(53) Bat(81)
+Distance of the route: 0km
+Load of the route: 53
+
+Total Distance of all routes: 52km
+
+Total Load of all routes: 1631
+
+Total recharges: 8
+
+Minimum battery (SoC) reached: 22
+

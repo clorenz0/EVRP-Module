@@ -1,0 +1,42 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 33
+
+Execution Time: 0.09516334533691406
+
+Heuristic: ALL_UNPERFORMED
+
+Distance type: haversine
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 4 Load(0) Bat(100) -> 39 Load(15) Bat(95) -> 36 Load(29) Bat(84) -> 7 Load(46) Bat(84) -> 42[CS:Station IGA Sainte-Foy] Load(65) Bat(79) -> 20 Load(65) Bat(65) -> 26 Load(98) Bat(60) -> 37 Load(111) Bat(59) -> 11 Load(134) Bat(54) -> 23 Load(144) Bat(52) -> 34 Load(162) Bat(52) -> 5 Load(174) Bat(48) -> 9 Load(196) Bat(40) -> 32 Load(208) Bat(25) -> 1 Load(228) Bat(23) -> 0 Load(248) Bat(10)
+Distance of the route: 9km
+Load of the route: 248
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 17 Load(0) Bat(93) -> 2 Load(31) Bat(86) -> 38 Load(49) Bat(81) -> 14 Load(76) Bat(76) -> 6 Load(99) Bat(71) -> 18 Load(124) Bat(68) -> 27 Load(140) Bat(58) -> 0 Load(174) Bat(47)
+Distance of the route: 4km
+Load of the route: 174
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 40 Load(0) Bat(100) -> 29 Load(19) Bat(100) -> 21 Load(41) Bat(90) -> 12 Load(52) Bat(75) -> 24 Load(84) Bat(72) -> 35 Load(105) Bat(70) -> 41[CS:Borne Rapide Haute-Ville] Load(135) Bat(59) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(135) Bat(100) -> 33 Load(135) Bat(95) -> 22 Load(160) Bat(87) -> 10 Load(189) Bat(84) -> 0 Load(224) Bat(67)
+Distance of the route: 11km
+Load of the route: 224
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 30 Load(0) Bat(100) -> 44[CS:Recharge Saint-Roch] Load(28) Bat(95) -> 8 Load(28) Bat(95) -> 3 Load(56) Bat(80) -> 15 Load(86) Bat(77) -> 16 Load(113) Bat(66) -> 31 Load(127) Bat(58) -> 25 Load(143) Bat(48) -> 13 Load(169) Bat(43) -> 19 Load(186) Bat(36) -> 28 Load(210) Bat(28) -> 0 Load(219) Bat(18)
+Distance of the route: 9km
+Load of the route: 219
+
+Total Distance of all routes: 33km
+
+Total Load of all routes: 865
+
+Total recharges: 4
+
+Minimum battery (SoC) reached: 10
+

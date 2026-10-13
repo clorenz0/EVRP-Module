@@ -1,0 +1,47 @@
+Instance: quebec_50c_5ev_5cs.txt
+
+Objective: 56
+
+Execution Time: 0.09332823753356934
+
+Heuristic: LOCAL_CHEAPEST_INSERTION
+
+Distance type: haversine
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 22 Load(0) Bat(100) -> 31 Load(14) Bat(99) -> 24 Load(29) Bat(83) -> 53[CS:Station Rapide TR Ouest] Load(49) Bat(77) -> 2 Load(49) Bat(100) -> 33 Load(59) Bat(96) -> 29 Load(76) Bat(90) -> 20 Load(89) Bat(75) -> 13 Load(99) Bat(70) -> 8 Load(113) Bat(60) -> 55[CS:Borne IGA Trois-Rivieres] Load(139) Bat(59) -> 34 Load(139) Bat(51) -> 15 Load(157) Bat(40) -> 37 Load(187) Bat(35) -> 16 Load(206) Bat(28) -> 0 Load(233) Bat(0)
+Distance of the route: 16km
+Load of the route: 233
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 3 Load(0) Bat(87) -> 35 Load(29) Bat(85) -> 21 Load(49) Bat(71) -> 19 Load(69) Bat(67) -> 39 Load(90) Bat(56) -> 36 Load(105) Bat(45) -> 9 Load(130) Bat(37) -> 30 Load(154) Bat(32) -> 44 Load(179) Bat(31) -> 43 Load(189) Bat(28) -> 45 Load(211) Bat(23) -> 0 Load(229) Bat(0)
+Distance of the route: 11km
+Load of the route: 229
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 11 Load(0) Bat(85) -> 1 Load(8) Bat(81) -> 26 Load(21) Bat(71) -> 10 Load(51) Bat(57) -> 18 Load(69) Bat(54) -> 4 Load(77) Bat(50) -> 48 Load(104) Bat(40) -> 32 Load(124) Bat(38) -> 25 Load(143) Bat(37) -> 41 Load(173) Bat(28) -> 42 Load(203) Bat(25) -> 40 Load(220) Bat(22) -> 0 Load(250) Bat(5)
+Distance of the route: 9km
+Load of the route: 250
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 49 Load(0) Bat(100) -> 50 Load(27) Bat(91) -> 38 Load(47) Bat(87) -> 28 Load(69) Bat(65) -> 17 Load(80) Bat(62) -> 46 Load(104) Bat(39) -> 54[CS:Circuit Electrique Shawinigan Sud] Load(120) Bat(34) -> 7 Load(120) Bat(58) -> 23 Load(134) Bat(50) -> 14 Load(162) Bat(29) -> 6 Load(181) Bat(18) -> 27 Load(200) Bat(16) -> 0 Load(227) Bat(0)
+Distance of the route: 18km
+Load of the route: 227
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 51[CS:Borne Trois-Rivieres Centre] Load(0) Bat(100) -> 47 Load(0) Bat(87) -> 12 Load(29) Bat(83) -> 5 Load(54) Bat(78) -> 0 Load(81) Bat(73)
+Distance of the route: 2km
+Load of the route: 81
+
+Total Distance of all routes: 56km
+
+Total Load of all routes: 1020
+
+Total recharges: 4
+
+Minimum battery (SoC) reached: 0
+

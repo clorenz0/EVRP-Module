@@ -1,0 +1,25 @@
+version: "3.8"
+
+# Servidor OSRM (osrm-routed) para distance/osrm_client.py (DistanceType.OSRM).
+# Uso: una vez procesado el .osrm (ver pasos de preparación en la guía),
+# levantar con:  docker compose -f docker-compose.osrm.yml up
+# Detener con:   docker compose -f docker-compose.osrm.yml down
+#
+# Requiere que en ./osrm_data exista quebec-latest.osrm (o el nombre que
+# hayas usado al procesar el .pbf). Ajusta OSRM_FILE si usas otro nombre.
+#
+# --max-table-size: limite de coordenadas por consulta /table (get_osrm_matrix
+# manda TODOS los nodos de la instancia en una sola llamada bulk). El default
+# de osrm-routed es 100; la instancia mas grande del proyecto (90 clientes +
+# 10 estaciones + 1 deposito = 101 nodos) ya lo supera, por eso se sube aqui.
+
+services:
+  osrm:
+    image: osrm/osrm-backend
+    container_name: evrp_osrm
+    command: osrm-routed --algorithm mld --max-table-size 2000 /data/${OSRM_FILE:-quebec-latest.osrm}
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./osrm_data:/data
+    restart: unless-stopped

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1650 362" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1650" height="362" fill="white"/>
+<text x="825.0" y="38" font-size="27" font-weight="bold" text-anchor="middle">Adapter Pattern — OSRM Integration</text>
+<path d="M500.0,236.0 L620.0,192.0" fill="none" stroke="black" stroke-width="1.4" stroke-dasharray="7,5"/>
+<polyline points="609.5,201.2 620.0,192.0 606.1,191.8" fill="none" stroke="black" stroke-width="1.6"/>
+<path d="M1100.0,192.0 L1240.0,236.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polyline points="1226.1,236.9 1240.0,236.0 1229.1,227.3" fill="none" stroke="black" stroke-width="1.6"/>
+<rect x="40" y="160" width="460" height="152" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="270.0" y="181.0" font-size="17" text-anchor="middle" font-style="italic">«client»</text>
+<text x="270.0" y="207.2" font-size="21" text-anchor="middle" font-weight="bold">ReadFileEVRP</text>
+<line x1="40" y1="228" x2="500" y2="228" stroke="black" stroke-width="1.2"/>
+<line x1="40" y1="244" x2="500" y2="244" stroke="black" stroke-width="1.2"/>
+<text x="52" y="262.0" font-size="19">+ read_file_evrp(path: str,</text>
+<text x="52" y="289.0" font-size="19">     distance_type: DistanceType) -> Instance</text>
+<rect x="620" y="90" width="480" height="204" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="860.0" y="111.0" font-size="17" text-anchor="middle" font-style="italic">«adapter»</text>
+<text x="860.0" y="137.2" font-size="21" text-anchor="middle" font-weight="bold">OSRMClient</text>
+<line x1="620" y1="158" x2="1100" y2="158" stroke="black" stroke-width="1.2"/>
+<text x="632" y="176.0" font-size="19">- cache: dict</text>
+<line x1="620" y1="199" x2="1100" y2="199" stroke="black" stroke-width="1.2"/>
+<text x="632" y="217.0" font-size="19">+ get_osrm_matrix(locations: list,</text>
+<text x="632" y="244.0" font-size="19">     base_url: str, profile: str,</text>
+<text x="632" y="271.0" font-size="19">     use_cache: bool) -> dict</text>
+<rect x="1240" y="160" width="380" height="152" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="1430.0" y="181.0" font-size="17" text-anchor="middle" font-style="italic">«adaptee»</text>
+<text x="1430.0" y="207.2" font-size="21" text-anchor="middle" font-weight="bold">OSRM</text>
+<line x1="1240" y1="228" x2="1620" y2="228" stroke="black" stroke-width="1.2"/>
+<line x1="1240" y1="244" x2="1620" y2="244" stroke="black" stroke-width="1.2"/>
+<text x="1252" y="262.0" font-size="19">+ matrix(locations: list, profile: str,</text>
+<text x="1252" y="289.0" font-size="19">     annotations: tuple) -> MatrixResponse</text>
+</svg>

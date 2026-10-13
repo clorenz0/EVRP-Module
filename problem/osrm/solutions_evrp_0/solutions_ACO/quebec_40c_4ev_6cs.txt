@@ -1,0 +1,38 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 98
+
+Execution Time: 10.01207447052002
+
+Metaheuristic: ACO (381 iteraciones)
+
+Distance type: osrm
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 1.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 8 Load(28) Bat(98) -> 39 Load(42) Bat(97) -> 7 Load(61) Bat(94) -> 36 Load(78) Bat(94) -> 25 Load(104) Bat(93) -> 13 Load(121) Bat(89) -> 19 Load(145) Bat(88) -> 4 Load(160) Bat(86) -> 28 Load(169) Bat(86) -> 33 Load(194) Bat(85) -> 38 Load(221) Bat(82) -> 30 Load(249) Bat(79) -> 0 Load(249) Bat(78)
+Distance of the route: 21km
+Load of the route: 249
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 1 Load(20) Bat(97) -> 32 Load(40) Bat(96) -> 35 Load(70) Bat(92) -> 2 Load(88) Bat(92) -> 24 Load(109) Bat(92) -> 18 Load(125) Bat(91) -> 6 Load(150) Bat(91) -> 12 Load(182) Bat(88) -> 21 Load(193) Bat(83) -> 29 Load(215) Bat(81) -> 40 Load(234) Bat(81) -> 9 Load(246) Bat(76) -> 0 Load(246) Bat(69)
+Distance of the route: 30km
+Load of the route: 246
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 15 Load(27) Bat(95) -> 31 Load(43) Bat(92) -> 16 Load(57) Bat(88) -> 11 Load(67) Bat(84) -> 34 Load(79) Bat(84) -> 23 Load(97) Bat(84) -> 5 Load(119) Bat(83) -> 37 Load(142) Bat(82) -> 26 Load(155) Bat(82) -> 20 Load(188) Bat(80) -> 3 Load(218) Bat(79) -> 17 Load(249) Bat(74) -> 0 Load(249) Bat(72)
+Distance of the route: 27km
+Load of the route: 249
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 22 Load(29) Bat(94) -> 10 Load(64) Bat(93) -> 14 Load(87) Bat(87) -> 27 Load(121) Bat(85) -> 0 Load(121) Bat(80)
+Distance of the route: 19km
+Load of the route: 121
+
+Total Distance of all routes: 98km
+
+Total Load of all routes: 865
+

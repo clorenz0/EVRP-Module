@@ -1,0 +1,50 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 73
+
+Execution Time: 9.987869024276733
+
+Heuristic: EVALUATOR_STRATEGY
+
+Metaheuristic: GUIDED_LOCAL_SEARCH
+
+Distance type: osrm
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 44[CS:Recharge Saint-Roch] Load(0) Bat(96) -> 16 Load(0) Bat(82) -> 26 Load(14) Bat(72) -> 37 Load(27) Bat(72) -> 34 Load(50) Bat(67) -> 11 Load(62) Bat(67) -> 23 Load(72) Bat(66) -> 5 Load(90) Bat(64) -> 20 Load(112) Bat(60) -> 9 Load(145) Bat(53) -> 3 Load(157) Bat(44) -> 30 Load(187) Bat(35) -> 17 Load(215) Bat(30) -> 0 Load(246) Bat(25)
+Distance of the route: 20km
+Time of the route: 3502s
+Load of the route: 246
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 8 Load(0) Bat(96) -> 39 Load(28) Bat(93) -> 15 Load(42) Bat(82) -> 42[CS:Station IGA Sainte-Foy] Load(69) Bat(77) -> 31 Load(69) Bat(73) -> 25 Load(85) Bat(66) -> 7 Load(111) Bat(62) -> 36 Load(130) Bat(62) -> 19 Load(147) Bat(57) -> 13 Load(171) Bat(49) -> 28 Load(188) Bat(39) -> 4 Load(197) Bat(39) -> 33 Load(212) Bat(36) -> 0 Load(237) Bat(29)
+Distance of the route: 19km
+Time of the route: 3208s
+Load of the route: 237
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 2 Load(0) Bat(88) -> 35 Load(18) Bat(87) -> 45[CS:Borne IKEA Beauport] Load(48) Bat(85) -> 6 Load(48) Bat(85) -> 18 Load(73) Bat(85) -> 24 Load(89) Bat(84) -> 12 Load(110) Bat(77) -> 21 Load(142) Bat(62) -> 29 Load(153) Bat(56) -> 40 Load(175) Bat(55) -> 32 Load(194) Bat(47) -> 1 Load(214) Bat(45) -> 0 Load(234) Bat(37)
+Distance of the route: 17km
+Time of the route: 2933s
+Load of the route: 234
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Bat(98) -> 38 Load(0) Bat(93) -> 14 Load(27) Bat(73) -> 27 Load(50) Bat(67) -> 10 Load(84) Bat(56) -> 22 Load(119) Bat(55) -> 0 Load(148) Bat(38)
+Distance of the route: 17km
+Time of the route: 4936s
+Load of the route: 148
+
+Total Distance of all routes: 73km
+
+Total Load of all routes: 865
+
+Total Time of all routes: 14579s
+
+Total recharges: 4
+
+Minimum battery (SoC) reached: 25
+

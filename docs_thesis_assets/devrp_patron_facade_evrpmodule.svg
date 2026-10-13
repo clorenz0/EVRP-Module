@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2200 594" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="2200" height="594" fill="white"/>
+<text x="1100.0" y="38" font-size="27" font-weight="bold" text-anchor="middle">Facade Pattern — EVRPModule</text>
+<path d="M1020.0,269.0 L240.0,419.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polyline points="251.8,411.6 240.0,419.0 253.7,421.5" fill="none" stroke="black" stroke-width="1.6"/>
+<path d="M1020.0,269.0 L690.0,419.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polyline points="699.8,409.1 690.0,419.0 703.9,418.2" fill="none" stroke="black" stroke-width="1.6"/>
+<path d="M1020.0,269.0 L1100.0,419.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polyline points="1089.5,409.9 1100.0,419.0 1098.3,405.2" fill="none" stroke="black" stroke-width="1.6"/>
+<path d="M1020.0,269.0 L1500.0,419.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polyline points="1486.1,419.9 1500.0,419.0 1489.1,410.4" fill="none" stroke="black" stroke-width="1.6"/>
+<path d="M1020.0,269.0 L1970.0,419.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polyline points="1956.4,421.9 1970.0,419.0 1957.9,412.0" fill="none" stroke="black" stroke-width="1.6"/>
+<rect x="670.0" y="90" width="700" height="179" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="1020.0" y="111.0" font-size="17" text-anchor="middle" font-style="italic">«facade»</text>
+<text x="1020.0" y="137.2" font-size="21" text-anchor="middle" font-weight="bold">EVRPModule</text>
+<line x1="670.0" y1="158" x2="1370.0" y2="158" stroke="black" stroke-width="1.2"/>
+<line x1="670.0" y1="174" x2="1370.0" y2="174" stroke="black" stroke-width="1.2"/>
+<text x="682.0" y="192.0" font-size="19">+ solve(instance_path: str, params: dict) -> Solution</text>
+<text x="682.0" y="219.0" font-size="19">+ simulate(solution: Solution) -> SimulationTrace</text>
+<text x="682.0" y="246.0" font-size="19">+ explain(context: ExplanationContext) -> Explanation</text>
+<rect x="20" y="419" width="440" height="125" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="240.0" y="439.5" font-size="21" text-anchor="middle" font-weight="bold">InstanceLoader</text>
+<line x1="20" y1="460" x2="460" y2="460" stroke="black" stroke-width="1.2"/>
+<line x1="20" y1="476" x2="460" y2="476" stroke="black" stroke-width="1.2"/>
+<text x="32" y="494.0" font-size="19">+ load(instance_path: str,</text>
+<text x="32" y="521.0" font-size="19">     distance_type: DistanceType) -> Instance</text>
+<rect x="500" y="419" width="380" height="125" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="690.0" y="439.5" font-size="21" text-anchor="middle" font-weight="bold">ProblemSolver</text>
+<line x1="500" y1="460" x2="880" y2="460" stroke="black" stroke-width="1.2"/>
+<line x1="500" y1="476" x2="880" y2="476" stroke="black" stroke-width="1.2"/>
+<text x="512" y="494.0" font-size="19">+ solve(instance: Instance,</text>
+<text x="512" y="521.0" font-size="19">     params: dict) -> Solution</text>
+<rect x="920" y="419" width="360" height="98" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="1100.0" y="439.5" font-size="21" text-anchor="middle" font-weight="bold">ACOColony</text>
+<line x1="920" y1="460" x2="1280" y2="460" stroke="black" stroke-width="1.2"/>
+<line x1="920" y1="476" x2="1280" y2="476" stroke="black" stroke-width="1.2"/>
+<text x="932" y="494.0" font-size="19">+ solve(instance: Instance) -> Solution</text>
+<rect x="1320" y="419" width="360" height="125" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="1500.0" y="439.5" font-size="21" text-anchor="middle" font-weight="bold">SimulationEngine</text>
+<line x1="1320" y1="460" x2="1680" y2="460" stroke="black" stroke-width="1.2"/>
+<line x1="1320" y1="476" x2="1680" y2="476" stroke="black" stroke-width="1.2"/>
+<text x="1332" y="494.0" font-size="19">+ simulate(solution: Solution) -></text>
+<text x="1332" y="521.0" font-size="19">     SimulationTrace</text>
+<rect x="1780" y="419" width="380" height="125" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="1970.0" y="439.5" font-size="21" text-anchor="middle" font-weight="bold">Explainer</text>
+<line x1="1780" y1="460" x2="2160" y2="460" stroke="black" stroke-width="1.2"/>
+<line x1="1780" y1="476" x2="2160" y2="476" stroke="black" stroke-width="1.2"/>
+<text x="1792" y="494.0" font-size="19">+ explain(context: ExplanationContext)</text>
+<text x="1792" y="521.0" font-size="19">     -> Explanation</text>
+</svg>

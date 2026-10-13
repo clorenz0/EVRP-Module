@@ -31,13 +31,88 @@ DEFAULT_SOLUTION = os.path.join(
 )
 DEFAULT_BATTERY_CFG = os.path.join(REPO_ROOT, "simulation", "sumo_scenario", "scenario_battery.sumocfg")
 
-SCENARIOS = {
-    "1": ("scenario.sumocfg (Fase 2 - rutas basicas)",
-          os.path.join(REPO_ROOT, "simulation", "sumo_scenario", "scenario.sumocfg")),
-    "2": ("scenario_battery.sumocfg (Fase 4 - bateria real)",
-          DEFAULT_BATTERY_CFG),
-    "3": ("scenario_dynamic_replan.sumocfg (EVRP dinamico - ultimo plan re-optimizado)",
-          os.path.join(REPO_ROOT, "simulation", "sumo_scenario", "scenario_dynamic_replan.sumocfg")),
+# Las 5 instancias piloto NO estan todas en la misma ciudad (ver README): cada
+# una necesita la red/config de SU zona, si no TraCI falla con arcos "None"
+# (coordenadas que no existen en la red cargada). Instancia -> red.net.xml.
+NET_QUEBEC = os.path.join(REPO_ROOT, "simulation", "sumo_network", "network.net.xml")
+NET_MONTREAL = os.path.join(REPO_ROOT, "simulation", "sumo_network_montreal", "network.net.xml")
+NET_TROISRIVIERES = os.path.join(REPO_ROOT, "simulation", "sumo_network_troisrivieres", "network.net.xml")
+INSTANCE_NET_FILE = {
+    "quebec_40c_4ev_6cs": NET_QUEBEC,
+    "quebec_60c_8ev_8cs": NET_QUEBEC,
+    "quebec_30c_6ev_4cs": NET_MONTREAL,
+    "quebec_50c_5ev_5cs": NET_TROISRIVIERES,
+    "quebec_90c_10ev_10cs": NET_TROISRIVIERES,
+}
+
+
+def instance_base(instance_path):
+    return os.path.splitext(os.path.basename(instance_path))[0]
+
+
+def net_file_for(instance_path):
+    base = instance_base(instance_path)
+    net_file = INSTANCE_NET_FILE.get(base)
+    if net_file is None:
+        print(f"  AVISO: no se reconoce la zona de '{base}' -- usando la red de Quebec City por defecto "
+              f"(si la instancia es de otra zona, esto va a fallar).")
+        return NET_QUEBEC
+    return net_file
+
+
+def algo_from_solution(solution_path):
+    """
+    Extrae el nombre del algoritmo (ej. 'GUIDED_LOCAL_SEARCH') de la carpeta
+    'solutions_<algo>' que contiene el archivo de solucion.
+
+    Por que hace falta: las distintas combinaciones de heuristica/metaheuristica
+    para la MISMA instancia asignan rutas completamente distintas a cada
+    vehiculo (ev_0 en PATH_CHEAPEST_ARC puede ser ev_1 en GUIDED_LOCAL_SEARCH).
+    Si Fase 2/4 se construyen una sola vez por instancia (sin distinguir
+    algoritmo) y despues se reusan para otra solucion, el escenario de SUMO
+    queda construido con las rutas de UN algoritmo mientras dynamic_replanning.py
+    cree que esta siguiendo las de OTRO — paradas contadas mal, vehiculos que
+    "no existen" que en realidad existen con otro indice, etc. (bug real
+    encontrado corriendo quebec_60c con PATH_CHEAPEST_ARC vs GUIDED_LOCAL_SEARCH).
+    """
+    parent = os.path.basename(os.path.dirname(solution_path))
+    if parent.startswith("solutions_"):
+        return parent[len("solutions_"):]
+    return "default"
+
+
+def output_dir_for(instance_path, solution_path=None):
+    """Carpeta de escenario SUMO para esta instancia -- por algoritmo si se
+    da `solution_path` (recomendado siempre que la fase dependa de QUE rutas
+    tiene cada vehiculo: Fase 2, Fase 4, re-planeacion dinamica, diagnosticos)."""
+    parts = [REPO_ROOT, "simulation", "sumo_scenario", instance_base(instance_path)]
+    if solution_path:
+        parts.append(algo_from_solution(solution_path))
+    return os.path.join(*parts)
+
+
+def battery_cfg_for(instance_path, solution_path):
+    """
+    Config de Fase 4 de ESTA instancia+algoritmo. Si todavia no se genero
+    para esa combinacion especifica, cae al viejo escenario por-instancia
+    (sin distinguir algoritmo, compatibilidad con corridas previas a este
+    fix) y avisa, porque probablemente corresponde a OTRO algoritmo.
+    """
+    per_combo = os.path.join(output_dir_for(instance_path, solution_path), "scenario_battery.sumocfg")
+    if os.path.isfile(per_combo):
+        return per_combo
+    legacy = os.path.join(output_dir_for(instance_path), "scenario_battery.sumocfg")
+    if os.path.isfile(legacy):
+        print(f"  AVISO: no existe Fase 4 para '{algo_from_solution(solution_path)}' todavia -- "
+              f"usando el escenario generico de la instancia (puede ser de OTRO algoritmo). "
+              f"Corre la opcion 4 con esta solucion para generar el correcto.")
+        return legacy
+    return DEFAULT_BATTERY_CFG
+
+SCENARIO_FILES = {
+    "1": "scenario.sumocfg (Fase 2 - rutas basicas)",
+    "2": "scenario_battery.sumocfg (Fase 4 - bateria real)",
+    "3": "scenario_dynamic_replan.sumocfg (EVRP dinamico - ultimo plan re-optimizado)",
 }
 
 
@@ -84,7 +159,10 @@ def opt_fase2():
     print("\n--- Fase 2: rutas EVRP sobre la red real ---")
     instance = ask("Instancia (.txt)", DEFAULT_INSTANCE)
     solution = ask("Solucion (.txt)", DEFAULT_SOLUTION)
-    run_script("build_routes.py", ["--instance", instance, "--solution", solution])
+    run_script("build_routes.py", [
+        "--instance", instance, "--solution", solution,
+        "--net-file", net_file_for(instance), "--output-dir", output_dir_for(instance, solution),
+    ])
 
 
 def opt_fase3():
@@ -102,7 +180,10 @@ def opt_fase4():
     print("\n--- Fase 4: escenario de bateria real ---")
     instance = ask("Instancia (.txt)", DEFAULT_INSTANCE)
     solution = ask("Solucion (.txt)", DEFAULT_SOLUTION)
-    run_script("build_battery_scenario.py", ["--instance", instance, "--solution", solution])
+    run_script("build_battery_scenario.py", [
+        "--instance", instance, "--solution", solution,
+        "--net-file", net_file_for(instance), "--output-dir", output_dir_for(instance, solution),
+    ])
 
 
 def opt_dynamic():
@@ -113,6 +194,7 @@ def opt_dynamic():
     run_script("dynamic_replanning.py", [
         "--instance", instance, "--solution", solution,
         "--checkpoint-time", str(checkpoint),
+        "--config", battery_cfg_for(instance, solution), "--net-file", net_file_for(instance),
     ])
 
 
@@ -124,6 +206,7 @@ def opt_probe():
     run_script("traci_state_probe.py", [
         "--instance", instance, "--solution", solution,
         "--checkpoint-time", str(checkpoint),
+        "--config", battery_cfg_for(instance, solution),
     ])
 
 
@@ -135,19 +218,26 @@ def opt_congestion():
     run_script("traci_congestion_trigger.py", [
         "--instance", instance, "--solution", solution,
         "--checkpoint-time", str(checkpoint),
+        "--config", battery_cfg_for(instance, solution), "--net-file", net_file_for(instance),
     ])
 
 
 def opt_gui():
     print("\n--- Abrir un escenario en sumo-gui ---")
-    for key, (label, _) in SCENARIOS.items():
+    instance = ask("Instancia (.txt) a la que pertenece el escenario", DEFAULT_INSTANCE)
+    solution = ask("Solucion (.txt) -- define la carpeta por algoritmo", DEFAULT_SOLUTION)
+    out_dir = output_dir_for(instance, solution)
+    for key, label in SCENARIO_FILES.items():
         print(f"  {key}) {label}")
     choice = ask("Cual escenario", "2")
-    entry = SCENARIOS.get(choice)
-    if entry is None:
+    label = SCENARIO_FILES.get(choice)
+    if label is None:
         print("Opcion invalida.")
         return
-    label, path = entry
+    filename = label.split(" ", 1)[0]
+    if choice == "3":
+        out_dir = os.path.join(out_dir, f"replanificacion_{algo_from_solution(solution)}")
+    path = os.path.join(out_dir, filename)
     if not os.path.isfile(path):
         print(f"AVISO: no existe {path} todavia -- corre la fase correspondiente primero.")
         input("\nEnter para volver al menu...")

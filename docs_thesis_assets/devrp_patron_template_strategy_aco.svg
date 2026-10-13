@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2050 982" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="2050" height="982" fill="white"/>
+<text x="1025.0" y="38" font-size="27" font-weight="bold" text-anchor="middle">Template Method + Strategy Patterns — ACO</text>
+<polygon points="1025.0,402.0 1034.0,412.0 1025.0,422.0 1016.0,412.0" fill="black" stroke="black" stroke-width="1.4"/>
+<path d="M1025.0,422.0 L1025.0,482.0 L350.0,482.0 L350.0,552.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polygon points="1025.0,402.0 1034.0,412.0 1025.0,422.0 1016.0,412.0" fill="black" stroke="black" stroke-width="1.4"/>
+<path d="M1025.0,422.0 L1025.0,502.0 L1680.0,502.0 L1680.0,552.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polygon points="350.0,677.0 342.9,695.8 330.7,682.7" fill="white" stroke="black" stroke-width="1.4"/>
+<path d="M210.0,807.0 L336.8,689.2" fill="none" stroke="black" stroke-width="1.4" stroke-dasharray="7,5"/>
+<polygon points="350.0,677.0 370.1,675.4 363.3,692.1" fill="white" stroke="black" stroke-width="1.4"/>
+<path d="M670.0,807.0 L366.7,683.8" fill="none" stroke="black" stroke-width="1.4" stroke-dasharray="7,5"/>
+<polygon points="1680.0,677.0 1666.4,691.8 1660.0,675.0" fill="white" stroke="black" stroke-width="1.4"/>
+<path d="M1340.0,807.0 L1663.2,683.4" fill="none" stroke="black" stroke-width="1.4" stroke-dasharray="7,5"/>
+<polygon points="1680.0,677.0 1698.8,684.1 1685.6,696.3" fill="white" stroke="black" stroke-width="1.4"/>
+<path d="M1800.0,807.0 L1692.2,690.2" fill="none" stroke="black" stroke-width="1.4" stroke-dasharray="7,5"/>
+<rect x="625.0" y="90" width="800" height="312" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="1025.0" y="110.5" font-size="21" text-anchor="middle" font-weight="bold">ACOColony</text>
+<line x1="625.0" y1="131" x2="1425.0" y2="131" stroke="black" stroke-width="1.2"/>
+<text x="637.0" y="149.0" font-size="19">- pheromone_matrix: list[list[float]]</text>
+<text x="637.0" y="176.0" font-size="19">- alpha: float</text>
+<text x="637.0" y="203.0" font-size="19">- beta: float</text>
+<text x="637.0" y="230.0" font-size="19">- feasibility: FeasibilityStrategy</text>
+<text x="637.0" y="257.0" font-size="19">- state_update: StateUpdateStrategy</text>
+<line x1="625.0" y1="280" x2="1425.0" y2="280" stroke="black" stroke-width="1.2"/>
+<text x="637.0" y="298.0" font-size="19">+ solve(instance: Instance) -> Solution   {template method}</text>
+<text x="637.0" y="325.0" font-size="19">+ build_route(ant: Ant) -> Route</text>
+<text x="637.0" y="352.0" font-size="19">+ evaporate_pheromones() -> None</text>
+<text x="637.0" y="379.0" font-size="19">+ deposit_pheromones(route: Route) -> None</text>
+<rect x="40" y="552" width="620" height="125" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="350.0" y="573.0" font-size="17" text-anchor="middle" font-style="italic">«interface»</text>
+<text x="350.0" y="599.2" font-size="21" text-anchor="middle" font-weight="bold">FeasibilityStrategy</text>
+<line x1="40" y1="620" x2="660" y2="620" stroke="black" stroke-width="1.2"/>
+<line x1="40" y1="636" x2="660" y2="636" stroke="black" stroke-width="1.2"/>
+<text x="52" y="654.0" font-size="19">+ is_feasible(route: Route, node: Node) -> bool</text>
+<rect x="1370" y="552" width="620" height="125" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="1680.0" y="573.0" font-size="17" text-anchor="middle" font-style="italic">«interface»</text>
+<text x="1680.0" y="599.2" font-size="21" text-anchor="middle" font-weight="bold">StateUpdateStrategy</text>
+<line x1="1370" y1="620" x2="1990" y2="620" stroke="black" stroke-width="1.2"/>
+<line x1="1370" y1="636" x2="1990" y2="636" stroke="black" stroke-width="1.2"/>
+<text x="1382" y="654.0" font-size="19">+ update_state(route: Route, node: Node) -> State</text>
+<rect x="0" y="807" width="420" height="125" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="210.0" y="827.5" font-size="21" text-anchor="middle" font-weight="bold">EVRPFeasibility</text>
+<line x1="0" y1="848" x2="420" y2="848" stroke="black" stroke-width="1.2"/>
+<line x1="0" y1="864" x2="420" y2="864" stroke="black" stroke-width="1.2"/>
+<text x="12" y="882.0" font-size="19">+ is_feasible(route: Route,</text>
+<text x="12" y="909.0" font-size="19">     node: Node) -> bool</text>
+<rect x="460" y="807" width="420" height="125" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="670.0" y="827.5" font-size="21" text-anchor="middle" font-weight="bold">DEVRPFeasibility</text>
+<line x1="460" y1="848" x2="880" y2="848" stroke="black" stroke-width="1.2"/>
+<line x1="460" y1="864" x2="880" y2="864" stroke="black" stroke-width="1.2"/>
+<text x="472" y="882.0" font-size="19">+ is_feasible(route: Route,</text>
+<text x="472" y="909.0" font-size="19">     node: Node) -> bool</text>
+<rect x="1130" y="807" width="420" height="125" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="1340.0" y="827.5" font-size="21" text-anchor="middle" font-weight="bold">EVRPStateUpdate</text>
+<line x1="1130" y1="848" x2="1550" y2="848" stroke="black" stroke-width="1.2"/>
+<line x1="1130" y1="864" x2="1550" y2="864" stroke="black" stroke-width="1.2"/>
+<text x="1142" y="882.0" font-size="19">+ update_state(route: Route,</text>
+<text x="1142" y="909.0" font-size="19">     node: Node) -> State</text>
+<rect x="1590" y="807" width="420" height="125" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="1800.0" y="827.5" font-size="21" text-anchor="middle" font-weight="bold">DEVRPStateUpdate</text>
+<line x1="1590" y1="848" x2="2010" y2="848" stroke="black" stroke-width="1.2"/>
+<line x1="1590" y1="864" x2="2010" y2="864" stroke="black" stroke-width="1.2"/>
+<text x="1602" y="882.0" font-size="19">+ update_state(route: Route,</text>
+<text x="1602" y="909.0" font-size="19">     node: Node) -> State</text>
+</svg>

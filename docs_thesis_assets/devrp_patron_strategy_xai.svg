@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 803" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1600" height="803" fill="white"/>
+<text x="800.0" y="38" font-size="27" font-weight="bold" text-anchor="middle">Strategy Pattern — Explainability</text>
+<path d="M800.0,240.0 L800.0,380.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polyline points="795.0,367.0 800.0,380.0 805.0,367.0" fill="none" stroke="black" stroke-width="1.6"/>
+<polygon points="800.0,505.0 785.7,519.1 780.1,502.0" fill="white" stroke="black" stroke-width="1.4"/>
+<path d="M340.0,655.0 L782.9,510.6" fill="none" stroke="black" stroke-width="1.4" stroke-dasharray="7,5"/>
+<polygon points="800.0,505.0 819.9,507.7 809.8,522.6" fill="white" stroke="black" stroke-width="1.4"/>
+<path d="M1020.0,655.0 L814.9,515.1" fill="none" stroke="black" stroke-width="1.4" stroke-dasharray="7,5"/>
+<rect x="480.0" y="90" width="640" height="150" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="800.0" y="110.5" font-size="21" text-anchor="middle" font-weight="bold">ShapKernelEngine</text>
+<line x1="480.0" y1="131" x2="1120.0" y2="131" stroke="black" stroke-width="1.2"/>
+<text x="492.0" y="149.0" font-size="19">- black_box: BlackBoxFunction</text>
+<line x1="480.0" y1="172" x2="1120.0" y2="172" stroke="black" stroke-width="1.2"/>
+<text x="492.0" y="190.0" font-size="19">+ compute_shapley_values(features: list[str],</text>
+<text x="492.0" y="217.0" font-size="19">     num_samples: int) -> dict[str, float]</text>
+<rect x="520.0" y="380" width="560" height="125" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="800.0" y="401.0" font-size="17" text-anchor="middle" font-style="italic">«interface»</text>
+<text x="800.0" y="427.2" font-size="21" text-anchor="middle" font-weight="bold">BlackBoxFunction</text>
+<line x1="520.0" y1="448" x2="1080.0" y2="448" stroke="black" stroke-width="1.2"/>
+<line x1="520.0" y1="464" x2="1080.0" y2="464" stroke="black" stroke-width="1.2"/>
+<text x="532.0" y="482.0" font-size="19">+ evaluate(perturbed_features: dict) -> float</text>
+<rect x="60" y="655" width="560" height="98" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="340.0" y="675.5" font-size="21" text-anchor="middle" font-weight="bold">OptimizationBlackBox</text>
+<line x1="60" y1="696" x2="620" y2="696" stroke="black" stroke-width="1.2"/>
+<line x1="60" y1="712" x2="620" y2="712" stroke="black" stroke-width="1.2"/>
+<text x="72" y="730.0" font-size="19">+ evaluate(perturbed_features: dict) -> float</text>
+<rect x="740" y="655" width="560" height="98" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="1020.0" y="675.5" font-size="21" text-anchor="middle" font-weight="bold">SimulationBlackBox</text>
+<line x1="740" y1="696" x2="1300" y2="696" stroke="black" stroke-width="1.2"/>
+<line x1="740" y1="712" x2="1300" y2="712" stroke="black" stroke-width="1.2"/>
+<text x="752" y="730.0" font-size="19">+ evaluate(perturbed_features: dict) -> float</text>
+</svg>

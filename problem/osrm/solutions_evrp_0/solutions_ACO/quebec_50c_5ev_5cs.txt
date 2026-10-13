@@ -1,0 +1,43 @@
+Instance: quebec_50c_5ev_5cs.txt
+
+Objective: 167
+
+Execution Time: 10.014735698699951
+
+Metaheuristic: ACO (241 iteraciones)
+
+Distance type: osrm
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 1.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 5 Load(27) Bat(98) -> 47 Load(56) Bat(96) -> 1 Load(69) Bat(95) -> 26 Load(99) Bat(93) -> 18 Load(107) Bat(89) -> 10 Load(125) Bat(89) -> 4 Load(152) Bat(89) -> 41 Load(182) Bat(86) -> 42 Load(199) Bat(84) -> 40 Load(229) Bat(83) -> 50 Load(249) Bat(81) -> 0 Load(249) Bat(77)
+Distance of the route: 22km
+Load of the route: 249
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 11 Load(8) Bat(96) -> 34 Load(26) Bat(83) -> 16 Load(53) Bat(76) -> 37 Load(72) Bat(76) -> 15 Load(102) Bat(75) -> 39 Load(117) Bat(75) -> 9 Load(141) Bat(73) -> 36 Load(166) Bat(71) -> 8 Load(192) Bat(67) -> 19 Load(213) Bat(67) -> 21 Load(233) Bat(66) -> 13 Load(247) Bat(64) -> 0 Load(247) Bat(54)
+Distance of the route: 45km
+Load of the route: 247
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 29 Load(13) Bat(94) -> 33 Load(30) Bat(93) -> 2 Load(40) Bat(92) -> 20 Load(50) Bat(85) -> 14 Load(69) Bat(76) -> 45 Load(87) Bat(75) -> 30 Load(112) Bat(73) -> 43 Load(134) Bat(73) -> 44 Load(144) Bat(73) -> 24 Load(164) Bat(60) -> 35 Load(184) Bat(58) -> 3 Load(213) Bat(58) -> 22 Load(227) Bat(55) -> 31 Load(242) Bat(55) -> 0 Load(242) Bat(53)
+Distance of the route: 46km
+Load of the route: 242
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 12 Load(25) Bat(95) -> 38 Load(47) Bat(90) -> 17 Load(71) Bat(86) -> 28 Load(82) Bat(85) -> 48 Load(102) Bat(80) -> 32 Load(121) Bat(80) -> 25 Load(151) Bat(79) -> 46 Load(167) Bat(75) -> 23 Load(195) Bat(67) -> 7 Load(209) Bat(65) -> 49 Load(236) Bat(60) -> 0 Load(236) Bat(57)
+Distance of the route: 42km
+Load of the route: 236
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 27 Load(27) Bat(94) -> 6 Load(46) Bat(94) -> 0 Load(46) Bat(90)
+Distance of the route: 9km
+Load of the route: 46
+
+Total Distance of all routes: 167km
+
+Total Load of all routes: 1020
+

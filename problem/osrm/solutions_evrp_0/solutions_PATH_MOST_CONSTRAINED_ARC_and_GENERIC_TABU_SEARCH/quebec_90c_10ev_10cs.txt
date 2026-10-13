@@ -1,0 +1,86 @@
+Instance: quebec_90c_10ev_10cs.txt
+
+Objective: 183
+
+Execution Time: 10.016392469406128
+
+Heuristic: PATH_MOST_CONSTRAINED_ARC
+
+Metaheuristic: GENERIC_TABU_SEARCH
+
+Distance type: osrm
+
+Vehicle capacity: 180
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 2 Load(0) Bat(92) -> 52 Load(18) Bat(90) -> 36 Load(28) Bat(88) -> 32 Load(43) Bat(59) -> 7 Load(72) Bat(59) -> 95[CS:Borne IGA Trois-Rivières] Load(86) Bat(59) -> 16 Load(86) Bat(57) -> 55 Load(110) Bat(44) -> 18 Load(133) Bat(30) -> 6 Load(154) Bat(28) -> 0 Load(179) Bat(23)
+Distance of the route: 20km
+Time of the route: 2328s
+Load of the route: 179
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 82 Load(0) Bat(96) -> 10 Load(23) Bat(55) -> 62 Load(46) Bat(50) -> 46 Load(71) Bat(50) -> 14 Load(82) Bat(49) -> 30 Load(101) Bat(47) -> 59 Load(118) Bat(45) -> 27 Load(132) Bat(43) -> 80 Load(154) Bat(42) -> 76 Load(166) Bat(10) -> 98[CS:Borne Saint-Louis-de-France] Load(176) Bat(5) -> 0 Load(176) Bat(0)
+Distance of the route: 28km
+Time of the route: 2823s
+Load of the route: 176
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 63 Load(0) Bat(92) -> 41 Load(12) Bat(76) -> 89 Load(24) Bat(74) -> 28 Load(33) Bat(68) -> 72 Load(41) Bat(52) -> 100[CS:Station Rapide Bécancour] Load(61) Bat(50) -> 51 Load(61) Bat(46) -> 67 Load(87) Bat(45) -> 24 Load(98) Bat(40) -> 43 Load(109) Bat(32) -> 1 Load(128) Bat(25) -> 83 Load(143) Bat(25) -> 40 Load(157) Bat(22) -> 0 Load(173) Bat(12)
+Distance of the route: 24km
+Time of the route: 3856s
+Load of the route: 173
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 91[CS:Borne Trois-Rivières Centre] Load(0) Bat(99) -> 35 Load(0) Bat(85) -> 19 Load(18) Bat(84) -> 86 Load(33) Bat(80) -> 78 Load(54) Bat(80) -> 54 Load(70) Bat(79) -> 38 Load(85) Bat(79) -> 5 Load(94) Bat(78) -> 75 Load(104) Bat(73) -> 21 Load(130) Bat(66) -> 31 Load(150) Bat(58) -> 15 Load(163) Bat(51) -> 0 Load(179) Bat(38)
+Distance of the route: 16km
+Time of the route: 1876s
+Load of the route: 179
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 73 Load(0) Bat(84) -> 66 Load(18) Bat(61) -> 12 Load(35) Bat(61) -> 42 Load(63) Bat(61) -> 50 Load(87) Bat(61) -> 58 Load(100) Bat(61) -> 61 Load(127) Bat(59) -> 20 Load(143) Bat(39) -> 0 Load(161) Bat(28)
+Distance of the route: 21km
+Time of the route: 1955s
+Load of the route: 161
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 8 Load(0) Bat(91) -> 13 Load(20) Bat(88) -> 33 Load(33) Bat(87) -> 49 Load(43) Bat(86) -> 65 Load(65) Bat(86) -> 17 Load(87) Bat(84) -> 81 Load(96) Bat(79) -> 57 Load(115) Bat(77) -> 11 Load(124) Bat(60) -> 60 Load(135) Bat(58) -> 44 Load(156) Bat(58) -> 0 Load(170) Bat(42)
+Distance of the route: 15km
+Time of the route: 2218s
+Load of the route: 170
+
+Route for vehicle 6:
+ 0 Load(0) Bat(100) -> 34 Load(0) Bat(96) -> 64 Load(23) Bat(55) -> 48 Load(42) Bat(55) -> 29 Load(59) Bat(55) -> 45 Load(84) Bat(47) -> 84 Load(112) Bat(27) -> 68 Load(139) Bat(22) -> 0 Load(167) Bat(12)
+Distance of the route: 26km
+Time of the route: 2460s
+Load of the route: 167
+
+Route for vehicle 7:
+ 0 Load(0) Bat(100) -> 37 Load(0) Bat(98) -> 77 Load(27) Bat(98) -> 56 Load(49) Bat(93) -> 88 Load(69) Bat(93) -> 53 Load(93) Bat(91) -> 85 Load(111) Bat(90) -> 0 Load(122) Bat(88)
+Distance of the route: 1km
+Time of the route: 916s
+Load of the route: 122
+
+Route for vehicle 8:
+ 0 Load(0) Bat(100) -> 39 Load(0) Bat(95) -> 25 Load(21) Bat(87) -> 4 Load(51) Bat(82) -> 70 Load(73) Bat(51) -> 22 Load(97) Bat(50) -> 79 Load(111) Bat(34) -> 87 Load(140) Bat(34) -> 90 Load(157) Bat(20) -> 0 Load(177) Bat(13)
+Distance of the route: 25km
+Time of the route: 2332s
+Load of the route: 177
+
+Route for vehicle 9:
+ 0 Load(0) Bat(100) -> 23 Load(0) Bat(96) -> 71 Load(26) Bat(94) -> 47 Load(41) Bat(86) -> 9 Load(61) Bat(83) -> 26 Load(78) Bat(82) -> 3 Load(94) Bat(78) -> 69 Load(106) Bat(77) -> 74 Load(114) Bat(72) -> 0 Load(127) Bat(69)
+Distance of the route: 7km
+Time of the route: 1259s
+Load of the route: 127
+
+Total Distance of all routes: 183km
+
+Total Load of all routes: 1631
+
+Total Time of all routes: 22023s
+
+Total recharges: 4
+
+Minimum battery (SoC) reached: 0
+

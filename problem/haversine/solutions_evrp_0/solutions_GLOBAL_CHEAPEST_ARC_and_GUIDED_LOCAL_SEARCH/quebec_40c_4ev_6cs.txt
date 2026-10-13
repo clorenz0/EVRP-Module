@@ -1,0 +1,44 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 25
+
+Execution Time: 10.008686304092407
+
+Heuristic: GLOBAL_CHEAPEST_ARC
+
+Metaheuristic: GUIDED_LOCAL_SEARCH
+
+Distance type: haversine
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 27 Load(0) Bat(100) -> 38 Load(34) Bat(98) -> 14 Load(61) Bat(93) -> 6 Load(84) Bat(88) -> 45[CS:Borne IKEA Beauport] Load(109) Bat(85) -> 18 Load(109) Bat(100) -> 12 Load(125) Bat(95) -> 35 Load(157) Bat(90) -> 24 Load(187) Bat(88) -> 2 Load(208) Bat(85) -> 41[CS:Borne Rapide Haute-Ville] Load(226) Bat(75) -> 0 Load(226) Bat(74)
+Distance of the route: 2km
+Load of the route: 226
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 44[CS:Recharge Saint-Roch] Load(0) Bat(100) -> 3 Load(0) Bat(100) -> 20 Load(30) Bat(95) -> 37 Load(63) Bat(90) -> 16 Load(86) Bat(80) -> 31 Load(100) Bat(72) -> 42[CS:Station IGA Sainte-Foy] Load(116) Bat(66) -> 7 Load(116) Bat(61) -> 36 Load(135) Bat(61) -> 25 Load(152) Bat(54) -> 13 Load(178) Bat(49) -> 19 Load(195) Bat(42) -> 4 Load(219) Bat(34) -> 0 Load(234) Bat(23)
+Distance of the route: 10km
+Load of the route: 234
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 15 Load(0) Bat(81) -> 26 Load(27) Bat(71) -> 5 Load(40) Bat(66) -> 11 Load(62) Bat(62) -> 23 Load(72) Bat(60) -> 34 Load(90) Bat(60) -> 9 Load(102) Bat(49) -> 29 Load(114) Bat(40) -> 40 Load(136) Bat(40) -> 21 Load(155) Bat(30) -> 32 Load(166) Bat(19) -> 1 Load(186) Bat(17) -> 17 Load(206) Bat(7) -> 0 Load(237) Bat(0)
+Distance of the route: 10km
+Load of the route: 237
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(0) Bat(100) -> 33 Load(0) Bat(95) -> 22 Load(25) Bat(87) -> 10 Load(54) Bat(84) -> 28 Load(89) Bat(75) -> 39 Load(98) Bat(70) -> 8 Load(112) Bat(66) -> 30 Load(140) Bat(61) -> 0 Load(168) Bat(54)
+Distance of the route: 3km
+Load of the route: 168
+
+Total Distance of all routes: 25km
+
+Total Load of all routes: 865
+
+Total recharges: 5
+
+Minimum battery (SoC) reached: 0
+

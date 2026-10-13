@@ -1,0 +1,74 @@
+Instance: quebec_90c_10ev_10cs.txt
+
+Objective: 43
+
+Execution Time: 10.004159450531006
+
+Heuristic: ALL_UNPERFORMED
+
+Metaheuristic: GUIDED_LOCAL_SEARCH
+
+Distance type: haversine
+
+Vehicle capacity: 180
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 74 Load(0) Bat(100) -> 96[CS:Recharge Hôtel Delta TR] Load(13) Bat(90) -> 65 Load(13) Bat(81) -> 49 Load(35) Bat(81) -> 81 Load(57) Bat(76) -> 57 Load(76) Bat(74) -> 89 Load(85) Bat(69) -> 41 Load(94) Bat(64) -> 28 Load(106) Bat(55) -> 11 Load(114) Bat(50) -> 44 Load(125) Bat(48) -> 9 Load(139) Bat(37) -> 69 Load(156) Bat(32) -> 0 Load(164) Bat(21)
+Distance of the route: 5km
+Load of the route: 164
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 53 Load(0) Bat(100) -> 1 Load(18) Bat(90) -> 19 Load(33) Bat(87) -> 54 Load(48) Bat(77) -> 38 Load(63) Bat(77) -> 5 Load(72) Bat(75) -> 97[CS:Station EV Université UQTR] Load(82) Bat(70) -> 30 Load(82) Bat(60) -> 14 Load(99) Bat(55) -> 46 Load(118) Bat(55) -> 62 Load(129) Bat(55) -> 88 Load(154) Bat(45) -> 0 Load(178) Bat(36)
+Distance of the route: 6km
+Load of the route: 178
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 34 Load(0) Bat(90) -> 90 Load(23) Bat(88) -> 50 Load(43) Bat(85) -> 58 Load(56) Bat(84) -> 42 Load(83) Bat(82) -> 87 Load(107) Bat(77) -> 79 Load(124) Bat(75) -> 55 Load(153) Bat(73) -> 0 Load(176) Bat(50)
+Distance of the route: 4km
+Load of the route: 176
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 77 Load(0) Bat(100) -> 80 Load(22) Bat(95) -> 64 Load(34) Bat(90) -> 48 Load(53) Bat(90) -> 27 Load(70) Bat(85) -> 10 Load(92) Bat(80) -> 70 Load(115) Bat(71) -> 22 Load(139) Bat(67) -> 95[CS:Borne IGA Trois-Rivières] Load(153) Bat(57) -> 29 Load(153) Bat(47) -> 0 Load(178) Bat(34)
+Distance of the route: 5km
+Load of the route: 178
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 82 Load(0) Bat(91) -> 32 Load(23) Bat(75) -> 12 Load(52) Bat(70) -> 45 Load(80) Bat(65) -> 16 Load(108) Bat(60) -> 7 Load(132) Bat(58) -> 61 Load(146) Bat(53) -> 66 Load(162) Bat(43) -> 0 Load(179) Bat(27)
+Distance of the route: 6km
+Load of the route: 179
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 91[CS:Borne Trois-Rivières Centre] Load(0) Bat(100) -> 71 Load(0) Bat(95) -> 8 Load(15) Bat(85) -> 33 Load(35) Bat(80) -> 13 Load(45) Bat(79) -> 17 Load(58) Bat(74) -> 63 Load(67) Bat(63) -> 15 Load(79) Bat(59) -> 60 Load(95) Bat(54) -> 31 Load(116) Bat(49) -> 47 Load(129) Bat(44) -> 26 Load(149) Bat(39) -> 0 Load(165) Bat(29)
+Distance of the route: 3km
+Load of the route: 165
+
+Route for vehicle 6:
+ 0 Load(0) Bat(100) -> 23 Load(0) Bat(94) -> 6 Load(26) Bat(90) -> 68 Load(51) Bat(85) -> 2 Load(79) Bat(84) -> 39 Load(97) Bat(79) -> 0 Load(118) Bat(69)
+Distance of the route: 2km
+Load of the route: 118
+
+Route for vehicle 7:
+ 0 Load(0) Bat(100) -> 18 Load(0) Bat(100) -> 84 Load(21) Bat(89) -> 52 Load(48) Bat(86) -> 93[CS:Station Rapide Trois-Rivières Ouest] Load(58) Bat(76) -> 73 Load(58) Bat(100) -> 4 Load(76) Bat(97) -> 25 Load(98) Bat(92) -> 76 Load(128) Bat(87) -> 36 Load(138) Bat(87) -> 20 Load(153) Bat(86) -> 98[CS:Borne Saint-Louis-de-France] Load(171) Bat(78) -> 0 Load(171) Bat(67)
+Distance of the route: 5km
+Load of the route: 171
+
+Route for vehicle 8:
+ 0 Load(0) Bat(100) -> 3 Load(0) Bat(87) -> 40 Load(12) Bat(82) -> 83 Load(28) Bat(77) -> 43 Load(42) Bat(73) -> 59 Load(61) Bat(70) -> 56 Load(75) Bat(65) -> 37 Load(95) Bat(60) -> 0 Load(122) Bat(56)
+Distance of the route: 2km
+Load of the route: 122
+
+Route for vehicle 9:
+ 0 Load(0) Bat(100) -> 85 Load(0) Bat(100) -> 35 Load(11) Bat(85) -> 24 Load(29) Bat(80) -> 100[CS:Station Rapide Bécancour] Load(40) Bat(75) -> 51 Load(40) Bat(100) -> 75 Load(66) Bat(97) -> 67 Load(92) Bat(92) -> 78 Load(103) Bat(87) -> 86 Load(119) Bat(87) -> 92[CS:Recharge EV Cap-de-la-Madeleine] Load(140) Bat(82) -> 72 Load(140) Bat(77) -> 21 Load(160) Bat(72) -> 0 Load(180) Bat(52)
+Distance of the route: 5km
+Load of the route: 180
+
+Total Distance of all routes: 43km
+
+Total Load of all routes: 1631
+
+Total recharges: 8
+
+Minimum battery (SoC) reached: 21
+

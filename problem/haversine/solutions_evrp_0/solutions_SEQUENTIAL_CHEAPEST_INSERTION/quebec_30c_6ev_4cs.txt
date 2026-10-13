@@ -1,0 +1,52 @@
+Instance: quebec_30c_6ev_4cs.txt
+
+Objective: 51
+
+Execution Time: 0.047625064849853516
+
+Heuristic: SEQUENTIAL_CHEAPEST_INSERTION
+
+Distance type: haversine
+
+Vehicle capacity: 150
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
+Distance of the route: 0km
+Load of the route: 0
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 22 Load(0) Bat(100) -> 3 Load(31) Bat(90) -> 1 Load(46) Bat(67) -> 27 Load(64) Bat(63) -> 9 Load(80) Bat(54) -> 33[CS:Borne EV Vieux-Montréal] Load(96) Bat(37) -> 8 Load(96) Bat(36) -> 0 Load(117) Bat(31)
+Distance of the route: 8km
+Load of the route: 117
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 17 Load(0) Bat(100) -> 34[CS:Station Rapide Saint-Lambert] Load(12) Bat(89) -> 6 Load(12) Bat(100) -> 31[CS:Circuit Électrique Longueuil Centre] Load(36) Bat(95) -> 12 Load(36) Bat(88) -> 24 Load(59) Bat(77) -> 21 Load(91) Bat(66) -> 29 Load(101) Bat(61) -> 18 Load(119) Bat(56) -> 0 Load(148) Bat(31)
+Distance of the route: 11km
+Load of the route: 148
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 16 Load(0) Bat(100) -> 7 Load(28) Bat(90) -> 13 Load(47) Bat(73) -> 19 Load(64) Bat(61) -> 10 Load(75) Bat(46) -> 25 Load(100) Bat(40) -> 32[CS:Recharge Brossard Quartier DIX30] Load(108) Bat(18) -> 30 Load(108) Bat(29) -> 15 Load(128) Bat(20) -> 0 Load(148) Bat(0)
+Distance of the route: 20km
+Load of the route: 148
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 28 Load(0) Bat(91) -> 26 Load(12) Bat(82) -> 20 Load(26) Bat(72) -> 5 Load(56) Bat(67) -> 23 Load(69) Bat(64) -> 11 Load(78) Bat(54) -> 14 Load(92) Bat(45) -> 2 Load(118) Bat(26) -> 0 Load(140) Bat(0)
+Distance of the route: 12km
+Load of the route: 140
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 4 Load(0) Bat(95) -> 0 Load(27) Bat(90)
+Distance of the route: 0km
+Load of the route: 27
+
+Total Distance of all routes: 51km
+
+Total Load of all routes: 580
+
+Total recharges: 4
+
+Minimum battery (SoC) reached: 0
+

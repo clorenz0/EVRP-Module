@@ -1,0 +1,19 @@
+Instance: quebec_40c_4ev_6cs
+Mode: NO FEEDBACK (baseline) -- original plan kept through the congestion event
+Checkpoint: 1200s
+
+Event: congestion forced at checkpoint 1200s on 45 real edge(s) (speed limit lowered to 2.0 m/s). Probe ev_0 -> node 22: travel time 686.3s -> 813.5s (+18.5%), distance 13940m -> 17716m. Congested edges: 75390658#0, 75390658#1, 75390658#2, 75390658#3, 75390658#4, 75390658#5, 75390658#6, 75390658#7, 75390658#8, 75390658#9, 75390658#10, 75390658#11, 75390658#12, 75390658#13, 75390658#14, 75390658#15, 75390658#16, 75390658#17, 75390658#18, 75390658#19, 75390658#20, 75390658#21, 75390658#23, 1276545764, 1275432028#0, 1275432028#1, 1275432028#2, 1275432028#3, 1275432028#6, 1275432028#7, 1275432028#8, 1275432028#9, 1275432028#10, 1275432028#11, 1275432028#12, 1275432028#13, -39814338#1, -39814338#0, 917631276, 759015692, 1276697064, 1276697063, 1276697062, 1276697061#0, 1278938956#1.
+
+Vehicle state at checkpoint:
+  ev_0: distance before event=16533m, 7 pending stop(s): [22, 10, 27, 14, 12, 8, 44]
+  ev_1: distance before event=11967m, 7 pending stop(s): [34, 11, 23, 5, 20, 9, 3]
+  ev_2: distance before event=12310m, 6 pending stop(s): [35, 45, 18, 6, 24, 2]
+  ev_3: distance before event=9191m, 7 pending stop(s): [25, 13, 19, 28, 4, 33, 38]
+
+Result (original plan, same congestion, no re-optimization):
+  ev_0: finished -- extra time=6028.0s, total distance (before+after)=98.660km
+  ev_1: finished -- extra time=1882.0s, total distance (before+after)=41.660km
+  ev_2: finished -- extra time=1256.0s, total distance (before+after)=34.122km
+  ev_3: finished -- extra time=3913.0s, total distance (before+after)=93.189km
+
+TOTAL (finished vehicles only): extra time=13079.0s, total distance=267.632km

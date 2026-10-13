@@ -1,0 +1,52 @@
+Instance: quebec_30c_6ev_4cs.txt
+
+Objective: 45
+
+Execution Time: 0.054404497146606445
+
+Heuristic: LOCAL_CHEAPEST_ARC
+
+Distance type: haversine
+
+Vehicle capacity: 150
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 26 Load(0) Bat(84) -> 20 Load(14) Bat(74) -> 11 Load(44) Bat(68) -> 14 Load(58) Bat(59) -> 2 Load(84) Bat(40) -> 1 Load(106) Bat(31) -> 27 Load(124) Bat(27) -> 0 Load(140) Bat(12)
+Distance of the route: 11km
+Load of the route: 140
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 22 Load(0) Bat(89) -> 10 Load(31) Bat(83) -> 25 Load(56) Bat(77) -> 30 Load(64) Bat(55) -> 15 Load(84) Bat(46) -> 3 Load(104) Bat(37) -> 8 Load(119) Bat(31) -> 0 Load(140) Bat(26)
+Distance of the route: 9km
+Load of the route: 140
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
+Distance of the route: 0km
+Load of the route: 0
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 17 Load(0) Bat(100) -> 24 Load(12) Bat(92) -> 12 Load(44) Bat(81) -> 6 Load(67) Bat(71) -> 34[CS:Station Rapide Saint-Lambert] Load(91) Bat(66) -> 0 Load(91) Bat(43)
+Distance of the route: 9km
+Load of the route: 91
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 19 Load(0) Bat(91) -> 13 Load(11) Bat(79) -> 7 Load(28) Bat(62) -> 5 Load(47) Bat(46) -> 23 Load(60) Bat(43) -> 16 Load(69) Bat(26) -> 28 Load(97) Bat(21) -> 4 Load(109) Bat(16) -> 0 Load(136) Bat(11)
+Distance of the route: 9km
+Load of the route: 136
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 33[CS:Borne EV Vieux-Montréal] Load(0) Bat(100) -> 9 Load(0) Bat(83) -> 18 Load(16) Bat(78) -> 29 Load(45) Bat(73) -> 21 Load(63) Bat(68) -> 0 Load(73) Bat(40)
+Distance of the route: 7km
+Load of the route: 73
+
+Total Distance of all routes: 45km
+
+Total Load of all routes: 580
+
+Total recharges: 2
+
+Minimum battery (SoC) reached: 11
+

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 558" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1500" height="558" fill="white"/>
+<text x="750.0" y="38" font-size="21" font-weight="bold" text-anchor="middle">Patrón Strategy en el cálculo de distancias</text>
+<path d="M630.0,194.0 L170.0,324.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polyline points="181.2,315.7 170.0,324.0 183.9,325.3" fill="none" stroke="black" stroke-width="1.6"/>
+<text x="230" y="259" font-size="13" font-style="italic" text-anchor="middle">selecciona</text>
+<path d="M630.0,194.0 L630.0,324.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polyline points="625.0,311.0 630.0,324.0 635.0,311.0" fill="none" stroke="black" stroke-width="1.6"/>
+<text x="700" y="249" font-size="13" font-style="italic" text-anchor="middle">usa (tipo geométrico)</text>
+<path d="M630.0,194.0 L1190.0,324.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polyline points="1176.2,325.9 1190.0,324.0 1178.5,316.2" fill="none" stroke="black" stroke-width="1.6"/>
+<text x="1120" y="259" font-size="13" font-style="italic" text-anchor="middle">usa si distance_type = OSRM</text>
+<rect x="350.0" y="90" width="560" height="104" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="630.0" y="107.1" font-size="13" text-anchor="middle" font-style="italic">«contexto — instance/import_data.py»</text>
+<text x="630.0" y="127.1" font-size="16" text-anchor="middle" font-weight="bold">ReadFileEVRP</text>
+<line x1="350.0" y1="144" x2="910.0" y2="144" stroke="black" stroke-width="1.2"/>
+<line x1="350.0" y1="160" x2="910.0" y2="160" stroke="black" stroke-width="1.2"/>
+<text x="362.0" y="178.0" font-size="14">+ read_file_evrp(ruta, distance_type: DistanceType): Instancia</text>
+<rect x="40" y="324" width="260" height="184" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="170.0" y="341.1" font-size="13" text-anchor="middle" font-style="italic">«enumeration»</text>
+<text x="170.0" y="361.1" font-size="16" text-anchor="middle" font-weight="bold">DistanceType</text>
+<line x1="40" y1="378" x2="300" y2="378" stroke="black" stroke-width="1.2"/>
+<text x="52" y="396.0" font-size="14">EUCLIDEAN</text>
+<text x="52" y="416.0" font-size="14">MANHATTAN</text>
+<text x="52" y="436.0" font-size="14">HAVERSINE</text>
+<text x="52" y="456.0" font-size="14">CHEBYSHEV</text>
+<text x="52" y="476.0" font-size="14">OSRM</text>
+<rect x="400" y="324" width="460" height="144" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="630.0" y="341.1" font-size="13" text-anchor="middle" font-style="italic">«estrategias geométricas — distance/distance_type.py»</text>
+<text x="630.0" y="361.1" font-size="16" text-anchor="middle" font-weight="bold">distance_type</text>
+<line x1="400" y1="378" x2="860" y2="378" stroke="black" stroke-width="1.2"/>
+<line x1="400" y1="394" x2="860" y2="394" stroke="black" stroke-width="1.2"/>
+<text x="412" y="412.0" font-size="14">+ calculate_distance(loc1, loc2,</text>
+<text x="412" y="432.0" font-size="14">     distance_type, integer): float</text>
+<text x="412" y="452.0" font-size="14"># lanza ValueError si distance_type = OSRM</text>
+<rect x="960" y="324" width="460" height="124" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="1190.0" y="341.1" font-size="13" text-anchor="middle" font-style="italic">«estrategia de red — distance/osrm_client.py»</text>
+<text x="1190.0" y="361.1" font-size="16" text-anchor="middle" font-weight="bold">OSRMClient</text>
+<line x1="960" y1="378" x2="1420" y2="378" stroke="black" stroke-width="1.2"/>
+<line x1="960" y1="394" x2="1420" y2="394" stroke="black" stroke-width="1.2"/>
+<text x="972" y="412.0" font-size="14">+ get_osrm_matrix(locations, base_url,</text>
+<text x="972" y="432.0" font-size="14">     profile, use_cache): dict</text>
+</svg>

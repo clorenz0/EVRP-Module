@@ -1,0 +1,56 @@
+Instance: quebec_50c_5ev_5cs.txt
+
+Objective: 140
+
+Execution Time: 10.001325607299805
+
+Heuristic: SWEEP
+
+Metaheuristic: GUIDED_LOCAL_SEARCH
+
+Distance type: osrm
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 24 Load(0) Bat(87) -> 29 Load(20) Bat(84) -> 33 Load(33) Bat(81) -> 2 Load(50) Bat(79) -> 53[CS:Station Rapide TR Ouest] Load(60) Bat(78) -> 13 Load(60) Bat(69) -> 36 Load(74) Bat(52) -> 9 Load(99) Bat(45) -> 39 Load(123) Bat(41) -> 15 Load(138) Bat(41) -> 16 Load(168) Bat(39) -> 37 Load(195) Bat(39) -> 12 Load(214) Bat(6) -> 0 Load(239) Bat(0)
+Distance of the route: 33km
+Time of the route: 2902s
+Load of the route: 239
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 11 Load(0) Bat(90) -> 20 Load(8) Bat(64) -> 34 Load(18) Bat(44) -> 21 Load(36) Bat(21) -> 8 Load(56) Bat(19) -> 55[CS:Borne IGA Trois-Rivieres] Load(82) Bat(19) -> 19 Load(82) Bat(100) -> 44 Load(103) Bat(83) -> 30 Load(113) Bat(82) -> 43 Load(138) Bat(82) -> 14 Load(160) Bat(75) -> 45 Load(179) Bat(71) -> 35 Load(197) Bat(33) -> 3 Load(217) Bat(32) -> 51[CS:Borne Trois-Rivieres Centre] Load(246) Bat(21) -> 0 Load(246) Bat(20)
+Distance of the route: 47km
+Time of the route: 4169s
+Load of the route: 246
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 5 Load(0) Bat(97) -> 27 Load(27) Bat(82) -> 6 Load(54) Bat(82) -> 0 Load(73) Bat(68)
+Distance of the route: 10km
+Time of the route: 1588s
+Load of the route: 73
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 22 Load(0) Bat(94) -> 31 Load(14) Bat(94) -> 47 Load(29) Bat(88) -> 1 Load(58) Bat(85) -> 26 Load(71) Bat(78) -> 10 Load(101) Bat(68) -> 18 Load(119) Bat(67) -> 4 Load(127) Bat(65) -> 41 Load(154) Bat(58) -> 42 Load(184) Bat(52) -> 40 Load(201) Bat(49) -> 0 Load(231) Bat(39)
+Distance of the route: 18km
+Time of the route: 2493s
+Load of the route: 231
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 49 Load(0) Bat(89) -> 7 Load(27) Bat(75) -> 23 Load(41) Bat(68) -> 52[CS:Recharge EV Cap-de-la-Madeleine] Load(69) Bat(57) -> 46 Load(69) Bat(62) -> 28 Load(85) Bat(42) -> 17 Load(96) Bat(38) -> 25 Load(120) Bat(28) -> 32 Load(150) Bat(28) -> 48 Load(169) Bat(27) -> 38 Load(189) Bat(16) -> 50 Load(211) Bat(11) -> 0 Load(231) Bat(0)
+Distance of the route: 32km
+Time of the route: 3727s
+Load of the route: 231
+
+Total Distance of all routes: 140km
+
+Total Load of all routes: 1020
+
+Total Time of all routes: 14879s
+
+Total recharges: 4
+
+Minimum battery (SoC) reached: 0
+

@@ -1,0 +1,62 @@
+Instance: quebec_30c_6ev_4cs.txt
+
+Objective: 92
+
+Execution Time: 10.001758337020874
+
+Heuristic: LOCAL_CHEAPEST_INSERTION
+
+Metaheuristic: SIMULATED_ANNEALING
+
+Distance type: osrm
+
+Vehicle capacity: 150
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 3 Load(0) Bat(93) -> 30 Load(15) Bat(71) -> 25 Load(35) Bat(54) -> 34[CS:Station Rapide Saint-Lambert] Load(43) Bat(37) -> 6 Load(43) Bat(53) -> 12 Load(67) Bat(43) -> 15 Load(90) Bat(23) -> 0 Load(110) Bat(0)
+Distance of the route: 35km
+Time of the route: 4527s
+Load of the route: 110
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
+Distance of the route: 0km
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 19 Load(0) Bat(94) -> 13 Load(11) Bat(87) -> 10 Load(28) Bat(68) -> 22 Load(53) Bat(63) -> 8 Load(84) Bat(55) -> 0 Load(105) Bat(51)
+Distance of the route: 14km
+Time of the route: 2303s
+Load of the route: 105
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 4 Load(0) Bat(95) -> 28 Load(27) Bat(90) -> 16 Load(39) Bat(85) -> 7 Load(67) Bat(78) -> 0 Load(86) Bat(61)
+Distance of the route: 10km
+Time of the route: 1869s
+Load of the route: 86
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 26 Load(0) Bat(88) -> 5 Load(14) Bat(84) -> 23 Load(27) Bat(82) -> 20 Load(36) Bat(78) -> 11 Load(66) Bat(73) -> 14 Load(80) Bat(64) -> 2 Load(106) Bat(50) -> 27 Load(128) Bat(42) -> 0 Load(144) Bat(32)
+Distance of the route: 19km
+Time of the route: 3372s
+Load of the route: 144
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 17 Load(0) Bat(89) -> 24 Load(12) Bat(84) -> 21 Load(44) Bat(78) -> 29 Load(54) Bat(75) -> 18 Load(72) Bat(70) -> 9 Load(101) Bat(67) -> 1 Load(117) Bat(59) -> 0 Load(135) Bat(48)
+Distance of the route: 14km
+Time of the route: 2565s
+Load of the route: 135
+
+Total Distance of all routes: 92km
+
+Total Load of all routes: 580
+
+Total Time of all routes: 14636s
+
+Total recharges: 1
+
+Minimum battery (SoC) reached: 0
+

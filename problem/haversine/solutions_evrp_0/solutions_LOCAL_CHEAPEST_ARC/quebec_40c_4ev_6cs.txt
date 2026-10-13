@@ -1,0 +1,42 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 31
+
+Execution Time: 0.09271502494812012
+
+Heuristic: LOCAL_CHEAPEST_ARC
+
+Distance type: haversine
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 1 Load(0) Bat(100) -> 32 Load(20) Bat(98) -> 9 Load(40) Bat(83) -> 15 Load(52) Bat(66) -> 16 Load(79) Bat(55) -> 31 Load(93) Bat(47) -> 25 Load(109) Bat(37) -> 13 Load(135) Bat(32) -> 10 Load(152) Bat(15) -> 46[CS:Circuit Électrique Lévis] Load(187) Bat(13) -> 4 Load(187) Bat(11) -> 0 Load(202) Bat(0)
+Distance of the route: 13km
+Load of the route: 202
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 27 Load(0) Bat(100) -> 38 Load(34) Bat(98) -> 14 Load(61) Bat(93) -> 6 Load(84) Bat(88) -> 45[CS:Borne IKEA Beauport] Load(109) Bat(85) -> 18 Load(109) Bat(100) -> 12 Load(125) Bat(95) -> 24 Load(157) Bat(92) -> 2 Load(178) Bat(89) -> 35 Load(196) Bat(88) -> 41[CS:Borne Rapide Haute-Ville] Load(226) Bat(77) -> 0 Load(226) Bat(76)
+Distance of the route: 2km
+Load of the route: 226
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(0) Bat(100) -> 33 Load(0) Bat(100) -> 22 Load(25) Bat(92) -> 28 Load(54) Bat(86) -> 19 Load(63) Bat(78) -> 7 Load(87) Bat(68) -> 36 Load(106) Bat(68) -> 39 Load(123) Bat(57) -> 8 Load(137) Bat(53) -> 44[CS:Recharge Saint-Roch] Load(165) Bat(53) -> 30 Load(165) Bat(48) -> 0 Load(193) Bat(41)
+Distance of the route: 6km
+Load of the route: 193
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 17 Load(0) Bat(94) -> 21 Load(31) Bat(77) -> 40 Load(42) Bat(67) -> 29 Load(61) Bat(67) -> 23 Load(83) Bat(47) -> 5 Load(101) Bat(43) -> 34 Load(123) Bat(39) -> 11 Load(135) Bat(38) -> 37 Load(145) Bat(33) -> 26 Load(168) Bat(32) -> 20 Load(181) Bat(27) -> 3 Load(214) Bat(22) -> 0 Load(244) Bat(0)
+Distance of the route: 10km
+Load of the route: 244
+
+Total Distance of all routes: 31km
+
+Total Load of all routes: 865
+
+Total recharges: 5
+
+Minimum battery (SoC) reached: 0
+

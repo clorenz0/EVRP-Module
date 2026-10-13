@@ -1,0 +1,44 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 26
+
+Execution Time: 10.001466512680054
+
+Heuristic: ALL_UNPERFORMED
+
+Metaheuristic: GENERIC_TABU_SEARCH
+
+Distance type: haversine
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Bat(100) -> 17 Load(0) Bat(95) -> 21 Load(31) Bat(78) -> 40 Load(42) Bat(68) -> 29 Load(61) Bat(68) -> 9 Load(83) Bat(59) -> 34 Load(95) Bat(48) -> 23 Load(107) Bat(48) -> 11 Load(125) Bat(46) -> 5 Load(135) Bat(42) -> 26 Load(157) Bat(37) -> 37 Load(170) Bat(36) -> 20 Load(193) Bat(31) -> 0 Load(226) Bat(4)
+Distance of the route: 9km
+Load of the route: 226
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 4 Load(0) Bat(100) -> 19 Load(15) Bat(92) -> 7 Load(39) Bat(82) -> 42[CS:Station IGA Sainte-Foy] Load(58) Bat(77) -> 36 Load(58) Bat(78) -> 13 Load(75) Bat(68) -> 25 Load(92) Bat(63) -> 31 Load(118) Bat(53) -> 16 Load(134) Bat(45) -> 15 Load(148) Bat(34) -> 3 Load(175) Bat(31) -> 32 Load(205) Bat(15) -> 1 Load(225) Bat(13) -> 0 Load(245) Bat(0)
+Distance of the route: 11km
+Load of the route: 245
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 27 Load(0) Bat(100) -> 38 Load(34) Bat(98) -> 14 Load(61) Bat(93) -> 6 Load(84) Bat(88) -> 18 Load(109) Bat(85) -> 12 Load(125) Bat(80) -> 45[CS:Borne IKEA Beauport] Load(157) Bat(75) -> 24 Load(157) Bat(70) -> 35 Load(178) Bat(68) -> 2 Load(208) Bat(67) -> 0 Load(226) Bat(55)
+Distance of the route: 3km
+Load of the route: 226
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(0) Bat(100) -> 33 Load(0) Bat(100) -> 22 Load(25) Bat(92) -> 10 Load(54) Bat(89) -> 28 Load(89) Bat(80) -> 39 Load(98) Bat(75) -> 8 Load(112) Bat(71) -> 30 Load(140) Bat(66) -> 44[CS:Recharge Saint-Roch] Load(168) Bat(61) -> 0 Load(168) Bat(53)
+Distance of the route: 3km
+Load of the route: 168
+
+Total Distance of all routes: 26km
+
+Total Load of all routes: 865
+
+Total recharges: 5
+
+Minimum battery (SoC) reached: 0
+

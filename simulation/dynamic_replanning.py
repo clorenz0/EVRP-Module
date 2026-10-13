@@ -99,7 +99,7 @@ def write_replanned_scenario(out_dir, net_file, vehicle_routes: dict, vehicle_st
         ET.SubElement(root, "route", id=f"route_{vid}", edges=" ".join(edges))
         veh = ET.SubElement(
             root, "vehicle", id=vid, type="ev_type", route=f"route_{vid}",
-            depart=str(i * 5), color=colors[i % len(colors)],
+            depart=str(i * 5), departLane="best", color=colors[i % len(colors)],
         )
         for edge_id, duration, label in vehicle_stops.get(vid, []):
             ET.SubElement(veh, "stop", lane=stop_lane_id(net, edge_id), duration=str(duration), parking="true")
@@ -114,8 +114,9 @@ def write_replanned_scenario(out_dir, net_file, vehicle_routes: dict, vehicle_st
     ET.SubElement(inp, "route-files", value="routes_dynamic_replan.rou.xml")
     t = ET.SubElement(cfg_root, "time")
     ET.SubElement(t, "begin", value="0")
+    ET.SubElement(t, "end", value="7200")
     pr = ET.SubElement(cfg_root, "processing")
-    ET.SubElement(pr, "time-to-teleport", value="-1")
+    ET.SubElement(pr, "time-to-teleport", value="300")
     cfg_path = os.path.join(out_dir, "scenario_dynamic_replan.sumocfg")
     _write_pretty_xml(cfg_root, cfg_path)
 
@@ -142,7 +143,7 @@ def parse_args():
                          "ni inyecta ruta nueva -- el vehiculo sigue su plan original a traves del evento. "
                          "Corre hasta que termine su ruta (o --max-complete-time), para comparar tiempo/distancia "
                          "reales contra el modo normal (con re-planeacion).")
-    p.add_argument("--max-complete-time", type=float, default=7200.0,
+    p.add_argument("--max-complete-time", type=float, default=10800.0,
                     help="Tope de seguridad (s de simulacion) esperando a que los vehiculos activos terminen su "
                          "ruta, tanto en modo normal como en --no-replan.")
     return p.parse_args()
@@ -186,7 +187,24 @@ def read_original_params(solution_path):
                 params["heuristic"] = line.split(":", 1)[1].strip()
             elif line.startswith("Metaheuristic:"):
                 params["metaheuristic"] = line.split(":", 1)[1].strip()
+            elif line.startswith("Objective:"):
+                params["objective"] = line.split(":", 1)[1].strip()
+            elif line.startswith("Distance type:"):
+                params["distance_type"] = line.split(":", 1)[1].strip()
     return params
+
+
+def format_route_nodes(route, inst):
+    """Representa una secuencia de nodos EVRP como texto legible, marcando
+    estaciones de carga con [CS:nombre] -- igual que el formato de evrp.py,
+    pero sin Load()/Bat() porque aqui no hay una Assignment de OR-Tools detras."""
+    parts = []
+    for n in route:
+        if n in inst["stations"]:
+            parts.append(f"{n}[CS:{inst['stations'][n]['name']}]")
+        else:
+            parts.append(str(n))
+    return " -> ".join(parts)
 
 
 def chain_real_route(node_seq, node_edge):
@@ -233,27 +251,68 @@ def run_until_done(vids, max_extra_time):
 
 
 def write_baseline_report(path, instance_base, checkpoint_time, event_description,
-                           vehicles_state, vids, stats, unfinished, max_complete_time):
+                           vehicles_state, vids, stats, unfinished, max_complete_time,
+                           original_params, inst):
     """Guarda la traza del modo --no-replan (sin retroalimentacion): mismo
-    evento de congestion, pero el vehiculo sigue su plan original."""
+    evento de congestion, pero el vehiculo sigue su plan original. Muestra
+    que algoritmo produjo ese plan y, por vehiculo, la ruta completa original
+    separada en lo ya recorrido antes del evento y lo pendiente despues
+    (que es la MISMA ruta, sin re-optimizar -- solo se separa para que quede
+    claro donde estaba el vehiculo cuando ocurrio la congestion)."""
     lines = [
         f"Instance: {instance_base}",
         "Mode: NO FEEDBACK (baseline) -- original plan kept through the congestion event",
         f"Checkpoint: {checkpoint_time:.0f}s",
         "",
+    ]
+    if "heuristic" in original_params:
+        lines.append(f"Heuristic: {original_params['heuristic']}")
+    if "metaheuristic" in original_params:
+        lines.append(f"Metaheuristic: {original_params['metaheuristic']}")
+    if "distance_type" in original_params:
+        lines.append(f"Distance type: {original_params['distance_type']}")
+    if "objective" in original_params:
+        lines.append(f"Objective (original full solution): {original_params['objective']}")
+    lines += [
+        f"Vehicle capacity: {original_params.get('vehicle_capacity', '?')}",
+        f"Battery capacity: {original_params.get('fuel_capacity', '?')}",
+        f"Battery consumption rate: {original_params.get('fuel_consumption_rate', '?')}",
+        "",
         event_description,
         "",
-        "Vehicle state at checkpoint:",
     ]
     for vid in vids:
         st = vehicles_state[vid]
-        lines.append(f"  {vid}: distance before event={st['distance_before_m']:.0f}m, "
-                      f"{len(st['pending_nodes'])} pending stop(s): {st['pending_nodes']}")
-    lines += ["", "Result (original plan, same congestion, no re-optimization):"]
+        lines.append(f"Vehicle {vid}:")
+        lines.append("  Original route (full plan from OR-Tools):")
+        lines.append(f"    {format_route_nodes(st['planned_route'], inst)}")
+        lines.append("")
+        lines.append(f"  Already traveled BEFORE the event (checkpoint {checkpoint_time:.0f}s):")
+        done_route = [st["planned_route"][0]] + st["done_nodes"]
+        lines.append(f"    {format_route_nodes(done_route, inst)}"
+                      f"          (distance={st['distance_before_m'] / 1000.0:.3f}km, "
+                      f"{len(st['done_nodes'])} stop(s) completed)")
+        lines.append("")
+        lines.append("  Remaining route, NOT re-planned, executed under congestion:")
+        pending_route = ([st["done_nodes"][-1]] if st["done_nodes"] else [st["planned_route"][0]]) \
+            + st["pending_nodes"] + [st["planned_route"][-1]]
+        lines.append(f"    {format_route_nodes(pending_route, inst)}")
+        lines.append("")
+        before_m = st["distance_before_m"]
+        lines.append("  Actual result (simulated in SUMO, original plan unchanged):")
+        if vid in stats and vid not in unfinished:
+            total_m = before_m + stats[vid]["distance_m"]
+            lines.append(f"    finished -- extra time={stats[vid]['time_s']:.1f}s, "
+                          f"total distance (before+after)={total_m / 1000.0:.3f}km")
+        else:
+            lines.append(f"    DID NOT finish within max_complete_time={max_complete_time:.0f}s")
+        lines.append("")
+
+    lines.append("Result summary (original plan, same congestion, no re-optimization):")
     total_time, total_dist_m = 0.0, 0.0
     for vid in vids:
         before_m = vehicles_state[vid]["distance_before_m"]
-        if vid in stats:
+        if vid in stats and vid not in unfinished:
             total_m = before_m + stats[vid]["distance_m"]
             total_time += stats[vid]["time_s"]
             total_dist_m += total_m
@@ -296,7 +355,7 @@ def main():
 
     sumo_bin = "sumo-gui" if args.gui else "sumo"
     cmd = [sumo_bin, "-c", args.config, "--no-warnings", "true",
-           "--device.battery.probability", "1.0", "--time-to-teleport", "-1"]
+           "--device.battery.probability", "1.0", "--time-to-teleport", "300"]
     if args.gui:
         cmd += ["--start"]  # arranca corriendo, sin esperar que le den play manualmente
     sumo_home = os.environ.get("SUMO_HOME", "")
@@ -339,6 +398,10 @@ def main():
                 # total reportado despues cubra el viaje completo, no solo el
                 # tramo restante del sub-problema.
                 "distance_before_m": traci.vehicle.getDistance(vid),
+                # Ruta original completa (para el reporte --no-replan: muestra
+                # el plan entero, la parte ya hecha y la pendiente por separado).
+                "planned_route": planned_route,
+                "done_nodes": intermediate[:n_done],
             }
             print(f"{vid}: at {vehicles_state[vid]['current_edge']}, "
                   f"battery={battery_wh:.0f}/{max_wh:.0f}Wh, "
@@ -400,7 +463,7 @@ def main():
             stats, unfinished = run_until_done(vids, args.max_complete_time)
             for vid in vids:
                 before_m = vehicles_state[vid]["distance_before_m"]
-                if vid in stats:
+                if vid in stats and vid not in unfinished:
                     total_m = before_m + stats[vid]["distance_m"]
                     print(f"  {vid}: finished -- extra time={stats[vid]['time_s']:.1f}s, "
                           f"total distance (before+after)={total_m / 1000.0:.3f}km")
@@ -415,6 +478,7 @@ def main():
             write_baseline_report(
                 baseline_path, instance_base, args.checkpoint_time, event_description,
                 vehicles_state, vids, stats, unfinished, args.max_complete_time,
+                original_params, inst,
             )
             return
 
@@ -583,13 +647,31 @@ def main():
             vehicle_stops[vid] = stops
             print(f"  {len(stops)} stop(s): {[s[2] for s in stops]}")
 
+        # Rutas originales (antes de este evento) por vehiculo re-planeado --
+        # mismo formato que el reporte --no-replan, para poder comparar
+        # directamente que hubiera seguido haciendo el plan original contra
+        # lo que de verdad se le inyecto tras la re-optimizacion.
+        original_route_lines = ["Original routes (before this re-planning event):"]
+        for vid in vehicle_routes.keys():
+            st = vehicles_state[vid]
+            done_route = [st["planned_route"][0]] + st["done_nodes"]
+            original_route_lines.append(f"Vehicle {vid}:")
+            original_route_lines.append("  Original route (full plan from OR-Tools, before the event):")
+            original_route_lines.append(f"    {format_route_nodes(st['planned_route'], inst)}")
+            original_route_lines.append(f"  Already traveled BEFORE the event (checkpoint {args.checkpoint_time:.0f}s):")
+            original_route_lines.append(f"    {format_route_nodes(done_route, inst)}"
+                                         f"          (distance={st['distance_before_m'] / 1000.0:.3f}km, "
+                                         f"{len(st['done_nodes'])} stop(s) completed)")
+            original_route_lines.append("  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)")
+            original_route_lines.append("")
+
         print(f"\n{'=' * 70}\n  WITH FEEDBACK: running until the injected vehicles finish\n{'=' * 70}")
         stats, unfinished = run_until_done(vehicle_routes.keys(), args.max_complete_time)
         completion_lines = ["", "Completion stats (real simulated time/distance after re-planning):"]
         total_time, total_dist_m = 0.0, 0.0
         for vid in vehicle_routes.keys():
             before_m = vehicles_state[vid]["distance_before_m"]
-            if vid in stats:
+            if vid in stats and vid not in unfinished:
                 total_m = before_m + stats[vid]["distance_m"]
                 total_time += stats[vid]["time_s"]
                 total_dist_m += total_m
@@ -607,11 +689,18 @@ def main():
             completion_lines.append(warn)
         print(f"Final simulation time: {traci.simulation.getTime():.0f}s")
 
-        # Agrega las estadisticas de finalizacion real al mismo .txt que ya
-        # escribio evrp.execute() (solo se conocen DESPUES de correr la
-        # simulacion hasta el final, no al momento de resolver el sub-problema).
-        with open(new_sol_path, "a", encoding="utf-8") as f:
-            f.write("\n".join(completion_lines) + "\n")
+        # Inserta las rutas originales justo despues del evento (antes de
+        # "Objective:") -- es lo primero que alguien quiere ver: que algoritmo
+        # y que ruta tenia el vehiculo ANTES de que esto pasara. Las
+        # estadisticas de finalizacion real se agregan al final porque solo
+        # se conocen DESPUES de correr la simulacion hasta el final.
+        with open(new_sol_path, encoding="utf-8") as f:
+            content = f.read()
+        insertion = "\n".join(original_route_lines)
+        content = content.replace("\nObjective:", f"\n{insertion}\nObjective:", 1)
+        content += "\n".join(completion_lines) + "\n"
+        with open(new_sol_path, "w", encoding="utf-8") as f:
+            f.write(content)
 
         # Copia con nombre unico a la carpeta de resultados dedicada -- nunca
         # sobreescribe una traza anterior (se necesitan todas para comparar).
@@ -625,7 +714,11 @@ def main():
         # A sumo-gui driven by TraCI can't be "released" to stay open (cutting
         # the connection without a clean close makes it fail) — a separate
         # .sumocfg is exported to open manually, at your own pace.
-        out_dir = os.path.dirname(args.config)
+        # Carpeta propia por algoritmo (replanificacion_<algoritmo>) -- si no,
+        # correr GLS despues de PATH_CHEAPEST_ARC sobre la MISMA instancia
+        # pisaria el escenario exportado del anterior.
+        out_dir = os.path.join(os.path.dirname(args.config), f"replanificacion_{replan_solution_name}")
+        os.makedirs(out_dir, exist_ok=True)
         replan_cfg = write_replanned_scenario(out_dir, args.net_file, vehicle_routes, vehicle_stops, net)
         print(f"\nNew plan exported to a standalone scenario:\n  {replan_cfg}")
         print(f"To view it (from second 0, already with the re-optimized plan):\n"

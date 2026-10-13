@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2100 810" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="2100" height="810" fill="white"/>
+<text x="1050.0" y="38" font-size="27" font-weight="bold" text-anchor="middle">Builder Pattern — RoutingModel Construction</text>
+<path d="M280.0,446.0 L280.0,416.0 L500.0,416.0 L1050.0,296.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polyline points="1038.4,303.7 1050.0,296.0 1036.2,293.9" fill="none" stroke="black" stroke-width="1.6"/>
+<path d="M930.0,446.0 L1050.0,296.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polyline points="1045.8,309.3 1050.0,296.0 1038.0,303.0" fill="none" stroke="black" stroke-width="1.6"/>
+<path d="M1610.0,446.0 L1610.0,416.0 L1350.0,416.0 L1050.0,296.0" fill="none" stroke="black" stroke-width="1.4"/>
+<polyline points="1063.9,296.2 1050.0,296.0 1060.2,305.5" fill="none" stroke="black" stroke-width="1.6"/>
+<rect x="660.0" y="90" width="780" height="206" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="1050.0" y="111.0" font-size="17" text-anchor="middle" font-style="italic">«builder»</text>
+<text x="1050.0" y="137.2" font-size="21" text-anchor="middle" font-weight="bold">RoutingModel</text>
+<line x1="660.0" y1="158" x2="1440.0" y2="158" stroke="black" stroke-width="1.2"/>
+<line x1="660.0" y1="174" x2="1440.0" y2="174" stroke="black" stroke-width="1.2"/>
+<text x="672.0" y="192.0" font-size="19">+ SetArcCostEvaluatorOfAllVehicles(evaluator) -> None</text>
+<text x="672.0" y="219.0" font-size="19">+ AddDimension(evaluator, slack, capacity,</text>
+<text x="672.0" y="246.0" font-size="19">     fix_start, name: str) -> None</text>
+<text x="672.0" y="273.0" font-size="19">+ SolveWithParameters(parameters) -> Assignment</text>
+<rect x="0" y="446" width="560" height="233" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="280.0" y="467.0" font-size="17" text-anchor="middle" font-style="italic">«director»</text>
+<text x="280.0" y="493.2" font-size="21" text-anchor="middle" font-weight="bold">cvrp.execute</text>
+<line x1="0" y1="514" x2="560" y2="514" stroke="black" stroke-width="1.2"/>
+<line x1="0" y1="530" x2="560" y2="530" stroke="black" stroke-width="1.2"/>
+<text x="12" y="548.0" font-size="19">+ execute(i: int, instance: Instance,</text>
+<text x="12" y="575.0" font-size="19">     time_limit: int, distance_type: DistanceType,</text>
+<text x="12" y="602.0" font-size="19">     heuristic: HeuristicType,</text>
+<text x="12" y="629.0" font-size="19">     metaheuristic: MetaheuristicType,</text>
+<text x="12" y="656.0" font-size="19">     initial_routes: list) -> Solution</text>
+<rect x="620" y="446" width="620" height="314" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="930.0" y="467.0" font-size="17" text-anchor="middle" font-style="italic">«director»</text>
+<text x="930.0" y="493.2" font-size="21" text-anchor="middle" font-weight="bold">evrp.execute</text>
+<line x1="620" y1="514" x2="1240" y2="514" stroke="black" stroke-width="1.2"/>
+<line x1="620" y1="530" x2="1240" y2="530" stroke="black" stroke-width="1.2"/>
+<text x="632" y="548.0" font-size="19">+ execute(i: int, instance: Instance,</text>
+<text x="632" y="575.0" font-size="19">     time_limit: int,</text>
+<text x="632" y="602.0" font-size="19">     vehicle_maximum_travel_distance: float,</text>
+<text x="632" y="629.0" font-size="19">     vehicle_max_time: float, vehicle_speed: float,</text>
+<text x="632" y="656.0" font-size="19">     distance_type: DistanceType,</text>
+<text x="632" y="683.0" font-size="19">     heuristic: HeuristicType,</text>
+<text x="632" y="710.0" font-size="19">     metaheuristic: MetaheuristicType,</text>
+<text x="632" y="737.0" font-size="19">     initial_routes: list) -> Solution</text>
+<rect x="1300" y="446" width="620" height="314" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="1610.0" y="467.0" font-size="17" text-anchor="middle" font-style="italic">«director»</text>
+<text x="1610.0" y="493.2" font-size="21" text-anchor="middle" font-weight="bold">vrptw.execute</text>
+<line x1="1300" y1="514" x2="1920" y2="514" stroke="black" stroke-width="1.2"/>
+<line x1="1300" y1="530" x2="1920" y2="530" stroke="black" stroke-width="1.2"/>
+<text x="1312" y="548.0" font-size="19">+ execute(i: int, instance: Instance,</text>
+<text x="1312" y="575.0" font-size="19">     time_limit: int,</text>
+<text x="1312" y="602.0" font-size="19">     vehicle_maximum_travel_distance: float,</text>
+<text x="1312" y="629.0" font-size="19">     vehicle_max_time: float, vehicle_speed: float,</text>
+<text x="1312" y="656.0" font-size="19">     distance_type: DistanceType,</text>
+<text x="1312" y="683.0" font-size="19">     heuristic: HeuristicType,</text>
+<text x="1312" y="710.0" font-size="19">     metaheuristic: MetaheuristicType,</text>
+<text x="1312" y="737.0" font-size="19">     initial_routes: list) -> Solution</text>
+</svg>

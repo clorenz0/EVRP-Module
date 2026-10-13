@@ -1,0 +1,42 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 32
+
+Execution Time: 0.05552101135253906
+
+Heuristic: CHRISTOFIDES
+
+Distance type: haversine
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 27 Load(0) Bat(100) -> 4 Load(34) Bat(79) -> 39 Load(49) Bat(74) -> 8 Load(63) Bat(70) -> 44[CS:Recharge Saint-Roch] Load(91) Bat(70) -> 42[CS:Station IGA Sainte-Foy] Load(91) Bat(100) -> 16 Load(91) Bat(90) -> 26 Load(105) Bat(82) -> 20 Load(118) Bat(77) -> 3 Load(151) Bat(72) -> 0 Load(181) Bat(50)
+Distance of the route: 11km
+Load of the route: 181
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 30 Load(0) Bat(95) -> 15 Load(28) Bat(79) -> 37 Load(55) Bat(68) -> 5 Load(78) Bat(64) -> 34 Load(100) Bat(60) -> 11 Load(112) Bat(59) -> 23 Load(122) Bat(57) -> 9 Load(140) Bat(46) -> 40 Load(152) Bat(36) -> 29 Load(171) Bat(36) -> 21 Load(193) Bat(26) -> 32 Load(204) Bat(15) -> 1 Load(224) Bat(13) -> 0 Load(244) Bat(0)
+Distance of the route: 10km
+Load of the route: 244
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Bat(100) -> 17 Load(0) Bat(100) -> 24 Load(31) Bat(91) -> 2 Load(52) Bat(88) -> 35 Load(70) Bat(87) -> 12 Load(100) Bat(82) -> 18 Load(132) Bat(77) -> 45[CS:Borne IKEA Beauport] Load(148) Bat(77) -> 6 Load(148) Bat(74) -> 14 Load(173) Bat(69) -> 38 Load(196) Bat(64) -> 0 Load(223) Bat(52)
+Distance of the route: 3km
+Load of the route: 223
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(0) Bat(100) -> 33 Load(0) Bat(100) -> 22 Load(25) Bat(92) -> 10 Load(54) Bat(89) -> 46[CS:Circuit Électrique Lévis] Load(89) Bat(87) -> 19 Load(89) Bat(76) -> 7 Load(113) Bat(66) -> 36 Load(132) Bat(66) -> 31 Load(149) Bat(55) -> 25 Load(165) Bat(45) -> 13 Load(191) Bat(40) -> 28 Load(208) Bat(24) -> 0 Load(217) Bat(14)
+Distance of the route: 8km
+Load of the route: 217
+
+Total Distance of all routes: 32km
+
+Total Load of all routes: 865
+
+Total recharges: 6
+
+Minimum battery (SoC) reached: 0
+

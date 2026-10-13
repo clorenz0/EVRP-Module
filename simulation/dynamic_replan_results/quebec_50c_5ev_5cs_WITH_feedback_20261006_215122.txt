@@ -1,0 +1,90 @@
+Instance: dynamic_replan_quebec_50c_5ev_5cs_20261006_215122.txt
+
+Event: congestion forced at checkpoint 1200s on 17 real edge(s) (speed limit lowered to 2.0 m/s). Probe ev_1 -> node 34: travel time 568.8s -> 2075.3s (+264.9%), distance 12477m -> 13231m. Congested edges: 1509915472, 1509901374, 27853798, 1507560263, 1507553767#0, 1507553767#1, 317869276, 317881007, 1505707295#0, 1505707295#1, 1505707294, 404593410, 932669467, 1505707289, 932669468, 404593413, 932669469.
+
+Original routes (before this re-planning event):
+Vehicle ev_1:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 24 -> 29 -> 33 -> 2 -> 53[CS:Station Rapide TR Ouest] -> 34 -> 37 -> 39 -> 9 -> 15 -> 16 -> 3 -> 35 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 24 -> 29 -> 33 -> 2 -> 53[CS:Station Rapide TR Ouest]          (distance=8.639km, 5 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_2:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 27 -> 6 -> 49 -> 7 -> 23 -> 52[CS:Recharge EV Cap-de-la-Madeleine] -> 25 -> 32 -> 48 -> 28 -> 17 -> 46 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 27 -> 6 -> 49 -> 7 -> 23          (distance=14.772km, 5 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_3:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 50 -> 38 -> 40 -> 42 -> 41 -> 10 -> 4 -> 18 -> 26 -> 5 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 50 -> 38 -> 40 -> 42 -> 41          (distance=11.933km, 5 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_4:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 11 -> 20 -> 36 -> 44 -> 30 -> 43 -> 14 -> 45 -> 55[CS:Borne IGA Trois-Rivieres] -> 19 -> 8 -> 21 -> 13 -> 31 -> 22 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 11 -> 20 -> 36          (distance=22.741km, 3 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Objective: 116
+
+Execution Time: 15.00179409980774
+
+Metaheuristic: GUIDED_LOCAL_SEARCH
+
+Distance type: osrm
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Route for vehicle 0:
+ 36[CS:current_position_ev_1] Load(60) Bat(74) -> 1 Load(60) Bat(100) -> 2 Load(78) Bat(74) -> 5 Load(97) Bat(64) -> 4 Load(127) Bat(57) -> 35[CS:Borne IGA Trois-Rivieres] Load(151) Bat(38) -> 26 Load(151) Bat(100) -> 25 Load(177) Bat(99) -> 27 Load(198) Bat(86) -> 28 Load(218) Bat(79) -> 29 Load(232) Bat(56) -> 31[CS:Borne Trois-Rivieres Centre] Load(247) Bat(49) -> 0 Load(247) Bat(48)
+Distance of the route: 47km
+Time of the route: 4033s
+Load of the route: 247
+
+Route for vehicle 1:
+ 37[CS:current_position_ev_2] Load(115) Bat(45) -> 32[CS:Recharge EV Cap-de-la-Madeleine] Load(115) Bat(100) -> 14 Load(115) Bat(90) -> 11 Load(131) Bat(75) -> 10 Load(151) Bat(73) -> 9 Load(170) Bat(67) -> 13 Load(200) Bat(53) -> 12 Load(224) Bat(45) -> 0 Load(235) Bat(16)
+Distance of the route: 29km
+Time of the route: 2102s
+Load of the route: 235
+
+Route for vehicle 2:
+ 38[CS:current_position_ev_3] Load(119) Bat(46) -> 16 Load(119) Bat(40) -> 17 Load(146) Bat(35) -> 15 Load(154) Bat(33) -> 18 Load(172) Bat(22) -> 19 Load(202) Bat(7) -> 0 Load(229) Bat(3)
+Distance of the route: 12km
+Time of the route: 1272s
+Load of the route: 229
+
+Route for vehicle 3:
+ 39[CS:current_position_ev_4] Load(43) Bat(40) -> 20 Load(43) Bat(92) -> 21 Load(53) Bat(90) -> 22 Load(78) Bat(90) -> 24 Load(100) Bat(86) -> 23 Load(118) Bat(78) -> 3 Load(137) Bat(53) -> 6 Load(152) Bat(47) -> 8 Load(179) Bat(16) -> 7 Load(199) Bat(14) -> 30 Load(228) Bat(7) -> 0 Load(242) Bat(0)
+Distance of the route: 28km
+Time of the route: 1815s
+Load of the route: 242
+
+Total Distance of all routes: 116km
+
+Total Load of all routes: 953
+
+Total Time of all routes: 9222s
+
+Total recharges: 7
+
+Minimum battery (SoC) reached: 0
+
+Distance already traveled before this sub-problem: 58.085km
+
+Total Distance including distance before event: 174.085km
+
+
+Completion stats (real simulated time/distance after re-planning):
+  ev_1: finished -- extra time=5181.0s, total distance (before+after)=62.254km
+  ev_2: finished -- extra time=2515.0s, total distance (before+after)=58.243km
+  ev_3: finished -- extra time=1605.0s, total distance (before+after)=38.511km
+  ev_4: finished -- extra time=2200.0s, total distance (before+after)=72.776km
+TOTAL (finished vehicles only): extra time=11501.0s, total distance=231.784km

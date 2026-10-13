@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1840 2016" font-family="Arial, Helvetica, sans-serif">
+<rect x="0" y="0" width="1840" height="2016" fill="white"/>
+<text x="920.0" y="40" font-size="20" font-weight="bold" text-anchor="middle">Diagrama de actividades: cálculo de distancia real con OSRM</text>
+<line x1="350" y1="60" x2="350" y2="2006" stroke="black" stroke-width="1"/>
+<text x="190" y="80" font-size="15" font-weight="bold" text-anchor="middle">Usuario</text>
+<line x1="700" y1="60" x2="700" y2="2006" stroke="black" stroke-width="1"/>
+<text x="540" y="80" font-size="15" font-weight="bold" text-anchor="middle">OR-Tools (import_data)</text>
+<line x1="1100" y1="60" x2="1100" y2="2006" stroke="black" stroke-width="1"/>
+<text x="900" y="80" font-size="15" font-weight="bold" text-anchor="middle">osrm_client</text>
+<line x1="1520" y1="60" x2="1520" y2="2006" stroke="black" stroke-width="1"/>
+<text x="1300" y="80" font-size="15" font-weight="bold" text-anchor="middle">Servidor OSRM (Docker)</text>
+<line x1="70" y1="60" x2="70" y2="2006" stroke="black" stroke-width="1"/>
+<line x1="70" y1="95" x2="1520" y2="95" stroke="black" stroke-width="1.2"/>
+<circle cx="190" cy="104" r="14" fill="black"/>
+<rect x="50.0" y="120.0" width="280" height="58" rx="10" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="190.0" y="140.9" font-size="13.5" text-anchor="middle">Seleccionar tipo de</text>
+<text x="190.0" y="157.8" font-size="13.5" text-anchor="middle">distancia OSRM</text>
+<rect x="400.0" y="258.0" width="280" height="46" rx="10" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="540.0" y="281.0" font-size="13.5" text-anchor="middle">Cargar instancia del problema</text>
+<rect x="760.0" y="394.0" width="280" height="58" rx="10" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="900.0" y="414.9" font-size="13.5" text-anchor="middle">Transformar coordenadas al</text>
+<text x="900.0" y="431.8" font-size="13.5" text-anchor="middle">formato esperado por OSRM</text>
+<rect x="1500.0" y="399.0" width="240" height="56" fill="white" stroke="black" stroke-width="1.3"/>
+<text x="1620.0" y="419.5" font-size="12.5" text-anchor="middle">Coordenadas</text>
+<text x="1620.0" y="435.1" font-size="12.5" text-anchor="middle" font-style="italic">[transformadas]</text>
+<rect x="760.0" y="542.0" width="280" height="58" rx="10" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="900.0" y="562.9" font-size="13.5" text-anchor="middle">Calcular clave de caché a</text>
+<text x="900.0" y="579.8" font-size="13.5" text-anchor="middle">partir de coordenadas y perfil</text>
+<rect x="760.0" y="680.0" width="280" height="58" rx="10" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="900.0" y="700.9" font-size="13.5" text-anchor="middle">Verificar existencia de matriz</text>
+<text x="900.0" y="717.8" font-size="13.5" text-anchor="middle">cacheada para esa clave</text>
+<polygon points="900.0,808 1025.0,868.0 900.0,928 775.0,868.0" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="900.0" y="860.2" font-size="13" text-anchor="middle">¿Existe matriz</text>
+<text x="900.0" y="876.5" font-size="13" text-anchor="middle">cacheada?</text>
+<rect x="760.0" y="1018.0" width="280" height="58" rx="10" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="900.0" y="1038.9" font-size="13.5" text-anchor="middle">Cargar matriz de distancias</text>
+<text x="900.0" y="1055.8" font-size="13.5" text-anchor="middle">desde caché</text>
+<rect x="1160.0" y="1018.0" width="280" height="58" rx="10" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="1300.0" y="1038.9" font-size="13.5" text-anchor="middle">Calcular matriz de distancias</text>
+<text x="1300.0" y="1055.8" font-size="13.5" text-anchor="middle">y tiempos reales (/table)</text>
+<rect x="1500.0" y="1023.0" width="240" height="56" fill="white" stroke="black" stroke-width="1.3"/>
+<text x="1620.0" y="1043.5" font-size="12.5" text-anchor="middle">Matriz OSRM</text>
+<text x="1620.0" y="1059.1" font-size="12.5" text-anchor="middle" font-style="italic">[calculada]</text>
+<rect x="760.0" y="1206.0" width="280" height="58" rx="10" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="900.0" y="1226.9" font-size="13.5" text-anchor="middle">Convertir metros a kilómetros y</text>
+<text x="900.0" y="1243.8" font-size="13.5" text-anchor="middle">aplicar penalización a inalcanzables</text>
+<rect x="760.0" y="1344.0" width="280" height="58" rx="10" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="900.0" y="1364.9" font-size="13.5" text-anchor="middle">Guardar matriz de distancias</text>
+<text x="900.0" y="1381.8" font-size="13.5" text-anchor="middle">en caché</text>
+<polygon points="900.0,1492 928.0,1520.0 900.0,1548 872.0,1520.0" fill="white" stroke="black" stroke-width="1.4"/>
+<rect x="760.0" y="1638.0" width="280" height="58" rx="10" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="900.0" y="1658.9" font-size="13.5" text-anchor="middle">Entregar matriz de distancias</text>
+<text x="900.0" y="1675.8" font-size="13.5" text-anchor="middle">a OR-Tools</text>
+<rect x="1500.0" y="1643.0" width="240" height="56" fill="white" stroke="black" stroke-width="1.3"/>
+<text x="1620.0" y="1663.5" font-size="12.5" text-anchor="middle">Distancia real</text>
+<text x="1620.0" y="1679.1" font-size="12.5" text-anchor="middle" font-style="italic">[disponible]</text>
+<rect x="400.0" y="1796.0" width="280" height="58" rx="10" fill="white" stroke="black" stroke-width="1.4"/>
+<text x="540.0" y="1816.9" font-size="13.5" text-anchor="middle">Incorporar distancias reales al</text>
+<text x="540.0" y="1833.8" font-size="13.5" text-anchor="middle">modelo de ruteo</text>
+<circle cx="540" cy="1940" r="16" fill="none" stroke="black" stroke-width="1.6"/>
+<circle cx="540" cy="1940" r="11" fill="black"/>
+<path d="M190.0,118.0 L190.0,120.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="190.0,120.0 185.5,108.0 194.5,108.0" fill="black"/>
+<path d="M190.0,178.0 L190.0,213.0 L540.0,213.0 L540.0,258.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="540.0,258.0 535.5,246.0 544.5,246.0" fill="black"/>
+<path d="M540.0,304.0 L540.0,339.0 L900.0,339.0 L900.0,394.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="900.0,394.0 895.5,382.0 904.5,382.0" fill="black"/>
+<path d="M1040.0,423.0 L1500.0,427.0" fill="none" stroke="black" stroke-width="1.5" stroke-dasharray="7,5"/>
+<polyline points="1488.0,431.4 1500.0,427.0 1488.0,422.4" fill="none" stroke="black" stroke-width="2"/>
+<path d="M1620.0,455.0 L1620.0,585.0 L1040.0,571.0" fill="none" stroke="black" stroke-width="1.5" stroke-dasharray="7,5"/>
+<polyline points="1052.1,566.8 1040.0,571.0 1051.9,575.8" fill="none" stroke="black" stroke-width="2"/>
+<path d="M900.0,452.0 L900.0,542.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="900.0,542.0 895.5,530.0 904.5,530.0" fill="black"/>
+<path d="M900.0,600.0 L900.0,680.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="900.0,680.0 895.5,668.0 904.5,668.0" fill="black"/>
+<path d="M900.0,738.0 L900.0,808.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="900.0,808.0 895.5,796.0 904.5,796.0" fill="black"/>
+<path d="M900.0,928.0 L900.0,1018.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="900.0,1018.0 895.5,1006.0 904.5,1006.0" fill="black"/>
+<text x="845" y="963" font-size="13" font-style="italic" text-anchor="middle">[sí]</text>
+<path d="M1025.0,868.0 L1300.0,868.0 L1300.0,1018.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="1300.0,1018.0 1295.5,1006.0 1304.5,1006.0" fill="black"/>
+<text x="1080" y="856.0" font-size="13" font-style="italic" text-anchor="middle">[no]</text>
+<path d="M1440.0,1047.0 L1500.0,1051.0" fill="none" stroke="black" stroke-width="1.5" stroke-dasharray="7,5"/>
+<polyline points="1487.7,1054.7 1500.0,1051.0 1488.3,1045.7" fill="none" stroke="black" stroke-width="2"/>
+<path d="M1160.0,1047.0 L1140.0,1146.0 L900.0,1146.0 L900.0,1206.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="900.0,1206.0 895.5,1194.0 904.5,1194.0" fill="black"/>
+<path d="M1620.0,1079.0 L1620.0,1176.0 L1040.0,1235.0" fill="none" stroke="black" stroke-width="1.5" stroke-dasharray="7,5"/>
+<polyline points="1051.5,1229.3 1040.0,1235.0 1052.4,1238.3" fill="none" stroke="black" stroke-width="2"/>
+<path d="M900.0,1264.0 L900.0,1344.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="900.0,1344.0 895.5,1332.0 904.5,1332.0" fill="black"/>
+<path d="M900.0,1402.0 L900.0,1492.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="900.0,1492.0 895.5,1480.0 904.5,1480.0" fill="black"/>
+<path d="M900.0,1076.0 L900.0,1111.0 L680.0,1111.0 L680.0,1520.0 L872.0,1520.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="872.0,1520.0 860.0,1524.5 860.0,1515.5" fill="black"/>
+<path d="M900.0,1548.0 L900.0,1638.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="900.0,1638.0 895.5,1626.0 904.5,1626.0" fill="black"/>
+<path d="M1040.0,1667.0 L1500.0,1671.0" fill="none" stroke="black" stroke-width="1.5" stroke-dasharray="7,5"/>
+<polyline points="1488.0,1675.4 1500.0,1671.0 1488.0,1666.4" fill="none" stroke="black" stroke-width="2"/>
+<path d="M1620.0,1699.0 L1620.0,1839.0 L680.0,1825.0" fill="none" stroke="black" stroke-width="1.5" stroke-dasharray="7,5"/>
+<polyline points="692.1,1820.7 680.0,1825.0 691.9,1829.7" fill="none" stroke="black" stroke-width="2"/>
+<path d="M900.0,1696.0 L900.0,1736.0 L540.0,1736.0 L540.0,1796.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="540.0,1796.0 535.5,1784.0 544.5,1784.0" fill="black"/>
+<path d="M540.0,1854.0 L540.0,1924.0" fill="none" stroke="black" stroke-width="1.5"/>
+<polygon points="540.0,1924.0 535.5,1912.0 544.5,1912.0" fill="black"/>
+</svg>

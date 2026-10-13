@@ -1,0 +1,50 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 73
+
+Execution Time: 9.996638298034668
+
+Heuristic: ALL_UNPERFORMED
+
+Metaheuristic: GUIDED_LOCAL_SEARCH
+
+Distance type: osrm
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 44[CS:Recharge Saint-Roch] Load(0) Bat(96) -> 31 Load(0) Bat(87) -> 42[CS:Station IGA Sainte-Foy] Load(16) Bat(83) -> 15 Load(16) Bat(78) -> 16 Load(43) Bat(72) -> 5 Load(57) Bat(61) -> 23 Load(79) Bat(59) -> 11 Load(97) Bat(58) -> 34 Load(107) Bat(58) -> 37 Load(119) Bat(53) -> 26 Load(142) Bat(53) -> 20 Load(155) Bat(50) -> 9 Load(188) Bat(43) -> 3 Load(200) Bat(34) -> 0 Load(230) Bat(21)
+Distance of the route: 23km
+Time of the route: 3777s
+Load of the route: 230
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Bat(98) -> 22 Load(0) Bat(84) -> 10 Load(29) Bat(83) -> 27 Load(64) Bat(72) -> 14 Load(98) Bat(66) -> 38 Load(121) Bat(46) -> 30 Load(148) Bat(38) -> 17 Load(176) Bat(33) -> 0 Load(207) Bat(28)
+Distance of the route: 19km
+Time of the route: 5492s
+Load of the route: 207
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 8 Load(0) Bat(96) -> 39 Load(28) Bat(93) -> 36 Load(42) Bat(86) -> 7 Load(59) Bat(86) -> 25 Load(78) Bat(82) -> 13 Load(104) Bat(73) -> 19 Load(121) Bat(70) -> 28 Load(145) Bat(63) -> 4 Load(154) Bat(63) -> 33 Load(169) Bat(60) -> 0 Load(194) Bat(53)
+Distance of the route: 14km
+Time of the route: 2196s
+Load of the route: 194
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 35 Load(0) Bat(88) -> 2 Load(30) Bat(88) -> 6 Load(48) Bat(86) -> 18 Load(73) Bat(86) -> 24 Load(89) Bat(85) -> 12 Load(110) Bat(78) -> 21 Load(142) Bat(63) -> 29 Load(153) Bat(57) -> 40 Load(175) Bat(56) -> 32 Load(194) Bat(48) -> 1 Load(214) Bat(46) -> 0 Load(234) Bat(38)
+Distance of the route: 17km
+Time of the route: 2808s
+Load of the route: 234
+
+Total Distance of all routes: 73km
+
+Total Load of all routes: 865
+
+Total Time of all routes: 14273s
+
+Total recharges: 3
+
+Minimum battery (SoC) reached: 21
+

@@ -1,0 +1,44 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 25
+
+Execution Time: 9.999692440032959
+
+Heuristic: LOCAL_CHEAPEST_ARC
+
+Metaheuristic: GENERIC_TABU_SEARCH
+
+Distance type: haversine
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 28 Load(0) Bat(95) -> 19 Load(9) Bat(87) -> 36 Load(33) Bat(77) -> 7 Load(50) Bat(77) -> 13 Load(69) Bat(67) -> 25 Load(86) Bat(62) -> 31 Load(112) Bat(52) -> 16 Load(128) Bat(44) -> 15 Load(142) Bat(33) -> 1 Load(169) Bat(17) -> 17 Load(189) Bat(7) -> 0 Load(220) Bat(0)
+Distance of the route: 11km
+Load of the route: 220
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 30 Load(0) Bat(100) -> 8 Load(28) Bat(95) -> 39 Load(56) Bat(91) -> 4 Load(70) Bat(86) -> 10 Load(85) Bat(78) -> 22 Load(120) Bat(75) -> 33 Load(149) Bat(67) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(174) Bat(62) -> 0 Load(174) Bat(61)
+Distance of the route: 3km
+Load of the route: 174
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 32 Load(0) Bat(89) -> 21 Load(20) Bat(78) -> 40 Load(31) Bat(68) -> 29 Load(50) Bat(68) -> 9 Load(72) Bat(59) -> 34 Load(84) Bat(48) -> 23 Load(96) Bat(48) -> 11 Load(114) Bat(46) -> 37 Load(124) Bat(41) -> 5 Load(147) Bat(37) -> 26 Load(169) Bat(32) -> 20 Load(182) Bat(27) -> 3 Load(215) Bat(22) -> 0 Load(245) Bat(0)
+Distance of the route: 9km
+Load of the route: 245
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Bat(100) -> 2 Load(0) Bat(100) -> 35 Load(18) Bat(99) -> 24 Load(48) Bat(97) -> 45[CS:Borne IKEA Beauport] Load(69) Bat(92) -> 12 Load(69) Bat(87) -> 18 Load(101) Bat(82) -> 6 Load(117) Bat(79) -> 14 Load(142) Bat(74) -> 38 Load(165) Bat(69) -> 27 Load(192) Bat(67) -> 0 Load(226) Bat(56)
+Distance of the route: 2km
+Load of the route: 226
+
+Total Distance of all routes: 25km
+
+Total Load of all routes: 865
+
+Total recharges: 3
+
+Minimum battery (SoC) reached: 0
+

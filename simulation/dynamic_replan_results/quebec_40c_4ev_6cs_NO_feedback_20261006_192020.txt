@@ -1,0 +1,72 @@
+Instance: quebec_40c_4ev_6cs
+Mode: NO FEEDBACK (baseline) -- original plan kept through the congestion event
+Checkpoint: 1200s
+
+Metaheuristic: GUIDED_LOCAL_SEARCH
+Distance type: osrm
+Objective (solucion original completa): 73
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Event: congestion forced at checkpoint 1200s on 56 real edge(s) (speed limit lowered to 2.0 m/s). Probe ev_0 -> node 22: travel time 920.8s -> 961.5s (+4.4%), distance 19514m -> 23303m. Congested edges: 473737985#0, 39814337#1, 39814337#2, 39814337#3, 1276253882, 995919741#0, 995919741#1, 995919741#2, 995919741#3, 1276253881#0, 1276253881#1, 995919742, 105533559#1, 105533559#2, 105533559#3, 105533559#4, 105533559#5, 105533559#6, 105533559#7, 75390658#0, 75390658#1, 75390658#2, 75390658#3, 75390658#4, 75390658#5, 75390658#6, 75390658#7, 75390658#8, 75390658#9, 75390658#10, 75390658#11, 75390658#12, 75390658#13, 75390658#14, 75390658#15, 75390658#16, 75390658#17, 75390658#18, 75390658#19, 75390658#20, 75390658#21, 75390658#23, 1276545764, 1275432028#0, 1275432028#1, 1275432028#2, 1275432028#3, 1275432028#6, 1275432028#7, 1275432028#8, 1275432028#9, 1275432028#10, 1275432028#11, 1275432028#12, 1275432028#13, -39814338#1.
+
+Vehicle ev_0:
+  Ruta original (completa, planificada por OR-Tools):
+    0 -> 17 -> 41[CS:Borne Rapide Haute-Ville] -> 22 -> 10 -> 14 -> 27 -> 0
+
+  Ruta ya recorrida ANTES del evento (checkpoint 1200s):
+    0 -> 17 -> 41[CS:Borne Rapide Haute-Ville]          (distance=12.839km, 2 stop(s) completados)
+
+  Ruta restante, SIN re-planear, ejecutada bajo congestion:
+    41[CS:Borne Rapide Haute-Ville] -> 22 -> 10 -> 14 -> 27 -> 0
+
+  Resultado real (simulado en SUMO, plan original intacto):
+    finished -- extra time=5618.0s, total distance (before+after)=86.111km
+
+Vehicle ev_1:
+  Ruta original (completa, planificada por OR-Tools):
+    0 -> 30 -> 15 -> 16 -> 26 -> 37 -> 34 -> 11 -> 23 -> 5 -> 20 -> 9 -> 3 -> 44[CS:Recharge Saint-Roch] -> 0
+
+  Ruta ya recorrida ANTES del evento (checkpoint 1200s):
+    0 -> 30 -> 15 -> 16 -> 26 -> 37          (distance=12.002km, 5 stop(s) completados)
+
+  Ruta restante, SIN re-planear, ejecutada bajo congestion:
+    37 -> 34 -> 11 -> 23 -> 5 -> 20 -> 9 -> 3 -> 44[CS:Recharge Saint-Roch] -> 0
+
+  Resultado real (simulado en SUMO, plan original intacto):
+    finished -- extra time=2251.0s, total distance (before+after)=42.325km
+
+Vehicle ev_2:
+  Ruta original (completa, planificada por OR-Tools):
+    0 -> 35 -> 45[CS:Borne IKEA Beauport] -> 18 -> 6 -> 24 -> 2 -> 12 -> 21 -> 40 -> 29 -> 32 -> 1 -> 0
+
+  Ruta ya recorrida ANTES del evento (checkpoint 1200s):
+    0 -> 35 -> 45[CS:Borne IKEA Beauport] -> 18 -> 6 -> 24 -> 2 -> 12          (distance=8.398km, 7 stop(s) completados)
+
+  Ruta restante, SIN re-planear, ejecutada bajo congestion:
+    12 -> 21 -> 40 -> 29 -> 32 -> 1 -> 0
+
+  Resultado real (simulado en SUMO, plan original intacto):
+    finished -- extra time=1209.0s, total distance (before+after)=30.735km
+
+Vehicle ev_3:
+  Ruta original (completa, planificada por OR-Tools):
+    0 -> 8 -> 39 -> 36 -> 7 -> 42[CS:Station IGA Sainte-Foy] -> 31 -> 25 -> 13 -> 19 -> 28 -> 4 -> 33 -> 38 -> 0
+
+  Ruta ya recorrida ANTES del evento (checkpoint 1200s):
+    0 -> 8 -> 39 -> 36 -> 7 -> 42[CS:Station IGA Sainte-Foy]          (distance=8.835km, 5 stop(s) completados)
+
+  Ruta restante, SIN re-planear, ejecutada bajo congestion:
+    42[CS:Station IGA Sainte-Foy] -> 31 -> 25 -> 13 -> 19 -> 28 -> 4 -> 33 -> 38 -> 0
+
+  Resultado real (simulado en SUMO, plan original intacto):
+    finished -- extra time=4057.0s, total distance (before+after)=93.712km
+
+Result summary (original plan, same congestion, no re-optimization):
+  ev_0: finished -- extra time=5618.0s, total distance (before+after)=86.111km
+  ev_1: finished -- extra time=2251.0s, total distance (before+after)=42.325km
+  ev_2: finished -- extra time=1209.0s, total distance (before+after)=30.735km
+  ev_3: finished -- extra time=4057.0s, total distance (before+after)=93.712km
+
+TOTAL (finished vehicles only): extra time=13135.0s, total distance=252.883km

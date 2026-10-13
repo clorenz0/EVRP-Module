@@ -1,0 +1,31 @@
+Instance: quebec_90c_10ev_10cs
+Mode: NO FEEDBACK (baseline) -- original plan kept through the congestion event
+Checkpoint: 1200s
+
+Event: congestion forced at checkpoint 1200s on 14 real edge(s) (speed limit lowered to 2.0 m/s). Probe ev_0 -> node 43: travel time 246.8s -> 430.5s (+74.4%), distance 3916m -> 4297m. Congested edges: -480832647#2, -480832647#1, -480832647#0, -487889326, -487889327, -487889329, -338571349#2, -338571349#1, -1162322317, -1162322318, -69827695, -22293925#0, -71332947, -487232879.
+
+Vehicle state at checkpoint:
+  ev_0: distance before event=12012m, 3 pending stop(s): [43, 24, 72]
+  ev_1: distance before event=18897m, 6 pending stop(s): [30, 46, 48, 64, 95, 52]
+  ev_2: distance before event=15022m, 1 pending stop(s): [88]
+  ev_3: distance before event=9412m, 6 pending stop(s): [75, 51, 67, 92, 97, 3]
+  ev_4: distance before event=17559m, 6 pending stop(s): [80, 70, 22, 79, 55, 84]
+  ev_5: distance before event=8855m, 1 pending stop(s): [6]
+  ev_6: distance before event=9132m, 4 pending stop(s): [16, 32, 45, 20]
+  ev_7: distance before event=7949m, 7 pending stop(s): [89, 41, 28, 44, 21, 31, 74]
+  ev_8: distance before event=7351m, 7 pending stop(s): [65, 33, 49, 13, 8, 71, 23]
+  ev_9: distance before event=15019m, 5 pending stop(s): [12, 61, 87, 36, 98]
+
+Result (original plan, same congestion, no re-optimization):
+  ev_0: finished -- extra time=1686.0s, total distance (before+after)=34.938km
+  ev_1: finished -- extra time=1824.0s, total distance (before+after)=61.851km
+  ev_2: finished -- extra time=1118.0s, total distance (before+after)=52.952km
+  ev_3: finished -- extra time=2088.0s, total distance (before+after)=31.795km
+  ev_4: finished -- extra time=1754.0s, total distance (before+after)=67.325km
+  ev_5: finished -- extra time=242.0s, total distance (before+after)=19.604km
+  ev_6: finished -- extra time=1450.0s, total distance (before+after)=40.656km
+  ev_7: finished -- extra time=1962.0s, total distance (before+after)=37.250km
+  ev_8: finished -- extra time=1378.0s, total distance (before+after)=25.752km
+  ev_9: finished -- extra time=1785.0s, total distance (before+after)=46.114km
+
+TOTAL (finished vehicles only): extra time=15287.0s, total distance=418.238km

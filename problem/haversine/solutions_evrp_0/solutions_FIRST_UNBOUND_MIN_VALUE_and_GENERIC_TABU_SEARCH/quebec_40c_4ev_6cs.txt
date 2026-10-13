@@ -1,0 +1,44 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 25
+
+Execution Time: 10.00076675415039
+
+Heuristic: FIRST_UNBOUND_MIN_VALUE
+
+Metaheuristic: GENERIC_TABU_SEARCH
+
+Distance type: haversine
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 44[CS:Recharge Saint-Roch] Load(0) Bat(100) -> 15 Load(0) Bat(100) -> 16 Load(27) Bat(89) -> 31 Load(41) Bat(81) -> 36 Load(57) Bat(70) -> 7 Load(74) Bat(70) -> 25 Load(93) Bat(63) -> 13 Load(119) Bat(58) -> 19 Load(136) Bat(51) -> 10 Load(160) Bat(40) -> 22 Load(195) Bat(37) -> 33 Load(224) Bat(29) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(249) Bat(24) -> 0 Load(249) Bat(23)
+Distance of the route: 10km
+Load of the route: 249
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 4 Load(0) Bat(100) -> 28 Load(15) Bat(100) -> 39 Load(24) Bat(95) -> 8 Load(38) Bat(91) -> 30 Load(66) Bat(86) -> 1 Load(94) Bat(79) -> 17 Load(114) Bat(69) -> 41[CS:Borne Rapide Haute-Ville] Load(145) Bat(64) -> 0 Load(145) Bat(63)
+Distance of the route: 3km
+Load of the route: 145
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 32 Load(0) Bat(89) -> 21 Load(20) Bat(78) -> 40 Load(31) Bat(68) -> 29 Load(50) Bat(68) -> 9 Load(72) Bat(59) -> 34 Load(84) Bat(48) -> 23 Load(96) Bat(48) -> 11 Load(114) Bat(46) -> 37 Load(124) Bat(41) -> 5 Load(147) Bat(37) -> 26 Load(169) Bat(32) -> 20 Load(182) Bat(27) -> 3 Load(215) Bat(22) -> 0 Load(245) Bat(0)
+Distance of the route: 9km
+Load of the route: 245
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 24 Load(0) Bat(85) -> 2 Load(21) Bat(82) -> 35 Load(39) Bat(81) -> 12 Load(69) Bat(76) -> 18 Load(101) Bat(71) -> 6 Load(117) Bat(68) -> 14 Load(142) Bat(63) -> 38 Load(165) Bat(58) -> 27 Load(192) Bat(56) -> 0 Load(226) Bat(45)
+Distance of the route: 3km
+Load of the route: 226
+
+Total Distance of all routes: 25km
+
+Total Load of all routes: 865
+
+Total recharges: 3
+
+Minimum battery (SoC) reached: 0
+

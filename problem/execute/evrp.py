@@ -240,13 +240,23 @@ def add_fuel_constraints(routing, manager, data, fuel_evaluator_index, initial_f
     )
     fuel_dimension = routing.GetDimensionOrDie('Fuel')
 
+    charging_set = set(data['charging_stations'])
+    solver = routing.solver()
+
     # Vehículos salen con batería llena, o con la batería parcial indicada
     for vehicle_id in range(data['num_vehicles']):
         start_index = routing.Start(vehicle_id)
         start_fuel = fuel_capacity if initial_fuels is None else initial_fuels[vehicle_id]
         fuel_dimension.CumulVar(start_index).SetValue(start_fuel)
-
-    charging_set = set(data['charging_stations'])
+        # CORRECCIÓN DE RECARGA: CumulVar(nodo) <= capacidad solo acota el nivel al
+        # LLEGAR; sin esto, Cumul + Slack podía superar la capacidad y el vehículo
+        # salía con más energía que la batería física (el siguiente nodo "llegaba"
+        # con 100 aunque el tramo consumiera). Desde el inicio no se recarga, salvo
+        # que el inicio sea una estación (re-planeación), y nunca por encima de la capacidad.
+        if manager.IndexToNode(start_index) in charging_set:
+            solver.Add(fuel_dimension.CumulVar(start_index) + fuel_dimension.SlackVar(start_index) <= fuel_capacity)
+        else:
+            fuel_dimension.SlackVar(start_index).SetValue(0)
 
     for node in range(data['num_locations']):
         if node == data['depot']:
@@ -257,6 +267,8 @@ def add_fuel_constraints(routing, manager, data, fuel_evaluator_index, initial_f
             # Estación de carga: puede recargar
             # Preferir llegar con batería llena (reduce ansiedad de rango)
             routing.AddVariableMaximizedByFinalizer(fuel_dimension.CumulVar(index))
+            # La batería al SALIR (llegada + recarga) no puede superar la capacidad.
+            solver.Add(fuel_dimension.CumulVar(index) + fuel_dimension.SlackVar(index) <= fuel_capacity)
         else:
             # Cliente: no puede recargar
             fuel_dimension.SlackVar(index).SetValue(0)

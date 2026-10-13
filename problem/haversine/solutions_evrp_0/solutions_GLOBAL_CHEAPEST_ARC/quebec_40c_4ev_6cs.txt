@@ -1,0 +1,42 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 40
+
+Execution Time: 0.15130376815795898
+
+Heuristic: GLOBAL_CHEAPEST_ARC
+
+Distance type: haversine
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 6.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 3 Load(0) Bat(100) -> 20 Load(30) Bat(95) -> 37 Load(63) Bat(90) -> 11 Load(86) Bat(85) -> 34 Load(96) Bat(84) -> 23 Load(108) Bat(84) -> 16 Load(126) Bat(68) -> 31 Load(140) Bat(60) -> 42[CS:Station IGA Sainte-Foy] Load(156) Bat(54) -> 7 Load(156) Bat(49) -> 36 Load(175) Bat(49) -> 39 Load(192) Bat(38) -> 28 Load(206) Bat(33) -> 4 Load(215) Bat(33) -> 0 Load(230) Bat(22)
+Distance of the route: 9km
+Load of the route: 230
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 19 Load(0) Bat(100) -> 25 Load(24) Bat(90) -> 13 Load(50) Bat(85) -> 17 Load(67) Bat(53) -> 35 Load(98) Bat(46) -> 12 Load(128) Bat(41) -> 45[CS:Borne IKEA Beauport] Load(160) Bat(36) -> 14 Load(160) Bat(29) -> 38 Load(183) Bat(24) -> 27 Load(210) Bat(22) -> 0 Load(244) Bat(11)
+Distance of the route: 12km
+Load of the route: 244
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 1 Load(0) Bat(100) -> 9 Load(20) Bat(85) -> 5 Load(32) Bat(77) -> 26 Load(54) Bat(72) -> 15 Load(67) Bat(62) -> 8 Load(94) Bat(47) -> 44[CS:Recharge Saint-Roch] Load(122) Bat(47) -> 10 Load(122) Bat(100) -> 22 Load(157) Bat(97) -> 33 Load(186) Bat(89) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(211) Bat(84) -> 0 Load(211) Bat(83)
+Distance of the route: 11km
+Load of the route: 211
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Bat(100) -> 2 Load(0) Bat(90) -> 6 Load(18) Bat(85) -> 18 Load(43) Bat(82) -> 24 Load(59) Bat(77) -> 21 Load(80) Bat(61) -> 40 Load(91) Bat(51) -> 29 Load(110) Bat(51) -> 32 Load(132) Bat(38) -> 30 Load(152) Bat(28) -> 0 Load(180) Bat(21)
+Distance of the route: 8km
+Load of the route: 180
+
+Total Distance of all routes: 40km
+
+Total Load of all routes: 865
+
+Total recharges: 5
+
+Minimum battery (SoC) reached: 11
+
