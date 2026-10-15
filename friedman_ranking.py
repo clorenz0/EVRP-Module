@@ -32,6 +32,7 @@ import random
 import re
 
 from distance.distance_type import DistanceType
+from utils.trace import TraceLog, timestamp
 from instance.instance_type import InstanceType, process_files
 
 CAP = 100
@@ -169,18 +170,26 @@ def main():
     ap.add_argument("--pick-seed", type=int, default=None,
                     help="semilla del sorteo cuando --aco-seed random (para poder repetir el sorteo)")
     ap.add_argument("--holm", action="store_true", help="ademas, compara cada algoritmo contra ACO con Holm (opcional)")
-    ap.add_argument("--out", default=os.path.join("problem", "osrm", "friedman_ranking.csv"))
-    ap.add_argument("--keel-out", default=os.path.join("problem", "osrm", "friedman_keel.csv"),
-                    help="CSV con formato KEEL (instancias x algoritmos)")
+    ap.add_argument("--out", default=None, help="CSV del ranking (por defecto con fecha y hora, no se sobreescribe)")
+    ap.add_argument("--keel-out", default=None, help="CSV formato KEEL (por defecto con fecha y hora)")
     args = ap.parse_args()
+    stamp = timestamp()
+    out_dir = os.path.join("problem", "osrm", "trazas")
+    os.makedirs(out_dir, exist_ok=True)
+    args.out = args.out or os.path.join(out_dir, f"friedman_ranking_{stamp}.csv")
+    args.keel_out = args.keel_out or os.path.join(out_dir, f"friedman_keel_{stamp}.csv")
+    with TraceLog("friedman", "ranking" + ("_holm" if args.holm else ""), stamp=stamp):
+        run(args)
 
+
+def run(args):
     data_all = process_files(InstanceType.EVRP, DistanceType.OSRM, None, RATE, CAP)
 
     # ── Combinaciones de OR-Tools: solo las que tienen las 5 instancias y TODAS factibles ──
     algos = {}       # nombre -> [objetivo por instancia]
     excluded = {}    # nombre -> motivo
     for folder in sorted(glob.glob(os.path.join(args.ortools_root, "solutions_*"))):
-        name = os.path.basename(folder)[len("solutions_"):]
+        name = os.path.basename(folder)[len("solutions_"):].replace("HeuristicType.", "")   # solo el nombre
         if name == "ACO":      # corridas viejas de ACO guardadas junto a OR-Tools: ACO entra por --aco-root
             continue
         missing = [f for f in INSTANCES if not os.path.isfile(os.path.join(folder, f))]

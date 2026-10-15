@@ -1,6 +1,6 @@
 """
 Modelo sustituto (surrogate): aprende resultado = f(instancia, escenario, parametros del algoritmo)
-a partir de la tabla generada por xai.dataset. Es lo que se explica en vez de re-correr el solver.
+a partir de la tabla generada por explainability.dataset. Es lo que se explica en vez de re-correr el solver.
 
 Importante para la tesis: las explicaciones solo valen tanto como la fidelidad del sustituto, asi que
 train_surrogate devuelve tambien metricas de validacion cruzada:

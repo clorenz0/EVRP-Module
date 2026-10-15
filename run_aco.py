@@ -36,6 +36,8 @@ import shutil
 from p_mh.ACO import evrp_aco
 from distance.distance_type import DistanceType
 from instance.instance_type import InstanceType
+from utils.archive import archive_if_exists
+from utils.trace import TraceLog
 
 ############
 #  PARAMETROS DEL ACO
@@ -131,6 +133,8 @@ def run_combo(heuristic, instances, seeds, time_limit):
     results = {}   # nombre -> {semilla: (objetivo, ruta_archivo)}
     for seed in seeds:
         out_i = 0 if hybrid else 1000 + seed   # hibrido: junto a las combinaciones de OR-Tools (solutions_evrp_0)
+        # no sobreescribir: si ya hay resultados de este combo, se archivan por fecha (problem/osrm/archivo/)
+        archive_if_exists(os.path.join(OUT_ROOT, f"solutions_evrp_{out_i}", f"solutions_{combo}"), OUT_ROOT)
         for path in instances:
             print(f"\n=== {combo} | {os.path.basename(path)} | semilla {seed} ===")
             evrp_aco.execute(i=out_i, instance_type=path, time_limit=time_limit, seed=seed, **params)
@@ -189,6 +193,13 @@ def main():
     else:
         wanted = HEURISTIC
     combos = parse_heuristics(wanted)
+    names = [combo_name(h) for h in combos]
+    label = ("todas" if wanted is None else "+".join(n.replace("_and_ACO", "") for n in names)) + f"_{time_limit}s"
+    with TraceLog("run_aco", label):
+        execute_all(combos, instances, seeds, time_limit)
+
+
+def execute_all(combos, instances, seeds, time_limit):
     print(f"Combinaciones a ejecutar ({len(combos)}): {[combo_name(h) for h in combos]}")
 
     table = {}

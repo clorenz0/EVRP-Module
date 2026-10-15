@@ -19,8 +19,8 @@ import numpy as np
 
 from distance.distance_type import DistanceType
 from instance.instance_type import process_files
-from xai.algorithms import ALGORITHMS
-from xai.features import instance_features, scenario_features
+from explainability.algorithms import ALGORITHMS
+from explainability.features import instance_features, scenario_features
 
 SCENARIO_SPACE = [
     {"name": "battery", "low": 70, "high": 150, "kind": "int"},
@@ -39,7 +39,7 @@ def _scale(u, dim):
 def sample_rows(algorithm, n_rows, sampling_seed=0, instances=None):
     """Lista de n_rows dicts {row_id, instance, seed, scenario{}, params{}} (muestreo Latin Hypercube)."""
     spec = ALGORITHMS[algorithm]
-    dims = SCENARIO_SPACE + spec["param_space"]
+    dims = SCENARIO_SPACE + spec.param_space
     rng = np.random.default_rng(sampling_seed)
     unit = np.empty((n_rows, len(dims)))
     for j in range(len(dims)):
@@ -55,7 +55,7 @@ def sample_rows(algorithm, n_rows, sampling_seed=0, instances=None):
             "instance": order[r % len(order)],
             "seed": int(rng.integers(1, 10 ** 6)),
             "scenario": {d["name"]: values[d["name"]] for d in SCENARIO_SPACE},
-            "params": {d["name"]: values[d["name"]] for d in spec["param_space"]},
+            "params": {d["name"]: values[d["name"]] for d in spec.param_space},
         })
     return rows
 
@@ -88,7 +88,7 @@ def generate(algorithm, out_csv, n_rows=200, time_limit=3, sampling_seed=0, part
                 record.update(instance_features(data))
                 record.update(scenario_features(sc["battery"], sc["consumption"], data))
                 record.update({f"p_{k_}": v for k_, v in params.items()})
-                res = spec["runner"](path, sc, params, row["seed"], time_limit)
+                res = spec.run(path, sc, params, row["seed"], time_limit)
                 record.update({k_: res[k_] for k_ in ("distance", "objective", "n_dropped", "n_routes", "recharges", "iterations", "elapsed")})
                 record["status"] = "ok"
             except Exception as error:   # una corrida fallida no detiene el resto

@@ -72,6 +72,7 @@ import time
 from distance.distance_type import DistanceType
 from instance.instance_type import process_files, InstanceType
 from utils.execute_algorithm import get_distance_and_solution_name
+from p_mh.ACO.strategies import make_initial_strategy, make_pheromone_strategy
 
 
 # Consumo de batería por unidad de distancia según el tipo de distancia
@@ -906,6 +907,7 @@ def _solution_cost(data, routes, dropped_clients):
 def save_solution(data, routes, dropped_clients, objective, instance,
                    elapsed_time, i, distance_type, num_iterations, heuristic=None):
     # con heuristica inicial el nombre es <HEURISTICA>_and_ACO (igual que <HEURISTICA>_and_<MH> en OR-Tools)
+    heuristic = getattr(heuristic, "name", heuristic)   # solo el nombre (SAVINGS), no HeuristicType.SAVINGS
     distance_type_str, solution_name = get_distance_and_solution_name(distance_type, heuristic, "ACO")
     output_dir = os.path.join(f"problem/{distance_type_str}/solutions_evrp_{i}/solutions_{solution_name}")
 
@@ -1037,7 +1039,7 @@ def execute(
         ils_per_iter=2,           # perturbaciones (destruir+reconstruir+busqueda local) de la mejor solucion por iteracion (0 = apagado)
         restart_patience=0,       # reinicia la feromona tras N iteraciones sin mejorar el mejor del ciclo (0 = nunca; con 10 empeoro los resultados)
         log_progress=False,       # imprime cada mejora del mejor global con su tiempo (curva de convergencia)
-        save_files=True,          # False = no escribe el archivo de solucion (lo usa xai/ para generar muchas corridas)
+        save_files=True,          # False = no escribe el archivo de solucion (lo usa explainability/ para generar muchas corridas)
         verbose=True,             # False = sin mensajes de consola
         initial_heuristic=None,   # opcional: heuristica constructiva de OR-Tools (HeuristicType o nombre) que aporta la solucion inicial
         initial_time_limit=2,     # segundos que se le dan a esa heuristica
@@ -1088,19 +1090,10 @@ def execute(
         w = min(rank_w, ants + 1)
         pheromone = _init_pheromone(data['num_locations'])
 
-        seed_solution = None   # (routes, dropped, cost) aportada por una heuristica de OR-Tools
-        if initial_heuristic is not None:
-            from p_mh.ACO.ortools_seed import build_initial_routes
-            node_routes = build_initial_routes(data, initial_heuristic, initial_time_limit)
-            rebuilt = [_rebuild_route_state(r, data) for r in node_routes] if node_routes else None
-            if rebuilt and all(r is not None for r in rebuilt):
-                seed_solution = (rebuilt, [], _solution_cost(data, rebuilt, []))
-                if verbose:
-                    print(f"  Solucion inicial de OR-Tools ({getattr(initial_heuristic, 'name', initial_heuristic)}): "
-                          f"{_objective(data, rebuilt, [])}")
-            elif verbose:
-                print(f"  OR-Tools ({getattr(initial_heuristic, 'name', initial_heuristic)}) no dio solucion factible completa: "
-                      f"ACO arranca sin solucion inicial")
+        # Strategy: solucion inicial (NoInitial / ORToolsHeuristic) y regla de feromona (MMAS / Rank-AS)
+        seed_solution = make_initial_strategy(initial_heuristic, initial_time_limit).build(data, verbose)
+        pheromone_strategy = make_pheromone_strategy(
+            pheromone_scheme, rho, data['num_locations'], gb_period, w)
 
         best_routes, best_dropped, best_cost = None, None, float('inf')
         executor = None
@@ -1179,17 +1172,7 @@ def execute(
             else:
                 stall += 1
 
-            if pheromone_scheme == 'mmas':
-                if cycle_iter == 0:
-                    # MMAS: cada ciclo arranca en tau_max (exploracion maxima)
-                    _, tau_max = _mmas_bounds(cycle_best[2], rho, data['num_locations'])
-                    pheromone = _init_pheromone(data['num_locations'], tau_max)
-                _update_pheromone_mmas(
-                    pheromone, (iter_best[0], iter_best[2]), (cycle_best[0], cycle_best[2]),
-                    rho, cycle_iter, gb_period
-                )
-            else:
-                _update_pheromone_rank_as(pheromone, ants_results, rho, cycle_best[0], cycle_best[2], w)
+            pheromone = pheromone_strategy.update(pheromone, ants_results, iter_best, cycle_best, cycle_iter)
             iterations += 1
             cycle_iter += 1
 
