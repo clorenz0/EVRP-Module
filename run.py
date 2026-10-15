@@ -29,7 +29,7 @@ from instance.instance_type import InstanceType
 
 execute(
     problem_type=ProblemType.EVRP,
-    instance="instances_data/evrp_instances/quebec_30c_6ev_4cs.txt",
+    instance="instances_data/evrp_instances/quebec_90c_10ev_10cs.txt",
     distance_type=DistanceType.OSRM,
     time_limit=10,
     executions=1,

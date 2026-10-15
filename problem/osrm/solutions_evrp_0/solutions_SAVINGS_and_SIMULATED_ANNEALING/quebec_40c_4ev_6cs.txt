@@ -1,8 +1,8 @@
 Instance: quebec_40c_4ev_6cs.txt
 
-Objective: 63
+Objective: 75
 
-Execution Time: 9.997795820236206
+Execution Time: 10.000337362289429
 
 Heuristic: SAVINGS
 
@@ -17,38 +17,38 @@ Battery consumption rate: 3.0
 Station copies: 3
 
 Route for vehicle 0:
- 0 Load(0) Bat(100) -> 8 Load(0) Bat(96) -> 44[CS:Recharge Saint-Roch] Load(28) Bat(96) -> 39 Load(28) Bat(97) -> 36 Load(42) Bat(90) -> 7 Load(59) Bat(90) -> 25 Load(78) Bat(86) -> 31 Load(104) Bat(79) -> 13 Load(120) Bat(65) -> 19 Load(137) Bat(62) -> 28 Load(161) Bat(55) -> 4 Load(170) Bat(55) -> 33 Load(185) Bat(52) -> 38 Load(210) Bat(45) -> 41[CS:Borne Rapide Haute-Ville] Load(237) Bat(40) -> 0 Load(237) Bat(37)
-Distance of the route: 19km
-Time of the route: 3294s
-Load of the route: 237
+ 0 Load(0) Bat(100) -> 39 Load(0) Bat(92) -> 42[CS:Station IGA Sainte-Foy] Load(14) Bat(82) -> 31 Load(14) Bat(96) -> 42[CS:Station IGA Sainte-Foy] Load(30) Bat(92) -> 15 Load(30) Bat(95) -> 42[CS:Station IGA Sainte-Foy] Load(57) Bat(90) -> 16 Load(57) Bat(92) -> 37 Load(71) Bat(81) -> 26 Load(94) Bat(81) -> 34 Load(107) Bat(77) -> 11 Load(119) Bat(77) -> 23 Load(129) Bat(76) -> 5 Load(147) Bat(74) -> 9 Load(169) Bat(64) -> 20 Load(181) Bat(57) -> 3 Load(214) Bat(54) -> 44[CS:Recharge Saint-Roch] Load(244) Bat(45) -> 0 Load(244) Bat(40)
+Distance of the route: 25km
+Time of the route: 4574s
+Load of the route: 244
 
 Route for vehicle 1:
- 0 Load(0) Bat(100) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(0) Bat(97) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(0) Bat(100) -> 44[CS:Recharge Saint-Roch] Load(0) Bat(100) -> 45[CS:Borne IKEA Beauport] Load(0) Bat(100) -> 45[CS:Borne IKEA Beauport] Load(0) Bat(100) -> 24 Load(0) Bat(99) -> 2 Load(21) Bat(97) -> 35 Load(39) Bat(96) -> 18 Load(69) Bat(94) -> 6 Load(85) Bat(94) -> 45[CS:Borne IKEA Beauport] Load(110) Bat(94) -> 46[CS:Circuit Électrique Lévis] Load(110) Bat(100) -> 46[CS:Circuit Électrique Lévis] Load(110) Bat(100) -> 46[CS:Circuit Électrique Lévis] Load(110) Bat(100) -> 10 Load(110) Bat(98) -> 22 Load(145) Bat(97) -> 27 Load(174) Bat(88) -> 14 Load(208) Bat(82) -> 0 Load(231) Bat(62)
-Distance of the route: 52km
-Time of the route: 7191s
-Load of the route: 231
+ 0 Load(0) Bat(100) -> 17 Load(0) Bat(95) -> 41[CS:Borne Rapide Haute-Ville] Load(31) Bat(91) -> 22 Load(31) Bat(77) -> 10 Load(60) Bat(76) -> 14 Load(95) Bat(59) -> 27 Load(118) Bat(53) -> 38 Load(152) Bat(40) -> 0 Load(179) Bat(33)
+Distance of the route: 19km
+Time of the route: 5287s
+Load of the route: 179
 
 Route for vehicle 2:
- 0 Load(0) Bat(100) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Bat(98) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Bat(100) -> 42[CS:Station IGA Sainte-Foy] Load(0) Bat(100) -> 42[CS:Station IGA Sainte-Foy] Load(0) Bat(100) -> 15 Load(0) Bat(95) -> 16 Load(27) Bat(89) -> 5 Load(41) Bat(78) -> 23 Load(63) Bat(76) -> 11 Load(81) Bat(75) -> 34 Load(91) Bat(75) -> 26 Load(103) Bat(71) -> 37 Load(116) Bat(71) -> 9 Load(139) Bat(62) -> 20 Load(151) Bat(55) -> 3 Load(184) Bat(52) -> 30 Load(214) Bat(43) -> 0 Load(242) Bat(39)
-Distance of the route: 22km
-Time of the route: 3672s
-Load of the route: 242
+ 0 Load(0) Bat(100) -> 35 Load(0) Bat(88) -> 18 Load(30) Bat(86) -> 6 Load(46) Bat(86) -> 24 Load(71) Bat(85) -> 2 Load(92) Bat(83) -> 12 Load(110) Bat(76) -> 21 Load(142) Bat(61) -> 29 Load(153) Bat(55) -> 40 Load(175) Bat(54) -> 32 Load(194) Bat(46) -> 1 Load(214) Bat(44) -> 0 Load(234) Bat(36)
+Distance of the route: 17km
+Time of the route: 2963s
+Load of the route: 234
 
 Route for vehicle 3:
- 0 Load(0) Bat(100) -> 17 Load(0) Bat(95) -> 12 Load(31) Bat(85) -> 21 Load(63) Bat(70) -> 29 Load(74) Bat(64) -> 40 Load(96) Bat(63) -> 32 Load(115) Bat(55) -> 1 Load(135) Bat(53) -> 0 Load(155) Bat(45)
-Distance of the route: 15km
-Time of the route: 2146s
-Load of the route: 155
+ 0 Load(0) Bat(100) -> 8 Load(0) Bat(96) -> 7 Load(28) Bat(89) -> 36 Load(47) Bat(89) -> 25 Load(64) Bat(85) -> 13 Load(90) Bat(76) -> 19 Load(107) Bat(73) -> 28 Load(131) Bat(66) -> 4 Load(140) Bat(66) -> 33 Load(155) Bat(63) -> 41[CS:Borne Rapide Haute-Ville] Load(180) Bat(58) -> 30 Load(180) Bat(53) -> 0 Load(208) Bat(49)
+Distance of the route: 14km
+Time of the route: 2338s
+Load of the route: 208
 
-Total Distance of all routes: 108km
+Total Distance of all routes: 75km
 
 Total Load of all routes: 865
 
-Total Time of all routes: 16303s
+Total Time of all routes: 15162s
 
-Total recharges: 15
+Total recharges: 6
 
-Unnecessary charging stops: 14
+Unnecessary charging stops: 6
 
-Minimum battery (SoC) reached: 37
+Minimum battery (SoC) reached: 33
 
