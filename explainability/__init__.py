@@ -20,4 +20,9 @@ explainability/explainers.py y una linea en EXPLAINERS. El resto no cambia.
 
 Lo que se explica es el COMPORTAMIENTO GENERAL del algoritmo (que variables de la instancia y
 del algoritmo empujan el resultado hacia arriba o abajo), no la comparacion con otro solver.
+
+Tres puntos de vista (mismos tres pasos, cambia el origen de las filas y la variable de respuesta):
+  1. OPTIMIZACION  algoritmos.py (ACO)             respuesta: distancia de la solucion
+  2. SIMULACION    simulation.py (tabla sim)        respuesta: distancia / tiempo reales medidos en SUMO
+  3. COMBINACION   simulation.py (tabla combo)      respuesta: ganancia de re-planificar con la retroalimentacion de SUMO
 """

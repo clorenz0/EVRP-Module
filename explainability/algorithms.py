@@ -30,6 +30,8 @@ class AlgorithmStrategy(ABC):
     name = "base"
     param_space = []
     fixed = {}
+    scenario_space = None   # None = SCENARIO_SPACE de dataset.py (bateria y consumo); [] = sin escenario variable
+    result_keys = ("distance", "objective", "n_dropped", "n_routes", "recharges", "iterations", "elapsed")
 
     @abstractmethod
     def run(self, instance_path, scenario, params, seed, time_limit):
@@ -77,6 +79,9 @@ class ACOStrategy(AlgorithmStrategy):
 
 
 register(ACOStrategy())
+
+# Simulacion: SUMO_REPLAN (explicabilidad del simulador y de la combinacion con la optimizacion)
+from explainability import simulation  # noqa: E402,F401  (se registra al importar)
 
 # Para una nueva metaheuristica poblacional:
 #   class GAStrategy(AlgorithmStrategy):

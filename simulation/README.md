@@ -300,49 +300,22 @@ sumo-gui -c simulation/sumo_scenario/scenario_dynamic_replan.sumocfg
 
 ## Limitaciones conocidas
 
-### Cada estación de carga se puede visitar una sola vez en toda la solución
+### Estaciones de carga con varias visitas (resuelto)
 
-En el modelo actual (`problem/execute/evrp.py`), cada estación de carga es
-**un solo nodo** en el grafo que le pasamos a OR-Tools. Como cada nodo se
-visita a lo sumo una vez (restricción estándar de VRP), esto significa que
-una misma estación física no puede ser usada por dos vehículos distintos, ni
-por el mismo vehículo dos veces, dentro de una misma solución.
+Antes cada estación era un solo nodo en OR-Tools y solo podía visitarse una vez por solución. Ahora
+`problem/execute/evrp.py` la reemplaza por `station_copies` nodos idénticos (por defecto 3; `1` = modelo anterior),
+activados en orden. En los archivos de solución las copias salen con el id de la estación original, así que los
+scripts de esta carpeta no cambian. ACO no tiene tope de visitas. La función objetivo sigue siendo solo la distancia.
 
-El paper de referencia (Anastasiadou et al., ACO-DEVRP) resuelve esto
-"duplicando" cada estación en β_i copias (mismo lugar físico, nodos
-distintos para el solver), permitiendo múltiples visitas. Este proyecto no
-implementa esa duplicación todavía.
+En la re-planificación, las copias se aplican a las estaciones reales; las posiciones de arranque de los vehículos
+no se copian.
 
-**Evaluación de qué tan grande sería el cambio** (hecha 2026-07-29, sin
-implementar aún):
+### Re-planificación con ACO
 
-- El cambio quedaría casi contenido en `instance/import_data.py` →
-  `read_file_evrp()`: en vez de agregar un nodo por estación, agregar β
-  copias (mismas coordenadas, demanda 0, mismo nombre en
-  `charging_station_names` para que la solución se lea igual de claro).
-- `evrp.py` **no necesitaría cambios**: `add_capacity_constraints` y
-  `add_fuel_constraints` ya iteran `data['charging_stations']` como una
-  lista genérica, sin asumir una sola aparición por estación. La fórmula
-  `num_clients = num_locations - len(charging_stations) - 1` tampoco se ve
-  afectada por cuántas copias haya.
-- Los scripts de `simulation/` **no necesitarían cambios**: leen el archivo
-  `.txt` de instancia original (una estación física = una línea), no la
-  representación interna con copias — esa expansión sería un detalle
-  interno de `read_file_evrp`, invisible para SUMO.
-- Sí haría falta decidir β (cuántas copias por estación). El valor del
-  paper (`β_i = 2 × num_clientes`) es un peor caso muy generoso pensado
-  para instancias pequeñas; para las instancias de este proyecto
-  (10-90 clientes) infla demasiado el modelo y podría ralentizar a
-  OR-Tools sin necesidad. Un valor más razonable para esta escala sería
-  `β = num_vehicles` (en el peor caso, cada vehículo visita esa estación
-  una vez).
-- Nota aparte: el orquestador de re-planeación dinámica
-  (`dynamic_replanning.py`) arma su propia sub-instancia a mano, sin pasar
-  por `read_file_evrp` — si se quiere que las copias también apliquen ahí,
-  sería un segundo cambio pequeño e independiente.
-
-**Conclusión**: cambio acotado, mayormente en un solo archivo. Pendiente de
-implementar hasta que se decida si vale la pena para el alcance de la tesis.
+`dynamic_replanning.py` re-planifica con el mismo algoritmo que generó el plan (`--replanner auto`), con ACO
+(`aco`) o con OR-Tools (`ortools`). Con una solución de ACO + heurística, la heurística construye la solución
+inicial del sub-problema y ACO la mejora. Ver la sección 6 del README principal. Parámetros del evento:
+`--checkpoint-time`, `--congested-speed`, `--congestion-fraction`.
 
 ## Qué archivos son código y cuáles son generados
 

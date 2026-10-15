@@ -122,7 +122,7 @@ def _prepare_matrices(data):
     data['station_set'] = set(stations)
 
     # Listas de candidatos: clientes ordenados por cercanía a cada nodo.
-    num_clients = n - len(stations) - 1
+    num_clients = data.get('num_clients', n - len(stations) - 1)
     clients = list(range(1, num_clients + 1))
     data['client_neighbors'] = [
         sorted((c for c in clients if c != node), key=lambda c, node=node: dm[node][c])
@@ -284,8 +284,9 @@ def construct_solution(data, pheromone, alpha, beta, gamma, rng, proactive_charg
     need = data['finish_need']
     neighbors = data['client_neighbors']
     stations = set(data['charging_stations'])
-    num_clients = data['num_locations'] - len(stations) - 1
+    num_clients = data.get('num_clients', data['num_locations'] - len(stations) - 1)
     unvisited = set(range(1, num_clients + 1))
+    starts = data.get('vehicle_starts')   # re-planeacion: cada vehiculo arranca en su posicion, con su bateria y carga
 
     routes = []
 
@@ -293,12 +294,14 @@ def construct_solution(data, pheromone, alpha, beta, gamma, rng, proactive_charg
         if not unvisited:
             break
 
-        route = [{'node': depot, 'load': 0, 'battery': fuel_capacity}]
+        if starts:
+            start_node, battery, load = starts[_vehicle_id]['node'], starts[_vehicle_id]['battery'], starts[_vehicle_id]['load']
+        else:
+            start_node, battery, load = depot, fuel_capacity, 0
+        route = [{'node': start_node, 'load': load, 'battery': battery}]
         served = []                 # clientes de esta ruta (para revertir si algo sale mal)
-        current = depot
-        load = 0
-        battery = fuel_capacity
-        just_recharged = True  # depot = batería llena, igual que salir de una estación
+        current = start_node
+        just_recharged = battery >= fuel_capacity  # depot = batería llena, igual que salir de una estación
 
         while unvisited:
             # Lista de candidatos: los `candidate_list_size` clientes factibles
@@ -403,9 +406,12 @@ def _rebuild_route_state(nodes, data):
     fuel_capacity = data['fuel_capacity']
     stations_set = set(data['charging_stations'])
 
-    route = [{'node': nodes[0], 'load': 0, 'battery': fuel_capacity}]
-    load = 0
-    battery = fuel_capacity
+    if len(nodes) > 1 and nodes[0] == data['depot'] and nodes[1] in stations_set:
+        return None     # del deposito no se va directo a una estacion de carga
+    sb, sl = data.get('start_battery'), data.get('start_load')
+    load = sl.get(nodes[0], 0) if sl else 0
+    battery = sb.get(nodes[0], fuel_capacity) if sb else fuel_capacity
+    route = [{'node': nodes[0], 'load': load, 'battery': battery}]
     for k in range(len(nodes) - 1):
         a, b = nodes[k], nodes[k + 1]
         battery -= em[a][b]
@@ -425,7 +431,10 @@ def _feasible(nodes, data):
     em = data['energy_matrix']
     cap = data['fuel_capacity']
     stations_set = data['station_set']
-    battery = cap
+    if len(nodes) > 1 and nodes[0] == data['depot'] and nodes[1] in stations_set:
+        return False    # del deposito no se va directo a una estacion de carga
+    sb = data.get('start_battery')
+    battery = cap if sb is None else sb.get(nodes[0], cap)
     for k in range(len(nodes) - 1):
         a, b = nodes[k], nodes[k + 1]
         battery -= em[a][b]
@@ -546,14 +555,16 @@ def _find_improving_move(R, loads, data, neighbor_count):
     stations_set = data['station_set']
     neighbors = data['client_neighbors']
 
+    dl = data.get('depot_like') or {data['depot']}      # deposito (y posiciones de arranque en re-planeacion)
+    sl = data.get('start_load')
     pos = {}
     for r_idx, route in enumerate(R):
         for k, node in enumerate(route):
-            if node not in stations_set and node != data['depot']:
+            if node not in stations_set and node not in dl:
                 pos[node] = (r_idx, k)
     prefix = []     # prefix[r][k] = carga acumulada de R[r][:k+1] (para 2-opt*)
     for route in R:
-        acc, row = 0, []
+        acc, row = (sl.get(route[0], 0) if sl else 0), []
         for node in route:
             acc += demands[node]
             row.append(acc)
@@ -566,7 +577,7 @@ def _find_improving_move(R, loads, data, neighbor_count):
                 if i + L > len(ra) - 1:
                     break
                 seg = ra[i:i + L]
-                if any(n in stations_set or n == data['depot'] for n in seg):
+                if any(n in stations_set or n in dl for n in seg):
                     break
                 seg_load = sum(demands[n] for n in seg)
                 p, nx = ra[i - 1], ra[i + L]
@@ -675,12 +686,20 @@ def _find_improving_move(R, loads, data, neighbor_count):
     return None
 
 
+def _route_loads(R, data):
+    """Carga de cada ruta (incluye la que el vehiculo ya llevaba al arrancar en re-planeacion)."""
+    demands, sl = data['demands'], data.get('start_load')
+    if not sl:
+        return [sum(demands[n] for n in r) for r in R]
+    return [sl.get(r[0], 0) + sum(demands[n] for n in r) for r in R]
+
+
 def _inter_route_search(R, data, neighbor_count=8, max_moves=300):
     """Aplica movimientos entre rutas (relocate/Or-opt/swap) mientras mejoren."""
     demands = data['demands']
     R = [list(r) for r in R]
     for _ in range(max_moves):
-        loads = [sum(demands[n] for n in r) for r in R]
+        loads = _route_loads(R, data)
         move = _find_improving_move(R, loads, data, neighbor_count)
         if move is None:
             break
@@ -744,14 +763,15 @@ def _perturb_and_repair(routes, data, rng, max_tries=8):
     neighbors = data['client_neighbors']
 
     R = [[s['node'] for s in r] for r in routes]
-    clients = [x for r in R for x in r if x not in stations_set and x != depot]
+    dl = data.get('depot_like') or {depot}
+    clients = [x for r in R for x in r if x not in stations_set and x not in dl]
     n = len(clients)
     if n < 4:
         return None
 
     if len(R) > 1 and rng.random() < 0.5:
         ridx = rng.randrange(len(R))
-        removed = [x for x in R[ridx] if x not in stations_set and x != depot]
+        removed = [x for x in R[ridx] if x not in stations_set and x not in dl]
     else:
         seed_client = rng.choice(clients)
         m = rng.randint(max(3, n // 15), max(5, n // 6))
@@ -767,7 +787,9 @@ def _perturb_and_repair(routes, data, rng, max_tries=8):
                 return None
             new_R.append(fixed)
     R = new_R
-    loads = [sum(demands[x] for x in r) for r in R]
+    loads = _route_loads(R, data)
+    starts = data.get('vehicle_starts')
+    sl = data.get('start_load') or {}
 
     rng.shuffle(removed)
     for c in removed:
@@ -777,18 +799,23 @@ def _perturb_and_repair(routes, data, rng, max_tries=8):
                 continue
             for j in range(1, len(r)):
                 left, right = r[j - 1], r[j]
-                options.append((cm[left][c] + cm[c][right] - cm[left][right], r_idx, j))
-        if len(R) < data['num_vehicles']:
-            options.append((cm[depot][c] + cm[c][depot], -1, 1))
+                options.append((cm[left][c] + cm[c][right] - cm[left][right], r_idx, j, None))
+        if starts:
+            used = {r[0] for r in R}
+            for stt in starts:      # vehiculos sin ruta: pueden abrir una nueva desde SU posicion de arranque
+                if stt['node'] not in used and demands[c] + stt['load'] <= vcap:
+                    options.append((cm[stt['node']][c] + cm[c][depot], -1, 1, stt['node']))
+        elif len(R) < data['num_vehicles']:
+            options.append((cm[depot][c] + cm[c][depot], -1, 1, depot))
         options.sort(key=lambda t: t[0])
 
         placed = False
-        for delta, r_idx, j in options[:max_tries]:
+        for delta, r_idx, j, new_start in options[:max_tries]:
             if r_idx == -1:
-                cand = _finalize_route([depot, c, depot], data)
+                cand = _finalize_route([new_start, c, depot], data)
                 if cand is not None:
                     R.append(cand)
-                    loads.append(demands[c])
+                    loads.append(demands[c] + sl.get(new_start, 0))
                     placed = True
                     break
             else:
@@ -890,8 +917,18 @@ def _drop_penalty(data):
     return max(10_000_000, int(max_distance) * 100)
 
 
+def _idle_return_cost(data, routes):
+    """Re-planeacion: un vehiculo sin clientes igual vuelve de su posicion al deposito (OR-Tools cuenta ese arco)."""
+    starts = data.get('vehicle_starts')
+    if not starts:
+        return 0
+    used = {r[0]['node'] for r in routes}
+    cm, depot = data['cost_matrix'], data['depot']
+    return sum(cm[st['node']][depot] for st in starts if st['node'] not in used)
+
+
 def _objective(data, routes, dropped_clients):
-    distance = sum(_route_distance(r, data['cost_matrix']) for r in routes)
+    distance = sum(_route_distance(r, data['cost_matrix']) for r in routes) + _idle_return_cost(data, routes)
     return distance + (_drop_penalty(data) * len(dropped_clients) if dropped_clients else 0)
 
 
@@ -928,6 +965,18 @@ def save_solution(data, routes, dropped_clients, objective, instance,
     # Un bloque por vehículo de la flota (como OR-Tools): los no usados salen
     # como ruta vacía depósito -> depósito.
     all_routes = list(routes)
+    starts = data.get('vehicle_starts')
+    if starts:
+        # re-planeacion: la ruta del vehiculo k es la que arranca en SU posicion; si no tiene clientes va directo al deposito
+        by_start = {r[0]['node']: r for r in routes}
+        all_routes = []
+        for stt in starts:
+            if stt['node'] in by_start:
+                all_routes.append(by_start[stt['node']])
+            else:
+                left = stt['battery'] - data['energy_matrix'][stt['node']][depot]
+                all_routes.append([{'node': stt['node'], 'load': stt['load'], 'battery': stt['battery']},
+                                   {'node': depot, 'load': stt['load'], 'battery': left}])
     while len(all_routes) < data['num_vehicles']:
         all_routes.append([
             {'node': depot, 'load': 0, 'battery': fuel_capacity},
@@ -939,6 +988,8 @@ def save_solution(data, routes, dropped_clients, objective, instance,
             f.write(f'Instance: {instance}\n\n')
             f.write(f'Objective: {int(objective)}\n\n')
             f.write(f'Execution Time: {elapsed_time}\n\n')
+            if heuristic:
+                f.write(f'Heuristic: {heuristic}\n\n')      # ACO + heuristica de OR-Tools (la re-planeacion la lee de aqui)
             f.write(f'Metaheuristic: ACO ({num_iterations} iteraciones)\n\n')
             f.write(f'Distance type: {distance_type_str}\n\n')
             f.write(f'Vehicle capacity: {data["vehicle_capacity"]}\n')
@@ -947,6 +998,8 @@ def save_solution(data, routes, dropped_clients, objective, instance,
 
             if dropped_clients:
                 f.write(f'Dropped clients: {dropped_clients}\n\n')
+            if data.get('extra_info'):
+                f.write(f'{data["extra_info"]}\n\n')
 
             total_distance = 0
             total_load = 0
@@ -963,7 +1016,9 @@ def save_solution(data, routes, dropped_clients, objective, instance,
                     node = route[k]['node']
                     soc = int(route[k]['battery'])
                     min_soc = soc if min_soc is None else min(min_soc, soc)
-                    if node in charging_set:
+                    if starts and node in data['depot_like'] and node != depot:
+                        plan_output += f' {node}[CS:{cs_names.get(node, node)}] Load({route[k]["load"]}) Bat({soc}) ->'     # posicion actual del vehiculo (como en OR-Tools)
+                    elif node in charging_set:
                         total_recharges += 1
                         cs_label = f'[CS:{cs_names.get(node, node)}]'
                         plan_output += f' {node}{cs_label} Load({route[k]["load"]}) Bat({soc}) ->'
@@ -995,6 +1050,10 @@ def save_solution(data, routes, dropped_clients, objective, instance,
             f.write(f'Total recharges: {total_recharges}\n\n')
             if min_soc is not None:
                 f.write(f'Minimum battery (SoC) reached: {min_soc}\n\n')
+            prior_km = data.get('prior_distance_km')
+            if prior_km:
+                f.write(f'Distance already traveled before this sub-problem: {prior_km:.3f}km\n\n')
+                f.write(f'Total Distance including distance before event: {total_distance + prior_km:.3f}km\n\n')
 
         print(f"Solution saved successfully in {filename}")
     except OSError as error:
@@ -1017,6 +1076,29 @@ def _init_worker(data):
 
 def _local_search_worker(routes):
     return local_search(routes, _WORKER_DATA)
+
+def _setup_vehicle_states(data, vehicle_states):
+    """
+    Re-planeacion dinamica: cada vehiculo arranca en su posicion actual (nodo virtual start_node) con su bateria y
+    carga parciales y termina en el deposito. Las posiciones de arranque llegan en data['charging_stations'] (asi las
+    trata OR-Tools); aqui se separan: dejan de ser estaciones y pasan a ser nodos "tipo deposito" que nadie visita.
+    """
+    if len(vehicle_states) != data['num_vehicles']:
+        raise ValueError(f"vehicle_states debe tener un elemento por vehiculo ({data['num_vehicles']}), recibi {len(vehicle_states)}.")
+    depot = data['depot']
+    cap = data['fuel_capacity']
+    starts = [{'node': vs.get('start_node', depot), 'battery': int(vs.get('initial_fuel', cap)),
+               'load': int(vs.get('initial_load', 0))} for vs in vehicle_states]
+    start_nodes = {st['node'] for st in starts}
+    if len(start_nodes) != len(starts):
+        raise ValueError("Cada vehiculo debe tener un start_node distinto (ACO identifica la ruta por su nodo de arranque).")
+    data['num_clients'] = data['num_locations'] - len(data['charging_stations']) - 1
+    data['charging_stations'] = [s for s in data['charging_stations'] if s not in start_nodes]
+    data['vehicle_starts'] = starts
+    data['start_battery'] = {st['node']: st['battery'] for st in starts}
+    data['start_load'] = {st['node']: st['load'] for st in starts}
+    data['depot_like'] = {depot} | start_nodes
+
 
 def execute(
         i, instance_type, time_limit,
@@ -1043,12 +1125,17 @@ def execute(
         verbose=True,             # False = sin mensajes de consola
         initial_heuristic=None,   # opcional: heuristica constructiva de OR-Tools (HeuristicType o nombre) que aporta la solucion inicial
         initial_time_limit=2,     # segundos que se le dan a esa heuristica
+        vehicle_states=None,      # re-planeacion dinamica: por vehiculo {'start_node','initial_fuel','initial_load'} (como en evrp.py)
+        data_override=None,       # re-planeacion dinamica: dict de datos ya construido (salta process_files); ver evrp.py
+        instance_name=None,       # nombre de la instancia/archivo de salida cuando se usa data_override
 ):
     """Devuelve {instancia: {'objective', 'distance', 'n_dropped', 'n_routes', 'recharges', 'iterations', 'elapsed', 'alpha_used'}}."""
     results = {}
     if initial_heuristic is not None:
         from p_mh.ACO import ortools_seed as ortools_seed_mod
         initial_heuristic = ortools_seed_mod.as_heuristic(initial_heuristic)
+    if vehicle_speed is None and data_override is not None:
+        vehicle_speed = data_override.get('fuel_consumption_rate')
     if vehicle_speed is None:
         vehicle_speed = DEFAULT_CONSUMPTION_RATE.get(distance_type)
         if vehicle_speed is None:
@@ -1060,10 +1147,13 @@ def execute(
         if verbose:
             print(f"vehicle_speed no indicado -> consumo por defecto {vehicle_speed} para {distance_type.value}")
 
-    instances_data = process_files(
-        instance_type, distance_type,
-        None, vehicle_speed, vehicle_maximum_travel_distance
-    )
+    if data_override is not None:
+        instances_data = {instance_name or "dynamic_replan": data_override}
+    else:
+        instances_data = process_files(
+            instance_type, distance_type,
+            None, vehicle_speed, vehicle_maximum_travel_distance
+        )
 
     for instance, data in instances_data.items():
         if vehicle_maximum_travel_distance is not None:
@@ -1076,6 +1166,8 @@ def execute(
                 "Asegurate de pasar vehicle_maximum_travel_distance al llamar a execute()."
             )
 
+        if vehicle_states is not None:
+            _setup_vehicle_states(data, vehicle_states)
         _prepare_matrices(data)
         if log_progress:
             data['ls_stats'] = {}   # cuenta cuantas veces mejora cada operador de busqueda local

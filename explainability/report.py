@@ -15,6 +15,15 @@ LABELS = {
     "f_nn_dist_mean": "distancia media al cliente mas cercano", "f_station_dist_mean": "distancia media a la estacion mas cercana",
     "f_station_density": "estaciones por cliente", "s_battery": "capacidad de bateria", "s_consumption": "consumo por km",
     "s_range_ratio": "alcance relativo (alcance / cliente mas lejano)",
+    "e_checkpoint": "instante del evento (s)", "e_n_edges": "tramos congestionados", "e_speed": "velocidad impuesta (m/s)",
+    "e_probe_before_s": "tiempo de viaje del sondeo antes del evento", "e_probe_after_s": "tiempo de viaje del sondeo tras el evento",
+    "e_probe_slowdown_pct": "lentitud medida en SUMO (%)",
+    "r_is_probe": "vehiculo afectado directamente por el evento", "r_planned_stops": "paradas planificadas del vehiculo",
+    "r_pending_stops": "paradas pendientes al ocurrir el evento", "r_progress": "avance de la ruta al ocurrir el evento",
+    "r_done_km": "distancia ya recorrida (km)", "r_station_pending": "tiene una estacion pendiente (1 = si)",
+    "c_clients_in": "clientes que recibe al re-planificar", "c_clients_out": "clientes que cede al re-planificar",
+    "c_reordered": "mismos clientes en otro orden", "c_stations_new": "estaciones nuevas en su ruta",
+    "c_stations_dropped": "estaciones que deja de usar", "e_replan": "se re-planifica con retroalimentacion (1 = si)",
 }
 
 
@@ -23,6 +32,8 @@ def _label(name):
         return LABELS[name]
     if name.startswith("p_"):
         return f"parametro {name[2:]}"
+    if name.startswith("a_"):
+        return f"algoritmo {name[2:]}"
     return name
 
 

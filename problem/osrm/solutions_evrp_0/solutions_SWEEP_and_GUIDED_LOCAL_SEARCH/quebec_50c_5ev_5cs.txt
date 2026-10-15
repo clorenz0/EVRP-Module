@@ -1,8 +1,8 @@
 Instance: quebec_50c_5ev_5cs.txt
 
-Objective: 140
+Objective: 120
 
-Execution Time: 10.001325607299805
+Execution Time: 10.008989095687866
 
 Heuristic: SWEEP
 
@@ -14,43 +14,47 @@ Vehicle capacity: 250
 Battery capacity: 100
 Battery consumption rate: 3.0
 
+Station copies: 3
+
 Route for vehicle 0:
- 0 Load(0) Bat(100) -> 24 Load(0) Bat(87) -> 29 Load(20) Bat(84) -> 33 Load(33) Bat(81) -> 2 Load(50) Bat(79) -> 53[CS:Station Rapide TR Ouest] Load(60) Bat(78) -> 13 Load(60) Bat(69) -> 36 Load(74) Bat(52) -> 9 Load(99) Bat(45) -> 39 Load(123) Bat(41) -> 15 Load(138) Bat(41) -> 16 Load(168) Bat(39) -> 37 Load(195) Bat(39) -> 12 Load(214) Bat(6) -> 0 Load(239) Bat(0)
-Distance of the route: 33km
-Time of the route: 2902s
-Load of the route: 239
+ 0 Load(0) Bat(100) -> 24 Load(0) Bat(87) -> 29 Load(20) Bat(84) -> 20 Load(33) Bat(62) -> 34 Load(43) Bat(42) -> 16 Load(61) Bat(22) -> 15 Load(88) Bat(20) -> 13 Load(118) Bat(6) -> 21 Load(132) Bat(2) -> 19 Load(152) Bat(0) -> 8 Load(173) Bat(0) -> 55[CS:Borne IGA Trois-Rivieres] Load(199) Bat(0) -> 55[CS:Borne IGA Trois-Rivieres] Load(199) Bat(100) -> 51[CS:Borne Trois-Rivieres Centre] Load(199) Bat(100) -> 51[CS:Borne Trois-Rivieres Centre] Load(199) Bat(100) -> 0 Load(199) Bat(99)
+Distance of the route: 41km
+Time of the route: 3546s
+Load of the route: 199
 
 Route for vehicle 1:
- 0 Load(0) Bat(100) -> 11 Load(0) Bat(90) -> 20 Load(8) Bat(64) -> 34 Load(18) Bat(44) -> 21 Load(36) Bat(21) -> 8 Load(56) Bat(19) -> 55[CS:Borne IGA Trois-Rivieres] Load(82) Bat(19) -> 19 Load(82) Bat(100) -> 44 Load(103) Bat(83) -> 30 Load(113) Bat(82) -> 43 Load(138) Bat(82) -> 14 Load(160) Bat(75) -> 45 Load(179) Bat(71) -> 35 Load(197) Bat(33) -> 3 Load(217) Bat(32) -> 51[CS:Borne Trois-Rivieres Centre] Load(246) Bat(21) -> 0 Load(246) Bat(20)
-Distance of the route: 47km
-Time of the route: 4169s
-Load of the route: 246
+ 0 Load(0) Bat(100) -> 11 Load(0) Bat(90) -> 53[CS:Station Rapide TR Ouest] Load(8) Bat(79) -> 53[CS:Station Rapide TR Ouest] Load(8) Bat(100) -> 2 Load(8) Bat(96) -> 33 Load(18) Bat(94) -> 53[CS:Station Rapide TR Ouest] Load(35) Bat(92) -> 54[CS:Circuit Electrique Shawinigan Sud] Load(35) Bat(100) -> 54[CS:Circuit Electrique Shawinigan Sud] Load(35) Bat(100) -> 54[CS:Circuit Electrique Shawinigan Sud] Load(35) Bat(100) -> 55[CS:Borne IGA Trois-Rivieres] Load(35) Bat(100) -> 36 Load(35) Bat(88) -> 44 Load(60) Bat(80) -> 43 Load(70) Bat(80) -> 30 Load(92) Bat(80) -> 14 Load(117) Bat(72) -> 45 Load(136) Bat(68) -> 9 Load(154) Bat(57) -> 39 Load(178) Bat(53) -> 37 Load(193) Bat(51) -> 31 Load(212) Bat(20) -> 22 Load(227) Bat(20) -> 0 Load(241) Bat(13)
+Distance of the route: 64km
+Time of the route: 5103s
+Load of the route: 241
 
 Route for vehicle 2:
- 0 Load(0) Bat(100) -> 5 Load(0) Bat(97) -> 27 Load(27) Bat(82) -> 6 Load(54) Bat(82) -> 0 Load(73) Bat(68)
-Distance of the route: 10km
-Time of the route: 1588s
-Load of the route: 73
+ 0 Load(0) Bat(100) -> 5 Load(0) Bat(97) -> 47 Load(27) Bat(91) -> 1 Load(56) Bat(88) -> 26 Load(69) Bat(81) -> 18 Load(99) Bat(72) -> 10 Load(107) Bat(71) -> 4 Load(125) Bat(70) -> 41 Load(152) Bat(63) -> 42 Load(182) Bat(57) -> 40 Load(199) Bat(54) -> 0 Load(229) Bat(44)
+Distance of the route: 17km
+Time of the route: 2359s
+Load of the route: 229
 
 Route for vehicle 3:
- 0 Load(0) Bat(100) -> 22 Load(0) Bat(94) -> 31 Load(14) Bat(94) -> 47 Load(29) Bat(88) -> 1 Load(58) Bat(85) -> 26 Load(71) Bat(78) -> 10 Load(101) Bat(68) -> 18 Load(119) Bat(67) -> 4 Load(127) Bat(65) -> 41 Load(154) Bat(58) -> 42 Load(184) Bat(52) -> 40 Load(201) Bat(49) -> 0 Load(231) Bat(39)
-Distance of the route: 18km
-Time of the route: 2493s
-Load of the route: 231
+ 0 Load(0) Bat(100) -> 50 Load(0) Bat(89) -> 38 Load(20) Bat(84) -> 17 Load(42) Bat(73) -> 28 Load(66) Bat(69) -> 48 Load(77) Bat(55) -> 32 Load(97) Bat(54) -> 25 Load(116) Bat(54) -> 46 Load(146) Bat(40) -> 0 Load(162) Bat(26)
+Distance of the route: 20km
+Time of the route: 2450s
+Load of the route: 162
 
 Route for vehicle 4:
- 0 Load(0) Bat(100) -> 49 Load(0) Bat(89) -> 7 Load(27) Bat(75) -> 23 Load(41) Bat(68) -> 52[CS:Recharge EV Cap-de-la-Madeleine] Load(69) Bat(57) -> 46 Load(69) Bat(62) -> 28 Load(85) Bat(42) -> 17 Load(96) Bat(38) -> 25 Load(120) Bat(28) -> 32 Load(150) Bat(28) -> 48 Load(169) Bat(27) -> 38 Load(189) Bat(16) -> 50 Load(211) Bat(11) -> 0 Load(231) Bat(0)
-Distance of the route: 32km
-Time of the route: 3727s
-Load of the route: 231
+ 0 Load(0) Bat(100) -> 35 Load(0) Bat(89) -> 3 Load(20) Bat(88) -> 12 Load(49) Bat(79) -> 51[CS:Borne Trois-Rivieres Centre] Load(74) Bat(74) -> 52[CS:Recharge EV Cap-de-la-Madeleine] Load(74) Bat(100) -> 7 Load(74) Bat(92) -> 23 Load(88) Bat(85) -> 52[CS:Recharge EV Cap-de-la-Madeleine] Load(116) Bat(74) -> 49 Load(116) Bat(66) -> 6 Load(143) Bat(58) -> 27 Load(162) Bat(58) -> 0 Load(189) Bat(44)
+Distance of the route: 27km
+Time of the route: 3736s
+Load of the route: 189
 
-Total Distance of all routes: 140km
+Total Distance of all routes: 169km
 
 Total Load of all routes: 1020
 
-Total Time of all routes: 14879s
+Total Time of all routes: 17194s
 
-Total recharges: 4
+Total recharges: 14
+
+Unnecessary charging stops: 13
 
 Minimum battery (SoC) reached: 0
 

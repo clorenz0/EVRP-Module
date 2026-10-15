@@ -128,8 +128,29 @@ def holm(pvalues):
 
 # ───────────────────────── lectura y factibilidad ─────────────────────────
 
-def read_solution(path, data):
-    """Devuelve el objetivo, o None si hay clientes descartados / es infactible / no existe."""
+def unnecessary_stops(nodes, dm, cs):
+    """Paradas de carga que se podrian quitar sin dejar la bateria negativa (misma regla en todos los algoritmos)."""
+    def feasible(seq):
+        bat = CAP
+        for a, b in zip(seq, seq[1:]):
+            bat -= int(dm[a][b] * RATE)
+            if bat < 0:
+                return False
+            if b in cs:
+                bat = CAP
+        return True
+    return sum(1 for k in range(1, len(nodes) - 1) if nodes[k] in cs and feasible(nodes[:k] + nodes[k + 1:]))
+
+
+DEPOT_TO_STATION = {}   # (archivo) -> rutas que salen del deposito directo a una estacion: archivo excluido
+INCONSISTENT = {}   # (archivo) -> (Objective guardado, distancia real): archivo excluido
+NOTED = {}     # (archivo) -> paradas de carga innecesarias encontradas (solo informativo: el objetivo es solo distancia)
+
+
+def read_solution(path, data, max_visits=None):
+    """Devuelve el objetivo (solo distancia), o None si hay clientes descartados / es infactible / no existe.
+    max_visits: si se indica, tambien es infactible visitar una estacion mas veces que eso (el limite
+    tambien se lee del encabezado 'Station copies: K' de las soluciones de OR-Tools)."""
     if not os.path.isfile(path):
         return None
     txt = open(path, encoding="utf-8").read()
@@ -142,19 +163,42 @@ def read_solution(path, data):
     dm, cs = data["distance_matrix"], set(data["charging_stations"])
     n_clients = data["num_locations"] - len(cs) - 1
     served = []
+    station_visits = {}
+    unnecessary = 0
+    mc = re.search(r"Station copies: (\d+)", txt)
+    if mc:
+        max_visits = int(mc.group(1)) if max_visits is None else min(max_visits, int(mc.group(1)))
     for blk in re.findall(r"Route for vehicle \d+:\n (.*?)\nDistance", txt):
         nodes = [int(re.match(r"(\d+)", s.strip()).group(1)) for s in blk.split("->")]
         bat = CAP
+        if len(nodes) > 1 and nodes[0] == 0 and nodes[1] in cs:
+            DEPOT_TO_STATION[path] = DEPOT_TO_STATION.get(path, 0) + 1     # del deposito no se va directo a una estacion
+            return None
+        unnecessary += unnecessary_stops(nodes, dm, cs)
         for a, b in zip(nodes, nodes[1:]):
             bat -= int(dm[a][b] * RATE)
             if bat < 0:
                 return None
             if b in cs:
                 bat = CAP
+                station_visits[b] = station_visits.get(b, 0) + 1
             elif b != 0:
                 served.append(b)
     if sorted(served) != list(range(1, n_clients + 1)):
         return None
+    # control de consistencia: el Objective guardado debe ser la distancia real de las rutas (sin descartes);
+    # si no coincide, el modelo que genero el archivo tenia una matriz o un objetivo distinto al real
+    real = 0
+    for blk in re.findall(r"Route for vehicle \d+:\n (.*?)\nDistance", txt):
+        ns = [int(re.match(r"(\d+)", s.strip()).group(1)) for s in blk.split("->")]
+        real += sum(int(dm[a][b]) for a, b in zip(ns, ns[1:]))
+    if real != obj:
+        INCONSISTENT[path] = (obj, real)
+        return None
+    if max_visits is not None and any(v > max_visits for v in station_visits.values()):
+        return None
+    if unnecessary:
+        NOTED[path] = unnecessary
     return obj
 
 
@@ -232,6 +276,19 @@ def run(args):
     if "ACO" not in algos:
         raise SystemExit(f"La semilla {aco_seed} de ACO tiene alguna solucion infactible: no se puede rankear.")
 
+    if DEPOT_TO_STATION:
+        print(f"\nExcluidas por salir del deposito directo a una estacion ({len(DEPOT_TO_STATION)} archivo(s)):")
+        for path_ in sorted(DEPOT_TO_STATION)[:15]:
+            print(f"  - {os.path.basename(os.path.dirname(path_))[len('solutions_'):]} / {os.path.basename(path_)[7:10]}")
+    if INCONSISTENT:
+        print(f"\nExcluidas por Objective distinto de la distancia real ({len(INCONSISTENT)} archivo(s)): "
+              f"el modelo que las genero no es el actual.")
+        for path_, (o_, r_) in sorted(INCONSISTENT.items())[:15]:
+            print(f"  - {os.path.basename(os.path.dirname(path_))[len('solutions_'):]} / {os.path.basename(path_)[7:10]}: Objective {o_} vs real {r_}")
+    if NOTED:
+        print(f"\nSoluciones con paradas de carga innecesarias ({len(NOTED)}; informativo, no cambia el objetivo):")
+        for path_, k_ in sorted(NOTED.items()):
+            print(f"  - {os.path.basename(os.path.dirname(path_))[len('solutions_'):]} / {os.path.basename(path_)[7:10]}: {k_}")
     if excluded:
         print(f"\nExcluidas del ranking ({len(excluded)}):")
         for name, reason in excluded.items():

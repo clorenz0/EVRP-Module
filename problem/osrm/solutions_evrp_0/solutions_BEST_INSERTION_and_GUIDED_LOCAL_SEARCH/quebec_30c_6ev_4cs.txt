@@ -1,8 +1,8 @@
 Instance: quebec_30c_6ev_4cs.txt
 
-Objective: 92
+Objective: 91
 
-Execution Time: 10.00875997543335
+Execution Time: 9.999252319335938
 
 Heuristic: BEST_INSERTION
 
@@ -14,17 +14,19 @@ Vehicle capacity: 150
 Battery capacity: 100
 Battery consumption rate: 3.0
 
+Station copies: 3
+
 Route for vehicle 0:
- 0 Load(0) Bat(100) -> 19 Load(0) Bat(94) -> 13 Load(11) Bat(87) -> 7 Load(28) Bat(71) -> 16 Load(47) Bat(64) -> 28 Load(75) Bat(61) -> 4 Load(87) Bat(57) -> 0 Load(114) Bat(53)
-Distance of the route: 14km
-Time of the route: 2265s
-Load of the route: 114
+ 0 Load(0) Bat(100) -> 33[CS:Borne EV Vieux-Montréal] Load(0) Bat(92) -> 33[CS:Borne EV Vieux-Montréal] Load(0) Bat(100) -> 33[CS:Borne EV Vieux-Montréal] Load(0) Bat(100) -> 34[CS:Station Rapide Saint-Lambert] Load(0) Bat(100) -> 30 Load(0) Bat(92) -> 25 Load(20) Bat(75) -> 34[CS:Station Rapide Saint-Lambert] Load(28) Bat(58) -> 34[CS:Station Rapide Saint-Lambert] Load(28) Bat(100) -> 6 Load(28) Bat(98) -> 12 Load(52) Bat(88) -> 15 Load(75) Bat(68) -> 0 Load(95) Bat(45)
+Distance of the route: 40km
+Time of the route: 4908s
+Load of the route: 95
 
 Route for vehicle 1:
- 0 Load(0) Bat(100) -> 17 Load(0) Bat(89) -> 24 Load(12) Bat(84) -> 21 Load(44) Bat(78) -> 29 Load(54) Bat(75) -> 18 Load(72) Bat(70) -> 9 Load(101) Bat(67) -> 27 Load(117) Bat(61) -> 0 Load(133) Bat(51)
-Distance of the route: 14km
-Time of the route: 2459s
-Load of the route: 133
+ 0 Load(0) Bat(100) -> 27 Load(0) Bat(89) -> 1 Load(16) Bat(85) -> 2 Load(34) Bat(78) -> 14 Load(56) Bat(65) -> 11 Load(82) Bat(57) -> 26 Load(96) Bat(46) -> 0 Load(110) Bat(34)
+Distance of the route: 19km
+Time of the route: 3155s
+Load of the route: 110
 
 Route for vehicle 2:
  0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
@@ -33,30 +35,32 @@ Time of the route: 0s
 Load of the route: 0
 
 Route for vehicle 3:
- 0 Load(0) Bat(100) -> 3 Load(0) Bat(93) -> 30 Load(15) Bat(71) -> 25 Load(35) Bat(54) -> 34[CS:Station Rapide Saint-Lambert] Load(43) Bat(37) -> 6 Load(43) Bat(53) -> 12 Load(67) Bat(43) -> 15 Load(90) Bat(23) -> 0 Load(110) Bat(0)
-Distance of the route: 35km
-Time of the route: 4527s
-Load of the route: 110
+ 0 Load(0) Bat(100) -> 17 Load(0) Bat(89) -> 24 Load(12) Bat(84) -> 21 Load(44) Bat(78) -> 29 Load(54) Bat(75) -> 18 Load(72) Bat(70) -> 9 Load(101) Bat(67) -> 3 Load(117) Bat(54) -> 0 Load(132) Bat(47)
+Distance of the route: 15km
+Time of the route: 2522s
+Load of the route: 132
 
 Route for vehicle 4:
- 0 Load(0) Bat(100) -> 10 Load(0) Bat(82) -> 22 Load(25) Bat(77) -> 8 Load(56) Bat(69) -> 0 Load(77) Bat(65)
-Distance of the route: 10km
-Time of the route: 1588s
-Load of the route: 77
+ 0 Load(0) Bat(100) -> 19 Load(0) Bat(94) -> 13 Load(11) Bat(87) -> 10 Load(28) Bat(68) -> 22 Load(53) Bat(63) -> 8 Load(84) Bat(55) -> 0 Load(105) Bat(51)
+Distance of the route: 14km
+Time of the route: 2303s
+Load of the route: 105
 
 Route for vehicle 5:
- 0 Load(0) Bat(100) -> 26 Load(0) Bat(88) -> 5 Load(14) Bat(84) -> 23 Load(27) Bat(82) -> 20 Load(36) Bat(78) -> 11 Load(66) Bat(73) -> 14 Load(80) Bat(64) -> 2 Load(106) Bat(50) -> 1 Load(128) Bat(44) -> 0 Load(146) Bat(33)
-Distance of the route: 19km
-Time of the route: 3293s
-Load of the route: 146
+ 0 Load(0) Bat(100) -> 5 Load(0) Bat(86) -> 23 Load(13) Bat(84) -> 20 Load(22) Bat(80) -> 7 Load(52) Bat(69) -> 16 Load(71) Bat(62) -> 28 Load(99) Bat(59) -> 4 Load(111) Bat(55) -> 0 Load(138) Bat(51)
+Distance of the route: 13km
+Time of the route: 2605s
+Load of the route: 138
 
-Total Distance of all routes: 92km
+Total Distance of all routes: 101km
 
 Total Load of all routes: 580
 
-Total Time of all routes: 14132s
+Total Time of all routes: 15493s
 
-Total recharges: 1
+Total recharges: 6
 
-Minimum battery (SoC) reached: 0
+Unnecessary charging stops: 6
+
+Minimum battery (SoC) reached: 34
 

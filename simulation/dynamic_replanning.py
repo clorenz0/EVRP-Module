@@ -130,6 +130,11 @@ def parse_args():
     p.add_argument("--config", default=os.path.join(REPO_ROOT, "simulation", "sumo_scenario", "scenario_battery.sumocfg"))
     p.add_argument("--net-file", default=os.path.join(REPO_ROOT, "simulation", "sumo_network", "network.net.xml"))
     p.add_argument("--checkpoint-time", type=float, default=1200.0)
+    p.add_argument("--congested-speed", type=float, default=CONGESTED_SPEED_MPS,
+                   help="velocidad (m/s) impuesta en los tramos congestionados (por defecto la constante del script); "
+                        "la usa explainability/ para barrer la severidad del evento")
+    p.add_argument("--congestion-fraction", type=float, default=CONGESTION_FRACTION,
+                   help="fraccion de la ruta del sondeo que se congestiona (por defecto la constante del script)")
     p.add_argument("--gui", action="store_true",
                     help="Usa sumo-gui en vez de sumo headless, para ver el proceso completo en vivo")
     p.add_argument("--heuristic", default="PATH_CHEAPEST_ARC",
@@ -138,6 +143,11 @@ def parse_args():
     p.add_argument("--metaheuristic", default=None,
                     help="Metaheuristica de OR-Tools para la re-optimizacion (nombre de MetaheuristicType, "
                          "ej. GUIDED_LOCAL_SEARCH). Por defecto ninguna.")
+    p.add_argument("--replanner", choices=["auto", "ortools", "aco"], default="auto",
+                    help="Algoritmo que re-planifica tras el evento. 'auto' (por defecto): el mismo que genero el plan de entrada "
+                         "(leido del encabezado de la solucion; ACO si dice 'Metaheuristic: ACO'). 'ortools'/'aco' lo fuerzan; "
+                         "con 'ortools' sobre un plan de ACO se usan --heuristic/--metaheuristic.")
+    p.add_argument("--aco-seed", type=int, default=1, help="Semilla de ACO cuando re-planifica ACO")
     p.add_argument("--no-replan", action="store_true",
                     help="Baseline 'sin retroalimentacion': fuerza la MISMA congestion pero NO llama a OR-Tools "
                          "ni inyecta ruta nueva -- el vehiculo sigue su plan original a traves del evento. "
@@ -348,10 +358,25 @@ def main():
     # solucion de entrada (leido del encabezado "Heuristic:"/"Metaheuristic:"
     # que ya escribe evrp.py) -- si se pasa una solucion de GUIDED_LOCAL_SEARCH,
     # la re-planeacion tambien usa GUIDED_LOCAL_SEARCH, no un algoritmo fijo.
-    replan_heuristic = HeuristicType[original_params["heuristic"]] if "heuristic" in original_params else None
-    replan_metaheuristic = (
-        MetaheuristicType[original_params["metaheuristic"]] if "metaheuristic" in original_params else None
-    )
+    plan_is_aco = original_params.get("metaheuristic", "").startswith("ACO")
+    use_aco = args.replanner == "aco" or (args.replanner == "auto" and plan_is_aco)
+    # ACO + heuristica de OR-Tools: la heuristica sale del encabezado ("Heuristic:", soluciones nuevas) o, en las
+    # soluciones guardadas antes, del nombre de la carpeta solutions_<HEURISTICA>_and_ACO
+    aco_seed_heuristic = None
+    if plan_is_aco:
+        folder = os.path.basename(os.path.dirname(os.path.abspath(args.solution)))
+        aco_seed_heuristic = original_params.get("heuristic") or (
+            folder[len("solutions_"):-len("_and_ACO")] if folder.startswith("solutions_") and folder.endswith("_and_ACO") else None)
+    if use_aco:
+        replan_heuristic = replan_metaheuristic = None
+    elif plan_is_aco:       # plan de ACO re-planificado con OR-Tools: usa --heuristic/--metaheuristic
+        replan_heuristic = HeuristicType[args.heuristic] if args.heuristic else None
+        replan_metaheuristic = MetaheuristicType[args.metaheuristic] if args.metaheuristic else None
+    else:
+        replan_heuristic = HeuristicType[original_params["heuristic"]] if "heuristic" in original_params else None
+        replan_metaheuristic = (
+            MetaheuristicType[original_params["metaheuristic"]] if "metaheuristic" in original_params else None
+        )
 
     sumo_bin = "sumo-gui" if args.gui else "sumo"
     cmd = [sumo_bin, "-c", args.config, "--no-warnings", "true",
@@ -426,13 +451,13 @@ def main():
               f"time={stage_before.travelTime:.1f}s  distance={stage_before.length:.0f}m")
 
         route_edges = list(stage_before.edges)
-        n_congest = max(1, int(len(route_edges) * CONGESTION_FRACTION))
+        n_congest = max(1, int(len(route_edges) * args.congestion_fraction))
         start_idx = max(0, (len(route_edges) - n_congest) // 2)
         congested_edges = route_edges[start_idx:start_idx + n_congest]
         for e in congested_edges:
-            traci.edge.setMaxSpeed(e, CONGESTED_SPEED_MPS)
+            traci.edge.setMaxSpeed(e, args.congested_speed)
         print(f"  Congestion forced on {len(congested_edges)} real edge(s) "
-              f"(speed limit lowered to {CONGESTED_SPEED_MPS} m/s ~ {CONGESTED_SPEED_MPS * 3.6:.0f} km/h)")
+              f"(speed limit lowered to {args.congested_speed} m/s ~ {args.congested_speed * 3.6:.0f} km/h)")
 
         stage_after = traci.simulation.findRoute(vehicles_state[first_vid]["current_edge"], probe_edge)
         delta_t = stage_after.travelTime - stage_before.travelTime
@@ -447,7 +472,7 @@ def main():
 
         event_description = (
             f"Event: congestion forced at checkpoint {args.checkpoint_time:.0f}s on "
-            f"{len(congested_edges)} real edge(s) (speed limit lowered to {CONGESTED_SPEED_MPS} m/s). "
+            f"{len(congested_edges)} real edge(s) (speed limit lowered to {args.congested_speed} m/s). "
             f"Probe {first_vid} -> node {probe_target}: travel time {stage_before.travelTime:.1f}s -> "
             f"{stage_after.travelTime:.1f}s ({pct:+.1f}%), distance {stage_before.length:.0f}m -> "
             f"{stage_after.length:.0f}m. Congested edges: {', '.join(congested_edges)}."
@@ -576,17 +601,28 @@ def main():
             "prior_distance_km": prior_distance_km_total,
         }
 
-        print(f"\nRe-optimizing with OR-Tools (evrp.execute with data_override + vehicle_states, "
-              f"heuristic={replan_heuristic}, metaheuristic={replan_metaheuristic})...\n")
-        evrp.execute(
-            0, "dynamic_replan_instance", time_limit=REPLAN_TIME_LIMIT,
-            distance_type=DistanceType.OSRM,
-            heuristic=replan_heuristic,
-            metaheuristic=replan_metaheuristic,
-            vehicle_states=vehicle_states,
-            data_override=sub_data,
-            instance_name=replan_instance_name,
-        )
+        if use_aco:
+            from p_mh.ACO import evrp_aco   # import diferido: ACO no necesita OR-Tools
+            print(f"\nRe-optimizing with ACO (evrp_aco.execute with data_override + vehicle_states, "
+                  f"{REPLAN_TIME_LIMIT}s, seed {args.aco_seed})...\n")
+            evrp_aco.execute(
+                0, None, time_limit=REPLAN_TIME_LIMIT, distance_type=DistanceType.OSRM,
+                seed=args.aco_seed, vehicle_states=vehicle_states, data_override=sub_data,
+                instance_name=replan_instance_name,
+                initial_heuristic=aco_seed_heuristic,   # hibrido: la heuristica construye la solucion inicial del sub-problema
+            )
+        else:
+            print(f"\nRe-optimizing with OR-Tools (evrp.execute with data_override + vehicle_states, "
+                  f"heuristic={replan_heuristic}, metaheuristic={replan_metaheuristic})...\n")
+            evrp.execute(
+                0, "dynamic_replan_instance", time_limit=REPLAN_TIME_LIMIT,
+                distance_type=DistanceType.OSRM,
+                heuristic=replan_heuristic,
+                metaheuristic=replan_metaheuristic,
+                vehicle_states=vehicle_states,
+                data_override=sub_data,
+                instance_name=replan_instance_name,
+            )
 
         # ── 5. Leer la nueva solucion e inyectarla como ruta real en SUMO ────
         # Mismo esquema de nombre de carpeta que usa evrp.py::save_solution
@@ -594,8 +630,8 @@ def main():
         # detectado arriba -- no siempre "solutions_PATH_CHEAPEST_ARC".
         _, replan_solution_name = get_distance_and_solution_name(
             DistanceType.OSRM,
-            replan_heuristic.value if replan_heuristic else None,
-            replan_metaheuristic.value if replan_metaheuristic else None,
+            (aco_seed_heuristic if use_aco else (replan_heuristic.value if replan_heuristic else None)),
+            "ACO" if use_aco else (replan_metaheuristic.value if replan_metaheuristic else None),
         )
         new_sol_path = os.path.join(
             REPO_ROOT, "problem", "osrm", "solutions_evrp_0",

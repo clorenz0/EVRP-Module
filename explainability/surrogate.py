@@ -10,7 +10,7 @@ train_surrogate devuelve tambien metricas de validacion cruzada:
 """
 import pandas as pd
 
-FEATURE_PREFIXES = ("f_", "s_", "p_")
+FEATURE_PREFIXES = ("f_", "s_", "p_", "e_", "r_", "c_")   # instancia, escenario, parametros, evento, estado del vehiculo, cambios de la re-planificacion
 
 
 def load_dataset(csv_path, target="distance", algorithm=None, drop_dropped=True):

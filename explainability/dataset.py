@@ -39,7 +39,8 @@ def _scale(u, dim):
 def sample_rows(algorithm, n_rows, sampling_seed=0, instances=None):
     """Lista de n_rows dicts {row_id, instance, seed, scenario{}, params{}} (muestreo Latin Hypercube)."""
     spec = ALGORITHMS[algorithm]
-    dims = SCENARIO_SPACE + spec.param_space
+    scenario_space = SCENARIO_SPACE if spec.scenario_space is None else spec.scenario_space
+    dims = scenario_space + spec.param_space
     rng = np.random.default_rng(sampling_seed)
     unit = np.empty((n_rows, len(dims)))
     for j in range(len(dims)):
@@ -54,7 +55,7 @@ def sample_rows(algorithm, n_rows, sampling_seed=0, instances=None):
             "row_id": r,
             "instance": order[r % len(order)],
             "seed": int(rng.integers(1, 10 ** 6)),
-            "scenario": {d["name"]: values[d["name"]] for d in SCENARIO_SPACE},
+            "scenario": {d["name"]: values[d["name"]] for d in scenario_space},
             "params": {d["name"]: values[d["name"]] for d in spec.param_space},
         })
     return rows
@@ -84,12 +85,13 @@ def generate(algorithm, out_csv, n_rows=200, time_limit=3, sampling_seed=0, part
             record = {"row_id": row["row_id"], "algorithm": algorithm,
                       "instance": os.path.basename(path), "seed": row["seed"], "time_limit": time_limit}
             try:
-                data = process_files(path, DistanceType.OSRM, None, sc["consumption"], sc["battery"])[os.path.basename(path)]
+                battery, consumption = sc.get("battery", 100), sc.get("consumption", 3.0)
+                data = process_files(path, DistanceType.OSRM, None, consumption, battery)[os.path.basename(path)]
                 record.update(instance_features(data))
-                record.update(scenario_features(sc["battery"], sc["consumption"], data))
+                record.update(scenario_features(battery, consumption, data))
                 record.update({f"p_{k_}": v for k_, v in params.items()})
                 res = spec.run(path, sc, params, row["seed"], time_limit)
-                record.update({k_: res[k_] for k_ in ("distance", "objective", "n_dropped", "n_routes", "recharges", "iterations", "elapsed")})
+                record.update({k_: res[k_] for k_ in spec.result_keys})
                 record["status"] = "ok"
             except Exception as error:   # una corrida fallida no detiene el resto
                 record["status"] = f"error: {type(error).__name__}: {error}"[:200]
