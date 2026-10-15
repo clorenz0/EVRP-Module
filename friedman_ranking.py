@@ -5,7 +5,9 @@ combinaciones heuristica/metaheuristica de OR-Tools.
 Diseño del experimento
   - Bloques  : las instancias EVRP (una fila por instancia).
   - Tratamientos: cada combinacion de OR-Tools (carpeta solutions_<combo>) y ACO.
-  - Medida   : objetivo (distancia total). Menor es mejor.
+  - Medida   : distancia total REAL en km (sin truncar por arco). Menor es mejor. El Objective de los
+               archivos es la suma de arcos truncados a km enteros y subestima la distancia real;
+               solo se usa para comprobar la consistencia del archivo.
   - Solo participan algoritmos con las 5 instancias resueltas Y todas factibles con
     bateria fisica estricta (>= 0 en todos los tramos, sin clientes descartados). Una
     combinacion con algun error, falta o solucion infactible se EXCLUYE completa
@@ -189,9 +191,11 @@ def read_solution(path, data, max_visits=None):
     # control de consistencia: el Objective guardado debe ser la distancia real de las rutas (sin descartes);
     # si no coincide, el modelo que genero el archivo tenia una matriz o un objetivo distinto al real
     real = 0
+    real_km = 0.0     # distancia real (km, sin truncar por arco): es la medida que usa el ranking
     for blk in re.findall(r"Route for vehicle \d+:\n (.*?)\nDistance", txt):
         ns = [int(re.match(r"(\d+)", s.strip()).group(1)) for s in blk.split("->")]
         real += sum(int(dm[a][b]) for a, b in zip(ns, ns[1:]))
+        real_km += sum(dm[a][b] for a, b in zip(ns, ns[1:]))
     if real != obj:
         INCONSISTENT[path] = (obj, real)
         return None
@@ -199,7 +203,9 @@ def read_solution(path, data, max_visits=None):
         return None
     if unnecessary:
         NOTED[path] = unnecessary
-    return obj
+    # El Objective guardado es la suma de arcos truncados a km enteros (lo que optimizan OR-Tools y ACO); sirve
+    # para el control de consistencia de arriba, pero subestima la distancia recorrida. El ranking usa km reales.
+    return round(real_km, 2)
 
 
 def main():

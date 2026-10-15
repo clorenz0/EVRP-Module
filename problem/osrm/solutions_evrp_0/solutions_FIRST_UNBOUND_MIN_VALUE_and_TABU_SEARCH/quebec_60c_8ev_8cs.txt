@@ -65,6 +65,7 @@ Time of the route: 3249s
 Load of the route: 200
 
 Total Distance of all routes: 132km
+Real distance (km): 180.50
 
 Total Load of all routes: 1189
 

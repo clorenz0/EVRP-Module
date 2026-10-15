@@ -478,6 +478,7 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
             distance_matrix = data['distance_matrix']
             time_matrix = data.get('time_matrix')
             total_distance = 0
+            total_real_km = 0.0
             total_load = 0
             total_time = 0
             total_recharges = 0
@@ -488,6 +489,7 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                 index = routing.Start(vehicle_id)
                 plan_output = f'Route for vehicle {vehicle_id}:\n'
                 route_distance = 0
+                route_real_km = 0.0     # distancia real (sin truncar por arco)
                 route_time = 0
                 route_nodes = []
 
@@ -519,6 +521,7 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                     index = assignment.Value(routing.NextVar(index))
                     next_node = origin.get(manager.IndexToNode(index), manager.IndexToNode(index))
                     route_distance += int(distance_matrix[previous_node][next_node])
+                    route_real_km += float(distance_matrix[previous_node][next_node])
                     if time_matrix is not None:
                         route_time += int(time_matrix[previous_node][next_node])
 
@@ -536,16 +539,19 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                     f'Bat({soc})\n'
                 )
                 plan_output += f'Distance of the route: {route_distance}km\n'
+                plan_output += f'Real distance of the route: {route_real_km:.2f}km\n'
                 if time_matrix is not None:
                     plan_output += f'Time of the route: {route_time}s\n'
                 plan_output += f'Load of the route: {assignment.Min(load_var)}\n\n'
 
                 f.write(plan_output)
                 total_distance += route_distance
+                total_real_km += route_real_km
                 total_load += assignment.Min(load_var)
                 total_time += route_time
 
             f.write(f'Total Distance of all routes: {total_distance}km\n\n')
+            f.write(f'Real distance (km): {total_real_km:.2f}\n\n')
             f.write(f'Total Load of all routes: {total_load}\n\n')
             if time_matrix is not None:
                 f.write(f'Total Time of all routes: {total_time}s\n\n')
@@ -562,7 +568,7 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
             if prior_distance_km:
                 f.write(f'Distance already traveled before this sub-problem: {prior_distance_km:.3f}km\n\n')
                 f.write(f'Total Distance including distance before event: '
-                        f'{total_distance + prior_distance_km:.3f}km\n\n')
+                        f'{total_real_km + prior_distance_km:.3f}km\n\n')
 
         print(f"Solution saved successfully in {filename}")
     except OSError as error:

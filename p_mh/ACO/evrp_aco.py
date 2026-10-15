@@ -1002,14 +1002,17 @@ def save_solution(data, routes, dropped_clients, objective, instance,
                 f.write(f'{data["extra_info"]}\n\n')
 
             total_distance = 0
+            total_real_km = 0.0     # distancia real (sin truncar por arco)
             total_load = 0
             total_time = 0
             total_recharges = 0
             min_soc = None
+            real_dm = data['distance_matrix']
 
             for vehicle_id, route in enumerate(all_routes):
                 plan_output = f'Route for vehicle {vehicle_id}:\n'
                 route_distance = 0
+                route_real_km = 0.0
                 route_time = 0
 
                 for k in range(len(route) - 1):
@@ -1026,6 +1029,7 @@ def save_solution(data, routes, dropped_clients, objective, instance,
                         plan_output += f' {node} Load({route[k]["load"]}) Bat({soc}) ->'
                     nxt = route[k + 1]['node']
                     route_distance += cm[node][nxt]
+                    route_real_km += float(real_dm[node][nxt])
                     if time_matrix is not None:
                         route_time += int(time_matrix[node][nxt])
 
@@ -1034,16 +1038,19 @@ def save_solution(data, routes, dropped_clients, objective, instance,
                 min_soc = last_soc if min_soc is None else min(min_soc, last_soc)
                 plan_output += f' {last["node"]} Load({last["load"]}) Bat({last_soc})\n'
                 plan_output += f'Distance of the route: {route_distance}km\n'
+                plan_output += f'Real distance of the route: {route_real_km:.2f}km\n'
                 if time_matrix is not None:
                     plan_output += f'Time of the route: {route_time}s\n'
                 plan_output += f'Load of the route: {last["load"]}\n\n'
 
                 f.write(plan_output)
                 total_distance += route_distance
+                total_real_km += route_real_km
                 total_load += last['load']
                 total_time += route_time
 
             f.write(f'Total Distance of all routes: {total_distance}km\n\n')
+            f.write(f'Real distance (km): {total_real_km:.2f}\n\n')
             f.write(f'Total Load of all routes: {total_load}\n\n')
             if time_matrix is not None:
                 f.write(f'Total Time of all routes: {total_time}s\n\n')
@@ -1053,7 +1060,7 @@ def save_solution(data, routes, dropped_clients, objective, instance,
             prior_km = data.get('prior_distance_km')
             if prior_km:
                 f.write(f'Distance already traveled before this sub-problem: {prior_km:.3f}km\n\n')
-                f.write(f'Total Distance including distance before event: {total_distance + prior_km:.3f}km\n\n')
+                f.write(f'Total Distance including distance before event: {total_real_km + prior_km:.3f}km\n\n')
 
         print(f"Solution saved successfully in {filename}")
     except OSError as error:
