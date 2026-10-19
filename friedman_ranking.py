@@ -5,7 +5,9 @@ combinaciones heuristica/metaheuristica de OR-Tools.
 Diseño del experimento
   - Bloques  : las instancias EVRP (una fila por instancia).
   - Tratamientos: cada combinacion de OR-Tools (carpeta solutions_<combo>) y ACO.
-  - Medida   : objetivo (distancia total). Menor es mejor.
+  - Medida   : distancia total REAL en km (sin truncar por arco). Menor es mejor. El Objective de los
+               archivos es la suma de arcos truncados a km enteros y subestima la distancia real;
+               solo se usa para comprobar la consistencia del archivo.
   - Solo participan algoritmos con las 5 instancias resueltas Y todas factibles con
     bateria fisica estricta (>= 0 en todos los tramos, sin clientes descartados). Una
     combinacion con algun error, falta o solucion infactible se EXCLUYE completa
@@ -32,7 +34,9 @@ import random
 import re
 
 from distance.distance_type import DistanceType
+from utils.trace import TraceLog, timestamp
 from instance.instance_type import InstanceType, process_files
+from utils.units import DIST_SCALE, cost_int, energy_int, cap_int
 
 CAP = 100
 RATE = 3.0
@@ -127,8 +131,33 @@ def holm(pvalues):
 
 # ───────────────────────── lectura y factibilidad ─────────────────────────
 
-def read_solution(path, data):
-    """Devuelve el objetivo, o None si hay clientes descartados / es infactible / no existe."""
+def unnecessary_stops(nodes, dm, cs):
+    """Paradas de carga que se podrian quitar sin dejar la bateria negativa (misma regla en todos los algoritmos)."""
+    cap = cap_int(CAP)      # el modelo trabaja en metros (utils/units.py)
+
+    def feasible(seq):
+        bat = cap
+        for a, b in zip(seq, seq[1:]):
+            bat -= energy_int(dm[a][b], RATE)
+            if bat < 0:
+                return False
+            if b in cs:
+                bat = cap
+        return True
+    return sum(1 for k in range(1, len(nodes) - 1) if nodes[k] in cs and feasible(nodes[:k] + nodes[k + 1:]))
+
+
+STATION_CHAIN = {}   # (archivo) -> rutas con un salto estacion -> estacion: archivo excluido
+DEPOT_TO_STATION = {}   # (archivo) -> rutas que salen del deposito directo a una estacion: archivo excluido
+LEGACY = {}   # (archivo) -> soluciones del modelo anterior (distancias truncadas a km enteros): excluidas, hay que repetir la corrida
+INCONSISTENT = {}   # (archivo) -> (Objective guardado, distancia real): archivo excluido
+NOTED = {}     # (archivo) -> paradas de carga innecesarias encontradas (solo informativo: el objetivo es solo distancia)
+
+
+def read_solution(path, data, max_visits=None):
+    """Devuelve el objetivo (solo distancia), o None si hay clientes descartados / es infactible / no existe.
+    max_visits: si se indica, tambien es infactible visitar una estacion mas veces que eso (el limite
+    tambien se lee del encabezado 'Station copies: K' de las soluciones de OR-Tools)."""
     if not os.path.isfile(path):
         return None
     txt = open(path, encoding="utf-8").read()
@@ -137,24 +166,58 @@ def read_solution(path, data):
     m = re.search(r"Battery consumption rate: ([\d.]+)", txt)
     if m and abs(float(m.group(1)) - RATE) > 1e-9:   # archivo viejo de otra configuracion (no se re-ejecuto)
         return None
-    obj = int(float(re.search(r"Objective: ([\d.]+)", txt).group(1)))
+    obj_txt = re.search(r"Objective: ([\d.]+)", txt).group(1)
+    if "." not in obj_txt:          # formato anterior: km enteros truncados por arco
+        LEGACY[path] = 1
+        return None
+    obj = float(obj_txt)
     dm, cs = data["distance_matrix"], set(data["charging_stations"])
     n_clients = data["num_locations"] - len(cs) - 1
     served = []
+    station_visits = {}
+    unnecessary = 0
+    mc = re.search(r"Station copies: (\d+)", txt)
+    if mc:
+        max_visits = int(mc.group(1)) if max_visits is None else min(max_visits, int(mc.group(1)))
     for blk in re.findall(r"Route for vehicle \d+:\n (.*?)\nDistance", txt):
         nodes = [int(re.match(r"(\d+)", s.strip()).group(1)) for s in blk.split("->")]
-        bat = CAP
+        bat = cap_int(CAP)
+        if len(nodes) > 1 and nodes[0] == 0 and nodes[1] in cs:
+            DEPOT_TO_STATION[path] = DEPOT_TO_STATION.get(path, 0) + 1     # del deposito no se va directo a una estacion
+            return None
+        if any(a in cs and b in cs for a, b in zip(nodes, nodes[1:])):
+            STATION_CHAIN[path] = STATION_CHAIN.get(path, 0) + 1           # de una estacion no se va directo a otra
+            return None
+        unnecessary += unnecessary_stops(nodes, dm, cs)
         for a, b in zip(nodes, nodes[1:]):
-            bat -= int(dm[a][b] * RATE)
+            bat -= energy_int(dm[a][b], RATE)
             if bat < 0:
                 return None
             if b in cs:
-                bat = CAP
+                bat = cap_int(CAP)
+                station_visits[b] = station_visits.get(b, 0) + 1
             elif b != 0:
                 served.append(b)
     if sorted(served) != list(range(1, n_clients + 1)):
         return None
-    return obj
+    # control de consistencia: el Objective guardado debe ser la distancia real de las rutas (sin descartes);
+    # si no coincide, el modelo que genero el archivo tenia una matriz o un objetivo distinto al real
+    real = 0
+    real_km = 0.0     # distancia real (km, sin truncar por arco): es la medida que usa el ranking
+    for blk in re.findall(r"Route for vehicle \d+:\n (.*?)\nDistance", txt):
+        ns = [int(re.match(r"(\d+)", s.strip()).group(1)) for s in blk.split("->")]
+        real += sum(cost_int(dm[a][b]) for a, b in zip(ns, ns[1:]))
+        real_km += sum(dm[a][b] for a, b in zip(ns, ns[1:]))
+    if abs(real / DIST_SCALE - obj) > 0.0015:
+        INCONSISTENT[path] = (obj, round(real / DIST_SCALE, 3))
+        return None
+    if max_visits is not None and any(v > max_visits for v in station_visits.values()):
+        return None
+    if unnecessary:
+        NOTED[path] = unnecessary
+    # El Objective guardado es la distancia en km (el modelo trabaja en metros enteros: utils/units.py); el control de
+    # consistencia de arriba lo compara con la distancia recalculada. El ranking usa los km reales de las rutas.
+    return round(real_km, 2)
 
 
 def main():
@@ -169,18 +232,26 @@ def main():
     ap.add_argument("--pick-seed", type=int, default=None,
                     help="semilla del sorteo cuando --aco-seed random (para poder repetir el sorteo)")
     ap.add_argument("--holm", action="store_true", help="ademas, compara cada algoritmo contra ACO con Holm (opcional)")
-    ap.add_argument("--out", default=os.path.join("problem", "osrm", "friedman_ranking.csv"))
-    ap.add_argument("--keel-out", default=os.path.join("problem", "osrm", "friedman_keel.csv"),
-                    help="CSV con formato KEEL (instancias x algoritmos)")
+    ap.add_argument("--out", default=None, help="CSV del ranking (por defecto con fecha y hora, no se sobreescribe)")
+    ap.add_argument("--keel-out", default=None, help="CSV formato KEEL (por defecto con fecha y hora)")
     args = ap.parse_args()
+    stamp = timestamp()
+    out_dir = os.path.join("problem", "osrm", "trazas")
+    os.makedirs(out_dir, exist_ok=True)
+    args.out = args.out or os.path.join(out_dir, f"friedman_ranking_{stamp}.csv")
+    args.keel_out = args.keel_out or os.path.join(out_dir, f"friedman_keel_{stamp}.csv")
+    with TraceLog("friedman", "ranking" + ("_holm" if args.holm else ""), stamp=stamp):
+        run(args)
 
+
+def run(args):
     data_all = process_files(InstanceType.EVRP, DistanceType.OSRM, None, RATE, CAP)
 
     # ── Combinaciones de OR-Tools: solo las que tienen las 5 instancias y TODAS factibles ──
     algos = {}       # nombre -> [objetivo por instancia]
     excluded = {}    # nombre -> motivo
     for folder in sorted(glob.glob(os.path.join(args.ortools_root, "solutions_*"))):
-        name = os.path.basename(folder)[len("solutions_"):]
+        name = os.path.basename(folder)[len("solutions_"):].replace("HeuristicType.", "")   # solo el nombre
         if name == "ACO":      # corridas viejas de ACO guardadas junto a OR-Tools: ACO entra por --aco-root
             continue
         missing = [f for f in INSTANCES if not os.path.isfile(os.path.join(folder, f))]
@@ -223,6 +294,27 @@ def main():
     if "ACO" not in algos:
         raise SystemExit(f"La semilla {aco_seed} de ACO tiene alguna solucion infactible: no se puede rankear.")
 
+    if DEPOT_TO_STATION:
+        print(f"\nExcluidas por salir del deposito directo a una estacion ({len(DEPOT_TO_STATION)} archivo(s)):")
+        for path_ in sorted(DEPOT_TO_STATION)[:15]:
+            print(f"  - {os.path.basename(os.path.dirname(path_))[len('solutions_'):]} / {os.path.basename(path_)[7:10]}")
+    if STATION_CHAIN:
+        print(f"\nExcluidas por ir de una estacion directo a otra ({len(STATION_CHAIN)} archivo(s)):")
+        for path_ in sorted(STATION_CHAIN)[:15]:
+            print(f"  - {os.path.basename(os.path.dirname(path_))[len('solutions_'):]} / {os.path.basename(path_)[7:10]}")
+    if LEGACY:
+        print(f"\nExcluidas por ser del modelo anterior, con distancias truncadas a km enteros ({len(LEGACY)} archivo(s)): repetir la corrida.")
+        for path_ in sorted(LEGACY)[:15]:
+            print(f"  - {os.path.basename(os.path.dirname(path_))[len('solutions_'):]} / {os.path.basename(path_)[7:10]}")
+    if INCONSISTENT:
+        print(f"\nExcluidas por Objective distinto de la distancia real ({len(INCONSISTENT)} archivo(s)): "
+              f"el modelo que las genero no es el actual.")
+        for path_, (o_, r_) in sorted(INCONSISTENT.items())[:15]:
+            print(f"  - {os.path.basename(os.path.dirname(path_))[len('solutions_'):]} / {os.path.basename(path_)[7:10]}: Objective {o_} vs real {r_}")
+    if NOTED:
+        print(f"\nSoluciones con paradas de carga innecesarias ({len(NOTED)}; informativo, no cambia el objetivo):")
+        for path_, k_ in sorted(NOTED.items()):
+            print(f"  - {os.path.basename(os.path.dirname(path_))[len('solutions_'):]} / {os.path.basename(path_)[7:10]}: {k_}")
     if excluded:
         print(f"\nExcluidas del ranking ({len(excluded)}):")
         for name, reason in excluded.items():

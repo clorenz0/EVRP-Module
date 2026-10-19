@@ -1,8 +1,8 @@
 Instance: quebec_40c_4ev_6cs.txt
 
-Objective: 74
+Objective: 73
 
-Execution Time: 10.00547742843628
+Execution Time: 10.001950740814209
 
 Heuristic: LOCAL_CHEAPEST_COST_INSERTION
 
@@ -14,37 +14,42 @@ Vehicle capacity: 250
 Battery capacity: 100
 Battery consumption rate: 3.0
 
+Station copies: 3
+
 Route for vehicle 0:
- 0 Load(0) Bat(100) -> 44[CS:Recharge Saint-Roch] Load(0) Bat(96) -> 8 Load(0) Bat(100) -> 39 Load(28) Bat(97) -> 7 Load(42) Bat(90) -> 42[CS:Station IGA Sainte-Foy] Load(61) Bat(86) -> 31 Load(61) Bat(82) -> 25 Load(77) Bat(75) -> 36 Load(103) Bat(71) -> 19 Load(120) Bat(66) -> 13 Load(144) Bat(58) -> 4 Load(161) Bat(48) -> 28 Load(176) Bat(48) -> 33 Load(185) Bat(45) -> 0 Load(210) Bat(38)
-Distance of the route: 18km
-Time of the route: 3003s
-Load of the route: 210
+ 0 Load(0) Bat(100) -> 30 Load(0) Bat(96) -> 41[CS:Borne Rapide Haute-Ville] Load(28) Bat(92) -> 38 Load(28) Bat(95) -> 41[CS:Borne Rapide Haute-Ville] Load(55) Bat(90) -> 14 Load(55) Bat(73) -> 27 Load(78) Bat(67) -> 10 Load(112) Bat(56) -> 22 Load(147) Bat(55) -> 0 Load(176) Bat(38)
+Distance of the route: 19km
+Time of the route: 5363s
+Load of the route: 176
 
 Route for vehicle 1:
- 0 Load(0) Bat(100) -> 17 Load(0) Bat(95) -> 41[CS:Borne Rapide Haute-Ville] Load(31) Bat(91) -> 27 Load(31) Bat(80) -> 14 Load(65) Bat(74) -> 10 Load(88) Bat(57) -> 22 Load(123) Bat(56) -> 38 Load(152) Bat(39) -> 0 Load(179) Bat(32)
-Distance of the route: 19km
-Time of the route: 5309s
-Load of the route: 179
+ 0 Load(0) Bat(100) -> 8 Load(0) Bat(96) -> 44[CS:Recharge Saint-Roch] Load(28) Bat(96) -> 15 Load(28) Bat(91) -> 16 Load(55) Bat(85) -> 42[CS:Station IGA Sainte-Foy] Load(69) Bat(77) -> 31 Load(69) Bat(96) -> 7 Load(85) Bat(89) -> 36 Load(104) Bat(89) -> 25 Load(121) Bat(85) -> 13 Load(147) Bat(76) -> 19 Load(164) Bat(73) -> 28 Load(188) Bat(66) -> 4 Load(197) Bat(66) -> 33 Load(212) Bat(63) -> 41[CS:Borne Rapide Haute-Ville] Load(237) Bat(58) -> 0 Load(237) Bat(55)
+Distance of the route: 21km
+Time of the route: 3249s
+Load of the route: 237
 
 Route for vehicle 2:
- 0 Load(0) Bat(100) -> 15 Load(0) Bat(86) -> 16 Load(27) Bat(80) -> 5 Load(41) Bat(69) -> 23 Load(63) Bat(67) -> 11 Load(81) Bat(66) -> 34 Load(91) Bat(66) -> 37 Load(103) Bat(61) -> 26 Load(126) Bat(61) -> 9 Load(139) Bat(52) -> 20 Load(151) Bat(45) -> 3 Load(184) Bat(42) -> 30 Load(214) Bat(33) -> 0 Load(242) Bat(29)
-Distance of the route: 20km
-Time of the route: 3233s
-Load of the route: 242
+ 0 Load(0) Bat(100) -> 1 Load(0) Bat(92) -> 32 Load(20) Bat(91) -> 35 Load(40) Bat(81) -> 18 Load(70) Bat(79) -> 6 Load(86) Bat(79) -> 24 Load(111) Bat(78) -> 2 Load(132) Bat(76) -> 12 Load(150) Bat(69) -> 17 Load(182) Bat(52) -> 0 Load(213) Bat(47)
+Distance of the route: 13km
+Time of the route: 2606s
+Load of the route: 213
 
 Route for vehicle 3:
- 0 Load(0) Bat(100) -> 35 Load(0) Bat(88) -> 6 Load(30) Bat(86) -> 18 Load(55) Bat(86) -> 24 Load(71) Bat(85) -> 2 Load(92) Bat(83) -> 12 Load(110) Bat(76) -> 21 Load(142) Bat(61) -> 29 Load(153) Bat(55) -> 40 Load(175) Bat(54) -> 32 Load(194) Bat(46) -> 1 Load(214) Bat(44) -> 0 Load(234) Bat(36)
-Distance of the route: 17km
-Time of the route: 2967s
-Load of the route: 234
+ 0 Load(0) Bat(100) -> 39 Load(0) Bat(92) -> 3 Load(14) Bat(81) -> 20 Load(44) Bat(78) -> 26 Load(77) Bat(75) -> 37 Load(90) Bat(75) -> 34 Load(113) Bat(70) -> 11 Load(125) Bat(70) -> 23 Load(135) Bat(69) -> 5 Load(153) Bat(67) -> 9 Load(175) Bat(57) -> 40 Load(187) Bat(46) -> 29 Load(206) Bat(45) -> 21 Load(228) Bat(37) -> 0 Load(239) Bat(23)
+Distance of the route: 20km
+Time of the route: 3357s
+Load of the route: 239
 
-Total Distance of all routes: 74km
+Total Distance of all routes: 73km
+Real distance (km): 99.89
 
 Total Load of all routes: 865
 
-Total Time of all routes: 14512s
+Total Time of all routes: 14575s
 
-Total recharges: 3
+Total recharges: 5
 
-Minimum battery (SoC) reached: 29
+Unnecessary charging stops: 5
+
+Minimum battery (SoC) reached: 23
 

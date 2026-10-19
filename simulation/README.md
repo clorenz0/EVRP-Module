@@ -300,49 +300,22 @@ sumo-gui -c simulation/sumo_scenario/scenario_dynamic_replan.sumocfg
 
 ## Limitaciones conocidas
 
-### Cada estación de carga se puede visitar una sola vez en toda la solución
+### Estaciones de carga con varias visitas (resuelto)
 
-En el modelo actual (`problem/execute/evrp.py`), cada estación de carga es
-**un solo nodo** en el grafo que le pasamos a OR-Tools. Como cada nodo se
-visita a lo sumo una vez (restricción estándar de VRP), esto significa que
-una misma estación física no puede ser usada por dos vehículos distintos, ni
-por el mismo vehículo dos veces, dentro de una misma solución.
+Antes cada estación era un solo nodo en OR-Tools y solo podía visitarse una vez por solución. Ahora
+`problem/execute/evrp.py` la reemplaza por `station_copies` nodos idénticos (por defecto 3; `1` = modelo anterior),
+activados en orden. En los archivos de solución las copias salen con el id de la estación original, así que los
+scripts de esta carpeta no cambian. ACO no tiene tope de visitas. La función objetivo sigue siendo solo la distancia.
 
-El paper de referencia (Anastasiadou et al., ACO-DEVRP) resuelve esto
-"duplicando" cada estación en β_i copias (mismo lugar físico, nodos
-distintos para el solver), permitiendo múltiples visitas. Este proyecto no
-implementa esa duplicación todavía.
+En la re-planificación, las copias se aplican a las estaciones reales; las posiciones de arranque de los vehículos
+no se copian.
 
-**Evaluación de qué tan grande sería el cambio** (hecha 2026-07-29, sin
-implementar aún):
+### Re-planificación con ACO
 
-- El cambio quedaría casi contenido en `instance/import_data.py` →
-  `read_file_evrp()`: en vez de agregar un nodo por estación, agregar β
-  copias (mismas coordenadas, demanda 0, mismo nombre en
-  `charging_station_names` para que la solución se lea igual de claro).
-- `evrp.py` **no necesitaría cambios**: `add_capacity_constraints` y
-  `add_fuel_constraints` ya iteran `data['charging_stations']` como una
-  lista genérica, sin asumir una sola aparición por estación. La fórmula
-  `num_clients = num_locations - len(charging_stations) - 1` tampoco se ve
-  afectada por cuántas copias haya.
-- Los scripts de `simulation/` **no necesitarían cambios**: leen el archivo
-  `.txt` de instancia original (una estación física = una línea), no la
-  representación interna con copias — esa expansión sería un detalle
-  interno de `read_file_evrp`, invisible para SUMO.
-- Sí haría falta decidir β (cuántas copias por estación). El valor del
-  paper (`β_i = 2 × num_clientes`) es un peor caso muy generoso pensado
-  para instancias pequeñas; para las instancias de este proyecto
-  (10-90 clientes) infla demasiado el modelo y podría ralentizar a
-  OR-Tools sin necesidad. Un valor más razonable para esta escala sería
-  `β = num_vehicles` (en el peor caso, cada vehículo visita esa estación
-  una vez).
-- Nota aparte: el orquestador de re-planeación dinámica
-  (`dynamic_replanning.py`) arma su propia sub-instancia a mano, sin pasar
-  por `read_file_evrp` — si se quiere que las copias también apliquen ahí,
-  sería un segundo cambio pequeño e independiente.
-
-**Conclusión**: cambio acotado, mayormente en un solo archivo. Pendiente de
-implementar hasta que se decida si vale la pena para el alcance de la tesis.
+`dynamic_replanning.py` re-planifica con el mismo algoritmo que generó el plan (`--replanner auto`), con ACO
+(`aco`) o con OR-Tools (`ortools`). Con una solución de ACO + heurística, la heurística construye la solución
+inicial del sub-problema y ACO la mejora. Ver la sección 6 del README principal. Parámetros del evento:
+`--checkpoint-time`, `--congested-speed`, `--congestion-fraction`.
 
 ## Qué archivos son código y cuáles son generados
 
@@ -356,3 +329,31 @@ implementar hasta que se decida si vale la pena para el alcance de la tesis.
 
 Todo lo generado se reproduce corriendo los scripts en orden — no hace
 falta bajarlo de ningún lado más que este repo.
+
+
+## Eventos verificados: accidente, cierre de calle y congestion (`event_selector.py`)
+
+`dynamic_replanning.py --event {congestion,accident,closure}` (por defecto `congestion`, comportamiento anterior).
+`accident` y `closure` (y `congestion` con `--verified-event`) usan `event_selector.py`, que solo acepta un evento si:
+
+1. los arcos salen de la ruta restante de un vehiculo con paradas pendientes (nunca arcos con cliente, estacion, deposito
+   o posicion de un vehiculo);
+2. el tiempo del siguiente tramo de ese vehiculo sube al menos `--impact-threshold` (0.20 = +20 %, valor provisional);
+3. (cierre/accidente) ningun punto clave queda aislado: deposito, estaciones, clientes pendientes y vehiculos siguen en
+   la misma componente fuertemente conexa del grafo transitable;
+4. ningun vehiculo queda varado: todos pueden llegar al deposito o a una estacion con su bateria actual.
+
+Si un candidato falla, se revierte y se prueba otro (`--event-seed` fija el orden). `accident` = bloqueo de
+`--accident-duration` s (600 por defecto) y reapertura automatica; `closure` = cierre permanente.
+
+Para un experimento pareado, ejecutar las dos ramas con el MISMO archivo de evento:
+
+```
+python simulation/dynamic_replanning.py --instance ... --solution ... --event closure --event-seed 1 \
+    --event-spec simulation/dynamic_replan_results/events/quebec_100c_closure_s1.json            # con retroalimentacion (selecciona y guarda)
+python simulation/dynamic_replanning.py --instance ... --solution ... --event closure --event-spec <mismo json> --no-replan   # sin retroalimentacion (lo carga)
+```
+
+En la rama sin retroalimentacion los vehiculos tambien se desvian (`rerouteTraveltime`): la unica diferencia entre ramas
+es si se reoptimiza el orden y la asignacion de clientes. Nota: `explainability/simulation.py` solo lee reportes de
+congestion; los de accidente/cierre aun no entran al XAI.

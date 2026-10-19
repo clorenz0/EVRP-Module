@@ -11,7 +11,8 @@ Las estaciones de carga son nodos opcionales (AddDisjunction con costo 0)
 y son los únicos nodos donde el SlackVar de la dimensión Fuel puede ser > 0
 (es decir, donde la batería puede recargarse).
 
-Función objetivo: distancia total (costo de arco = data['distance_matrix']).
+Función objetivo: distancia total (costo de arco = data['distance_matrix'], en METROS enteros: ver utils/units.py;
+los archivos de solución vuelven a km con 3 decimales y la batería a unidades con decimales).
 Todas las distancias usadas en el modelo (costo de arco, batería, penalización de
 descarte) provienen de la MISMA fuente: data['distance_matrix']. No se recalcula
 la distancia por otro camino en ningún punto del módulo.
@@ -19,6 +20,25 @@ la distancia por otro camino en ningún punto del módulo.
 data['time_matrix'] solo está disponible cuando la instancia se cargó con
 DistanceType.OSRM (viene del servicio /table de OSRM, ver distance/osrm_client.py).
 Con otros DistanceType es None. No se usa en el costo de arco.
+
+Visitas repetidas a una estación (station_copies) y paradas innecesarias
+───────────────────────────────────────────────────────────────────────────
+En OR-Tools un nodo solo se visita una vez, de modo que una estación física
+era utilizable una sola vez por solución (en la realidad varios vehículos, o
+el mismo en dos momentos, pueden cargar en ella). execute(station_copies=K)
+reemplaza cada estación por K nodos idénticos (misma ubicación, mismas
+distancias; entre copias de una misma estación la distancia es 0). Las copias
+son opcionales (costo de descarte 0) y se activan en orden (la copia k+1 solo si
+está activa la k) para no explorar permutaciones equivalentes. En los archivos de
+solución cada copia se escribe con el id de la estación original, así que
+simulation/ y friedman_ranking.py no cambian.
+
+La función objetivo sigue siendo UNA sola: la distancia total (más la penalización
+por cliente descartado, que solo actúa si la instancia es infactible). Parar en una
+estación "por gusto" ya se penaliza sola, porque el desvío suma distancia; no se añade
+ningún término al objetivo. El archivo de solución informa cuántas paradas de carga serían
+innecesarias (línea 'Unnecessary charging stops'), solo como diagnóstico.
+Con station_copies=1 se obtiene el modelo anterior.
 
 Re-planeación dinámica (vehicle_states)
 ────────────────────────────────────────
@@ -61,6 +81,7 @@ from distance.distance_type import DistanceType
 from instance.instance_type import process_files, InstanceType
 from problem.strategy_type import HeuristicType, MetaheuristicType
 from utils.execute_algorithm import get_distance_and_solution_name, execute_solution
+from utils.units import DIST_SCALE, cost_int, energy_int, cap_int
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -78,7 +99,7 @@ def create_distance_evaluator(data):
     _distances = {}
     for from_node in range(data['num_locations']):
         _distances[from_node] = {
-            to_node: (0 if from_node == to_node else int(distance_matrix[from_node][to_node]))
+            to_node: (0 if from_node == to_node else cost_int(distance_matrix[from_node][to_node]))
             for to_node in range(data['num_locations'])
         }
 
@@ -86,6 +107,132 @@ def create_distance_evaluator(data):
         return _distances[manager.IndexToNode(from_node)][manager.IndexToNode(to_node)]
 
     return distance_evaluator
+
+
+FORBIDDEN_HOP_KM = 1_000_000     # costo de ir de una copia de estacion a otra copia de la misma estacion (prohibido)
+
+
+def drop_penalty_of(data):
+    """Penalización por cliente descartado (la misma que usa add_capacity_constraints)."""
+    n = data['num_locations']
+    max_distance = max(data['distance_matrix'][i][j] for i in range(n) for j in range(n) if i != j)
+    return max(10_000_000, cost_int(max_distance) * 100)
+
+
+def expand_station_copies(data, copies, keep_single=()):
+    """
+    Devuelve una copia de `data` donde cada estación de carga tiene `copies` nodos (el original y copies-1
+    nuevos al final, para no mover ningún índice existente). keep_single: nodos que no se copian (p. ej. las
+    posiciones de arranque de los vehículos en re-planeación). Mapa copia -> original en data['station_origin'].
+    """
+    if not copies or copies <= 1:
+        return data
+    new = dict(data)
+    stations = [s for s in data['charging_stations'] if s not in set(keep_single)]
+    origin, dm, tm = {}, [list(r) for r in data['distance_matrix']], None
+    tm = [list(r) for r in data['time_matrix']] if data.get('time_matrix') is not None else None
+    locations = list(data['locations']) if data.get('locations') is not None else None
+    demands = list(data['demands'])
+    names = dict(data.get('charging_station_names', {}))
+    new_stations = list(data['charging_stations'])
+    copies_of = {s: [s] for s in stations}
+    for k in range(1, copies):
+        for s in stations:
+            idx = len(dm)                       # indice del nuevo nodo
+            origin[idx] = s
+            copies_of[s].append(idx)
+            new_stations.append(idx)
+            for row in dm:                       # nueva columna: igual que la original
+                row.append(row[s])
+            if tm is not None:
+                for row in tm:
+                    row.append(row[s])
+            dm.append(list(dm[s]))               # nueva fila: igual que la original (ya incluye la columna nueva, 0 hacia si misma)
+            if tm is not None:
+                tm.append(list(tm[s]))
+            if locations is not None:
+                locations.append(locations[s])
+            demands.append(0)
+            names[idx] = names.get(s, s)
+    # Entre copias de una misma estacion: saltar de una a otra no tiene sentido fisico (ya se esta alli) y con distancia 0
+    # seria una parada gratis que el solucionador podria dejar en la ruta. Se prohibe con un costo prohibitivo.
+    for group in copies_of.values():
+        for a in group:
+            for b in group:
+                dm[a][b] = 0 if a == b else FORBIDDEN_HOP_KM
+                if tm is not None:
+                    tm[a][b] = 0 if a == b else FORBIDDEN_HOP_KM
+    new.update(distance_matrix=dm, time_matrix=tm, num_locations=len(dm), demands=demands,
+               charging_stations=new_stations, charging_station_names=names,
+               station_origin=origin, station_copies_of=copies_of)
+    if locations is not None:
+        new['locations'] = locations
+    return new
+
+
+def forbid_depot_to_station(data):
+    """
+    Desde el deposito no se puede ir directo a una estacion de carga (el vehiculo sale con la bateria llena, asi que
+    esa parada no aporta nada). Se prohibe el arco deposito -> estacion (incluidas las copias) con un costo prohibitivo.
+    Devuelve una copia de `data`; no modifica el original. Las posiciones de arranque de re-planeacion no son el deposito.
+    """
+    depot = data['depot']
+    new = dict(data)
+    for key in ('distance_matrix', 'time_matrix'):
+        m = data.get(key)
+        if m is None:
+            continue
+        m = list(m)
+        row = list(m[depot])
+        for s in data['charging_stations']:
+            row[s] = FORBIDDEN_HOP_KM
+        m[depot] = row
+        new[key] = m
+    return new
+
+
+def forbid_station_chains(data, keep=()):
+    """
+    De una estacion de carga no se va directo a otra: tras recargar (bateria llena) el vehiculo va a un cliente o al
+    deposito; encadenar estaciones solo suma distancia. Se prohibe el arco estacion -> estacion (incluidas las copias)
+    con un costo prohibitivo. `keep`: nodos que no son estaciones reales (posiciones de arranque en re-planeacion; un
+    vehiculo con poca bateria SI puede ir directo desde alli a una estacion). Devuelve una copia de `data`.
+    Supone que todo cliente es alcanzable con una carga desde alguna estacion (se verifica al construir la instancia).
+    """
+    stations = [s for s in data['charging_stations'] if s not in set(keep)]
+    new = dict(data)
+    for key in ('distance_matrix', 'time_matrix'):
+        m = data.get(key)
+        if m is None:
+            continue
+        m = [list(r) for r in m]
+        for a in stations:
+            for b in stations:
+                if a != b:
+                    m[a][b] = FORBIDDEN_HOP_KM
+        new[key] = m
+    return new
+
+
+def unnecessary_stops(nodes, data):
+    """
+    Cantidad de paradas de carga que se podrían quitar de la ruta (lista de nodos con ids originales) sin dejar
+    la batería negativa en ningún tramo. Misma regla que usa ACO. Sirve para penalizar cargas "por gusto".
+    """
+    em, cap, stations = data['distance_matrix'], cap_int(data['fuel_capacity']), set(data['charging_stations'])
+    rate = data['fuel_consumption_rate']
+
+    def feasible(seq):
+        bat = cap
+        for a, b in zip(seq, seq[1:]):
+            bat -= energy_int(em[a][b], rate)
+            if bat < 0:
+                return False
+            if b in stations:
+                bat = cap
+        return True
+    return sum(1 for k in range(1, len(nodes) - 1)
+               if nodes[k] in stations and feasible(nodes[:k] + nodes[k + 1:]))
 
 
 def create_demand_evaluator(data):
@@ -158,13 +305,7 @@ def add_capacity_constraints(routing, manager, data, demand_evaluator_index, ini
     # debe superar con margen el costo máximo posible de un arco.
     # Se usa 10× el valor mayor entre la distancia máxima de la matriz y
     # la demanda máxima, escalado a un orden de magnitud seguro.
-    max_distance = max(
-        data['distance_matrix'][i][j]
-        for i in range(data['num_locations'])
-        for j in range(data['num_locations'])
-        if i != j
-    )
-    drop_penalty = max(10_000_000, int(max_distance) * 100)
+    drop_penalty = drop_penalty_of(data)
 
     # Clientes: visita obligatoria (descarte solo si la instancia es infactible)
     for node in range(1, num_clients + 1):
@@ -176,6 +317,12 @@ def add_capacity_constraints(routing, manager, data, demand_evaluator_index, ini
     for cs_node in data['charging_stations']:
         node_index = manager.NodeToIndex(cs_node)
         routing.AddDisjunction([node_index], 0)
+
+    # Copias de una misma estacion: la copia k+1 solo puede usarse si la k esta activa (rompe simetrias)
+    solver = routing.solver()
+    for group in data.get('station_copies_of', {}).values():
+        for a, b in zip(group, group[1:]):
+            solver.Add(routing.ActiveVar(manager.NodeToIndex(b)) <= routing.ActiveVar(manager.NodeToIndex(a)))
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -200,7 +347,7 @@ def create_fuel_evaluator(data):
                 _consumption[from_node][to_node] = 0
             else:
                 dist = data['distance_matrix'][from_node][to_node]
-                _consumption[from_node][to_node] = -int(dist * rate)
+                _consumption[from_node][to_node] = -energy_int(dist, rate)
 
     def fuel_evaluator(manager, from_node, to_node):
         return _consumption[manager.IndexToNode(from_node)][manager.IndexToNode(to_node)]
@@ -229,7 +376,7 @@ def add_fuel_constraints(routing, manager, data, fuel_evaluator_index, initial_f
     - SlackVar(nodo) <= fuel_capacity (recarga máxima posible en un nodo)
     - Estas restricciones son suficientes para evitar sobrecarga.
     """
-    fuel_capacity = data['fuel_capacity']
+    fuel_capacity = cap_int(data['fuel_capacity'])     # el modelo trabaja en metros (ver utils/units.py)
 
     routing.AddDimension(
         fuel_evaluator_index,
@@ -246,7 +393,7 @@ def add_fuel_constraints(routing, manager, data, fuel_evaluator_index, initial_f
     # Vehículos salen con batería llena, o con la batería parcial indicada
     for vehicle_id in range(data['num_vehicles']):
         start_index = routing.Start(vehicle_id)
-        start_fuel = fuel_capacity if initial_fuels is None else initial_fuels[vehicle_id]
+        start_fuel = fuel_capacity if initial_fuels is None else cap_int(initial_fuels[vehicle_id])
         fuel_dimension.CumulVar(start_index).SetValue(start_fuel)
         # CORRECCIÓN DE RECARGA: CumulVar(nodo) <= capacidad solo acota el nivel al
         # LLEGAR; sin esto, Cumul + Slack podía superar la capacidad y el vehículo
@@ -300,6 +447,22 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
     charging_set = set(data['charging_stations'])
     cs_names = data.get('charging_station_names', {})
 
+    # Objetivo = distancia real + penalizacion por descartes (el costo por visita a estacion es solo guia de busqueda)
+    dm_ = data['distance_matrix']
+    pre_distance, pre_dropped = 0, 0
+    for vehicle_id in range(data['num_vehicles']):
+        idx = routing.Start(vehicle_id)
+        while not routing.IsEnd(idx):
+            nxt = assignment.Value(routing.NextVar(idx))
+            pre_distance += cost_int(dm_[manager.IndexToNode(idx)][manager.IndexToNode(nxt)])
+            idx = nxt
+    n_clients_ = data['num_locations'] - len(data['charging_stations']) - 1
+    for node in range(1, n_clients_ + 1):
+        i_ = manager.NodeToIndex(node)
+        if assignment.Value(routing.NextVar(i_)) == i_:
+            pre_dropped += 1
+    objective_value = pre_distance + pre_dropped * drop_penalty_of(data)
+
     try:
         with open(filename, 'w', encoding='utf-8') as f:
             f.write(f'Instance: {instance}\n\n')
@@ -309,7 +472,7 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
             extra_info = data.get('extra_info')
             if extra_info:
                 f.write(f'{extra_info}\n\n')
-            f.write(f'Objective: {assignment.ObjectiveValue()}\n\n')
+            f.write(f'Objective: {objective_value / DIST_SCALE:.3f}\n\n')
             f.write(f'Execution Time: {elapsed_time}\n\n')
             if heuristic:
                 f.write(f'Heuristic: {heuristic}\n\n')
@@ -319,6 +482,9 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
             f.write(f'Vehicle capacity: {data["vehicle_capacity"]}\n')
             f.write(f'Battery capacity: {data["fuel_capacity"]}\n')
             f.write(f'Battery consumption rate: {data["fuel_consumption_rate"]}\n\n')
+            origin = data.get('station_origin', {})
+            if origin:
+                f.write(f'Station copies: {1 + len(origin) // max(1, len(set(origin.values())))}\n\n')
 
             capacity_dimension = routing.GetDimensionOrDie('Capacity')
             fuel_dimension = routing.GetDimensionOrDie('Fuel')
@@ -331,28 +497,35 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                 if assignment.Value(routing.NextVar(index)) == index:
                     dropped_clients.append(node)
 
+            f.write(f'Customers served: {num_clients - len(dropped_clients)}/{num_clients}\n')
+            f.write(f'Dropped customers: {len(dropped_clients)}\n\n')
             if dropped_clients:
                 f.write(f'Dropped clients: {dropped_clients}\n\n')
 
             distance_matrix = data['distance_matrix']
             time_matrix = data.get('time_matrix')
             total_distance = 0
+            total_real_km = 0.0
             total_load = 0
             total_time = 0
             total_recharges = 0
             min_soc = None
 
+            n_unnecessary = 0
             for vehicle_id in range(data['num_vehicles']):
                 index = routing.Start(vehicle_id)
                 plan_output = f'Route for vehicle {vehicle_id}:\n'
                 route_distance = 0
+                route_real_km = 0.0     # distancia real (sin truncar por arco)
                 route_time = 0
+                route_nodes = []
 
                 while not routing.IsEnd(index):
-                    node = manager.IndexToNode(index)
+                    node = origin.get(manager.IndexToNode(index), manager.IndexToNode(index))
+                    route_nodes.append(node)
                     load_var = capacity_dimension.CumulVar(index)
                     fuel_var = fuel_dimension.CumulVar(index)
-                    soc = assignment.Min(fuel_var)
+                    soc = assignment.Min(fuel_var) / DIST_SCALE     # unidades de bateria (el modelo usa metros)
                     min_soc = soc if min_soc is None else min(min_soc, soc)
 
                     # Etiqueta especial para estaciones de carga
@@ -362,49 +535,57 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                         plan_output += (
                             f' {node}{cs_label} '
                             f'Load({assignment.Min(load_var)}) '
-                            f'Bat({soc}) ->'
+                            f'Bat({soc:.1f}) ->'
                         )
                     else:
                         plan_output += (
                             f' {node} '
                             f'Load({assignment.Min(load_var)}) '
-                            f'Bat({soc}) ->'
+                            f'Bat({soc:.1f}) ->'
                         )
 
                     previous_node = node
                     index = assignment.Value(routing.NextVar(index))
-                    next_node = manager.IndexToNode(index)
-                    route_distance += int(distance_matrix[previous_node][next_node])
+                    next_node = origin.get(manager.IndexToNode(index), manager.IndexToNode(index))
+                    route_distance += cost_int(distance_matrix[previous_node][next_node])
+                    route_real_km += float(distance_matrix[previous_node][next_node])
                     if time_matrix is not None:
                         route_time += int(time_matrix[previous_node][next_node])
 
                 # Nodo final (depósito de llegada)
                 load_var = capacity_dimension.CumulVar(index)
                 fuel_var = fuel_dimension.CumulVar(index)
-                soc = assignment.Min(fuel_var)
+                soc = assignment.Min(fuel_var) / DIST_SCALE
                 min_soc = soc if min_soc is None else min(min_soc, soc)
+                end_node = origin.get(manager.IndexToNode(index), manager.IndexToNode(index))
+                route_nodes.append(end_node)
+                n_unnecessary += unnecessary_stops(route_nodes, data)
                 plan_output += (
-                    f' {manager.IndexToNode(index)} '
+                    f' {end_node} '
                     f'Load({assignment.Min(load_var)}) '
-                    f'Bat({soc})\n'
+                    f'Bat({soc:.1f})\n'
                 )
-                plan_output += f'Distance of the route: {route_distance}km\n'
+                plan_output += f'Distance of the route: {route_distance / DIST_SCALE:.3f}km\n'
+                plan_output += f'Real distance of the route: {route_real_km:.2f}km\n'
                 if time_matrix is not None:
                     plan_output += f'Time of the route: {route_time}s\n'
                 plan_output += f'Load of the route: {assignment.Min(load_var)}\n\n'
 
                 f.write(plan_output)
                 total_distance += route_distance
+                total_real_km += route_real_km
                 total_load += assignment.Min(load_var)
                 total_time += route_time
 
-            f.write(f'Total Distance of all routes: {total_distance}km\n\n')
+            f.write(f'Total Distance of all routes: {total_distance / DIST_SCALE:.3f}km\n\n')
+            f.write(f'Real distance (km): {total_real_km:.2f}\n\n')
             f.write(f'Total Load of all routes: {total_load}\n\n')
             if time_matrix is not None:
                 f.write(f'Total Time of all routes: {total_time}s\n\n')
             f.write(f'Total recharges: {total_recharges}\n\n')
+            f.write(f'Unnecessary charging stops: {n_unnecessary}\n\n')
             if min_soc is not None:
-                f.write(f'Minimum battery (SoC) reached: {min_soc}\n\n')
+                f.write(f'Minimum battery (SoC) reached: {min_soc:.1f}\n\n')
 
             # Distancia ya recorrida ANTES de este sub-problema (ej. lo que cada
             # vehiculo ya manejo antes de un evento de congestion) -- sin esto,
@@ -414,7 +595,7 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
             if prior_distance_km:
                 f.write(f'Distance already traveled before this sub-problem: {prior_distance_km:.3f}km\n\n')
                 f.write(f'Total Distance including distance before event: '
-                        f'{total_distance + prior_distance_km:.3f}km\n\n')
+                        f'{total_real_km + prior_distance_km:.3f}km\n\n')
 
         print(f"Solution saved successfully in {filename}")
     except OSError as error:
@@ -436,7 +617,8 @@ def execute(
         initial_routes=None,
         vehicle_states=None,    # re-planeación dinámica: ver docstring del módulo
         data_override=None,     # re-planeación dinámica: dict de datos ya construido (salta process_files)
-        instance_name=None      # nombre a usar para la clave/archivo de salida cuando se usa data_override
+        instance_name=None,     # nombre a usar para la clave/archivo de salida cuando se usa data_override
+        station_copies=3        # veces que puede usarse cada estacion en una solucion (1 = modelo anterior: una sola vez)
 ):
     if data_override is not None:
         instances_data = {instance_name or "dynamic_replan": data_override}
@@ -473,6 +655,12 @@ def execute(
                 f"vehicle_states debe tener un elemento por vehículo "
                 f"({data['num_vehicles']}), recibí {len(vehicle_states)}."
             )
+
+        # ── Estaciones con varias visitas posibles y costo por visita ────────
+        start_nodes = [vs.get('start_node') for vs in vehicle_states] if vehicle_states is not None else []
+        data = expand_station_copies(data, station_copies, keep_single=start_nodes)
+        data = forbid_depot_to_station(data)
+        data = forbid_station_chains(data, keep=start_nodes)
 
         # ── Índice Manager ────────────────────────────────────────────────────
         # Sin vehicle_states: todos arrancan y terminan en el depósito (de siempre).

@@ -1,8 +1,8 @@
 Instance: quebec_40c_4ev_6cs.txt
 
-Objective: 73
+Objective: 76
 
-Execution Time: 10.000993013381958
+Execution Time: 10.007416486740112
 
 Heuristic: ALL_UNPERFORMED
 
@@ -14,37 +14,42 @@ Vehicle capacity: 250
 Battery capacity: 100
 Battery consumption rate: 3.0
 
+Station copies: 3
+
 Route for vehicle 0:
- 0 Load(0) Bat(100) -> 44[CS:Recharge Saint-Roch] Load(0) Bat(96) -> 16 Load(0) Bat(82) -> 26 Load(14) Bat(72) -> 37 Load(27) Bat(72) -> 34 Load(50) Bat(67) -> 11 Load(62) Bat(67) -> 23 Load(72) Bat(66) -> 5 Load(90) Bat(64) -> 20 Load(112) Bat(60) -> 9 Load(145) Bat(53) -> 3 Load(157) Bat(44) -> 30 Load(187) Bat(35) -> 17 Load(215) Bat(30) -> 0 Load(246) Bat(25)
-Distance of the route: 20km
-Time of the route: 3502s
-Load of the route: 246
+ 0 Load(0) Bat(100) -> 38 Load(0) Bat(93) -> 41[CS:Borne Rapide Haute-Ville] Load(27) Bat(88) -> 22 Load(27) Bat(86) -> 10 Load(56) Bat(85) -> 27 Load(91) Bat(74) -> 14 Load(125) Bat(68) -> 28 Load(148) Bat(49) -> 4 Load(157) Bat(49) -> 33 Load(172) Bat(46) -> 41[CS:Borne Rapide Haute-Ville] Load(197) Bat(41) -> 0 Load(197) Bat(38)
+Distance of the route: 21km
+Time of the route: 5526s
+Load of the route: 197
 
 Route for vehicle 1:
- 0 Load(0) Bat(100) -> 8 Load(0) Bat(96) -> 39 Load(28) Bat(93) -> 15 Load(42) Bat(82) -> 42[CS:Station IGA Sainte-Foy] Load(69) Bat(77) -> 31 Load(69) Bat(73) -> 25 Load(85) Bat(66) -> 7 Load(111) Bat(62) -> 36 Load(130) Bat(62) -> 19 Load(147) Bat(57) -> 13 Load(171) Bat(49) -> 28 Load(188) Bat(39) -> 4 Load(197) Bat(39) -> 33 Load(212) Bat(36) -> 0 Load(237) Bat(29)
+ 0 Load(0) Bat(100) -> 3 Load(0) Bat(87) -> 26 Load(30) Bat(80) -> 37 Load(43) Bat(80) -> 11 Load(66) Bat(76) -> 34 Load(76) Bat(76) -> 23 Load(88) Bat(76) -> 5 Load(106) Bat(74) -> 20 Load(128) Bat(70) -> 9 Load(161) Bat(63) -> 40 Load(173) Bat(52) -> 29 Load(192) Bat(51) -> 21 Load(214) Bat(43) -> 0 Load(225) Bat(29)
 Distance of the route: 19km
-Time of the route: 3208s
-Load of the route: 237
+Time of the route: 3059s
+Load of the route: 225
 
 Route for vehicle 2:
- 0 Load(0) Bat(100) -> 2 Load(0) Bat(88) -> 35 Load(18) Bat(87) -> 45[CS:Borne IKEA Beauport] Load(48) Bat(85) -> 6 Load(48) Bat(85) -> 18 Load(73) Bat(85) -> 24 Load(89) Bat(84) -> 12 Load(110) Bat(77) -> 21 Load(142) Bat(62) -> 29 Load(153) Bat(56) -> 40 Load(175) Bat(55) -> 32 Load(194) Bat(47) -> 1 Load(214) Bat(45) -> 0 Load(234) Bat(37)
-Distance of the route: 17km
-Time of the route: 2933s
-Load of the route: 234
+ 0 Load(0) Bat(100) -> 39 Load(0) Bat(92) -> 42[CS:Station IGA Sainte-Foy] Load(14) Bat(82) -> 16 Load(14) Bat(92) -> 15 Load(28) Bat(85) -> 42[CS:Station IGA Sainte-Foy] Load(55) Bat(80) -> 31 Load(55) Bat(96) -> 42[CS:Station IGA Sainte-Foy] Load(71) Bat(92) -> 36 Load(71) Bat(96) -> 7 Load(88) Bat(96) -> 25 Load(107) Bat(92) -> 13 Load(133) Bat(83) -> 19 Load(150) Bat(80) -> 44[CS:Recharge Saint-Roch] Load(174) Bat(72) -> 8 Load(174) Bat(100) -> 44[CS:Recharge Saint-Roch] Load(202) Bat(100) -> 0 Load(202) Bat(95)
+Distance of the route: 21km
+Time of the route: 3657s
+Load of the route: 202
 
 Route for vehicle 3:
- 0 Load(0) Bat(100) -> 41[CS:Borne Rapide Haute-Ville] Load(0) Bat(98) -> 38 Load(0) Bat(93) -> 14 Load(27) Bat(73) -> 27 Load(50) Bat(67) -> 10 Load(84) Bat(56) -> 22 Load(119) Bat(55) -> 0 Load(148) Bat(38)
-Distance of the route: 17km
-Time of the route: 4936s
-Load of the route: 148
+ 0 Load(0) Bat(100) -> 17 Load(0) Bat(95) -> 12 Load(31) Bat(85) -> 35 Load(63) Bat(69) -> 2 Load(93) Bat(69) -> 18 Load(111) Bat(67) -> 6 Load(127) Bat(67) -> 24 Load(152) Bat(66) -> 1 Load(173) Bat(55) -> 32 Load(193) Bat(54) -> 30 Load(213) Bat(47) -> 0 Load(241) Bat(43)
+Distance of the route: 15km
+Time of the route: 2624s
+Load of the route: 241
 
-Total Distance of all routes: 73km
+Total Distance of all routes: 76km
+Real distance (km): 102.76
 
 Total Load of all routes: 865
 
-Total Time of all routes: 14579s
+Total Time of all routes: 14866s
 
-Total recharges: 4
+Total recharges: 7
 
-Minimum battery (SoC) reached: 25
+Unnecessary charging stops: 7
+
+Minimum battery (SoC) reached: 29
 

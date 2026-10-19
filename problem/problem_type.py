@@ -17,7 +17,7 @@ def execute(
         problem_type: ProblemType, instance, distance_type: DistanceType = None,
         time_limit=None, executions=None, vehicle_maximum_travel_distance=None, vehicle_max_time=None,
         vehicle_speed=None, heuristic: HeuristicType = None, metaheuristic: MetaheuristicType = None,
-        initial_routes=None
+        initial_routes=None, station_copies=3
 ):
     if not executions:
         executions = 1
@@ -28,14 +28,16 @@ def execute(
     for i in range(0, executions):
         execute_problem(
             i, problem_type, instance, distance_type, time_limit, vehicle_maximum_travel_distance,
-            vehicle_max_time, vehicle_speed, heuristic, metaheuristic, initial_routes
+            vehicle_max_time, vehicle_speed, heuristic, metaheuristic, initial_routes,
+            station_copies
         )
 
 
 def execute_problem(
         i, problem_type: ProblemType, instance, distance_type: DistanceType = None,
         time_limit=None, vehicle_maximum_travel_distance=None, vehicle_max_time=None, vehicle_speed=None,
-        heuristic: HeuristicType = None, metaheuristic: MetaheuristicType = None, initial_routes=None
+        heuristic: HeuristicType = None, metaheuristic: MetaheuristicType = None, initial_routes=None,
+        station_copies=3
 ):
     if problem_type == ProblemType.CVRP:
         return cvrp.execute(i, instance, time_limit, distance_type, heuristic, metaheuristic, initial_routes)
@@ -52,5 +54,6 @@ def execute_problem(
                              metaheuristic, initial_routes)
     if problem_type == ProblemType.EVRP:
         return evrp.execute(i, instance, time_limit, vehicle_maximum_travel_distance, vehicle_max_time,
-                            vehicle_speed, distance_type, heuristic, metaheuristic, initial_routes)
+                            vehicle_speed, distance_type, heuristic, metaheuristic, initial_routes,
+                            station_copies=station_copies)
     return print("The problem type is not supported")
