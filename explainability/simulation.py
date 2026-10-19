@@ -7,6 +7,7 @@ salen las filas y cual es la variable de respuesta.
   Punto de vista 2 — SIMULACION  (tabla `sim`)
       Fila = una corrida de simulation/dynamic_replanning.py (con o sin retroalimentacion).
       Variables: instancia (f_), escenario (s_) y evento (e_: instante, tramos afectados, velocidad impuesta,
+                 tipo de evento e_is_accident / e_is_closure (ambos 0 = congestion), duracion del bloqueo e_duration_s,
                  lentitud medida en SUMO, e_replan = 1 si se re-planifica).
       Respuesta: distancia total y tiempo extra reales medidos en SUMO.
       Pregunta: que hace que un evento de trafico cueste mas, y cuanto cambia re-planificar?
@@ -43,8 +44,15 @@ EVENT_RE = re.compile(
     r"Event: congestion forced at checkpoint (?P<ck>[\d.]+)s on (?P<edges>\d+) real edge\(s\) "
     r"\(speed limit lowered to (?P<speed>[\d.]+) m/s\)\. Probe \w+ -> node \d+: "
     r"travel time (?P<before>[\d.]+)s -> (?P<after>[\d.]+)s")
+# Eventos verificados (simulation/event_selector.py: congestion, accident, closure). Es la linea que escribe EventSpec.describe().
+EVENT_V2_RE = re.compile(
+    r"Event: (?P<kind>congestion|accident|closure) at checkpoint (?P<ck>[\d.]+)s on (?P<edges>\d+) real edge\(s\)"
+    r"(?: \((?P<extra>[^)]*)\))?\. Target \S+ -> node \d+: "
+    r"travel time (?P<before>[\d.]+)s -> (?P<after>[\d.]+)s")
+SPEED_RE = re.compile(r"speed limit lowered to (?P<v>[\d.]+) m/s")
+DURATION_RE = re.compile(r"blocked for (?P<v>[\d.]+) s")
 TOTAL_RE = re.compile(r"TOTAL \(finished vehicles only\): extra time=(?P<t>[\d.]+)s, total distance=(?P<d>[\d.]+)km")
-EDGES_RE = re.compile(r"Congested edges: (?P<ids>[^\n]*?)\.\s*$", re.M)
+EDGES_RE = re.compile(r"(?:Congested|Affected) edges: (?P<ids>[^\n]*?)\.\s*$", re.M)
 
 
 # ───────────────────────── lectura de los reportes ─────────────────────────
@@ -59,20 +67,32 @@ def parse_text(name, txt):
     if not m:
         return None
     ev, tot, ed = EVENT_RE.search(txt), TOTAL_RE.search(txt), EDGES_RE.search(txt)
-    if not (ev and tot):
+    ev2 = None if ev else EVENT_V2_RE.search(txt)
+    if not ((ev or ev2) and tot):
         return None
+    if ev:      # formato anterior: congestion con sonda (sin selector)
+        kind, ck, n_edges, speed, duration = "congestion", float(ev["ck"]), int(ev["edges"]), float(ev["speed"]), 0.0
+        ev = {"before": ev["before"], "after": ev["after"]}
+    else:       # eventos verificados: congestion / accident / closure
+        extra = ev2["extra"] or ""
+        sp, du = SPEED_RE.search(extra), DURATION_RE.search(extra)
+        kind, ck, n_edges = ev2["kind"], float(ev2["ck"]), int(ev2["edges"])
+        speed, duration = (float(sp["v"]) if sp else 0.0), (float(du["v"]) if du else 0.0)   # 0 = no aplica a este tipo
+        ev = {"before": ev2["before"], "after": ev2["after"]}
     heur = re.search(r"^Heuristic: (\S+)", txt, re.M)
     meta = re.search(r"^Metaheuristic: (\S+)", txt, re.M)
     before, after = float(ev["before"]), float(ev["after"])
     return {
         "instance": m["inst"], "mode": m["mode"], "stamp": m["stamp"],
-        "e_checkpoint": float(ev["ck"]), "e_n_edges": int(ev["edges"]), "e_speed": float(ev["speed"]),
+        "e_checkpoint": ck, "e_n_edges": n_edges, "e_speed": speed,
+        "e_is_accident": int(kind == "accident"), "e_is_closure": int(kind == "closure"), "e_duration_s": duration,
+        "event_kind": kind,
         "e_probe_before_s": before, "e_probe_after_s": after,
         "e_probe_slowdown_pct": round(100.0 * (after - before) / before, 2) if before else 0.0,
         "extra_time_s": float(tot["t"]), "total_distance": float(tot["d"]),
         "n_unfinished": len(set(re.findall(r"(ev_\d+): DID NOT finish", txt))),
         "plan_algorithm": "+".join(x for x in (heur and heur[1], meta and meta[1]) if x) or None,
-        "event_key": (m["inst"], ed["ids"] if ed else f"{ev['edges']}@{ev['ck']}"),
+        "event_key": (m["inst"], ed["ids"] if ed else f"{n_edges}@{ck}"),
     }
 
 
@@ -112,7 +132,7 @@ def build_tables(results_dir=RESULTS_DIR, instances_dir=INSTANCES_DIR):
     if not runs:
         raise SystemExit(f"No hay reportes en {results_dir}")
     cache = {}
-    event_cols = ("e_checkpoint", "e_n_edges", "e_speed", "e_probe_before_s", "e_probe_after_s", "e_probe_slowdown_pct")
+    event_cols = ("e_checkpoint", "e_n_edges", "e_speed", "e_is_accident", "e_is_closure", "e_duration_s", "e_probe_before_s", "e_probe_after_s", "e_probe_slowdown_pct")
 
     sim_rows = []
     for k, r in enumerate(runs):
@@ -171,11 +191,15 @@ class SimulationStrategy(AlgorithmStrategy):
 
     def __init__(self, plan_algorithm="PATH_CHEAPEST_ARC_and_GUIDED_LOCAL_SEARCH",
                  solutions_root=os.path.join("problem", "osrm", "solutions_evrp_0"), timeout=3600,
-                 name="SUMO_REPLAN", replanner="auto"):
+                 name="SUMO_REPLAN", replanner="auto", event_kind="congestion"):
         # plan_algorithm: carpeta solutions_<plan_algorithm> con el plan inicial; replanner: quien re-planifica
         # ('auto' = el mismo algoritmo del plan; 'aco' / 'ortools' lo fuerzan, ver dynamic_replanning.py --replanner)
         self.plan_algorithm, self.solutions_root, self.timeout = plan_algorithm, solutions_root, timeout
-        self.name, self.replanner = name, replanner
+        self.name, self.replanner, self.event_kind = name, replanner, event_kind
+        if event_kind != "congestion":     # accidente / cierre: evento verificado (selector); la velocidad y la fraccion no aplican
+            self.param_space = [{"name": "checkpoint_time", "low": 600, "high": 2400, "kind": "int"}]
+            if event_kind == "accident":
+                self.param_space.append({"name": "accident_duration", "low": 300, "high": 1200, "kind": "int"})
 
     @staticmethod
     def _sim_helpers():
@@ -185,16 +209,21 @@ class SimulationStrategy(AlgorithmStrategy):
         spec.loader.exec_module(mod)          # solo define funciones y constantes
         return mod
 
-    def _launch(self, instance_path, solution, params, replan):
+    def _launch(self, instance_path, solution, params, replan, event_spec=None):
         helpers = self._sim_helpers()
         cmd = [sys.executable, os.path.join("simulation", "dynamic_replanning.py"),
                "--instance", instance_path, "--solution", solution,
                "--checkpoint-time", str(params["checkpoint_time"]),
-               "--congested-speed", str(params["congested_speed"]),
-               "--congestion-fraction", str(params["congestion_fraction"]),
                "--replanner", self.replanner,
                "--config", helpers.battery_cfg_for(instance_path, solution),
                "--net-file", helpers.net_file_for(instance_path)]
+        if self.event_kind == "congestion":
+            cmd += ["--congested-speed", str(params["congested_speed"]),
+                    "--congestion-fraction", str(params["congestion_fraction"])]
+        else:       # el mismo evento en las dos ramas: la primera lo elige y lo guarda, la segunda lo carga
+            cmd += ["--event", self.event_kind, "--verified-event", "--event-spec", event_spec]
+            if self.event_kind == "accident":
+                cmd += ["--accident-duration", str(params["accident_duration"])]
         if not replan:
             cmd.append("--no-replan")
         started = time.time()
@@ -213,8 +242,12 @@ class SimulationStrategy(AlgorithmStrategy):
     def run(self, instance_path, scenario, params, seed, time_limit):
         t0 = time.time()
         solution = os.path.join(self.solutions_root, f"solutions_{self.plan_algorithm}", os.path.basename(instance_path))
-        no = self._launch(instance_path, solution, params, replan=False)
-        with_ = self._launch(instance_path, solution, params, replan=True)
+        spec = None
+        if self.event_kind != "congestion":
+            import tempfile
+            spec = os.path.join(tempfile.mkdtemp(prefix="evspec_"), "event.json")
+        no = self._launch(instance_path, solution, params, replan=False, event_spec=spec)
+        with_ = self._launch(instance_path, solution, params, replan=True, event_spec=spec)
         d0, d1, t_0, t_1 = no["total_distance"], with_["total_distance"], no["extra_time_s"], with_["extra_time_s"]
         return {
             "distance": d1, "objective": d1, "n_dropped": with_["n_unfinished"] + no["n_unfinished"],
@@ -229,3 +262,8 @@ register(SimulationStrategy())
 # tabla, que cambia cuando el algoritmo del lazo es ACO en vez de OR-Tools (la columna `algorithm` se vuelve a_<nombre>).
 register(SimulationStrategy(plan_algorithm="ACO", solutions_root=os.path.join("problem", "osrm", "solutions_evrp_best"),
                             name="SUMO_REPLAN_ACO"))
+# Accidentes y cierres de calle verificados (event_selector): mismo lazo, otro tipo de evento.
+for _kind in ("accident", "closure"):
+    register(SimulationStrategy(name=f"SUMO_REPLAN_{_kind.upper()}", event_kind=_kind))
+    register(SimulationStrategy(plan_algorithm="ACO", solutions_root=os.path.join("problem", "osrm", "solutions_evrp_best"),
+                                name=f"SUMO_REPLAN_ACO_{_kind.upper()}", event_kind=_kind))

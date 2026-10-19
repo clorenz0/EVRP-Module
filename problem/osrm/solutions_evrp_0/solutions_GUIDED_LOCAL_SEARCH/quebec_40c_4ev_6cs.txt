@@ -1,8 +1,8 @@
 Instance: quebec_40c_4ev_6cs.txt
 
-Objective: 78
+Objective: 176.112
 
-Execution Time: 10.001055479049683
+Execution Time: 10.014458179473877
 
 Metaheuristic: GUIDED_LOCAL_SEARCH
 
@@ -14,40 +14,48 @@ Battery consumption rate: 3.0
 
 Station copies: 3
 
+Customers served: 40/40
+Dropped customers: 0
+
 Route for vehicle 0:
- 0 Load(0) Bat(100) -> 30 Load(0) Bat(96) -> 41[CS:Borne Rapide Haute-Ville] Load(28) Bat(92) -> 33 Load(28) Bat(96) -> 4 Load(53) Bat(93) -> 28 Load(68) Bat(93) -> 19 Load(77) Bat(86) -> 36 Load(101) Bat(78) -> 42[CS:Station IGA Sainte-Foy] Load(118) Bat(74) -> 15 Load(118) Bat(95) -> 42[CS:Station IGA Sainte-Foy] Load(145) Bat(90) -> 31 Load(145) Bat(96) -> 25 Load(161) Bat(89) -> 13 Load(187) Bat(80) -> 44[CS:Recharge Saint-Roch] Load(204) Bat(69) -> 0 Load(204) Bat(64)
-Distance of the route: 21km
-Time of the route: 3734s
-Load of the route: 204
+ 0 Load(0) Bat(100.0) -> 21 Load(0) Bat(85.4) -> 29 Load(11) Bat(78.9) -> 9 Load(33) Bat(65.1) -> 40 Load(45) Bat(53.1) -> 32 Load(64) Bat(44.5) -> 1 Load(84) Bat(42.4) -> 41[CS:Borne Rapide Haute-Ville] Load(104) Bat(34.3) -> 17 Load(104) Bat(94.1) -> 41[CS:Borne Rapide Haute-Ville] Load(135) Bat(89.5) -> 38 Load(135) Bat(94.9) -> 46[CS:Circuit Électrique Lévis] Load(162) Bat(74.0) -> 10 Load(162) Bat(97.4) -> 46[CS:Circuit Électrique Lévis] Load(197) Bat(94.8) -> 16 Load(197) Bat(25.7) -> 0 Load(211) Bat(6.7)
+Distance of the route: 65.155km
+Real distance of the route: 65.15km
+Time of the route: 7156s
+Load of the route: 211
 
 Route for vehicle 1:
- 0 Load(0) Bat(100) -> 17 Load(0) Bat(95) -> 41[CS:Borne Rapide Haute-Ville] Load(31) Bat(91) -> 22 Load(31) Bat(86) -> 10 Load(60) Bat(85) -> 27 Load(95) Bat(74) -> 14 Load(129) Bat(68) -> 38 Load(152) Bat(48) -> 41[CS:Borne Rapide Haute-Ville] Load(179) Bat(43) -> 0 Load(179) Bat(40)
-Distance of the route: 19km
-Time of the route: 5390s
-Load of the route: 179
+ 0 Load(0) Bat(100.0) -> 35 Load(0) Bat(87.6) -> 2 Load(30) Bat(87.5) -> 24 Load(48) Bat(86.4) -> 45[CS:Borne IKEA Beauport] Load(69) Bat(84.6) -> 18 Load(69) Bat(100.0) -> 45[CS:Borne IKEA Beauport] Load(85) Bat(100.0) -> 6 Load(85) Bat(99.9) -> 45[CS:Borne IKEA Beauport] Load(110) Bat(99.9) -> 12 Load(110) Bat(90.5) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(142) Bat(68.6) -> 27 Load(142) Bat(82.5) -> 14 Load(176) Bat(76.3) -> 22 Load(199) Bat(60.5) -> 46[CS:Circuit Électrique Lévis] Load(228) Bat(56.8) -> 13 Load(228) Bat(33.2) -> 43[CS:EV Charging Hôtel Château Frontenac] Load(245) Bat(17.9) -> 0 Load(245) Bat(13.8)
+Distance of the route: 58.767km
+Real distance of the route: 58.77km
+Time of the route: 6658s
+Load of the route: 245
 
 Route for vehicle 2:
- 0 Load(0) Bat(100) -> 2 Load(0) Bat(88) -> 45[CS:Borne IKEA Beauport] Load(18) Bat(86) -> 18 Load(18) Bat(100) -> 45[CS:Borne IKEA Beauport] Load(34) Bat(100) -> 6 Load(34) Bat(100) -> 45[CS:Borne IKEA Beauport] Load(59) Bat(100) -> 24 Load(59) Bat(99) -> 35 Load(80) Bat(97) -> 12 Load(110) Bat(90) -> 21 Load(142) Bat(75) -> 29 Load(153) Bat(69) -> 40 Load(175) Bat(68) -> 32 Load(194) Bat(60) -> 1 Load(214) Bat(58) -> 0 Load(234) Bat(50)
-Distance of the route: 17km
-Time of the route: 2974s
-Load of the route: 234
+ 0 Load(0) Bat(100.0) -> 34 Load(0) Bat(68.7) -> 5 Load(12) Bat(65.5) -> 23 Load(34) Bat(62.7) -> 11 Load(52) Bat(61.2) -> 26 Load(62) Bat(57.1) -> 37 Load(75) Bat(56.2) -> 20 Load(98) Bat(53.0) -> 3 Load(131) Bat(49.1) -> 0 Load(161) Bat(35.5)
+Distance of the route: 21.502km
+Real distance of the route: 21.50km
+Time of the route: 2404s
+Load of the route: 161
 
 Route for vehicle 3:
- 0 Load(0) Bat(100) -> 39 Load(0) Bat(92) -> 7 Load(14) Bat(85) -> 42[CS:Station IGA Sainte-Foy] Load(33) Bat(81) -> 16 Load(33) Bat(92) -> 26 Load(47) Bat(82) -> 37 Load(60) Bat(82) -> 34 Load(83) Bat(77) -> 11 Load(95) Bat(77) -> 23 Load(105) Bat(76) -> 5 Load(123) Bat(74) -> 9 Load(145) Bat(64) -> 20 Load(157) Bat(57) -> 3 Load(190) Bat(54) -> 44[CS:Recharge Saint-Roch] Load(220) Bat(45) -> 8 Load(220) Bat(100) -> 44[CS:Recharge Saint-Roch] Load(248) Bat(100) -> 0 Load(248) Bat(95)
-Distance of the route: 21km
-Time of the route: 3707s
+ 0 Load(0) Bat(100.0) -> 30 Load(0) Bat(95.4) -> 41[CS:Borne Rapide Haute-Ville] Load(28) Bat(91.3) -> 33 Load(28) Bat(95.2) -> 28 Load(53) Bat(91.7) -> 4 Load(62) Bat(91.7) -> 19 Load(77) Bat(84.5) -> 39 Load(101) Bat(76.9) -> 44[CS:Recharge Saint-Roch] Load(115) Bat(73.5) -> 8 Load(115) Bat(100.0) -> 44[CS:Recharge Saint-Roch] Load(143) Bat(100.0) -> 36 Load(143) Bat(92.5) -> 7 Load(160) Bat(92.5) -> 42[CS:Station IGA Sainte-Foy] Load(179) Bat(88.2) -> 31 Load(179) Bat(95.1) -> 42[CS:Station IGA Sainte-Foy] Load(195) Bat(90.2) -> 15 Load(195) Bat(94.2) -> 42[CS:Station IGA Sainte-Foy] Load(222) Bat(88.6) -> 25 Load(222) Bat(93.4) -> 44[CS:Recharge Saint-Roch] Load(248) Bat(81.9) -> 0 Load(248) Bat(76.1)
+Distance of the route: 30.688km
+Real distance of the route: 30.69km
+Time of the route: 3913s
 Load of the route: 248
 
-Total Distance of all routes: 78km
-Real distance (km): 106.38
+Total Distance of all routes: 176.112km
+
+Real distance (km): 176.11
 
 Total Load of all routes: 865
 
-Total Time of all routes: 15805s
+Total Time of all routes: 20131s
 
-Total recharges: 12
+Total recharges: 17
 
-Unnecessary charging stops: 12
+Unnecessary charging stops: 16
 
-Minimum battery (SoC) reached: 40
+Minimum battery (SoC) reached: 6.7
 

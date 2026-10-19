@@ -1,3 +1,4 @@
+import glob
 import os
 import instance.instance_type
 from problem.problem_type import ProblemType, execute
@@ -28,19 +29,33 @@ from instance.instance_type import InstanceType
 # (configurable con la variable de entorno OSRM_BASE_URL).
 
 
-# Instancia a resolver (cambiar solo esta linea)
-INSTANCE = "instances_data/evrp_instances/quebec_30c_6ev_4cs.txt"
+# Instancia a resolver (cambiar solo esta linea): un grupo (InstanceType.EVRP = todas las instancias EVRP) o la ruta
+# de una sola, por ejemplo "instances_data/evrp_instances/quebec_70c_9ev_9cs.txt"
+INSTANCE = InstanceType.EVRP
 
 # Tiempo por instancia: 10 s hasta 100 clientes; en las grandes, 10 s no alcanzan ni para construir una primera
-# solucion en OR-Tools (devuelve todos los clientes descartados). Mantener igual en run_aco.py (TIME_BY_INSTANCE).
-TIME_BY_INSTANCE = {"quebec_150c_18ev_15cs": 30, "quebec_220c_26ev_20cs": 60, "quebec_350c_40ev_30cs": 120}
-TIME_LIMIT = TIME_BY_INSTANCE.get(os.path.splitext(os.path.basename(INSTANCE))[0], 10)
+# solucion completa en OR-Tools (150c: con 20 s deja 7 clientes sin atender, con 60 s ninguno). Mantener igual en run_aco.py.
+TIME_BY_INSTANCE = {"quebec_150c_18ev_15cs": 60, "quebec_220c_26ev_20cs": 120, "quebec_350c_40ev_30cs": 180}
+DEFAULT_TIME = 10
 
-execute(
+
+def time_limit_of(path):
+    return TIME_BY_INSTANCE.get(os.path.splitext(os.path.basename(path))[0], DEFAULT_TIME)
+
+
+# Si INSTANCE es un grupo se ejecuta cada instancia por separado, cada una con su limite de tiempo.
+if isinstance(INSTANCE, str):
+    RUNS = [(INSTANCE, time_limit_of(INSTANCE))]
+else:
+    RUNS = [(path, time_limit_of(path))
+            for path in sorted(glob.glob(os.path.join("instances_data", "evrp_instances", "*.txt")))]
+
+for instance_path, time_limit in RUNS:
+  execute(
     problem_type=ProblemType.EVRP,
-    instance=INSTANCE,
+    instance=instance_path,
     distance_type=DistanceType.OSRM,
-    time_limit=TIME_LIMIT,
+    time_limit=time_limit,
     executions=1,
     vehicle_maximum_travel_distance=100,  # capacidad de batería en unidades de energía 150, 250,250,200,180
     vehicle_max_time=None,

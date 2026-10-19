@@ -3,12 +3,12 @@ friedman_ranking.py — ranking de Friedman de ACO frente a todas las
 combinaciones heuristica/metaheuristica de OR-Tools.
 
 Diseño del experimento
-  - Bloques  : las instancias EVRP (una fila por instancia).
+  - Bloques  : las instancias EVRP (una fila por instancia): 10 por defecto, 5 con --instances 5.
   - Tratamientos: cada combinacion de OR-Tools (carpeta solutions_<combo>) y ACO.
   - Medida   : distancia total REAL en km (sin truncar por arco). Menor es mejor. El Objective de los
                archivos es la suma de arcos truncados a km enteros y subestima la distancia real;
                solo se usa para comprobar la consistencia del archivo.
-  - Solo participan algoritmos con las 5 instancias resueltas Y todas factibles con
+  - Solo participan algoritmos con todas las instancias resueltas Y todas factibles con
     bateria fisica estricta (>= 0 en todos los tramos, sin clientes descartados). Una
     combinacion con algun error, falta o solucion infactible se EXCLUYE completa
     (Friedman necesita bloques completos); el script lista cada exclusion y su motivo.
@@ -20,6 +20,7 @@ Uso (raiz del repo, OSRM o cache disponible):
     python friedman_ranking.py                     # semilla de ACO sorteada
     python friedman_ranking.py --aco-seed 3        # semilla fija
     python friedman_ranking.py --pick-seed 42      # sorteo repetible
+    python friedman_ranking.py --instances 5       # solo las 5 instancias originales
     python friedman_ranking.py --holm              # ademas, Holm contra ACO (opcional)
 
 Salida: ranking por rango medio, estadistico de Friedman (con correccion por empates),
@@ -40,10 +41,15 @@ from utils.units import DIST_SCALE, cost_int, energy_int, cap_int
 
 CAP = 100
 RATE = 3.0
-INSTANCES = [
+INSTANCES_5 = [
     "quebec_30c_6ev_4cs.txt", "quebec_40c_4ev_6cs.txt", "quebec_50c_5ev_5cs.txt",
     "quebec_60c_8ev_8cs.txt", "quebec_90c_10ev_10cs.txt",
 ]
+INSTANCES_10 = INSTANCES_5 + [
+    "quebec_70c_9ev_9cs.txt", "quebec_100c_12ev_12cs.txt", "quebec_150c_18ev_15cs.txt",
+    "quebec_220c_26ev_20cs.txt", "quebec_350c_40ev_30cs.txt",
+]
+INSTANCES = list(INSTANCES_10)   # por defecto los 10 bloques; --instances 5 usa solo las originales
 
 
 # ───────────────────────── estadistica (sin scipy) ─────────────────────────
@@ -151,6 +157,7 @@ STATION_CHAIN = {}   # (archivo) -> rutas con un salto estacion -> estacion: arc
 DEPOT_TO_STATION = {}   # (archivo) -> rutas que salen del deposito directo a una estacion: archivo excluido
 LEGACY = {}   # (archivo) -> soluciones del modelo anterior (distancias truncadas a km enteros): excluidas, hay que repetir la corrida
 INCONSISTENT = {}   # (archivo) -> (Objective guardado, distancia real): archivo excluido
+DROPPED = {}   # (archivo) -> clientes sin atender: archivo excluido (la solucion no es completa)
 NOTED = {}     # (archivo) -> paradas de carga innecesarias encontradas (solo informativo: el objetivo es solo distancia)
 
 
@@ -161,7 +168,9 @@ def read_solution(path, data, max_visits=None):
     if not os.path.isfile(path):
         return None
     txt = open(path, encoding="utf-8").read()
-    if "Dropped clients" in txt:
+    md = re.search(r"Dropped customers: (\d+)", txt)
+    if "Dropped clients" in txt or (md and int(md.group(1)) > 0):
+        DROPPED[path] = int(md.group(1)) if md else -1
         return None
     m = re.search(r"Battery consumption rate: ([\d.]+)", txt)
     if m and abs(float(m.group(1)) - RATE) > 1e-9:   # archivo viejo de otra configuracion (no se re-ejecuto)
@@ -231,10 +240,13 @@ def main():
                          "igual que cada combinacion de OR-Tools es una sola corrida")
     ap.add_argument("--pick-seed", type=int, default=None,
                     help="semilla del sorteo cuando --aco-seed random (para poder repetir el sorteo)")
+    ap.add_argument("--instances", type=int, choices=(5, 10), default=10,
+                    help="numero de instancias (bloques): 5 = las originales, 10 = originales + 5 grandes (por defecto)")
     ap.add_argument("--holm", action="store_true", help="ademas, compara cada algoritmo contra ACO con Holm (opcional)")
     ap.add_argument("--out", default=None, help="CSV del ranking (por defecto con fecha y hora, no se sobreescribe)")
     ap.add_argument("--keel-out", default=None, help="CSV formato KEEL (por defecto con fecha y hora)")
     args = ap.parse_args()
+    INSTANCES[:] = INSTANCES_5 if args.instances == 5 else INSTANCES_10
     stamp = timestamp()
     out_dir = os.path.join("problem", "osrm", "trazas")
     os.makedirs(out_dir, exist_ok=True)
@@ -247,7 +259,7 @@ def main():
 def run(args):
     data_all = process_files(InstanceType.EVRP, DistanceType.OSRM, None, RATE, CAP)
 
-    # ── Combinaciones de OR-Tools: solo las que tienen las 5 instancias y TODAS factibles ──
+    # ── Combinaciones de OR-Tools: solo las que tienen todas las instancias y TODAS factibles ──
     algos = {}       # nombre -> [objetivo por instancia]
     excluded = {}    # nombre -> motivo
     for folder in sorted(glob.glob(os.path.join(args.ortools_root, "solutions_*"))):
@@ -273,7 +285,7 @@ def run(args):
 
     available = [s_ for s_ in range(1, 100) if "ACO" in aco_combos(s_)]
     if not available:
-        raise SystemExit("No hay corridas de ACO completas: ejecuta run_aco.py (las 5 instancias) primero.")
+        raise SystemExit("No hay corridas de ACO completas: ejecuta run_aco.py (todas las instancias) primero.")
     if args.aco_seed == "random":
         rng = random.Random(args.pick_seed)
         aco_seed = rng.choice(available)
@@ -282,7 +294,7 @@ def run(args):
     else:
         aco_seed = int(args.aco_seed)
         if aco_seed not in available:
-            raise SystemExit(f"La semilla {aco_seed} no tiene las 5 instancias; disponibles: {available}")
+            raise SystemExit(f"La semilla {aco_seed} no tiene todas las instancias; disponibles: {available}")
     aco_names = []
     for name, d in sorted(aco_combos(aco_seed).items()):
         values = [read_solution(os.path.join(d, f), data_all[f]) for f in INSTANCES]
@@ -298,6 +310,11 @@ def run(args):
         print(f"\nExcluidas por salir del deposito directo a una estacion ({len(DEPOT_TO_STATION)} archivo(s)):")
         for path_ in sorted(DEPOT_TO_STATION)[:15]:
             print(f"  - {os.path.basename(os.path.dirname(path_))[len('solutions_'):]} / {os.path.basename(path_)[7:10]}")
+    if DROPPED:
+        print(f"\nExcluidas por dejar clientes sin atender ({len(DROPPED)} archivo(s)):")
+        for path_, k_ in sorted(DROPPED.items())[:30]:
+            print(f"  - {os.path.basename(os.path.dirname(path_))[len('solutions_'):]} / {os.path.basename(path_)[7:10]}"
+                  f"{': ' + str(k_) + ' cliente(s) sin atender' if k_ > 0 else ''}")
     if STATION_CHAIN:
         print(f"\nExcluidas por ir de una estacion directo a otra ({len(STATION_CHAIN)} archivo(s)):")
         for path_ in sorted(STATION_CHAIN)[:15]:

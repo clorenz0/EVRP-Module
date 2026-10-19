@@ -93,7 +93,7 @@ INSTANCES = "all"            # "all" o lista de nombres, p.ej. ["quebec_50c_5ev_
 SEEDS = [1, 2, 3, 4, 5, 6]   # semillas de ACO solo; en las combinaciones con heuristica se sortea una
 TIME_LIMIT = 10              # segundos por instancia y semilla (hasta 100 clientes)
 # Tiempo de las instancias grandes; mantener igual que en run.py (TIME_BY_INSTANCE). --time lo sobrescribe para todas.
-TIME_BY_INSTANCE = {"quebec_150c_18ev_15cs": 30, "quebec_220c_26ev_20cs": 60, "quebec_350c_40ev_30cs": 120}
+TIME_BY_INSTANCE = {"quebec_150c_18ev_15cs": 60, "quebec_220c_26ev_20cs": 120, "quebec_350c_40ev_30cs": 180}
 
 ALL_SEEDS = SEEDS
 INSTANCES_DIR = os.path.join("instances_data", "evrp_instances")
