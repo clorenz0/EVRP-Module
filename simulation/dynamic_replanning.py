@@ -47,6 +47,7 @@ from build_routes import (  # noqa: E402
     parse_instance, parse_solution, snap_single_node, stop_lane_id, _write_pretty_xml,
     MIN_CLIENT_STOP_S, SERVICE_TIME_PER_UNIT_S, STOP_DURATION_S,
 )
+import event_selector  # noqa: E402
 from problem.execute import evrp  # noqa: E402
 from distance.distance_type import DistanceType  # noqa: E402
 from problem.strategy_type import HeuristicType, MetaheuristicType  # noqa: E402
@@ -135,6 +136,20 @@ def parse_args():
                         "la usa explainability/ para barrer la severidad del evento")
     p.add_argument("--congestion-fraction", type=float, default=CONGESTION_FRACTION,
                    help="fraccion de la ruta del sondeo que se congestiona (por defecto la constante del script)")
+    p.add_argument("--event", choices=list(event_selector.KINDS), default="congestion",
+                   help="Tipo de evento. 'congestion' (por defecto) conserva el comportamiento anterior: arcos de la ruta "
+                        "del primer vehiculo. 'accident' (bloqueo temporal) y 'closure' (cierre permanente) siempre usan "
+                        "el selector verificado de simulation/event_selector.py.")
+    p.add_argument("--verified-event", action="store_true",
+                   help="Usa el selector verificado tambien para 'congestion' (impacto sobre un vehiculo de la flota).")
+    p.add_argument("--event-seed", type=int, default=1, help="Semilla de la seleccion del evento (reproducible)")
+    p.add_argument("--impact-threshold", type=float, default=0.20,
+                   help="Aumento minimo (fraccion) del tiempo del siguiente tramo del vehiculo afectado para aceptar un "
+                        "evento (0.20 = +20 %%). Por ahora fijo en 20 %%; falta justificarlo en la tesis.")
+    p.add_argument("--accident-duration", type=float, default=600.0, help="Segundos que dura el bloqueo del accidente")
+    p.add_argument("--event-spec", default=None,
+                   help="JSON del evento. Si existe se aplica EXACTAMENTE ese evento (usarlo en la segunda rama del "
+                        "experimento, con/sin retroalimentacion); si no existe, se selecciona y se guarda alli.")
     p.add_argument("--gui", action="store_true",
                     help="Usa sumo-gui en vez de sumo headless, para ver el proceso completo en vivo")
     p.add_argument("--heuristic", default="PATH_CHEAPEST_ARC",
@@ -234,7 +249,7 @@ def chain_real_route(node_seq, node_edge):
     return full_edges
 
 
-def run_until_done(vids, max_extra_time):
+def run_until_done(vids, max_extra_time, on_step=None):
     """
     Corre la simulacion hasta que todos los vehiculos en `vids` terminen su
     ruta (desaparecen de traci.vehicle.getIDList() al llegar) o se agote
@@ -250,6 +265,8 @@ def run_until_done(vids, max_extra_time):
     start_time = traci.simulation.getTime()
     while remaining and (traci.simulation.getTime() - start_time) < max_extra_time:
         traci.simulationStep()
+        if on_step is not None:
+            on_step(traci.simulation.getTime())     # p. ej. reabrir los arcos de un accidente al terminar su duracion
         still_active = set(traci.vehicle.getIDList())
         elapsed = traci.simulation.getTime() - start_time
         for vid in list(remaining):
@@ -441,42 +458,72 @@ def main():
         # la retroalimentacion es real (SUMO mide un tiempo de viaje distinto
         # tras el evento, con datos actuales, no la estimacion original de OSRM).
         vids = list(vehicles_state.keys())
-        first_vid = vids[0]
-        probe_target = vehicles_state[first_vid]["pending_nodes"][0]
-        probe_edge = snap_single_node(net, probe_target, inst["node_coords"])
+        use_selector = args.event != "congestion" or args.verified_event
+        event_tick = None
+        if use_selector:
+            print(f"\n{'-' * 70}\n  EVENT ({args.event}): verified selection (impact on a fleet vehicle, no isolated points)\n{'-' * 70}")
+            depot_edge_ev = snap_single_node(net, 0, inst["node_coords"])
+            station_edges_ev = [snap_single_node(net, n, inst["node_coords"]) for n in sorted(inst["stations"])]
+            pending_edges_ev = {snap_single_node(net, n, inst["node_coords"])
+                                for v in vids for n in vehicles_state[v]["pending_nodes"] if n in inst["clients"]}
+            key_edges_ev = {depot_edge_ev} | set(station_edges_ev) | pending_edges_ev
+            node_edge_of = lambda n: snap_single_node(net, n, inst["node_coords"])
+            fuel_cap = original_params.get("fuel_capacity", 100)
+            rate = original_params.get("fuel_consumption_rate", 3.0)
+            if args.event_spec and os.path.isfile(args.event_spec):
+                spec = event_selector.load_spec(args.event_spec)
+                controller = event_selector.apply_spec(spec, traci, net, vehicles_state, depot_edge_ev, key_edges_ev)
+                print(f"  Event loaded from {args.event_spec}")
+            else:
+                import random
+                spec, controller = event_selector.select_event(
+                    args.event, traci, net, vehicles_state, node_edge_of, depot_edge_ev, station_edges_ev, key_edges_ev,
+                    random.Random(args.event_seed), args.event_seed, args.checkpoint_time, fuel_cap, rate,
+                    impact_threshold=args.impact_threshold, congested_speed=args.congested_speed,
+                    accident_duration=args.accident_duration)
+                if args.event_spec:
+                    event_selector.save_spec(spec, args.event_spec)
+                    print(f"  Event saved to {args.event_spec} (use it in the other arm of the experiment)")
+            event_description = spec.describe()
+            event_tick = controller.tick
+            print(f"  {event_description}\n{'-' * 70}\n")
+        else:
+            first_vid = vids[0]
+            probe_target = vehicles_state[first_vid]["pending_nodes"][0]
+            probe_edge = snap_single_node(net, probe_target, inst["node_coords"])
 
-        print(f"\n{'-' * 70}\n  FEEDBACK LOOP: measuring the impact of a congestion event\n{'-' * 70}")
-        stage_before = traci.simulation.findRoute(vehicles_state[first_vid]["current_edge"], probe_edge)
-        print(f"  BEFORE ({first_vid} -> node {probe_target}): "
-              f"time={stage_before.travelTime:.1f}s  distance={stage_before.length:.0f}m")
+            print(f"\n{'-' * 70}\n  FEEDBACK LOOP: measuring the impact of a congestion event\n{'-' * 70}")
+            stage_before = traci.simulation.findRoute(vehicles_state[first_vid]["current_edge"], probe_edge)
+            print(f"  BEFORE ({first_vid} -> node {probe_target}): "
+                  f"time={stage_before.travelTime:.1f}s  distance={stage_before.length:.0f}m")
 
-        route_edges = list(stage_before.edges)
-        n_congest = max(1, int(len(route_edges) * args.congestion_fraction))
-        start_idx = max(0, (len(route_edges) - n_congest) // 2)
-        congested_edges = route_edges[start_idx:start_idx + n_congest]
-        for e in congested_edges:
-            traci.edge.setMaxSpeed(e, args.congested_speed)
-        print(f"  Congestion forced on {len(congested_edges)} real edge(s) "
-              f"(speed limit lowered to {args.congested_speed} m/s ~ {args.congested_speed * 3.6:.0f} km/h)")
+            route_edges = list(stage_before.edges)
+            n_congest = max(1, int(len(route_edges) * args.congestion_fraction))
+            start_idx = max(0, (len(route_edges) - n_congest) // 2)
+            congested_edges = route_edges[start_idx:start_idx + n_congest]
+            for e in congested_edges:
+                traci.edge.setMaxSpeed(e, args.congested_speed)
+            print(f"  Congestion forced on {len(congested_edges)} real edge(s) "
+                  f"(speed limit lowered to {args.congested_speed} m/s ~ {args.congested_speed * 3.6:.0f} km/h)")
 
-        stage_after = traci.simulation.findRoute(vehicles_state[first_vid]["current_edge"], probe_edge)
-        delta_t = stage_after.travelTime - stage_before.travelTime
-        pct = (delta_t / stage_before.travelTime * 100) if stage_before.travelTime else 0
-        print(f"  AFTER  ({first_vid} -> node {probe_target}): "
-              f"time={stage_after.travelTime:.1f}s  distance={stage_after.length:.0f}m"
-              f"   ->  +{delta_t:.1f}s ({pct:+.1f}%)")
-        print(f"{'-' * 70}\n"
-              f"  This difference is the real signal now used to build\n"
-              f"  the matrix OR-Tools sees (next step), not the original estimate.\n"
-              f"{'-' * 70}\n")
+            stage_after = traci.simulation.findRoute(vehicles_state[first_vid]["current_edge"], probe_edge)
+            delta_t = stage_after.travelTime - stage_before.travelTime
+            pct = (delta_t / stage_before.travelTime * 100) if stage_before.travelTime else 0
+            print(f"  AFTER  ({first_vid} -> node {probe_target}): "
+                  f"time={stage_after.travelTime:.1f}s  distance={stage_after.length:.0f}m"
+                  f"   ->  +{delta_t:.1f}s ({pct:+.1f}%)")
+            print(f"{'-' * 70}\n"
+                  f"  This difference is the real signal now used to build\n"
+                  f"  the matrix OR-Tools sees (next step), not the original estimate.\n"
+                  f"{'-' * 70}\n")
 
-        event_description = (
-            f"Event: congestion forced at checkpoint {args.checkpoint_time:.0f}s on "
-            f"{len(congested_edges)} real edge(s) (speed limit lowered to {args.congested_speed} m/s). "
-            f"Probe {first_vid} -> node {probe_target}: travel time {stage_before.travelTime:.1f}s -> "
-            f"{stage_after.travelTime:.1f}s ({pct:+.1f}%), distance {stage_before.length:.0f}m -> "
-            f"{stage_after.length:.0f}m. Congested edges: {', '.join(congested_edges)}."
-        )
+            event_description = (
+                f"Event: congestion forced at checkpoint {args.checkpoint_time:.0f}s on "
+                f"{len(congested_edges)} real edge(s) (speed limit lowered to {args.congested_speed} m/s). "
+                f"Probe {first_vid} -> node {probe_target}: travel time {stage_before.travelTime:.1f}s -> "
+                f"{stage_after.travelTime:.1f}s ({pct:+.1f}%), distance {stage_before.length:.0f}m -> "
+                f"{stage_after.length:.0f}m. Congested edges: {', '.join(congested_edges)}."
+            )
         prior_distance_km_total = sum(vehicles_state[v]["distance_before_m"] for v in vids) / 1000.0
 
         # ── Baseline "sin retroalimentacion": misma congestion, sin re-planear ──
@@ -485,7 +532,7 @@ def main():
         # poder comparar tiempo/distancia reales contra el modo normal.
         if args.no_replan:
             print(f"\n{'=' * 70}\n  BASELINE (no feedback): keeping the original plan through the event\n{'=' * 70}")
-            stats, unfinished = run_until_done(vids, args.max_complete_time)
+            stats, unfinished = run_until_done(vids, args.max_complete_time, event_tick)
             for vid in vids:
                 before_m = vehicles_state[vid]["distance_before_m"]
                 if vid in stats and vid not in unfinished:
@@ -579,7 +626,7 @@ def main():
                 soc_fraction = min(1.0, st["battery_wh"] / st["max_wh"])
             vehicle_states.append({
                 "start_node": vehicle_start_node[vid],
-                "initial_fuel": int(soc_fraction * original_params["fuel_capacity"]),
+                "initial_fuel": soc_fraction * original_params["fuel_capacity"],
                 "initial_load": int(st["load_collected"]),
             })
 
@@ -702,7 +749,7 @@ def main():
             original_route_lines.append("")
 
         print(f"\n{'=' * 70}\n  WITH FEEDBACK: running until the injected vehicles finish\n{'=' * 70}")
-        stats, unfinished = run_until_done(vehicle_routes.keys(), args.max_complete_time)
+        stats, unfinished = run_until_done(vehicle_routes.keys(), args.max_complete_time, event_tick)
         completion_lines = ["", "Completion stats (real simulated time/distance after re-planning):"]
         total_time, total_dist_m = 0.0, 0.0
         for vid in vehicle_routes.keys():

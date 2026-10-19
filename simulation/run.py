@@ -43,6 +43,12 @@ INSTANCE_NET_FILE = {
     "quebec_30c_6ev_4cs": NET_MONTREAL,
     "quebec_50c_5ev_5cs": NET_TROISRIVIERES,
     "quebec_90c_10ev_10cs": NET_TROISRIVIERES,
+    # instancias grandes (70-350 clientes), mismas tres redes
+    "quebec_70c_9ev_9cs": NET_MONTREAL,
+    "quebec_100c_12ev_12cs": NET_QUEBEC,
+    "quebec_150c_18ev_15cs": NET_TROISRIVIERES,
+    "quebec_220c_26ev_20cs": NET_QUEBEC,
+    "quebec_350c_40ev_30cs": NET_MONTREAL,
 }
 
 

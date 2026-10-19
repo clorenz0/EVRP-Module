@@ -36,6 +36,7 @@ import re
 from distance.distance_type import DistanceType
 from utils.trace import TraceLog, timestamp
 from instance.instance_type import InstanceType, process_files
+from utils.units import DIST_SCALE, cost_int, energy_int, cap_int
 
 CAP = 100
 RATE = 3.0
@@ -132,19 +133,23 @@ def holm(pvalues):
 
 def unnecessary_stops(nodes, dm, cs):
     """Paradas de carga que se podrian quitar sin dejar la bateria negativa (misma regla en todos los algoritmos)."""
+    cap = cap_int(CAP)      # el modelo trabaja en metros (utils/units.py)
+
     def feasible(seq):
-        bat = CAP
+        bat = cap
         for a, b in zip(seq, seq[1:]):
-            bat -= int(dm[a][b] * RATE)
+            bat -= energy_int(dm[a][b], RATE)
             if bat < 0:
                 return False
             if b in cs:
-                bat = CAP
+                bat = cap
         return True
     return sum(1 for k in range(1, len(nodes) - 1) if nodes[k] in cs and feasible(nodes[:k] + nodes[k + 1:]))
 
 
+STATION_CHAIN = {}   # (archivo) -> rutas con un salto estacion -> estacion: archivo excluido
 DEPOT_TO_STATION = {}   # (archivo) -> rutas que salen del deposito directo a una estacion: archivo excluido
+LEGACY = {}   # (archivo) -> soluciones del modelo anterior (distancias truncadas a km enteros): excluidas, hay que repetir la corrida
 INCONSISTENT = {}   # (archivo) -> (Objective guardado, distancia real): archivo excluido
 NOTED = {}     # (archivo) -> paradas de carga innecesarias encontradas (solo informativo: el objetivo es solo distancia)
 
@@ -161,7 +166,11 @@ def read_solution(path, data, max_visits=None):
     m = re.search(r"Battery consumption rate: ([\d.]+)", txt)
     if m and abs(float(m.group(1)) - RATE) > 1e-9:   # archivo viejo de otra configuracion (no se re-ejecuto)
         return None
-    obj = int(float(re.search(r"Objective: ([\d.]+)", txt).group(1)))
+    obj_txt = re.search(r"Objective: ([\d.]+)", txt).group(1)
+    if "." not in obj_txt:          # formato anterior: km enteros truncados por arco
+        LEGACY[path] = 1
+        return None
+    obj = float(obj_txt)
     dm, cs = data["distance_matrix"], set(data["charging_stations"])
     n_clients = data["num_locations"] - len(cs) - 1
     served = []
@@ -172,17 +181,20 @@ def read_solution(path, data, max_visits=None):
         max_visits = int(mc.group(1)) if max_visits is None else min(max_visits, int(mc.group(1)))
     for blk in re.findall(r"Route for vehicle \d+:\n (.*?)\nDistance", txt):
         nodes = [int(re.match(r"(\d+)", s.strip()).group(1)) for s in blk.split("->")]
-        bat = CAP
+        bat = cap_int(CAP)
         if len(nodes) > 1 and nodes[0] == 0 and nodes[1] in cs:
             DEPOT_TO_STATION[path] = DEPOT_TO_STATION.get(path, 0) + 1     # del deposito no se va directo a una estacion
             return None
+        if any(a in cs and b in cs for a, b in zip(nodes, nodes[1:])):
+            STATION_CHAIN[path] = STATION_CHAIN.get(path, 0) + 1           # de una estacion no se va directo a otra
+            return None
         unnecessary += unnecessary_stops(nodes, dm, cs)
         for a, b in zip(nodes, nodes[1:]):
-            bat -= int(dm[a][b] * RATE)
+            bat -= energy_int(dm[a][b], RATE)
             if bat < 0:
                 return None
             if b in cs:
-                bat = CAP
+                bat = cap_int(CAP)
                 station_visits[b] = station_visits.get(b, 0) + 1
             elif b != 0:
                 served.append(b)
@@ -194,17 +206,17 @@ def read_solution(path, data, max_visits=None):
     real_km = 0.0     # distancia real (km, sin truncar por arco): es la medida que usa el ranking
     for blk in re.findall(r"Route for vehicle \d+:\n (.*?)\nDistance", txt):
         ns = [int(re.match(r"(\d+)", s.strip()).group(1)) for s in blk.split("->")]
-        real += sum(int(dm[a][b]) for a, b in zip(ns, ns[1:]))
+        real += sum(cost_int(dm[a][b]) for a, b in zip(ns, ns[1:]))
         real_km += sum(dm[a][b] for a, b in zip(ns, ns[1:]))
-    if real != obj:
-        INCONSISTENT[path] = (obj, real)
+    if abs(real / DIST_SCALE - obj) > 0.0015:
+        INCONSISTENT[path] = (obj, round(real / DIST_SCALE, 3))
         return None
     if max_visits is not None and any(v > max_visits for v in station_visits.values()):
         return None
     if unnecessary:
         NOTED[path] = unnecessary
-    # El Objective guardado es la suma de arcos truncados a km enteros (lo que optimizan OR-Tools y ACO); sirve
-    # para el control de consistencia de arriba, pero subestima la distancia recorrida. El ranking usa km reales.
+    # El Objective guardado es la distancia en km (el modelo trabaja en metros enteros: utils/units.py); el control de
+    # consistencia de arriba lo compara con la distancia recalculada. El ranking usa los km reales de las rutas.
     return round(real_km, 2)
 
 
@@ -285,6 +297,14 @@ def run(args):
     if DEPOT_TO_STATION:
         print(f"\nExcluidas por salir del deposito directo a una estacion ({len(DEPOT_TO_STATION)} archivo(s)):")
         for path_ in sorted(DEPOT_TO_STATION)[:15]:
+            print(f"  - {os.path.basename(os.path.dirname(path_))[len('solutions_'):]} / {os.path.basename(path_)[7:10]}")
+    if STATION_CHAIN:
+        print(f"\nExcluidas por ir de una estacion directo a otra ({len(STATION_CHAIN)} archivo(s)):")
+        for path_ in sorted(STATION_CHAIN)[:15]:
+            print(f"  - {os.path.basename(os.path.dirname(path_))[len('solutions_'):]} / {os.path.basename(path_)[7:10]}")
+    if LEGACY:
+        print(f"\nExcluidas por ser del modelo anterior, con distancias truncadas a km enteros ({len(LEGACY)} archivo(s)): repetir la corrida.")
+        for path_ in sorted(LEGACY)[:15]:
             print(f"  - {os.path.basename(os.path.dirname(path_))[len('solutions_'):]} / {os.path.basename(path_)[7:10]}")
     if INCONSISTENT:
         print(f"\nExcluidas por Objective distinto de la distancia real ({len(INCONSISTENT)} archivo(s)): "

@@ -329,3 +329,31 @@ inicial del sub-problema y ACO la mejora. Ver la sección 6 del README principal
 
 Todo lo generado se reproduce corriendo los scripts en orden — no hace
 falta bajarlo de ningún lado más que este repo.
+
+
+## Eventos verificados: accidente, cierre de calle y congestion (`event_selector.py`)
+
+`dynamic_replanning.py --event {congestion,accident,closure}` (por defecto `congestion`, comportamiento anterior).
+`accident` y `closure` (y `congestion` con `--verified-event`) usan `event_selector.py`, que solo acepta un evento si:
+
+1. los arcos salen de la ruta restante de un vehiculo con paradas pendientes (nunca arcos con cliente, estacion, deposito
+   o posicion de un vehiculo);
+2. el tiempo del siguiente tramo de ese vehiculo sube al menos `--impact-threshold` (0.20 = +20 %, valor provisional);
+3. (cierre/accidente) ningun punto clave queda aislado: deposito, estaciones, clientes pendientes y vehiculos siguen en
+   la misma componente fuertemente conexa del grafo transitable;
+4. ningun vehiculo queda varado: todos pueden llegar al deposito o a una estacion con su bateria actual.
+
+Si un candidato falla, se revierte y se prueba otro (`--event-seed` fija el orden). `accident` = bloqueo de
+`--accident-duration` s (600 por defecto) y reapertura automatica; `closure` = cierre permanente.
+
+Para un experimento pareado, ejecutar las dos ramas con el MISMO archivo de evento:
+
+```
+python simulation/dynamic_replanning.py --instance ... --solution ... --event closure --event-seed 1 \
+    --event-spec simulation/dynamic_replan_results/events/quebec_100c_closure_s1.json            # con retroalimentacion (selecciona y guarda)
+python simulation/dynamic_replanning.py --instance ... --solution ... --event closure --event-spec <mismo json> --no-replan   # sin retroalimentacion (lo carga)
+```
+
+En la rama sin retroalimentacion los vehiculos tambien se desvian (`rerouteTraveltime`): la unica diferencia entre ramas
+es si se reoptimiza el orden y la asignacion de clientes. Nota: `explainability/simulation.py` solo lee reportes de
+congestion; los de accidente/cierre aun no entran al XAI.

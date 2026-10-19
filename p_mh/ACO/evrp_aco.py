@@ -69,6 +69,7 @@ import os
 import random
 import time
 
+from utils.units import DIST_SCALE, cost_int, energy_int, cap_int
 from distance.distance_type import DistanceType
 from instance.instance_type import process_files, InstanceType
 from utils.execute_algorithm import get_distance_and_solution_name
@@ -90,8 +91,8 @@ DEFAULT_CONSUMPTION_RATE = {
 def _prepare_matrices(data):
     """
     Agrega a `data`:
-      cost_matrix   : int(dist)         -> costo de arco (como create_distance_evaluator)
-      energy_matrix : int(dist * rate)  -> consumo de arco (como create_fuel_evaluator)
+      cost_matrix   : round(dist*1000)        -> costo de arco en metros (como create_distance_evaluator)
+      energy_matrix : round(dist*rate*1000)   -> consumo de arco (como create_fuel_evaluator); fuel_capacity tambien en esa escala
       charge_penalty: distancia media (>0) de un arco; costo interno de una
                       parada de carga innecesaria.
     `distance_matrix` (float) se conserva solo para la heurística 1/dist.
@@ -99,8 +100,8 @@ def _prepare_matrices(data):
     n = data['num_locations']
     dm = data['distance_matrix']
     rate = data['fuel_consumption_rate']
-    data['cost_matrix'] = [[0 if i == j else int(dm[i][j]) for j in range(n)] for i in range(n)]
-    data['energy_matrix'] = [[0 if i == j else int(dm[i][j] * rate) for j in range(n)] for i in range(n)]
+    data['cost_matrix'] = [[0 if i == j else cost_int(dm[i][j]) for j in range(n)] for i in range(n)]
+    data['energy_matrix'] = [[0 if i == j else energy_int(dm[i][j], rate) for j in range(n)] for i in range(n)]
     positives = [data['cost_matrix'][i][j] for i in range(n) for j in range(n) if i != j and data['cost_matrix'][i][j] > 0]
     data['charge_penalty'] = (sum(positives) // len(positives)) if positives else 1
 
@@ -414,6 +415,8 @@ def _rebuild_route_state(nodes, data):
     route = [{'node': nodes[0], 'load': load, 'battery': battery}]
     for k in range(len(nodes) - 1):
         a, b = nodes[k], nodes[k + 1]
+        if a in stations_set and b in stations_set:
+            return None     # de una estacion no se va directo a otra: tras recargar se va a un cliente o al deposito
         battery -= em[a][b]
         if battery < 0:
             return None
@@ -437,6 +440,8 @@ def _feasible(nodes, data):
     battery = cap if sb is None else sb.get(nodes[0], cap)
     for k in range(len(nodes) - 1):
         a, b = nodes[k], nodes[k + 1]
+        if a in stations_set and b in stations_set:
+            return False    # de una estacion no se va directo a otra
         battery -= em[a][b]
         if battery < 0:
             return False
@@ -868,15 +873,15 @@ def _update_pheromone_rank_as(pheromone, ants_results, rho, best_routes, best_co
     for rank, (routes, cost) in enumerate(ranked, start=1):
         weight = w - rank
         if weight > 0 and cost > 0:
-            _deposit(pheromone, routes, weight / cost)
+            _deposit(pheromone, routes, weight / (cost / DIST_SCALE))
 
     if best_routes is not None and best_cost > 0:
-        _deposit(pheromone, best_routes, w / best_cost)
+        _deposit(pheromone, best_routes, w / (best_cost / DIST_SCALE))
 
 
 def _mmas_bounds(best_cost, rho, num_locations):
     """Límites MAX-MIN (Stützle & Hoos): tau_max = 1/(rho*L_best), tau_min = tau_max/(2n)."""
-    tau_max = 1.0 / (rho * max(best_cost, 1e-9))
+    tau_max = 1.0 / (rho * max(best_cost / DIST_SCALE, 1e-9))    # el costo esta en metros; la feromona se calibra en km
     return tau_max / (2.0 * num_locations), tau_max
 
 
@@ -895,7 +900,7 @@ def _update_pheromone_mmas(pheromone, iter_best, best, rho, iteration, gb_period
             row[j] *= (1.0 - rho)
     routes, cost = best if (gb_period and iteration % gb_period == 0) else iter_best
     if cost > 0:
-        _deposit(pheromone, routes, 1.0 / cost)
+        _deposit(pheromone, routes, 1.0 / (cost / DIST_SCALE))
     for i in range(n):
         row = pheromone[i]
         for j in range(n):
@@ -986,16 +991,19 @@ def save_solution(data, routes, dropped_clients, objective, instance,
     try:
         with open(filename, 'w', encoding='utf-8') as f:
             f.write(f'Instance: {instance}\n\n')
-            f.write(f'Objective: {int(objective)}\n\n')
+            f.write(f'Objective: {objective / DIST_SCALE:.3f}\n\n')
             f.write(f'Execution Time: {elapsed_time}\n\n')
             if heuristic:
                 f.write(f'Heuristic: {heuristic}\n\n')      # ACO + heuristica de OR-Tools (la re-planeacion la lee de aqui)
             f.write(f'Metaheuristic: ACO ({num_iterations} iteraciones)\n\n')
             f.write(f'Distance type: {distance_type_str}\n\n')
             f.write(f'Vehicle capacity: {data["vehicle_capacity"]}\n')
-            f.write(f'Battery capacity: {data["fuel_capacity"]}\n')
+            f.write(f'Battery capacity: {data.get("fuel_capacity_units", data["fuel_capacity"])}\n')
             f.write(f'Battery consumption rate: {data["fuel_consumption_rate"]}\n\n')
 
+            n_clients_total = data.get('num_clients', data['num_locations'] - len(data['charging_stations']) - 1)
+            f.write(f'Customers served: {n_clients_total - len(dropped_clients)}/{n_clients_total}\n')
+            f.write(f'Dropped customers: {len(dropped_clients)}\n\n')
             if dropped_clients:
                 f.write(f'Dropped clients: {dropped_clients}\n\n')
             if data.get('extra_info'):
@@ -1017,16 +1025,16 @@ def save_solution(data, routes, dropped_clients, objective, instance,
 
                 for k in range(len(route) - 1):
                     node = route[k]['node']
-                    soc = int(route[k]['battery'])
+                    soc = route[k]['battery'] / DIST_SCALE
                     min_soc = soc if min_soc is None else min(min_soc, soc)
                     if starts and node in data['depot_like'] and node != depot:
-                        plan_output += f' {node}[CS:{cs_names.get(node, node)}] Load({route[k]["load"]}) Bat({soc}) ->'     # posicion actual del vehiculo (como en OR-Tools)
+                        plan_output += f' {node}[CS:{cs_names.get(node, node)}] Load({route[k]["load"]}) Bat({soc:.1f}) ->'     # posicion actual del vehiculo (como en OR-Tools)
                     elif node in charging_set:
                         total_recharges += 1
                         cs_label = f'[CS:{cs_names.get(node, node)}]'
-                        plan_output += f' {node}{cs_label} Load({route[k]["load"]}) Bat({soc}) ->'
+                        plan_output += f' {node}{cs_label} Load({route[k]["load"]}) Bat({soc:.1f}) ->'
                     else:
-                        plan_output += f' {node} Load({route[k]["load"]}) Bat({soc}) ->'
+                        plan_output += f' {node} Load({route[k]["load"]}) Bat({soc:.1f}) ->'
                     nxt = route[k + 1]['node']
                     route_distance += cm[node][nxt]
                     route_real_km += float(real_dm[node][nxt])
@@ -1034,10 +1042,10 @@ def save_solution(data, routes, dropped_clients, objective, instance,
                         route_time += int(time_matrix[node][nxt])
 
                 last = route[-1]
-                last_soc = int(last['battery'])
+                last_soc = last['battery'] / DIST_SCALE
                 min_soc = last_soc if min_soc is None else min(min_soc, last_soc)
-                plan_output += f' {last["node"]} Load({last["load"]}) Bat({last_soc})\n'
-                plan_output += f'Distance of the route: {route_distance}km\n'
+                plan_output += f' {last["node"]} Load({last["load"]}) Bat({last_soc:.1f})\n'
+                plan_output += f'Distance of the route: {route_distance / DIST_SCALE:.3f}km\n'
                 plan_output += f'Real distance of the route: {route_real_km:.2f}km\n'
                 if time_matrix is not None:
                     plan_output += f'Time of the route: {route_time}s\n'
@@ -1049,14 +1057,14 @@ def save_solution(data, routes, dropped_clients, objective, instance,
                 total_load += last['load']
                 total_time += route_time
 
-            f.write(f'Total Distance of all routes: {total_distance}km\n\n')
+            f.write(f'Total Distance of all routes: {total_distance / DIST_SCALE:.3f}km\n\n')
             f.write(f'Real distance (km): {total_real_km:.2f}\n\n')
             f.write(f'Total Load of all routes: {total_load}\n\n')
             if time_matrix is not None:
                 f.write(f'Total Time of all routes: {total_time}s\n\n')
             f.write(f'Total recharges: {total_recharges}\n\n')
             if min_soc is not None:
-                f.write(f'Minimum battery (SoC) reached: {min_soc}\n\n')
+                f.write(f'Minimum battery (SoC) reached: {min_soc:.1f}\n\n')
             prior_km = data.get('prior_distance_km')
             if prior_km:
                 f.write(f'Distance already traveled before this sub-problem: {prior_km:.3f}km\n\n')
@@ -1094,7 +1102,7 @@ def _setup_vehicle_states(data, vehicle_states):
         raise ValueError(f"vehicle_states debe tener un elemento por vehiculo ({data['num_vehicles']}), recibi {len(vehicle_states)}.")
     depot = data['depot']
     cap = data['fuel_capacity']
-    starts = [{'node': vs.get('start_node', depot), 'battery': int(vs.get('initial_fuel', cap)),
+    starts = [{'node': vs.get('start_node', depot), 'battery': (cap_int(vs['initial_fuel']) if 'initial_fuel' in vs else cap),
                'load': int(vs.get('initial_load', 0))} for vs in vehicle_states]
     start_nodes = {st['node'] for st in starts}
     if len(start_nodes) != len(starts):
@@ -1172,6 +1180,10 @@ def execute(
                 "El diccionario de datos no contiene 'fuel_capacity'. "
                 "Asegurate de pasar vehicle_maximum_travel_distance al llamar a execute()."
             )
+        # El modelo trabaja en metros (utils/units.py): la capacidad de bateria pasa a esa escala. Se conserva el valor
+        # en unidades para escribirlo en el archivo de solucion.
+        data['fuel_capacity_units'] = data['fuel_capacity']
+        data['fuel_capacity'] = cap_int(data['fuel_capacity_units'])
 
         if vehicle_states is not None:
             _setup_vehicle_states(data, vehicle_states)
@@ -1308,8 +1320,8 @@ def execute(
 
         stations_set = set(data['charging_stations'])
         results[instance] = {
-            'objective': objective,                                   # distancia + penalizacion por descartes
-            'distance': _objective(data, best_routes, []),            # solo distancia
+            'objective': objective / DIST_SCALE,                      # km; distancia + penalizacion por descartes
+            'distance': _objective(data, best_routes, []) / DIST_SCALE,   # km; solo distancia
             'n_dropped': len(best_dropped),
             'n_routes': len(best_routes),
             'recharges': sum(1 for r in best_routes for s in r if s['node'] in stations_set),

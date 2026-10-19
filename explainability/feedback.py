@@ -93,7 +93,7 @@ def parse_with(txt, n_clients, stations):
 
     updated = re.findall(r"Route for vehicle (\d+):\n (.*?)\nDistance", txt, re.S)
     for (idx, line), vid in zip(updated, order):
-        nodes = [int(m.group(1)) for m in NODE_RE.finditer(re.sub(r"Load\(\d+\)|Bat\(-?\d+\)", "", line))]
+        nodes = [int(m.group(1)) for m in NODE_RE.finditer(re.sub(r"Load\(\d+\)|Bat\(-?[\d.]+\)", "", line))]
         route = []
         for k, n in enumerate(nodes):
             if k == 0:

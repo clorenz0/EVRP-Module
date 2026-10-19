@@ -1,0 +1,91 @@
+Instance: quebec_70c_9ev_9cs.txt
+
+Objective: 194
+
+Execution Time: 10.115669965744019
+
+Heuristic: BEST_INSERTION
+
+Metaheuristic: ACO (23 iteraciones)
+
+Distance type: osrm
+
+Vehicle capacity: 200
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100) -> 63 Load(23) Bat(86) -> 70 Load(49) Bat(84) -> 36 Load(64) Bat(82) -> 52 Load(94) Bat(80) -> 21 Load(117) Bat(78) -> 18 Load(146) Bat(76) -> 39 Load(172) Bat(74) -> 60 Load(194) Bat(74) -> 0 Load(194) Bat(54)
+Distance of the route: 10km
+Real distance of the route: 16.61km
+Time of the route: 2036s
+Load of the route: 194
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100) -> 43 Load(25) Bat(77) -> 48 Load(44) Bat(75) -> 58 Load(69) Bat(73) -> 14 Load(78) Bat(60) -> 30 Load(105) Bat(55) -> 37 Load(117) Bat(54) -> 4 Load(141) Bat(53) -> 67 Load(170) Bat(51) -> 49 Load(196) Bat(49) -> 0 Load(196) Bat(11)
+Distance of the route: 24km
+Real distance of the route: 32.01km
+Time of the route: 3097s
+Load of the route: 196
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100) -> 46 Load(23) Bat(68) -> 50 Load(53) Bat(54) -> 2 Load(68) Bat(52) -> 75[CS:BRCC - Longueuil 2] Load(68) Bat(31) -> 13 Load(99) Bat(89) -> 28 Load(131) Bat(87) -> 10 Load(146) Bat(87) -> 44 Load(157) Bat(73) -> 62 Load(183) Bat(62) -> 19 Load(200) Bat(57) -> 0 Load(200) Bat(33)
+Distance of the route: 40km
+Real distance of the route: 47.67km
+Time of the route: 4433s
+Load of the route: 200
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100) -> 5 Load(32) Bat(93) -> 16 Load(45) Bat(91) -> 45 Load(68) Bat(82) -> 3 Load(97) Bat(61) -> 8 Load(108) Bat(48) -> 59 Load(129) Bat(34) -> 6 Load(155) Bat(27) -> 51 Load(187) Bat(16) -> 0 Load(187) Bat(12)
+Distance of the route: 26km
+Real distance of the route: 31.05km
+Time of the route: 3900s
+Load of the route: 187
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100) -> 34 Load(31) Bat(71) -> 15 Load(50) Bat(57) -> 38 Load(66) Bat(53) -> 11 Load(81) Bat(52) -> 27 Load(111) Bat(51) -> 31 Load(128) Bat(49) -> 32 Load(148) Bat(47) -> 41 Load(157) Bat(46) -> 29 Load(171) Bat(41) -> 0 Load(171) Bat(5)
+Distance of the route: 27km
+Real distance of the route: 33.77km
+Time of the route: 3353s
+Load of the route: 171
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100) -> 56 Load(11) Bat(82) -> 65 Load(30) Bat(76) -> 53 Load(46) Bat(74) -> 57 Load(63) Bat(65) -> 54 Load(84) Bat(63) -> 47 Load(107) Bat(62) -> 17 Load(125) Bat(57) -> 1 Load(147) Bat(55) -> 23 Load(172) Bat(48) -> 40 Load(192) Bat(38) -> 0 Load(192) Bat(21)
+Distance of the route: 22km
+Real distance of the route: 28.54km
+Time of the route: 3901s
+Load of the route: 192
+
+Route for vehicle 6:
+ 0 Load(0) Bat(100) -> 26 Load(20) Bat(90) -> 9 Load(40) Bat(88) -> 24 Load(53) Bat(84) -> 7 Load(72) Bat(76) -> 25 Load(82) Bat(72) -> 42 Load(96) Bat(64) -> 55 Load(106) Bat(61) -> 0 Load(106) Bat(41)
+Distance of the route: 16km
+Real distance of the route: 21.11km
+Time of the route: 2563s
+Load of the route: 106
+
+Route for vehicle 7:
+ 0 Load(0) Bat(100) -> 61 Load(22) Bat(84) -> 64 Load(50) Bat(78) -> 35 Load(79) Bat(74) -> 78[CS:RECHARGECO VILLERAY 02] Load(79) Bat(71) -> 22 Load(111) Bat(96) -> 33 Load(129) Bat(93) -> 68 Load(140) Bat(80) -> 66 Load(158) Bat(75) -> 20 Load(184) Bat(70) -> 12 Load(192) Bat(62) -> 69 Load(200) Bat(59) -> 0 Load(200) Bat(30)
+Distance of the route: 29km
+Real distance of the route: 34.74km
+Time of the route: 4135s
+Load of the route: 200
+
+Route for vehicle 8:
+ 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
+Distance of the route: 0km
+Real distance of the route: 0.00km
+Time of the route: 0s
+Load of the route: 0
+
+Total Distance of all routes: 194km
+
+Real distance (km): 245.50
+
+Total Load of all routes: 1446
+
+Total Time of all routes: 27418s
+
+Total recharges: 2
+
+Minimum battery (SoC) reached: 5
+

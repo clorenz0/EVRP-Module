@@ -15,6 +15,7 @@ from ortools.constraint_solver import pywrapcp, routing_enums_pb2
 
 from problem.execute import evrp
 from problem.strategy_type import HeuristicType
+from utils.units import DIST_SCALE
 
 
 def as_heuristic(value):
@@ -34,6 +35,8 @@ def build_initial_routes(data, heuristic, time_limit=2, station_copies=3):
     `data` es el diccionario de la instancia (ya con fuel_capacity y fuel_consumption_rate).
     """
     heuristic = as_heuristic(heuristic)
+    # ACO guarda fuel_capacity en metros; evrp.py espera unidades (y reescala por dentro)
+    data = dict(data, fuel_capacity=data.get('fuel_capacity_units', data['fuel_capacity']))
     # Re-planeacion dinamica: ACO ya separo las posiciones de arranque de las estaciones (data['vehicle_starts']);
     # el modelo de OR-Tools las espera como nodos de arranque de cada vehiculo, igual que en evrp.execute
     starts = data.get('vehicle_starts')
@@ -42,11 +45,12 @@ def build_initial_routes(data, heuristic, time_limit=2, station_copies=3):
         start_nodes = [st['node'] for st in starts]
         data = dict(data, charging_stations=list(data['charging_stations']) + start_nodes)
         initial_loads = [st['load'] for st in starts]
-        initial_fuels = [st['battery'] for st in starts]
+        initial_fuels = [st['battery'] / DIST_SCALE for st in starts]     # evrp.py espera unidades de bateria (reescala por dentro)
     # mismo modelo que evrp.execute: varias visitas por estacion (los nodos copia se
     # devuelven con el id de la estacion original, que es el que entiende ACO)
     data = evrp.expand_station_copies(data, station_copies, keep_single=[st['node'] for st in starts] if starts else ())
     data = evrp.forbid_depot_to_station(data)      # del deposito no se va directo a una estacion
+    data = evrp.forbid_station_chains(data, keep=[st['node'] for st in starts] if starts else ())   # ni de una estacion a otra
     origin = data.get('station_origin', {})
     if starts:
         manager = pywrapcp.RoutingIndexManager(data['num_locations'], data['num_vehicles'],

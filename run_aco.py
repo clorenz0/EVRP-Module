@@ -91,7 +91,9 @@ ACO_PARAMS = dict(
 HEURISTIC = None
 INSTANCES = "all"            # "all" o lista de nombres, p.ej. ["quebec_50c_5ev_5cs"]
 SEEDS = [1, 2, 3, 4, 5, 6]   # semillas de ACO solo; en las combinaciones con heuristica se sortea una
-TIME_LIMIT = 10              # segundos por instancia y semilla
+TIME_LIMIT = 10              # segundos por instancia y semilla (hasta 100 clientes)
+# Tiempo de las instancias grandes; mantener igual que en run.py (TIME_BY_INSTANCE). --time lo sobrescribe para todas.
+TIME_BY_INSTANCE = {"quebec_150c_18ev_15cs": 30, "quebec_220c_26ev_20cs": 60, "quebec_350c_40ev_30cs": 120}
 
 ALL_SEEDS = SEEDS
 INSTANCES_DIR = os.path.join("instances_data", "evrp_instances")
@@ -100,7 +102,7 @@ OUT_ROOT = os.path.join("problem", "osrm")
 
 def objective_of(path):
     with open(path, encoding="utf-8") as f:
-        return int(re.search(r"Objective: (\d+)", f.read()).group(1))
+        return float(re.search(r"Objective: ([\d.]+)", f.read()).group(1))
 
 
 def resolve_instances(names):
@@ -128,7 +130,7 @@ def run_combo(heuristic, instances, seeds, time_limit):
     hybrid = heuristic is not None
     if hybrid and len(seeds) > 1:
         seeds = [random.choice(seeds)]
-    print(f"\n##### {combo} | instancias: {[os.path.basename(p) for p in instances]} | semillas: {seeds} | {time_limit}s")
+    print(f"\n##### {combo} | instancias: {[os.path.basename(p) for p in instances]} | semillas: {seeds} | {time_limit if time_limit is not None else 'tiempo por instancia'}s")
 
     results = {}   # nombre -> {semilla: (objetivo, ruta_archivo)}
     for seed in seeds:
@@ -137,7 +139,8 @@ def run_combo(heuristic, instances, seeds, time_limit):
         archive_if_exists(os.path.join(OUT_ROOT, f"solutions_evrp_{out_i}", f"solutions_{combo}"), OUT_ROOT)
         for path in instances:
             print(f"\n=== {combo} | {os.path.basename(path)} | semilla {seed} ===")
-            evrp_aco.execute(i=out_i, instance_type=path, time_limit=time_limit, seed=seed, **params)
+            tl = time_limit if time_limit is not None else TIME_BY_INSTANCE.get(os.path.splitext(os.path.basename(path))[0], TIME_LIMIT)
+            evrp_aco.execute(i=out_i, instance_type=path, time_limit=tl, seed=seed, **params)
             name = os.path.basename(path)
             sol = os.path.join(OUT_ROOT, f"solutions_evrp_{out_i}", f"solutions_{combo}", name)
             if os.path.isfile(sol):
@@ -187,14 +190,14 @@ def main():
     else:
         seeds = list(SEEDS)
     instances = resolve_instances(args.instance if args.instance else ([INSTANCES] if isinstance(INSTANCES, str) else INSTANCES))
-    time_limit = args.time if args.time is not None else TIME_LIMIT
+    time_limit = args.time          # None = tiempo por instancia (TIME_LIMIT / TIME_BY_INSTANCE)
     if args.heuristic:
         wanted = None if args.heuristic == ["all"] else (args.heuristic if len(args.heuristic) > 1 else args.heuristic[0])
     else:
         wanted = HEURISTIC
     combos = parse_heuristics(wanted)
     names = [combo_name(h) for h in combos]
-    label = ("todas" if wanted is None else "+".join(n.replace("_and_ACO", "") for n in names)) + f"_{time_limit}s"
+    label = ("todas" if wanted is None else "+".join(n.replace("_and_ACO", "") for n in names)) + (f"_{time_limit}s" if time_limit is not None else "_tiempo_por_instancia")
     with TraceLog("run_aco", label):
         execute_all(combos, instances, seeds, time_limit)
 

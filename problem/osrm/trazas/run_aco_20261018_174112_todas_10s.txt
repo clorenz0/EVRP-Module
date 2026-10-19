@@ -1,0 +1,199 @@
+[traza] problem\osrm\trazas\run_aco_20261018_174112_todas_10s.txt
+Combinaciones a ejecutar (16): ['ACO', 'PATH_CHEAPEST_ARC_and_ACO', 'PATH_MOST_CONSTRAINED_ARC_and_ACO', 'EVALUATOR_STRATEGY_and_ACO', 'SAVINGS_and_ACO', 'SWEEP_and_ACO', 'CHRISTOFIDES_and_ACO', 'ALL_UNPERFORMED_and_ACO', 'BEST_INSERTION_and_ACO', 'PARALLEL_CHEAPEST_INSERTION_and_ACO', 'SEQUENTIAL_CHEAPEST_INSERTION_and_ACO', 'LOCAL_CHEAPEST_INSERTION_and_ACO', 'LOCAL_CHEAPEST_COST_INSERTION_and_ACO', 'GLOBAL_CHEAPEST_ARC_and_ACO', 'LOCAL_CHEAPEST_ARC_and_ACO', 'FIRST_UNBOUND_MIN_VALUE_and_ACO']
+
+##### ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_1001\solutions_ACO
+
+=== ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  26 iteraciones, mejor objetivo: 193
+Solution saved successfully in problem/osrm/solutions_evrp_1001/solutions_ACO\quebec_70c_9ev_9cs.txt
+
+instancia                    mejor ACO  semilla   objetivo por semilla
+quebec_70c_9ev_9cs.txt             193        1   {1: 193}
+Mejores guardadas en problem\osrm\solutions_evrp_best\solutions_ACO
+
+##### PATH_CHEAPEST_ARC_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_PATH_CHEAPEST_ARC_and_ACO
+
+=== PATH_CHEAPEST_ARC_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (PATH_CHEAPEST_ARC): 209
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  26 iteraciones, mejor objetivo: 188
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_PATH_CHEAPEST_ARC_and_ACO\quebec_70c_9ev_9cs.txt
+
+PATH_CHEAPEST_ARC_and_ACO (semilla 1): 70c=188
+
+##### PATH_MOST_CONSTRAINED_ARC_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_PATH_MOST_CONSTRAINED_ARC_and_ACO
+
+=== PATH_MOST_CONSTRAINED_ARC_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (PATH_MOST_CONSTRAINED_ARC): 229
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  23 iteraciones, mejor objetivo: 188
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_PATH_MOST_CONSTRAINED_ARC_and_ACO\quebec_70c_9ev_9cs.txt
+
+PATH_MOST_CONSTRAINED_ARC_and_ACO (semilla 1): 70c=188
+
+##### EVALUATOR_STRATEGY_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_EVALUATOR_STRATEGY_and_ACO
+
+=== EVALUATOR_STRATEGY_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  OR-Tools (EVALUATOR_STRATEGY) no dio solucion factible completa: ACO arranca sin solucion inicial
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  23 iteraciones, mejor objetivo: 194
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_EVALUATOR_STRATEGY_and_ACO\quebec_70c_9ev_9cs.txt
+
+EVALUATOR_STRATEGY_and_ACO (semilla 1): 70c=194
+
+##### SAVINGS_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_SAVINGS_and_ACO
+
+=== SAVINGS_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (SAVINGS): 261
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  29 iteraciones, mejor objetivo: 193
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_SAVINGS_and_ACO\quebec_70c_9ev_9cs.txt
+
+SAVINGS_and_ACO (semilla 1): 70c=193
+
+##### SWEEP_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_SWEEP_and_ACO
+
+=== SWEEP_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  OR-Tools (SWEEP) no dio solucion factible completa: ACO arranca sin solucion inicial
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  28 iteraciones, mejor objetivo: 193
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_SWEEP_and_ACO\quebec_70c_9ev_9cs.txt
+
+SWEEP_and_ACO (semilla 1): 70c=193
+
+##### CHRISTOFIDES_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_CHRISTOFIDES_and_ACO
+
+=== CHRISTOFIDES_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  OR-Tools (CHRISTOFIDES) no dio solucion factible completa: ACO arranca sin solucion inicial
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  27 iteraciones, mejor objetivo: 193
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_CHRISTOFIDES_and_ACO\quebec_70c_9ev_9cs.txt
+
+CHRISTOFIDES_and_ACO (semilla 1): 70c=193
+
+##### ALL_UNPERFORMED_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_ALL_UNPERFORMED_and_ACO
+
+=== ALL_UNPERFORMED_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (ALL_UNPERFORMED): 205
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  19 iteraciones, mejor objetivo: 188
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_ALL_UNPERFORMED_and_ACO\quebec_70c_9ev_9cs.txt
+
+ALL_UNPERFORMED_and_ACO (semilla 1): 70c=188
+
+##### BEST_INSERTION_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_BEST_INSERTION_and_ACO
+
+=== BEST_INSERTION_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  OR-Tools (BEST_INSERTION) no dio solucion factible completa: ACO arranca sin solucion inicial
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  23 iteraciones, mejor objetivo: 194
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_BEST_INSERTION_and_ACO\quebec_70c_9ev_9cs.txt
+
+BEST_INSERTION_and_ACO (semilla 1): 70c=194
+
+##### PARALLEL_CHEAPEST_INSERTION_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_PARALLEL_CHEAPEST_INSERTION_and_ACO
+
+=== PARALLEL_CHEAPEST_INSERTION_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (PARALLEL_CHEAPEST_INSERTION): 255
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  26 iteraciones, mejor objetivo: 188
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_PARALLEL_CHEAPEST_INSERTION_and_ACO\quebec_70c_9ev_9cs.txt
+
+PARALLEL_CHEAPEST_INSERTION_and_ACO (semilla 1): 70c=188
+
+##### SEQUENTIAL_CHEAPEST_INSERTION_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_SEQUENTIAL_CHEAPEST_INSERTION_and_ACO
+
+=== SEQUENTIAL_CHEAPEST_INSERTION_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (SEQUENTIAL_CHEAPEST_INSERTION): 205
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  23 iteraciones, mejor objetivo: 191
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_SEQUENTIAL_CHEAPEST_INSERTION_and_ACO\quebec_70c_9ev_9cs.txt
+
+SEQUENTIAL_CHEAPEST_INSERTION_and_ACO (semilla 1): 70c=191
+
+##### LOCAL_CHEAPEST_INSERTION_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_LOCAL_CHEAPEST_INSERTION_and_ACO
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 208
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  29 iteraciones, mejor objetivo: 188
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_70c_9ev_9cs.txt
+
+LOCAL_CHEAPEST_INSERTION_and_ACO (semilla 1): 70c=188
+
+##### LOCAL_CHEAPEST_COST_INSERTION_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_LOCAL_CHEAPEST_COST_INSERTION_and_ACO
+
+=== LOCAL_CHEAPEST_COST_INSERTION_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_COST_INSERTION): 208
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  22 iteraciones, mejor objetivo: 188
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_COST_INSERTION_and_ACO\quebec_70c_9ev_9cs.txt
+
+LOCAL_CHEAPEST_COST_INSERTION_and_ACO (semilla 1): 70c=188
+
+##### GLOBAL_CHEAPEST_ARC_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_GLOBAL_CHEAPEST_ARC_and_ACO
+
+=== GLOBAL_CHEAPEST_ARC_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (GLOBAL_CHEAPEST_ARC): 205
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  23 iteraciones, mejor objetivo: 188
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_GLOBAL_CHEAPEST_ARC_and_ACO\quebec_70c_9ev_9cs.txt
+
+GLOBAL_CHEAPEST_ARC_and_ACO (semilla 1): 70c=188
+
+##### LOCAL_CHEAPEST_ARC_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_LOCAL_CHEAPEST_ARC_and_ACO
+
+=== LOCAL_CHEAPEST_ARC_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  OR-Tools (LOCAL_CHEAPEST_ARC) no dio solucion factible completa: ACO arranca sin solucion inicial
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  18 iteraciones, mejor objetivo: 194
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_ARC_and_ACO\quebec_70c_9ev_9cs.txt
+
+LOCAL_CHEAPEST_ARC_and_ACO (semilla 1): 70c=194
+
+##### FIRST_UNBOUND_MIN_VALUE_and_ACO | instancias: ['quebec_70c_9ev_9cs.txt'] | semillas: [1] | 10s
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-15\solutions_evrp_0\solutions_FIRST_UNBOUND_MIN_VALUE_and_ACO
+
+=== FIRST_UNBOUND_MIN_VALUE_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  OR-Tools (FIRST_UNBOUND_MIN_VALUE) no dio solucion factible completa: ACO arranca sin solucion inicial
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100)...
+  14 iteraciones, mejor objetivo: 196
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_FIRST_UNBOUND_MIN_VALUE_and_ACO\quebec_70c_9ev_9cs.txt
+
+FIRST_UNBOUND_MIN_VALUE_and_ACO (semilla 1): 70c=196
+
+=== RESUMEN ===
+ACO                                                 70c=193
+PATH_CHEAPEST_ARC_and_ACO                           70c=188
+PATH_MOST_CONSTRAINED_ARC_and_ACO                   70c=188
+EVALUATOR_STRATEGY_and_ACO                          70c=194
+SAVINGS_and_ACO                                     70c=193
+SWEEP_and_ACO                                       70c=193
+CHRISTOFIDES_and_ACO                                70c=193
+ALL_UNPERFORMED_and_ACO                             70c=188
+BEST_INSERTION_and_ACO                              70c=194
+PARALLEL_CHEAPEST_INSERTION_and_ACO                 70c=188
+SEQUENTIAL_CHEAPEST_INSERTION_and_ACO               70c=191
+LOCAL_CHEAPEST_INSERTION_and_ACO                    70c=188
+LOCAL_CHEAPEST_COST_INSERTION_and_ACO               70c=188
+GLOBAL_CHEAPEST_ARC_and_ACO                         70c=188
+LOCAL_CHEAPEST_ARC_and_ACO                          70c=194
+FIRST_UNBOUND_MIN_VALUE_and_ACO                     70c=196
+
+Los hibridos quedan en problem\osrm\solutions_evrp_0; ACO solo en solutions_evrp_<1000+semilla>. Siguiente paso: python friedman_ranking.py
