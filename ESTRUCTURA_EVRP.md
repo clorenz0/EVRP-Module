@@ -57,6 +57,7 @@ Solo si hay descartes aparece `Dropped clients: [...]`.
 - Objetivo único: distancia total. Ningún otro costo.
 - Del depósito no se va directo a una estación y de una estación no se va directo a otra.
 - Una estación puede visitarse varias veces (OR-Tools: `station_copies` copias; ACO: sin tope).
+- En OR-Tools cada visita a estación es un par llegada → salida (`expand_station_copies`): el nodo de salida tiene la batería fijada en la capacidad (recarga completa, nunca por encima), sin restricciones propias del CP. Ambos nodos se fusionan en una sola parada al guardar.
 - Batería lineal con el consumo; nunca negativa, incluido el regreso al depósito.
 - Todos los clientes deben atenderse; un cliente descartado indica un modelo o una instancia infactible.
 

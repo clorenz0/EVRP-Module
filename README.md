@@ -81,11 +81,15 @@ Todos los comandos se ejecutan desde la raíz del repositorio.
   salen con el id de la estación original. Con `station_copies=1` se recupera el modelo anterior (una sola visita).
 - **Reglas de movimiento:** del depósito no se va directo a una estación, y de una estación no se va directo a otra
   (tras recargar, el vehículo va a un cliente o al depósito). En OR-Tools se marcan en `data['forbidden_arcs']`
-  (`forbid_depot_to_station`, `forbid_station_chains`; solo entre estaciones distintas) y `apply_forbidden_arcs` los quita
-  del dominio de `NextVar`; no se usa un costo enorme porque inflaría el costo medio de arco y degradaría Guided Local
-  Search. En ACO son reglas de factibilidad. Dos copias seguidas de la misma estación (0 km entre ellas) se
-  fusionan en una sola parada al guardar: prohibirlas junto con el orden entre copias deja a OR-Tools sin solución en las
-  instancias grandes (ver `diagnostico_ortools.py`). En la re-planificación se
+  (`forbid_depot_to_station`, `forbid_station_chains`; solo entre estaciones distintas) y el evaluador de distancia les
+  pone un costo enorme (la matriz y la distancia reportada no cambian). Quitarlos del dominio de `NextVar` filtra bien
+  pero la propagación posterior rechaza muchos movimientos de la búsqueda local y, con muchas estaciones, OR-Tools tarda
+  decenas de segundos en la primera solución o no la encuentra (`EVRP_FORBID_BY_COST=0` lo reactiva). En ACO son reglas
+  de factibilidad. Dos copias seguidas de la misma estación (0 km entre ellas) se
+  fusionan en una sola parada al guardar. El orden entre copias no es una restricción: se rompe la simetría con un
+  desempate de k metros en el costo de llegar a la copia k (la restricción `ActiveVar(k+1) <= ActiveVar(k)` junto con
+  la prohibición de saltos entre copias dejaba a OR-Tools sin solución en las instancias grandes; ver
+  `diagnostico_ortools.py`, variante `orden_por_cp`). En la re-planificación se
   exceptúan las posiciones de arranque de los vehículos, que sí pueden ir directo a una estación.
 - **Unidades:** OR-Tools exige costos enteros, así que la optimización trabaja en **metros enteros**
   (`utils/units.py`, `DIST_SCALE = 1000`; antes se truncaba a km enteros y se perdían ~0,5 km por arco, lo que hacía
@@ -130,8 +134,8 @@ python run.py
 ```
 
 - Con `heuristic` y `metaheuristic` en `None` se ejecutan **todas las combinaciones**.
-- La instancia se elige en la línea `INSTANCE` de `run.py`. El límite de tiempo es de 10 s hasta 100 clientes y
-  crece con el tamaño (`TIME_BY_INSTANCE`: 150c = 60 s, 220c = 120 s, 350c = 180 s); con menos tiempo, Guided Local
+- La instancia se elige en la línea `INSTANCE` de `run.py`. El límite de tiempo es de 10 s hasta 90 clientes y
+  crece con el tamaño (`TIME_BY_INSTANCE`: 100c = 60 s, 150c = 60 s, 220c = 120 s, 350c = 180 s); con menos tiempo, Guided Local
   Search puede devolver todos los clientes descartados en las instancias grandes.
 - Resultado: `problem/osrm/solutions_evrp_0/solutions_<HEURISTICA>_and_<METAHEURISTICA>/<instancia>.txt`.
 - Cada archivo informa `Station copies`, `Total recharges` y `Unnecessary charging stops` (diagnóstico de paradas de
@@ -442,10 +446,12 @@ problem/osrm/              soluciones, archivo/ (resultados archivados) y trazas
 - **Unidades:** el `Objective` de cada `.txt` debe coincidir con `Real distance (km)`; si no, el ranking marca el
   archivo como `INCONSISTENT`.
 - **OR-Tools en instancias grandes:** con estaciones opcionales, OR-Tools puede dejar sin atender algunos clientes
-  lejanos al depósito (aquellos cuyo viaje de ida y vuelta no cabe en una carga: en 220c, 1 a 3 clientes con Guided Local
-  Search). Atenderlos exige insertar a la vez una estación y varios clientes, y la búsqueda local solo inserta un nodo
-  por movimiento; más tiempo, LNS y otras heurísticas de arranque no lo cambian. ACO sí los atiende con las mismas
-  reglas. Esas corridas quedan marcadas con `Feasibility check: FAILED` y el ranking las excluye y las lista.
+  lejanos al depósito (aquellos cuyo viaje de ida y vuelta no cabe en una carga: 1 cliente en 60c, 1 a 3 en 220c y 8 en
+  350c con Guided Local Search). Atenderlos exige insertar a la vez una estación y el cliente, y la búsqueda local solo
+  inserta un nodo por movimiento; más tiempo, LNS y otras heurísticas de arranque no lo cambian. ACO sí los atiende con
+  las mismas reglas. Esas corridas quedan marcadas con `Feasibility check: FAILED` y el ranking las excluye y las lista,
+  de modo que el ranking de OR-Tools se calcula sobre las instancias donde OR-Tools atiende a todos (30, 40, 50, 70, 90,
+  100 y 150 clientes); en 60c, 220c y 350c solo ACO tiene solución completa y se reporta aparte.
   `python diagnostico_ortools.py` reproduce el análisis (variantes del modelo, heurísticas, clientes descartados).
 - **Límites conocidos:** pocas instancias dan poca potencia estadística; el consumo de energía es lineal y no se validó
   contra el modelo de batería de SUMO; la congestión se induce de forma artificial y con una sola semilla.
