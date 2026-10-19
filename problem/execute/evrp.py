@@ -81,6 +81,7 @@ from distance.distance_type import DistanceType
 from instance.instance_type import process_files, InstanceType
 from problem.strategy_type import HeuristicType, MetaheuristicType
 from utils.execute_algorithm import get_distance_and_solution_name, execute_solution
+from utils.feasibility import check_routes, report_lines
 from utils.units import DIST_SCALE, cost_int, energy_int, cap_int
 
 
@@ -109,7 +110,38 @@ def create_distance_evaluator(data):
     return distance_evaluator
 
 
-FORBIDDEN_HOP_KM = 1_000_000     # costo de ir de una copia de estacion a otra copia de la misma estacion (prohibido)
+# Arcos prohibidos: se guardan en data['forbidden_arcs'] como pares (origen, destino) y se aplican al modelo con
+# apply_forbidden_arcs() quitando el valor del dominio de NextVar. NO se codifican como un costo enorme en la matriz:
+# un costo de ~1e6 km en miles de arcos infla el costo medio de arco, que es la escala que usa Guided Local Search para
+# sus penalizaciones, y degrada la busqueda (soluciones vacias o con muchas paradas inutiles en las instancias grandes).
+
+
+def _add_forbidden(data, pairs):
+    new = dict(data)
+    new['forbidden_arcs'] = set(data.get('forbidden_arcs', ())) | set(pairs)
+    return new
+
+
+def apply_forbidden_arcs(routing, manager, data):
+    """Quita del dominio de cada NextVar los arcos de data['forbidden_arcs'] (el deposito se aplica a cada vehiculo)."""
+    depot = data['depot']
+    depot_starts = [routing.Start(v) for v in range(routing.vehicles())
+                    if manager.IndexToNode(routing.Start(v)) == depot]
+    for a, b in data.get('forbidden_arcs', ()):
+        ib = manager.NodeToIndex(b)
+        if ib < 0:
+            continue
+        for ia in (depot_starts if a == depot else [manager.NodeToIndex(a)]):
+            if ia >= 0:
+                routing.NextVar(ia).RemoveValue(ib)
+
+
+# Recarga completa forzada en cada estacion (ver add_fuel_constraints). Desactivada por defecto: en el diagnostico
+# (diagnostico_ortools.py) no mejoro la busqueda y en 100c/150c la empeoro. EVRP_FULL_RECHARGE=1 la activa.
+FULL_RECHARGE = os.environ.get("EVRP_FULL_RECHARGE", "0") == "1"
+# Cota Cumul + Slack <= capacidad en cada estacion (la bateria al salir no supera la capacidad). Solo se desactiva
+# para diagnostico (diagnostico_ortools.py): sin ella el modelo permitiria cargar por encima de la bateria fisica.
+RECHARGE_BOUND = True
 
 
 def drop_penalty_of(data):
@@ -154,14 +186,10 @@ def expand_station_copies(data, copies, keep_single=()):
                 locations.append(locations[s])
             demands.append(0)
             names[idx] = names.get(s, s)
-    # Entre copias de una misma estacion: saltar de una a otra no tiene sentido fisico (ya se esta alli) y con distancia 0
-    # seria una parada gratis que el solucionador podria dejar en la ruta. Se prohibe con un costo prohibitivo.
-    for group in copies_of.values():
-        for a in group:
-            for b in group:
-                dm[a][b] = 0 if a == b else FORBIDDEN_HOP_KM
-                if tm is not None:
-                    tm[a][b] = 0 if a == b else FORBIDDEN_HOP_KM
+    # Entre copias de una misma estacion el salto cuesta 0 km. NO se prohibe: prohibirlo (por dominio o por costo) junto con
+    # la restriccion de orden entre copias hace que OR-Tools no encuentre ninguna solucion en las instancias grandes
+    # (diagnostico_ortools.py: 100c con 3 copias, 0 soluciones en 40 s; sin esa prohibicion, primera solucion en 0,2 s).
+    # Una parada duplicada en la misma estacion se fusiona al guardar la solucion (ver merge_station_repeats).
     new.update(distance_matrix=dm, time_matrix=tm, num_locations=len(dm), demands=demands,
                charging_stations=new_stations, charging_station_names=names,
                station_origin=origin, station_copies_of=copies_of)
@@ -173,45 +201,37 @@ def expand_station_copies(data, copies, keep_single=()):
 def forbid_depot_to_station(data):
     """
     Desde el deposito no se puede ir directo a una estacion de carga (el vehiculo sale con la bateria llena, asi que
-    esa parada no aporta nada). Se prohibe el arco deposito -> estacion (incluidas las copias) con un costo prohibitivo.
+    esa parada no aporta nada). Marca como prohibido el arco deposito -> estacion (incluidas las copias).
     Devuelve una copia de `data`; no modifica el original. Las posiciones de arranque de re-planeacion no son el deposito.
     """
-    depot = data['depot']
-    new = dict(data)
-    for key in ('distance_matrix', 'time_matrix'):
-        m = data.get(key)
-        if m is None:
-            continue
-        m = list(m)
-        row = list(m[depot])
-        for s in data['charging_stations']:
-            row[s] = FORBIDDEN_HOP_KM
-        m[depot] = row
-        new[key] = m
-    return new
+    return _add_forbidden(data, [(data['depot'], s_) for s_ in data['charging_stations']])
 
 
 def forbid_station_chains(data, keep=()):
     """
     De una estacion de carga no se va directo a otra: tras recargar (bateria llena) el vehiculo va a un cliente o al
-    deposito; encadenar estaciones solo suma distancia. Se prohibe el arco estacion -> estacion (incluidas las copias)
-    con un costo prohibitivo. `keep`: nodos que no son estaciones reales (posiciones de arranque en re-planeacion; un
-    vehiculo con poca bateria SI puede ir directo desde alli a una estacion). Devuelve una copia de `data`.
+    deposito; encadenar estaciones solo suma distancia. Marca como prohibido el arco estacion -> estacion (incluidas
+    las copias). `keep`: nodos que no son estaciones reales (posiciones de arranque en re-planeacion; un vehiculo con
+    poca bateria SI puede ir directo desde alli a una estacion). Devuelve una copia de `data`.
     Supone que todo cliente es alcanzable con una carga desde alguna estacion (se verifica al construir la instancia).
     """
-    stations = [s for s in data['charging_stations'] if s not in set(keep)]
-    new = dict(data)
-    for key in ('distance_matrix', 'time_matrix'):
-        m = data.get(key)
-        if m is None:
+    keep = set(keep)
+    origin = data.get('station_origin', {})
+    stations = [s_ for s_ in data['charging_stations'] if s_ not in keep]
+    # entre copias de la MISMA estacion no se prohibe (ver expand_station_copies); si aparece, se fusiona al guardar
+    return _add_forbidden(data, [(a, b) for a in stations for b in stations
+                                 if origin.get(a, a) != origin.get(b, b)])
+
+
+def merge_station_repeats(nodes, stations):
+    """Fusiona paradas consecutivas en la MISMA estacion (copias de una estacion, 0 km entre ellas): la bateria ya esta llena,
+    asi que la segunda parada no aporta nada. Recibe ids originales y devuelve la ruta sin esas repeticiones."""
+    out = []
+    for n in nodes:
+        if out and n == out[-1] and n in stations:
             continue
-        m = [list(r) for r in m]
-        for a in stations:
-            for b in stations:
-                if a != b:
-                    m[a][b] = FORBIDDEN_HOP_KM
-        new[key] = m
-    return new
+        out.append(n)
+    return out
 
 
 def unnecessary_stops(nodes, data):
@@ -415,7 +435,16 @@ def add_fuel_constraints(routing, manager, data, fuel_evaluator_index, initial_f
             # Preferir llegar con batería llena (reduce ansiedad de rango)
             routing.AddVariableMaximizedByFinalizer(fuel_dimension.CumulVar(index))
             # La batería al SALIR (llegada + recarga) no puede superar la capacidad.
-            solver.Add(fuel_dimension.CumulVar(index) + fuel_dimension.SlackVar(index) <= fuel_capacity)
+            if RECHARGE_BOUND:
+                solver.Add(fuel_dimension.CumulVar(index) + fuel_dimension.SlackVar(index) <= fuel_capacity)
+            if FULL_RECHARGE:
+                # Toda recarga es COMPLETA (la bateria sale al maximo), igual que en ACO y en la descripcion del modelo.
+                # Con la recarga libre (0..capacidad) OR-Tools debe BUSCAR el valor de la recarga de cada estacion
+                # (y de cada copia); en las instancias grandes esa busqueda no termina (millones de ramas, ninguna
+                # solucion). Fijada la recarga, todos los niveles de bateria quedan determinados por propagacion.
+                # Solo se exige si la estacion esta activa (las copias sin usar quedan libres).
+                full = solver.IsEqualCstVar(fuel_dimension.CumulVar(index) + fuel_dimension.SlackVar(index), fuel_capacity)
+                solver.Add(routing.ActiveVar(index) <= full)
         else:
             # Cliente: no puede recargar
             fuel_dimension.SlackVar(index).SetValue(0)
@@ -450,18 +479,28 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
     # Objetivo = distancia real + penalizacion por descartes (el costo por visita a estacion es solo guia de busqueda)
     dm_ = data['distance_matrix']
     pre_distance, pre_dropped = 0, 0
+    origin_ = data.get('station_origin', {})
+    check_input = []        # rutas (ids originales, con arranque y fin) para el validador de factibilidad
     for vehicle_id in range(data['num_vehicles']):
         idx = routing.Start(vehicle_id)
+        nodes_ = [origin_.get(manager.IndexToNode(idx), manager.IndexToNode(idx))]
         while not routing.IsEnd(idx):
             nxt = assignment.Value(routing.NextVar(idx))
             pre_distance += cost_int(dm_[manager.IndexToNode(idx)][manager.IndexToNode(nxt)])
             idx = nxt
+            nodes_.append(origin_.get(manager.IndexToNode(idx), manager.IndexToNode(idx)))
+        check_input.append(merge_station_repeats(nodes_, set(data['charging_stations'])))
     n_clients_ = data['num_locations'] - len(data['charging_stations']) - 1
     for node in range(1, n_clients_ + 1):
         i_ = manager.NodeToIndex(node)
         if assignment.Value(routing.NextVar(i_)) == i_:
             pre_dropped += 1
     objective_value = pre_distance + pre_dropped * drop_penalty_of(data)
+    copies_ = 1 + len(origin_) // max(1, len(set(origin_.values()))) if origin_ else None
+    feasibility = check_routes(data, check_input, n_clients_, copies=copies_)
+    if feasibility:
+        print(f"WARNING: infeasible solution for {instance}: {feasibility[0]}"
+              f"{' (+%d more)' % (len(feasibility) - 1) if len(feasibility) > 1 else ''}")
 
     try:
         with open(filename, 'w', encoding='utf-8') as f:
@@ -498,7 +537,8 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                     dropped_clients.append(node)
 
             f.write(f'Customers served: {num_clients - len(dropped_clients)}/{num_clients}\n')
-            f.write(f'Dropped customers: {len(dropped_clients)}\n\n')
+            f.write(f'Dropped customers: {len(dropped_clients)}\n')
+            f.write('\n'.join(report_lines(feasibility)) + '\n\n')
             if dropped_clients:
                 f.write(f'Dropped clients: {dropped_clients}\n\n')
 
@@ -522,6 +562,16 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
 
                 while not routing.IsEnd(index):
                     node = origin.get(manager.IndexToNode(index), manager.IndexToNode(index))
+                    if route_nodes and node == route_nodes[-1] and node in charging_set:
+                        # segunda parada seguida en la misma estacion (otra copia): se fusiona con la anterior
+                        previous_node = node
+                        index = assignment.Value(routing.NextVar(index))
+                        next_node = origin.get(manager.IndexToNode(index), manager.IndexToNode(index))
+                        route_distance += cost_int(distance_matrix[previous_node][next_node])
+                        route_real_km += float(distance_matrix[previous_node][next_node])
+                        if time_matrix is not None:
+                            route_time += int(time_matrix[previous_node][next_node])
+                        continue
                     route_nodes.append(node)
                     load_var = capacity_dimension.CumulVar(index)
                     fuel_var = fuel_dimension.CumulVar(index)
@@ -658,6 +708,11 @@ def execute(
 
         # ── Estaciones con varias visitas posibles y costo por visita ────────
         start_nodes = [vs.get('start_node') for vs in vehicle_states] if vehicle_states is not None else []
+        if vehicle_states is not None:
+            data = dict(data,
+                        start_battery={vs.get('start_node', data['depot']): cap_int(vs.get('initial_fuel', data['fuel_capacity']))
+                                       for vs in vehicle_states},
+                        start_load={vs.get('start_node', data['depot']): vs.get('initial_load', 0) for vs in vehicle_states})
         data = expand_station_copies(data, station_copies, keep_single=start_nodes)
         data = forbid_depot_to_station(data)
         data = forbid_station_chains(data, keep=start_nodes)
@@ -705,6 +760,7 @@ def execute(
             partial(create_fuel_evaluator(data), manager)
         )
         add_fuel_constraints(routing, manager, data, fuel_evaluator_index, initial_fuels)
+        apply_forbidden_arcs(routing, manager, data)
 
         # ── Resolver ──────────────────────────────────────────────────────────
         execute_solution(
