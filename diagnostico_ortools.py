@@ -19,6 +19,7 @@ con variantes que desactivan UN cambio a la vez, para saber cual rompe la busque
   sin_saltos_copias     sin prohibir el salto entre copias de una misma estacion
   modelo_desnudo        solo lo nativo de OR-Tools: sin orden de copias, sin cota, sin arcos prohibidos
   SAVINGS / PARALLEL_INSERTION / GLOBAL_CHEAPEST_ARC   otras primeras soluciones
+  cadenas_por_dominio   arcos prohibidos quitados del dominio de NextVar (el modelo actual los marca con costo enorme)
   2_copias              dos copias por estacion
   sin_orden_copias      sin la restriccion "la copia k+1 solo si esta la k"
   sin_finalizer         sin AddVariableMaximizedByFinalizer en las estaciones
@@ -42,6 +43,7 @@ from problem.execute import evrp
 from utils import units
 
 REPORT = "diagnostico_ortools.txt"
+LOG_FILE = "diag_log.txt"
 INSTANCES_DIR = os.path.join("instances_data", "evrp_instances")
 DEFAULT_INSTANCES = ["quebec_30c_6ev_4cs", "quebec_50c_5ev_5cs", "quebec_100c_12ev_12cs", "quebec_220c_26ev_20cs"]
 QUICK_INSTANCES = ["quebec_30c_6ev_4cs", "quebec_100c_12ev_12cs"]
@@ -67,6 +69,8 @@ VARIANTS = {
     "SAVINGS": {"heuristic": HeuristicType.SAVINGS},
     "PARALLEL_INSERTION": {"heuristic": HeuristicType.PARALLEL_CHEAPEST_INSERTION},
     "GLOBAL_CHEAPEST_ARC": {"heuristic": HeuristicType.GLOBAL_CHEAPEST_ARC},
+    "cadenas_por_dominio": {"forbid_by_cost": False},
+    "orden_por_cp": {"order_cp": True},
     "lns": {"lns": True},
     "lns_insercion": {"lns_insertion": True},
     "lns_insercion_GLOBAL": {"lns_insertion": True, "heuristic": HeuristicType.GLOBAL_CHEAPEST_ARC},
@@ -172,6 +176,8 @@ def _configure(opts):
     _CFG.clear()
     _CFG.update(opts)
     evrp.FULL_RECHARGE = opts.get("full_recharge", False)
+    evrp.FORBID_BY_COST = opts.get("forbid_by_cost", True)
+    evrp.COPY_ORDER_CP = opts.get("order_cp", False)
     evrp.RECHARGE_BOUND = not opts.get("no_bound", False)
     evrp.apply_forbidden_arcs = _hooked_apply
     evrp.save_solution = _hooked_save
@@ -263,6 +269,13 @@ def main():
     args = ap.parse_args()
     global LOG_SEARCH
     LOG_SEARCH = args.log
+    if args.log:
+        # el log de OR-Tools sale por el descriptor 2 (stderr, C++). Se redirige aqui a un archivo UTF-8 normal:
+        # `> archivo 2>&1` en PowerShell lo guarda en UTF-16 y cuesta leerlo.
+        sys.stdout.flush()
+        sys.stderr.flush()
+        os.dup2(os.open(LOG_FILE, os.O_WRONLY | os.O_CREAT | os.O_TRUNC), 2)
+        print(f"El log de OR-Tools se guarda en {LOG_FILE}", flush=True)
     instances = args.instances or (QUICK_INSTANCES if args.quick else DEFAULT_INSTANCES)
     variants = args.variants or list(VARIANTS)
     if args.all_heuristics:
@@ -272,6 +285,8 @@ def main():
     for inst in instances:
         for name in variants:
             print(f"[{inst}] {name} ...", flush=True)
+            if LOG_SEARCH:
+                os.write(2, f"\n===== {inst} / {name} =====\n".encode())
             r = run_one(inst, name, VARIANTS[name], args.time)
             rows.append(r)
             print(f"    estado={r['status']} descartados={fmt(r['dropped'])}/{fmt(r['n_clients'])} km={fmt(r['km'], 2)} "

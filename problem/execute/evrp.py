@@ -28,8 +28,8 @@ era utilizable una sola vez por solución (en la realidad varios vehículos, o
 el mismo en dos momentos, pueden cargar en ella). execute(station_copies=K)
 reemplaza cada estación por K nodos idénticos (misma ubicación, mismas
 distancias; entre copias de una misma estación la distancia es 0). Las copias
-son opcionales (costo de descarte 0) y se activan en orden (la copia k+1 solo si
-está activa la k) para no explorar permutaciones equivalentes. En los archivos de
+son opcionales (costo de descarte 0) y, para no explorar permutaciones equivalentes,
+llegar a la copia k cuesta k metros más en el evaluador (desempate; la distancia reportada no cambia). En los archivos de
 solución cada copia se escribe con el id de la estación original, así que
 simulation/ y friedman_ranking.py no cambian.
 
@@ -103,6 +103,19 @@ def create_distance_evaluator(data):
             to_node: (0 if from_node == to_node else cost_int(distance_matrix[from_node][to_node]))
             for to_node in range(data['num_locations'])
         }
+    if not COPY_ORDER_CP:
+        # desempate entre copias de una misma estacion: llegar a la copia k cuesta k metros mas (solo en el evaluador;
+        # la distancia reportada sale de la matriz y no cambia)
+        for group in data.get('station_copies_of', {}).values():
+            for rank, copy_node in enumerate(group):
+                if rank:
+                    for from_node in range(data['num_locations']):
+                        if from_node != copy_node:
+                            _distances[from_node][copy_node] += rank
+    if FORBID_BY_COST:
+        # arcos prohibidos con un costo enorme (solo en el evaluador; la matriz y la distancia reportada no cambian)
+        for a_, b_ in data.get('forbidden_arcs', ()):
+            _distances[a_][b_] = FORBIDDEN_ARC_COST
 
     def distance_evaluator(manager, from_node, to_node):
         return _distances[manager.IndexToNode(from_node)][manager.IndexToNode(to_node)]
@@ -110,10 +123,20 @@ def create_distance_evaluator(data):
     return distance_evaluator
 
 
-# Arcos prohibidos: se guardan en data['forbidden_arcs'] como pares (origen, destino) y se aplican al modelo con
-# apply_forbidden_arcs() quitando el valor del dominio de NextVar. NO se codifican como un costo enorme en la matriz:
-# un costo de ~1e6 km en miles de arcos infla el costo medio de arco, que es la escala que usa Guided Local Search para
-# sus penalizaciones, y degrada la busqueda (soluciones vacias o con muchas paradas inutiles en las instancias grandes).
+# Arcos prohibidos: se guardan en data['forbidden_arcs'] como pares (origen, destino). Se aplican con un costo enorme en el
+# evaluador de distancia (create_distance_evaluator) o, si FORBID_BY_COST es False, quitando el valor del dominio de
+# NextVar (apply_forbidden_arcs). La matriz de distancias NO se modifica, asi que la distancia reportada es la real.
+
+
+# Como se aplican los arcos prohibidos: True (por defecto) = costo enorme en el evaluador de distancia; False = se quitan
+# del dominio de NextVar. Quitarlos del dominio hace que los movimientos de la busqueda local que usan esos arcos pasen
+# los filtros y los rechace despues la propagacion (cara): con muchas estaciones OR-Tools tarda decenas de segundos en
+# la primera solucion o no la encuentra (150c, 350c). Con costo, el filtro de costo los descarta al instante.
+# EVRP_FORBID_BY_COST=0 vuelve a quitarlos del dominio (variante cadenas_por_dominio de diagnostico_ortools.py).
+FORBID_BY_COST = os.environ.get("EVRP_FORBID_BY_COST", "1") != "0"
+# Orden entre copias de una estacion: False (por defecto) = desempate por costo; True = restriccion ActiveVar(k+1) <= ActiveVar(k).
+COPY_ORDER_CP = os.environ.get("EVRP_COPY_ORDER_CP", "0") == "1"
+FORBIDDEN_ARC_COST = 1_000_000_000      # 1 000 000 km en metros; mayor que descartar 100 clientes (penalizacion 1e7 c/u)
 
 
 def _add_forbidden(data, pairs):
@@ -124,6 +147,8 @@ def _add_forbidden(data, pairs):
 
 def apply_forbidden_arcs(routing, manager, data):
     """Quita del dominio de cada NextVar los arcos de data['forbidden_arcs'] (el deposito se aplica a cada vehiculo)."""
+    if FORBID_BY_COST:
+        return      # ya van en el costo del evaluador de distancia (create_distance_evaluator)
     depot = data['depot']
     depot_starts = [routing.Start(v) for v in range(routing.vehicles())
                     if manager.IndexToNode(routing.Start(v)) == depot]
@@ -157,8 +182,7 @@ def expand_station_copies(data, copies, keep_single=()):
     nuevos al final, para no mover ningún índice existente). keep_single: nodos que no se copian (p. ej. las
     posiciones de arranque de los vehículos en re-planeación). Mapa copia -> original en data['station_origin'].
     """
-    if not copies or copies <= 1:
-        return data
+    copies = max(1, int(copies or 1))
     new = dict(data)
     stations = [s for s in data['charging_stations'] if s not in set(keep_single)]
     origin, dm, tm = {}, [list(r) for r in data['distance_matrix']], None
@@ -168,31 +192,55 @@ def expand_station_copies(data, copies, keep_single=()):
     names = dict(data.get('charging_station_names', {}))
     new_stations = list(data['charging_stations'])
     copies_of = {s: [s] for s in stations}
+
+    def clone(src):
+        """Agrega un nodo igual a `src` (misma fila y columna de distancias; 0 km hacia src y hacia sus otros clones)."""
+        idx = len(dm)                           # indice del nuevo nodo
+        for row in dm:                          # nueva columna: igual que la original
+            row.append(row[src])
+        if tm is not None:
+            for row in tm:
+                row.append(row[src])
+        dm.append(list(dm[src]))                # nueva fila: igual que la original (ya incluye la columna nueva)
+        if tm is not None:
+            tm.append(list(tm[src]))
+        if locations is not None:
+            locations.append(locations[src])
+        demands.append(0)
+        names[idx] = names.get(src, src)
+        new_stations.append(idx)
+        return idx
+
     for k in range(1, copies):
         for s in stations:
-            idx = len(dm)                       # indice del nuevo nodo
+            idx = clone(s)
             origin[idx] = s
             copies_of[s].append(idx)
-            new_stations.append(idx)
-            for row in dm:                       # nueva columna: igual que la original
-                row.append(row[s])
-            if tm is not None:
-                for row in tm:
-                    row.append(row[s])
-            dm.append(list(dm[s]))               # nueva fila: igual que la original (ya incluye la columna nueva, 0 hacia si misma)
-            if tm is not None:
-                tm.append(list(tm[s]))
-            if locations is not None:
-                locations.append(locations[s])
-            demands.append(0)
-            names[idx] = names.get(s, s)
-    # Entre copias de una misma estacion el salto cuesta 0 km. NO se prohibe: prohibirlo (por dominio o por costo) junto con
-    # la restriccion de orden entre copias hace que OR-Tools no encuentre ninguna solucion en las instancias grandes
-    # (diagnostico_ortools.py: 100c con 3 copias, 0 soluciones en 40 s; sin esa prohibicion, primera solucion en 0,2 s).
-    # Una parada duplicada en la misma estacion se fusiona al guardar la solucion (ver merge_station_repeats).
+
+    # Nodo de SALIDA para cada visita a estacion (cada copia): la visita pasa a ser el par llegada -> salida. Al nodo de
+    # salida se le fija la bateria en la capacidad (domino de su variable de la dimension), y la recarga de la llegada queda
+    # determinada por propagacion. Asi "la bateria al salir no supera la capacidad" ya no es una restriccion propia del
+    # CP (que los filtros de la busqueda local no conocen y con la que OR-Tools no encontraba ninguna solucion en 350c)
+    # sino parte de la dimension. Un estacion solo se puede dejar por su nodo de salida y a el solo se llega desde la
+    # llegada (arcos prohibidos por costo, como el resto de las reglas). Ver add_fuel_constraints y merge_station_repeats.
+    entries = list(stations) + [c for grp in copies_of.values() for c in grp[1:]]
+    exit_of = {}
+    for s in entries:
+        e = clone(s)
+        origin[e] = origin.get(s, s)
+        exit_of[s] = e
+    n_total = len(dm)
+    banned = set()
+    for s, e in exit_of.items():
+        for x in range(n_total):
+            if x != s and x != e:
+                banned.add((s, x))              # desde la llegada solo se va a su salida
+                banned.add((x, e))              # a la salida solo se llega desde su llegada
     new.update(distance_matrix=dm, time_matrix=tm, num_locations=len(dm), demands=demands,
                charging_stations=new_stations, charging_station_names=names,
-               station_origin=origin, station_copies_of=copies_of)
+               station_origin=origin, station_copies_of=copies_of, station_exit=exit_of,
+               station_copies=copies)
+    new['forbidden_arcs'] = set(data.get('forbidden_arcs', ())) | banned
     if locations is not None:
         new['locations'] = locations
     return new
@@ -338,11 +386,16 @@ def add_capacity_constraints(routing, manager, data, demand_evaluator_index, ini
         node_index = manager.NodeToIndex(cs_node)
         routing.AddDisjunction([node_index], 0)
 
-    # Copias de una misma estacion: la copia k+1 solo puede usarse si la k esta activa (rompe simetrias)
-    solver = routing.solver()
-    for group in data.get('station_copies_of', {}).values():
-        for a, b in zip(group, group[1:]):
-            solver.Add(routing.ActiveVar(manager.NodeToIndex(b)) <= routing.ActiveVar(manager.NodeToIndex(a)))
+    # Copias de una misma estacion: para romper simetrias se prefiere usar la copia k antes que la k+1. Por defecto se hace
+    # con un desempate de k metros en el costo de los arcos que llegan a la copia k (ver create_distance_evaluator), que
+    # los filtros de la busqueda local entienden. La restriccion ActiveVar(k+1) <= ActiveVar(k) es una restriccion propia
+    # que los filtros no conocen: la busqueda propone movimientos que luego la propagacion rechaza (muy caro con muchas
+    # copias). EVRP_COPY_ORDER_CP=1 la reactiva.
+    if COPY_ORDER_CP:
+        solver = routing.solver()
+        for group in data.get('station_copies_of', {}).values():
+            for a, b in zip(group, group[1:]):
+                solver.Add(routing.ActiveVar(manager.NodeToIndex(b)) <= routing.ActiveVar(manager.NodeToIndex(a)))
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -425,12 +478,22 @@ def add_fuel_constraints(routing, manager, data, fuel_evaluator_index, initial_f
         else:
             fuel_dimension.SlackVar(start_index).SetValue(0)
 
+    exit_of = data.get('station_exit', {})
+    exit_nodes = set(exit_of.values())
     for node in range(data['num_locations']):
         if node == data['depot']:
             continue
         index = manager.NodeToIndex(node)
 
-        if node in charging_set:
+        if node in exit_nodes:
+            # Salida de una visita a estacion: sale con la bateria llena. Es un dominio (no una restriccion propia), asi
+            # que la recarga de la llegada (Slack) queda = capacidad - bateria al llegar, y los filtros de la busqueda
+            # local la entienden. Nunca se recarga por encima de la capacidad.
+            fuel_dimension.CumulVar(index).SetValue(fuel_capacity)
+            fuel_dimension.SlackVar(index).SetValue(0)
+        elif node in exit_of:
+            pass        # llegada a estacion: el Slack (0..capacidad) lo determina el nodo de salida
+        elif node in charging_set:
             # Estación de carga: puede recargar
             # Preferir llegar con batería llena (reduce ansiedad de rango)
             routing.AddVariableMaximizedByFinalizer(fuel_dimension.CumulVar(index))
@@ -496,7 +559,7 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
         if assignment.Value(routing.NextVar(i_)) == i_:
             pre_dropped += 1
     objective_value = pre_distance + pre_dropped * drop_penalty_of(data)
-    copies_ = 1 + len(origin_) // max(1, len(set(origin_.values()))) if origin_ else None
+    copies_ = data.get('station_copies')
     feasibility = check_routes(data, check_input, n_clients_, copies=copies_)
     if feasibility:
         print(f"WARNING: infeasible solution for {instance}: {feasibility[0]}"
@@ -522,8 +585,8 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
             f.write(f'Battery capacity: {data["fuel_capacity"]}\n')
             f.write(f'Battery consumption rate: {data["fuel_consumption_rate"]}\n\n')
             origin = data.get('station_origin', {})
-            if origin:
-                f.write(f'Station copies: {1 + len(origin) // max(1, len(set(origin.values())))}\n\n')
+            if data.get('station_copies'):
+                f.write(f'Station copies: {data["station_copies"]}\n\n')
 
             capacity_dimension = routing.GetDimensionOrDie('Capacity')
             fuel_dimension = routing.GetDimensionOrDie('Fuel')

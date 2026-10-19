@@ -1,27 +1,14 @@
-Diagnostico de OR-Tools (GLS, 60 s por corrida, heuristica AUTOMATIC salvo indicacion)
+Diagnostico de OR-Tools (GLS, 30 s por corrida, heuristica AUTOMATIC salvo indicacion)
 
 instancia               variante                estado       descart.       km recarg. cadenas 1a sol(s) desc.1a n_sol  ult(s) arcos_proh costo_medio
 -----------------------------------------------------------------------------------------------------------------------------------------------------
-quebec_220c_26ev_20cs   actual                  SUCCESS             3   651.18      17       9       0.2      26   837    59.2       3480       15824
-quebec_220c_26ev_20cs   lns_insercion           SUCCESS            10   591.49      13       7       0.2      26   876    60.0       3480       15824
-quebec_220c_26ev_20cs   lns_insercion_GLOBAL    SUCCESS             5   653.20       9       3       1.5     220  1054    59.1       3480       15824
-quebec_150c_18ev_15cs   actual                  SUCCESS             0   425.48       9       5      19.8       7   463    59.8       1935        9817
-quebec_150c_18ev_15cs   lns_insercion           SUCCESS             3   358.51       4       2      21.8       7   598    59.9       1935        9817
-quebec_150c_18ev_15cs   lns_insercion_GLOBAL    SUCCESS             4   334.98       9       5       0.6     150  1175    60.0       1935        9817
-
-Operadores LNS de insercion aplicados (lns_insercion): ['use_global_cheapest_insertion_path_lns', 'use_local_cheapest_insertion_path_lns', 'use_global_cheapest_insertion_close_nodes_lns', 'use_local_cheapest_insertion_close_nodes_lns', 'use_global_cheapest_insertion_expensive_chain_lns', 'use_local_cheapest_insertion_expensive_chain_lns', 'use_relocate_path_global_cheapest_insertion_insert_unperformed', 'use_inactive_lns', 'use_path_lns']
+quebec_60c_8ev_8cs      actual                  SUCCESS             1   179.99       4       2       0.0       5   643    30.0       5112       11019
 
 Clientes descartados (cuantos de ellos son 'lejanos': la ida y vuelta desde el deposito no cabe en una carga):
-  quebec_220c_26ev_20cs / actual: 3 descartados, 3 lejanos; ids [33, 56, 111]
-  quebec_220c_26ev_20cs / lns_insercion: 10 descartados, 10 lejanos; ids [11, 33, 39, 56, 73, 94, 101, 111, 165, 192]
-  quebec_220c_26ev_20cs / lns_insercion_GLOBAL: 5 descartados, 5 lejanos; ids [39, 56, 94, 101, 111]
-  quebec_150c_18ev_15cs / lns_insercion: 3 descartados, 3 lejanos; ids [10, 59, 115]
-  quebec_150c_18ev_15cs / lns_insercion_GLOBAL: 4 descartados, 4 lejanos; ids [10, 59, 78, 115]
+  quebec_60c_8ev_8cs / actual: 1 descartados, 1 lejanos; ids [42]
 
 Modelo (instancia, nodos, estaciones con copias, penalizacion por descarte, costo de arco medio y maximo):
-  quebec_220c_26ev_20cs: nodos=281 penalizacion=10000000 costo_medio=15824 costo_max=59604 (en unidades internas)
-  quebec_150c_18ev_15cs: nodos=196 penalizacion=10000000 costo_medio=9817 costo_max=41606 (en unidades internas)
+  quebec_60c_8ev_8cs: nodos=109 penalizacion=10000000 costo_medio=11019 costo_max=51176 (en unidades internas)
 
 Lectura automatica:
-  quebec_220c_26ev_20cs: el modelo actual descarta 3 clientes. Variantes que lo arreglan: ninguna. Siguen fallando: ['actual', 'lns_insercion', 'lns_insercion_GLOBAL'].
-  quebec_150c_18ev_15cs: el modelo actual NO descarta clientes (425.48 km).
+  quebec_60c_8ev_8cs: el modelo actual descarta 1 clientes. Variantes que lo arreglan: ninguna. Siguen fallando: ['actual'].

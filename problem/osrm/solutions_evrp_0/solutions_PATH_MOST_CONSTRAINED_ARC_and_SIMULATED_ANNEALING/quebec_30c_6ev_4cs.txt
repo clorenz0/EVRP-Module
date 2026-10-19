@@ -1,8 +1,8 @@
 Instance: quebec_30c_6ev_4cs.txt
 
-Objective: 93
+Objective: 108.963
 
-Execution Time: 10.00317120552063
+Execution Time: 9.99858570098877
 
 Heuristic: PATH_MOST_CONSTRAINED_ARC
 
@@ -16,52 +16,63 @@ Battery consumption rate: 3.0
 
 Station copies: 3
 
+Customers served: 30/30
+Dropped customers: 0
+Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
+
 Route for vehicle 0:
- 0 Load(0) Bat(100) -> 26 Load(0) Bat(88) -> 5 Load(14) Bat(84) -> 23 Load(27) Bat(82) -> 20 Load(36) Bat(78) -> 11 Load(66) Bat(73) -> 14 Load(80) Bat(64) -> 2 Load(106) Bat(50) -> 1 Load(128) Bat(44) -> 0 Load(146) Bat(33)
-Distance of the route: 19km
-Time of the route: 3293s
-Load of the route: 146
-
-Route for vehicle 1:
- 0 Load(0) Bat(100) -> 22 Load(0) Bat(89) -> 19 Load(31) Bat(80) -> 13 Load(42) Bat(73) -> 7 Load(59) Bat(57) -> 16 Load(78) Bat(50) -> 28 Load(106) Bat(47) -> 4 Load(118) Bat(43) -> 0 Load(145) Bat(39)
-Distance of the route: 18km
-Time of the route: 3011s
-Load of the route: 145
-
-Route for vehicle 2:
- 0 Load(0) Bat(100) -> 10 Load(0) Bat(82) -> 15 Load(25) Bat(66) -> 30 Load(45) Bat(45) -> 25 Load(65) Bat(28) -> 34[CS:Station Rapide Saint-Lambert] Load(73) Bat(11) -> 6 Load(73) Bat(40) -> 12 Load(97) Bat(30) -> 8 Load(120) Bat(4) -> 0 Load(141) Bat(0)
-Distance of the route: 40km
-Time of the route: 4936s
+ 0 Load(0) Bat(100.0) -> 8 Load(0) Bat(96.1) -> 30 Load(21) Bat(73.6) -> 25 Load(41) Bat(56.0) -> 34[CS:Station Rapide Saint-Lambert] Load(49) Bat(38.2) -> 6 Load(49) Bat(97.4) -> 12 Load(73) Bat(87.0) -> 15 Load(96) Bat(66.2) -> 10 Load(116) Bat(38.1) -> 0 Load(141) Bat(28.7)
+Distance of the route: 44.348km
+Real distance of the route: 44.35km
+Time of the route: 4752s
 Load of the route: 141
 
-Route for vehicle 3:
- 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
-Distance of the route: 0km
+Route for vehicle 1:
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
 Time of the route: 0s
 Load of the route: 0
 
+Route for vehicle 2:
+ 0 Load(0) Bat(100.0) -> 22 Load(0) Bat(88.6) -> 19 Load(31) Bat(79.6) -> 13 Load(42) Bat(71.8) -> 7 Load(59) Bat(55.7) -> 16 Load(78) Bat(47.8) -> 28 Load(106) Bat(44.1) -> 4 Load(118) Bat(39.7) -> 0 Load(145) Bat(35.5)
+Distance of the route: 21.492km
+Real distance of the route: 21.49km
+Time of the route: 3011s
+Load of the route: 145
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100.0) -> 3 Load(0) Bat(92.7) -> 17 Load(15) Bat(83.0) -> 24 Load(27) Bat(77.7) -> 21 Load(59) Bat(71.3) -> 29 Load(69) Bat(67.5) -> 18 Load(87) Bat(62.0) -> 9 Load(116) Bat(58.5) -> 27 Load(132) Bat(52.2) -> 0 Load(148) Bat(42.1)
+Distance of the route: 19.316km
+Real distance of the route: 19.32km
+Time of the route: 2747s
+Load of the route: 148
+
 Route for vehicle 4:
- 0 Load(0) Bat(100) -> 0 Load(0) Bat(100)
-Distance of the route: 0km
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
 Time of the route: 0s
 Load of the route: 0
 
 Route for vehicle 5:
- 0 Load(0) Bat(100) -> 17 Load(0) Bat(89) -> 24 Load(12) Bat(84) -> 21 Load(44) Bat(78) -> 29 Load(54) Bat(75) -> 18 Load(72) Bat(70) -> 9 Load(101) Bat(67) -> 27 Load(117) Bat(61) -> 3 Load(133) Bat(52) -> 0 Load(148) Bat(45)
-Distance of the route: 16km
-Time of the route: 2788s
-Load of the route: 148
+ 0 Load(0) Bat(100.0) -> 26 Load(0) Bat(87.0) -> 5 Load(14) Bat(82.1) -> 23 Load(27) Bat(79.8) -> 20 Load(36) Bat(75.0) -> 11 Load(66) Bat(70.0) -> 14 Load(80) Bat(60.2) -> 2 Load(106) Bat(46.1) -> 1 Load(128) Bat(39.9) -> 0 Load(146) Bat(28.6)
+Distance of the route: 23.807km
+Real distance of the route: 23.81km
+Time of the route: 3293s
+Load of the route: 146
 
-Total Distance of all routes: 93km
-Real distance (km): 110.72
+Total Distance of all routes: 108.963km
+
+Real distance (km): 108.96
 
 Total Load of all routes: 580
 
-Total Time of all routes: 14028s
+Total Time of all routes: 13803s
 
 Total recharges: 1
 
 Unnecessary charging stops: 0
 
-Minimum battery (SoC) reached: 0
+Minimum battery (SoC) reached: 28.6
 
