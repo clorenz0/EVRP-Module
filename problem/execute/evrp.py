@@ -463,7 +463,11 @@ def add_fuel_constraints(routing, manager, data, fuel_evaluator_index, initial_f
     )
     fuel_dimension = routing.GetDimensionOrDie('Fuel')
 
-    charging_set = set(data['charging_stations'])
+    # Re-planeacion: la posicion actual de cada vehiculo esta en charging_stations (solo para que el conteo de clientes
+    # cuadre), pero NO es una estacion: alli no se puede recargar. Sin esta exclusion el modelo permitia recargar a tope
+    # en el nodo de arranque y devolvia rutas que el validador rechaza (bateria negativa). En el caso estatico
+    # data['start_nodes'] no existe y nada cambia.
+    charging_set = set(data['charging_stations']) - set(data.get('start_nodes', ()))
     solver = routing.solver()
 
     # Vehículos salen con batería llena, o con la batería parcial indicada
@@ -1159,7 +1163,8 @@ def execute(
             data = dict(data,
                         start_battery={vs.get('start_node', data['depot']): cap_int(vs.get('initial_fuel', data['fuel_capacity']))
                                        for vs in vehicle_states},
-                        start_load={vs.get('start_node', data['depot']): vs.get('initial_load', 0) for vs in vehicle_states})
+                        start_load={vs.get('start_node', data['depot']): vs.get('initial_load', 0) for vs in vehicle_states},
+                        start_nodes=set(start_nodes))
         data = expand_station_copies(data, station_copies, keep_single=start_nodes)
         data = forbid_depot_to_station(data)
         data = forbid_station_chains(data, keep=start_nodes)
