@@ -65,6 +65,7 @@ def build_initial_routes(data, heuristic, time_limit=2, station_copies=3):
     evrp.add_capacity_constraints(routing, manager, data, demand_idx, initial_loads)
     fuel_idx = routing.RegisterTransitCallback(partial(evrp.create_fuel_evaluator(data), manager))
     evrp.add_fuel_constraints(routing, manager, data, fuel_idx, initial_fuels)
+    evrp.apply_forbidden_arcs(routing, manager, data)
 
     params = pywrapcp.DefaultRoutingSearchParameters()
     params.first_solution_strategy = getattr(routing_enums_pb2.FirstSolutionStrategy, heuristic.value)
@@ -79,7 +80,9 @@ def build_initial_routes(data, heuristic, time_limit=2, station_copies=3):
     for v in range(data['num_vehicles']):
         index, nodes = routing.Start(v), []
         while True:
-            nodes.append(origin.get(manager.IndexToNode(index), manager.IndexToNode(index)))
+            node_ = origin.get(manager.IndexToNode(index), manager.IndexToNode(index))
+            if not (nodes and node_ == nodes[-1] and node_ in stations):     # dos copias seguidas de una estacion = una parada
+                nodes.append(node_)
             if routing.IsEnd(index):
                 break
             index = solution.Value(routing.NextVar(index))

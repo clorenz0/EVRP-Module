@@ -69,6 +69,7 @@ import os
 import random
 import time
 
+from utils.feasibility import check_routes, report_lines
 from utils.units import DIST_SCALE, cost_int, energy_int, cap_int
 from distance.distance_type import DistanceType
 from instance.instance_type import process_files, InstanceType
@@ -1003,7 +1004,11 @@ def save_solution(data, routes, dropped_clients, objective, instance,
 
             n_clients_total = data.get('num_clients', data['num_locations'] - len(data['charging_stations']) - 1)
             f.write(f'Customers served: {n_clients_total - len(dropped_clients)}/{n_clients_total}\n')
-            f.write(f'Dropped customers: {len(dropped_clients)}\n\n')
+            f.write(f'Dropped customers: {len(dropped_clients)}\n')
+            violations = check_routes(data, [[stop['node'] for stop in r] for r in all_routes], n_clients_total)
+            f.write('\n'.join(report_lines(violations)) + '\n\n')
+            if violations:
+                print(f"WARNING: infeasible solution for {instance}: {violations[0]}")
             if dropped_clients:
                 f.write(f'Dropped clients: {dropped_clients}\n\n')
             if data.get('extra_info'):

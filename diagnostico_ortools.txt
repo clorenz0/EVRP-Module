@@ -1,0 +1,14 @@
+Diagnostico de OR-Tools (GLS, 30 s por corrida, heuristica AUTOMATIC salvo indicacion)
+
+instancia               variante                estado       descart.       km recarg. cadenas 1a sol(s) desc.1a n_sol  ult(s) arcos_proh costo_medio
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+quebec_60c_8ev_8cs      actual                  SUCCESS             1   179.99       4       2       0.0       5   643    30.0       5112       11019
+
+Clientes descartados (cuantos de ellos son 'lejanos': la ida y vuelta desde el deposito no cabe en una carga):
+  quebec_60c_8ev_8cs / actual: 1 descartados, 1 lejanos; ids [42]
+
+Modelo (instancia, nodos, estaciones con copias, penalizacion por descarte, costo de arco medio y maximo):
+  quebec_60c_8ev_8cs: nodos=109 penalizacion=10000000 costo_medio=11019 costo_max=51176 (en unidades internas)
+
+Lectura automatica:
+  quebec_60c_8ev_8cs: el modelo actual descarta 1 clientes. Variantes que lo arreglan: ninguna. Siguen fallando: ['actual'].
