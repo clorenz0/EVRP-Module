@@ -1,0 +1,15 @@
+Reportes apartados el 2026-10-26 (no borrados).
+
+Replanificaciones con OR-Tools de quebec_50c_5ev_5cs ejecutadas ANTES de la correccion de evrp.py del 2026-10-26 16:56
+(la posicion actual del vehiculo se trataba como estacion de carga y el modelo podia "recargar" alli). Las 7 ramas WITH
+salieron "Feasibility check: FAILED" (bateria negativa; en dos casos, clientes 1, 2, 4 y 5 sin atender). Junto a cada una
+esta su rama NO (sin re-planeacion), apartada solo porque la pareja quedo sustituida.
+
+Sustituidas por la corrida de sim-desfav --replanners ortools del 2026-10-26 17:19-17:29 (los 6 WITH salen PASSED).
+manifest_cap3_antes_de_limpiar.csv = manifiesto original, antes de quitar las 12 filas de estas corridas
+(141942/142119 eran una prueba manual y no estaban en el manifiesto).
+
+Ampliacion (mismo dia): tambien la Tabla 12 (sim-fav) tenia la columna de OR-Tools (SEQUENTIAL_CHEAPEST_INSERTION + GLS)
+infactible por el mismo motivo: instancias 40, 50, 60 y 90 (la de 50 es la pareja 141942/142119, que si estaba en el
+manifiesto como T12). Se apartan sus parejas WITH/NO. Regenerar con:
+    python docs_thesis_assets/correr_experimentos_cap3.py sim-fav --replanners ortools

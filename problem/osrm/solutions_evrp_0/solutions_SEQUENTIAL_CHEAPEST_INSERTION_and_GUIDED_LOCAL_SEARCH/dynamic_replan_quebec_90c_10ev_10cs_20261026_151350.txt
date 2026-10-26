@@ -1,0 +1,174 @@
+Instance: dynamic_replan_quebec_90c_10ev_10cs_20261026_151350.txt
+
+Event: congestion at checkpoint 1200s on 2 real edge(s) (speed limit lowered to 2.0 m/s). Target ev_4 -> node 80: travel time 158.6s -> 318.8s (+100.9%), distance 3767m -> 3767m. Verified: impact>=threshold, keys connected=True, no vehicle stranded=True. Affected edges: -483448594#1, -483448594#0.
+
+Original routes (before this re-planning event):
+Vehicle ev_0:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 8 -> 13 -> 65 -> 33 -> 49 -> 17 -> 81 -> 57 -> 9 -> 26 -> 74 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 8 -> 13 -> 65 -> 33 -> 49 -> 17 -> 81          (distance=10.462km, 7 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_1:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 52 -> 93[CS:Station Rapide Trois-Rivières Ouest] -> 4 -> 59 -> 62 -> 46 -> 30 -> 14 -> 10 -> 16 -> 76 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 52 -> 93[CS:Station Rapide Trois-Rivières Ouest] -> 4          (distance=11.472km, 3 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_2:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 45 -> 61 -> 29 -> 48 -> 64 -> 79 -> 87 -> 36 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 45 -> 61 -> 29 -> 48          (distance=19.860km, 4 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_3:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 73 -> 7 -> 95[CS:Borne IGA Trois-Rivières] -> 32 -> 80 -> 27 -> 70 -> 22 -> 55 -> 20 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 73 -> 7 -> 95[CS:Borne IGA Trois-Rivières] -> 32          (distance=17.102km, 4 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_4:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 69 -> 43 -> 83 -> 1 -> 40 -> 72 -> 67 -> 51 -> 21 -> 3 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 69 -> 43 -> 83 -> 1 -> 40          (distance=14.275km, 5 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_7:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 71 -> 23 -> 47 -> 63 -> 15 -> 60 -> 44 -> 11 -> 28 -> 89 -> 41 -> 31 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 71 -> 23 -> 47 -> 63 -> 15 -> 60          (distance=8.386km, 6 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_8:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 25 -> 42 -> 66 -> 58 -> 50 -> 12 -> 84 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 25 -> 42          (distance=14.788km, 2 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_9:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 37 -> 77 -> 85 -> 88 -> 56 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 37 -> 77 -> 85          (distance=14.406km, 3 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Objective: 149.760
+
+Execution Time: 15.000469446182251
+
+Heuristic: SEQUENTIAL_CHEAPEST_INSERTION
+
+Metaheuristic: GUIDED_LOCAL_SEARCH
+
+Distance type: osrm
+
+Vehicle capacity: 180
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Station copies: 3
+
+Customers served: 40/40
+Dropped customers: 0
+Feasibility check: FAILED (8 violation(s))
+  - route 1: battery below zero on arc 12 -> 16
+  - route 1: battery below zero on arc 16 -> 38
+  - route 1: battery below zero on arc 38 -> 22
+  - route 1: battery below zero on arc 22 -> 0
+  - route 2: battery below zero on arc 11 -> 0
+  - route 3: battery below zero on arc 18 -> 0
+  - route 5: battery below zero on arc 33 -> 0
+  - route 7: battery below zero on arc 14 -> 0
+
+Route for vehicle 0:
+ 51[CS:current_position_ev_0] Load(115) Bat(47.8) -> 1 Load(115) Bat(46.5) -> 2 Load(124) Bat(35.1) -> 3 Load(141) Bat(33.1) -> 40 Load(157) Bat(26.7) -> 0 Load(177) Bat(22.2)
+Distance of the route: 8.515km
+Real distance of the route: 8.52km
+Time of the route: 814s
+Load of the route: 177
+
+Route for vehicle 1:
+ 52[CS:current_position_ev_1] Load(32) Bat(82.3) -> 20 Load(32) Bat(62.5) -> 19 Load(46) Bat(47.5) -> 21 Load(70) Bat(21.3) -> 15 Load(93) Bat(13.1) -> 12 Load(110) Bat(0.4) -> 16 Load(120) Bat(-0.3) -> 38 Load(135) Bat(-2.3) -> 22 Load(162) Bat(-3.5) -> 0 Load(180) Bat(-15.6)
+Distance of the route: 32.648km
+Real distance of the route: 32.65km
+Time of the route: 1628s
+Load of the route: 180
+
+Route for vehicle 2:
+ 53[CS:current_position_ev_2] Load(86) Bat(42.9) -> 13 Load(86) Bat(41.2) -> 10 Load(105) Bat(35.7) -> 7 Load(128) Bat(29.0) -> 5 Load(139) Bat(27.9) -> 11 Load(153) Bat(13.9) -> 0 Load(177) Bat(-34.8)
+Distance of the route: 25.890km
+Real distance of the route: 25.89km
+Time of the route: 1316s
+Load of the route: 177
+
+Route for vehicle 3:
+ 54[CS:current_position_ev_3] Load(61) Bat(42.6) -> 17 Load(61) Bat(42.6) -> 39 Load(73) Bat(42.6) -> 6 Load(97) Bat(37.2) -> 9 Load(122) Bat(35.8) -> 8 Load(141) Bat(31.0) -> 18 Load(158) Bat(24.2) -> 0 Load(180) Bat(-22.4)
+Distance of the route: 21.682km
+Real distance of the route: 21.68km
+Time of the route: 1016s
+Load of the route: 180
+
+Route for vehicle 4:
+ 55[CS:current_position_ev_4] Load(72) Bat(46.3) -> 23 Load(72) Bat(45.6) -> 25 Load(92) Bat(38.8) -> 24 Load(118) Bat(36.6) -> 26 Load(129) Bat(28.2) -> 27 Load(149) Bat(20.3) -> 4 Load(161) Bat(11.8) -> 0 Load(174) Bat(8.3)
+Distance of the route: 12.647km
+Real distance of the route: 12.65km
+Time of the route: 870s
+Load of the route: 174
+
+Route for vehicle 5:
+ 56[CS:current_position_ev_7] Load(110) Bat(47.9) -> 28 Load(110) Bat(47.6) -> 29 Load(124) Bat(44.5) -> 32 Load(135) Bat(31.5) -> 31 Load(147) Bat(23.4) -> 30 Load(156) Bat(15.2) -> 33 Load(164) Bat(1.1) -> 0 Load(177) Bat(-11.5)
+Distance of the route: 19.808km
+Real distance of the route: 19.81km
+Time of the route: 1412s
+Load of the route: 177
+
+Route for vehicle 6:
+ 57[CS:current_position_ev_8] Load(54) Bat(46.2) -> 0 Load(54) Bat(10.3)
+Distance of the route: 11.969km
+Real distance of the route: 11.97km
+Time of the route: 565s
+Load of the route: 54
+
+Route for vehicle 7:
+ 58[CS:current_position_ev_9] Load(60) Bat(45.6) -> 37 Load(60) Bat(40.9) -> 36 Load(88) Bat(40.2) -> 35 Load(101) Bat(40.1) -> 34 Load(128) Bat(40.0) -> 14 Load(145) Bat(22.8) -> 0 Load(174) Bat(-4.2)
+Distance of the route: 16.601km
+Real distance of the route: 16.60km
+Time of the route: 810s
+Load of the route: 174
+
+Total Distance of all routes: 149.760km
+
+Real distance (km): 149.76
+
+Total Load of all routes: 1293
+
+Total Time of all routes: 8431s
+
+Total recharges: 8
+
+Unnecessary charging stops: 0
+
+Minimum battery (SoC) reached: -34.8
+
+Distance already traveled before this sub-problem: 110.752km
+
+Total Distance including distance before event: 260.511km
+
+
+Completion stats (real simulated time/distance after re-planning):
+  ev_0: finished -- extra time=964.0s, total distance (before+after)=28.998km
+  ev_1: finished -- extra time=1545.0s, total distance (before+after)=44.757km
+  ev_2: finished -- extra time=1619.0s, total distance (before+after)=63.143km
+  ev_3: finished -- extra time=1374.0s, total distance (before+after)=55.064km
+  ev_4: finished -- extra time=1176.0s, total distance (before+after)=39.848km
+  ev_7: finished -- extra time=1717.0s, total distance (before+after)=33.974km
+  ev_8: finished -- extra time=591.0s, total distance (before+after)=40.625km
+  ev_9: finished -- extra time=992.0s, total distance (before+after)=42.480km
+TOTAL (finished vehicles only): extra time=9978.0s, total distance=348.890km
