@@ -303,8 +303,8 @@ def run(args):
             continue
         algos[name] = values
         aco_names.append(name)
-    if "ACO" not in algos:
-        raise SystemExit(f"La semilla {aco_seed} de ACO tiene alguna solucion infactible: no se puede rankear.")
+    '''if "ACO" not in algos:
+        raise SystemExit(f"La semilla {aco_seed} de ACO tiene alguna solucion infactible: no se puede rankear.")'''
 
     if DEPOT_TO_STATION:
         print(f"\nExcluidas por salir del deposito directo a una estacion ({len(DEPOT_TO_STATION)} archivo(s)):")

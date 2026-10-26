@@ -2,7 +2,7 @@ Instance: quebec_30c_6ev_4cs.txt
 
 Objective: 108.963
 
-Execution Time: 9.995563507080078
+Execution Time: 10.000255584716797
 
 Metaheuristic: GUIDED_LOCAL_SEARCH
 

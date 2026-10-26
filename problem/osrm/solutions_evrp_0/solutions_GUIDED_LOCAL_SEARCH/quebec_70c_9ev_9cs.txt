@@ -2,7 +2,7 @@ Instance: quebec_70c_9ev_9cs.txt
 
 Objective: 241.942
 
-Execution Time: 9.994842767715454
+Execution Time: 9.999366760253906
 
 Metaheuristic: GUIDED_LOCAL_SEARCH
 

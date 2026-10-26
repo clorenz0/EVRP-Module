@@ -1,0 +1,108 @@
+[traza] problem\osrm\trazas\friedman_20261020_000641_ranking.txt
+Semilla de ACO sorteada entre [1]: 1
+
+Excluidas por dejar clientes sin atender (3 archivo(s)):
+  - GUIDED_LOCAL_SEARCH / 100: 7 cliente(s) sin atender
+  - GUIDED_LOCAL_SEARCH / 350: 8 cliente(s) sin atender
+  - GUIDED_LOCAL_SEARCH / 60c: 1 cliente(s) sin atender
+
+Excluidas por ser del modelo anterior, con distancias truncadas a km enteros (64 archivo(s)): repetir la corrida.
+  - ALL_UNPERFORMED_and_ACO / 100
+  - ALL_UNPERFORMED_and_ACO / 150
+  - ALL_UNPERFORMED_and_ACO / 220
+  - ALL_UNPERFORMED_and_ACO / 350
+  - BEST_INSERTION_and_ACO / 100
+  - BEST_INSERTION_and_ACO / 150
+  - BEST_INSERTION_and_ACO / 220
+  - BEST_INSERTION_and_ACO / 350
+  - CHRISTOFIDES_and_ACO / 100
+  - CHRISTOFIDES_and_ACO / 150
+  - CHRISTOFIDES_and_ACO / 220
+  - CHRISTOFIDES_and_ACO / 350
+  - EVALUATOR_STRATEGY_and_ACO / 100
+  - EVALUATOR_STRATEGY_and_ACO / 150
+  - EVALUATOR_STRATEGY_and_ACO / 220
+
+Soluciones con paradas de carga innecesarias (2; informativo, no cambia el objetivo):
+  - GUIDED_LOCAL_SEARCH / 40c: 1
+  - GUIDED_LOCAL_SEARCH / 70c: 1
+
+Excluidas del ranking (78):
+  - ALL_UNPERFORMED_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - ALL_UNPERFORMED_and_GENERIC_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - ALL_UNPERFORMED_and_GUIDED_LOCAL_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - ALL_UNPERFORMED_and_SIMULATED_ANNEALING: faltan 2 instancia(s) (error o sin ejecutar)
+  - ALL_UNPERFORMED_and_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - BEST_INSERTION_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - BEST_INSERTION_and_GENERIC_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - BEST_INSERTION_and_GUIDED_LOCAL_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - BEST_INSERTION_and_SIMULATED_ANNEALING: faltan 2 instancia(s) (error o sin ejecutar)
+  - BEST_INSERTION_and_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - CHRISTOFIDES_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - CHRISTOFIDES_and_GENERIC_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - CHRISTOFIDES_and_GUIDED_LOCAL_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - CHRISTOFIDES_and_SIMULATED_ANNEALING: faltan 2 instancia(s) (error o sin ejecutar)
+  - CHRISTOFIDES_and_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - EVALUATOR_STRATEGY_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - EVALUATOR_STRATEGY_and_GENERIC_TABU_SEARCH: faltan 1 instancia(s) (error o sin ejecutar)
+  - EVALUATOR_STRATEGY_and_GUIDED_LOCAL_SEARCH: faltan 1 instancia(s) (error o sin ejecutar)
+  - EVALUATOR_STRATEGY_and_SIMULATED_ANNEALING: faltan 1 instancia(s) (error o sin ejecutar)
+  - EVALUATOR_STRATEGY_and_TABU_SEARCH: faltan 1 instancia(s) (error o sin ejecutar)
+  - FIRST_UNBOUND_MIN_VALUE_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - FIRST_UNBOUND_MIN_VALUE_and_GENERIC_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - FIRST_UNBOUND_MIN_VALUE_and_GUIDED_LOCAL_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - FIRST_UNBOUND_MIN_VALUE_and_SIMULATED_ANNEALING: faltan 2 instancia(s) (error o sin ejecutar)
+  - FIRST_UNBOUND_MIN_VALUE_and_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - GLOBAL_CHEAPEST_ARC_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - GLOBAL_CHEAPEST_ARC_and_GENERIC_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - GLOBAL_CHEAPEST_ARC_and_GUIDED_LOCAL_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - GLOBAL_CHEAPEST_ARC_and_SIMULATED_ANNEALING: faltan 2 instancia(s) (error o sin ejecutar)
+  - GLOBAL_CHEAPEST_ARC_and_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - GUIDED_LOCAL_SEARCH: 3 solucion(es) infactible(s) o con clientes descartados
+  - LOCAL_CHEAPEST_ARC_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - LOCAL_CHEAPEST_ARC_and_GENERIC_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - LOCAL_CHEAPEST_ARC_and_GUIDED_LOCAL_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - LOCAL_CHEAPEST_ARC_and_SIMULATED_ANNEALING: faltan 2 instancia(s) (error o sin ejecutar)
+  - LOCAL_CHEAPEST_ARC_and_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - LOCAL_CHEAPEST_COST_INSERTION_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - LOCAL_CHEAPEST_COST_INSERTION_and_GENERIC_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - LOCAL_CHEAPEST_COST_INSERTION_and_GUIDED_LOCAL_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - LOCAL_CHEAPEST_COST_INSERTION_and_SIMULATED_ANNEALING: faltan 2 instancia(s) (error o sin ejecutar)
+  - LOCAL_CHEAPEST_COST_INSERTION_and_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - LOCAL_CHEAPEST_INSERTION_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - LOCAL_CHEAPEST_INSERTION_and_GENERIC_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - LOCAL_CHEAPEST_INSERTION_and_GUIDED_LOCAL_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - LOCAL_CHEAPEST_INSERTION_and_SIMULATED_ANNEALING: faltan 2 instancia(s) (error o sin ejecutar)
+  - LOCAL_CHEAPEST_INSERTION_and_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - PARALLEL_CHEAPEST_INSERTION_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - PARALLEL_CHEAPEST_INSERTION_and_GENERIC_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - PARALLEL_CHEAPEST_INSERTION_and_GUIDED_LOCAL_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - PARALLEL_CHEAPEST_INSERTION_and_SIMULATED_ANNEALING: faltan 2 instancia(s) (error o sin ejecutar)
+  - PARALLEL_CHEAPEST_INSERTION_and_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - PATH_CHEAPEST_ARC: faltan 5 instancia(s) (error o sin ejecutar)
+  - PATH_CHEAPEST_ARC_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - PATH_CHEAPEST_ARC_and_GENERIC_TABU_SEARCH: faltan 1 instancia(s) (error o sin ejecutar)
+  - PATH_CHEAPEST_ARC_and_GUIDED_LOCAL_SEARCH: faltan 1 instancia(s) (error o sin ejecutar)
+  - PATH_CHEAPEST_ARC_and_SIMULATED_ANNEALING: faltan 1 instancia(s) (error o sin ejecutar)
+  - PATH_CHEAPEST_ARC_and_TABU_SEARCH: faltan 1 instancia(s) (error o sin ejecutar)
+  - PATH_MOST_CONSTRAINED_ARC_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - PATH_MOST_CONSTRAINED_ARC_and_GENERIC_TABU_SEARCH: faltan 1 instancia(s) (error o sin ejecutar)
+  - PATH_MOST_CONSTRAINED_ARC_and_GUIDED_LOCAL_SEARCH: faltan 1 instancia(s) (error o sin ejecutar)
+  - PATH_MOST_CONSTRAINED_ARC_and_SIMULATED_ANNEALING: faltan 1 instancia(s) (error o sin ejecutar)
+  - PATH_MOST_CONSTRAINED_ARC_and_TABU_SEARCH: faltan 1 instancia(s) (error o sin ejecutar)
+  - SAVINGS_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - SAVINGS_and_GENERIC_TABU_SEARCH: faltan 1 instancia(s) (error o sin ejecutar)
+  - SAVINGS_and_GUIDED_LOCAL_SEARCH: faltan 1 instancia(s) (error o sin ejecutar)
+  - SAVINGS_and_SIMULATED_ANNEALING: faltan 1 instancia(s) (error o sin ejecutar)
+  - SAVINGS_and_TABU_SEARCH: faltan 1 instancia(s) (error o sin ejecutar)
+  - SEQUENTIAL_CHEAPEST_INSERTION_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - SEQUENTIAL_CHEAPEST_INSERTION_and_GENERIC_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - SEQUENTIAL_CHEAPEST_INSERTION_and_GUIDED_LOCAL_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - SEQUENTIAL_CHEAPEST_INSERTION_and_SIMULATED_ANNEALING: faltan 2 instancia(s) (error o sin ejecutar)
+  - SEQUENTIAL_CHEAPEST_INSERTION_and_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - SWEEP_and_ACO: 4 solucion(es) infactible(s) o con clientes descartados
+  - SWEEP_and_GENERIC_TABU_SEARCH: faltan 2 instancia(s) (error o sin ejecutar)
+  - SWEEP_and_GUIDED_LOCAL_SEARCH: faltan 1 instancia(s) (error o sin ejecutar)
+  - SWEEP_and_SIMULATED_ANNEALING: faltan 1 instancia(s) (error o sin ejecutar)
+  - SWEEP_and_TABU_SEARCH: faltan 1 instancia(s) (error o sin ejecutar)
+  - ACO: semilla 1: solucion infactible

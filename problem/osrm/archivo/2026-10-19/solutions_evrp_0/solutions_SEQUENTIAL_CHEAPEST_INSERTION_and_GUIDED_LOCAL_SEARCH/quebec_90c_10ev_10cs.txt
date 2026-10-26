@@ -1,0 +1,109 @@
+Instance: quebec_90c_10ev_10cs.txt
+
+Objective: 20225.184
+
+Execution Time: 10.00075101852417
+
+Heuristic: SEQUENTIAL_CHEAPEST_INSERTION
+
+Metaheuristic: GUIDED_LOCAL_SEARCH
+
+Distance type: osrm
+
+Vehicle capacity: 180
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Station copies: 3
+
+Customers served: 88/90
+Dropped customers: 2
+Feasibility check: FAILED (1 violation(s))
+  - 2 customer(s) not served: [30, 62]
+
+Dropped clients: [30, 62]
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100.0) -> 82 Load(0) Bat(95.1) -> 34 Load(23) Bat(95.1) -> 2 Load(46) Bat(89.6) -> 68 Load(64) Bat(88.5) -> 8 Load(92) Bat(78.8) -> 13 Load(112) Bat(75.5) -> 33 Load(125) Bat(73.6) -> 71 Load(135) Bat(65.1) -> 23 Load(150) Bat(63.4) -> 0 Load(176) Bat(58.5)
+Distance of the route: 13.841km
+Real distance of the route: 13.84km
+Time of the route: 1572s
+Load of the route: 176
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100.0) -> 18 Load(0) Bat(94.0) -> 4 Load(21) Bat(81.5) -> 16 Load(43) Bat(57.7) -> 10 Load(67) Bat(50.2) -> 64 Load(90) Bat(47.2) -> 48 Load(109) Bat(47.2) -> 29 Load(126) Bat(46.5) -> 90 Load(151) Bat(11.6) -> 0 Load(171) Bat(4.6)
+Distance of the route: 31.811km
+Real distance of the route: 31.81km
+Time of the route: 2488s
+Load of the route: 171
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100.0) -> 63 Load(0) Bat(91.0) -> 47 Load(12) Bat(91.0) -> 15 Load(32) Bat(86.5) -> 60 Load(48) Bat(82.7) -> 44 Load(69) Bat(82.7) -> 11 Load(83) Bat(80.4) -> 28 Load(94) Bat(73.8) -> 89 Load(102) Bat(67.4) -> 41 Load(111) Bat(64.9) -> 31 Load(123) Bat(48.2) -> 9 Load(136) Bat(42.0) -> 88 Load(153) Bat(34.7) -> 0 Load(177) Bat(29.6)
+Distance of the route: 23.459km
+Real distance of the route: 23.46km
+Time of the route: 2482s
+Load of the route: 177
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100.0) -> 37 Load(0) Bat(97.1) -> 77 Load(27) Bat(97.1) -> 85 Load(49) Bat(95.4) -> 26 Load(60) Bat(89.5) -> 57 Load(76) Bat(77.3) -> 81 Load(85) Bat(75.4) -> 49 Load(104) Bat(67.8) -> 65 Load(126) Bat(66.9) -> 6 Load(148) Bat(54.8) -> 0 Load(173) Bat(48.9)
+Distance of the route: 17.047km
+Real distance of the route: 17.05km
+Time of the route: 1983s
+Load of the route: 173
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100.0) -> 56 Load(0) Bat(93.8) -> 24 Load(20) Bat(83.7) -> 19 Load(31) Bat(80.0) -> 35 Load(46) Bat(79.0) -> 86 Load(64) Bat(75.5) -> 78 Load(85) Bat(75.5) -> 5 Load(101) Bat(75.5) -> 54 Load(111) Bat(73.6) -> 38 Load(126) Bat(73.6) -> 75 Load(135) Bat(69.7) -> 74 Load(161) Bat(52.9) -> 0 Load(174) Bat(49.7)
+Distance of the route: 16.759km
+Real distance of the route: 16.76km
+Time of the route: 1709s
+Load of the route: 174
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100.0) -> 53 Load(0) Bat(95.4) -> 69 Load(18) Bat(89.4) -> 43 Load(26) Bat(84.0) -> 83 Load(45) Bat(76.7) -> 1 Load(59) Bat(76.7) -> 40 Load(74) Bat(73.3) -> 72 Load(90) Bat(66.6) -> 67 Load(110) Bat(61.2) -> 51 Load(121) Bat(59.5) -> 21 Load(147) Bat(52.2) -> 3 Load(167) Bat(46.6) -> 0 Load(179) Bat(38.4)
+Distance of the route: 20.530km
+Real distance of the route: 20.53km
+Time of the route: 2747s
+Load of the route: 179
+
+Route for vehicle 6:
+ 0 Load(0) Bat(100.0) -> 17 Load(0) Bat(89.7) -> 73 Load(9) Bat(72.2) -> 42 Load(27) Bat(48.3) -> 50 Load(51) Bat(48.3) -> 58 Load(64) Bat(48.3) -> 66 Load(91) Bat(48.3) -> 12 Load(108) Bat(47.5) -> 61 Load(136) Bat(45.5) -> 45 Load(152) Bat(45.5) -> 0 Load(180) Bat(10.3)
+Distance of the route: 29.909km
+Real distance of the route: 29.91km
+Time of the route: 2174s
+Load of the route: 180
+
+Route for vehicle 7:
+ 0 Load(0) Bat(100.0) -> 39 Load(0) Bat(94.1) -> 32 Load(21) Bat(59.4) -> 7 Load(50) Bat(59.4) -> 95[CS:Borne IGA Trois-Rivières] Load(64) Bat(59.4) -> 14 Load(64) Bat(87.4) -> 46 Load(83) Bat(86.1) -> 80 Load(94) Bat(81.5) -> 27 Load(106) Bat(79.8) -> 76 Load(128) Bat(48.6) -> 36 Load(138) Bat(48.6) -> 84 Load(153) Bat(48.2) -> 0 Load(180) Bat(36.1)
+Distance of the route: 34.802km
+Real distance of the route: 34.80km
+Time of the route: 2829s
+Load of the route: 180
+
+Route for vehicle 8:
+ 0 Load(0) Bat(100.0) -> 52 Load(0) Bat(90.2) -> 25 Load(10) Bat(85.0) -> 99[CS:Circuit Électrique Yamachiche] Load(40) Bat(80.6) -> 59 Load(40) Bat(60.4) -> 70 Load(54) Bat(47.4) -> 22 Load(78) Bat(45.8) -> 79 Load(92) Bat(29.3) -> 87 Load(121) Bat(28.6) -> 55 Load(138) Bat(28.6) -> 20 Load(161) Bat(19.8) -> 0 Load(179) Bat(8.3)
+Distance of the route: 37.026km
+Real distance of the route: 37.03km
+Time of the route: 2735s
+Load of the route: 179
+
+Route for vehicle 9:
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
+Time of the route: 0s
+Load of the route: 0
+
+Total Distance of all routes: 225.184km
+
+Real distance (km): 225.19
+
+Total Load of all routes: 1589
+
+Total Time of all routes: 20719s
+
+Total recharges: 2
+
+Unnecessary charging stops: 0
+
+Minimum battery (SoC) reached: 4.6
+

@@ -1,0 +1,2 @@
+[traza] problem\osrm\trazas\friedman_20261020_000538_ranking.txt
+Semilla de ACO sorteada entre [1]: 1

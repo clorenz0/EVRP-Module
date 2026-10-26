@@ -1,8 +1,8 @@
 Instance: quebec_30c_6ev_4cs.txt
 
-Objective: 113.132
+Objective: 110.223
 
-Execution Time: 10.00062608718872
+Execution Time: 9.99971604347229
 
 Heuristic: SWEEP
 
@@ -21,39 +21,39 @@ Dropped customers: 0
 Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
 
 Route for vehicle 0:
- 0 Load(0) Bat(100.0) -> 26 Load(0) Bat(87.0) -> 5 Load(14) Bat(82.1) -> 23 Load(27) Bat(79.8) -> 2 Load(36) Bat(71.6) -> 14 Load(58) Bat(58.0) -> 11 Load(84) Bat(49.6) -> 20 Load(98) Bat(42.1) -> 7 Load(128) Bat(30.9) -> 0 Load(147) Bat(13.8)
-Distance of the route: 28.729km
-Real distance of the route: 28.73km
-Time of the route: 4018s
-Load of the route: 147
+ 0 Load(0) Bat(100.0) -> 26 Load(0) Bat(87.0) -> 5 Load(14) Bat(82.1) -> 23 Load(27) Bat(79.8) -> 20 Load(36) Bat(75.0) -> 11 Load(66) Bat(70.0) -> 14 Load(80) Bat(60.2) -> 2 Load(106) Bat(46.1) -> 1 Load(128) Bat(39.9) -> 0 Load(146) Bat(28.6)
+Distance of the route: 23.807km
+Real distance of the route: 23.81km
+Time of the route: 3293s
+Load of the route: 146
 
 Route for vehicle 1:
- 0 Load(0) Bat(100.0) -> 3 Load(0) Bat(92.7) -> 17 Load(15) Bat(83.0) -> 30 Load(27) Bat(64.8) -> 25 Load(47) Bat(47.1) -> 34[CS:Station Rapide Saint-Lambert] Load(55) Bat(29.4) -> 6 Load(55) Bat(97.4) -> 12 Load(79) Bat(87.0) -> 15 Load(102) Bat(66.2) -> 10 Load(122) Bat(38.1) -> 0 Load(147) Bat(28.7)
-Distance of the route: 47.302km
-Real distance of the route: 47.30km
-Time of the route: 5231s
-Load of the route: 147
+ 0 Load(0) Bat(100.0) -> 8 Load(0) Bat(96.1) -> 15 Load(21) Bat(74.7) -> 12 Load(41) Bat(47.5) -> 6 Load(64) Bat(36.1) -> 30 Load(88) Bat(27.8) -> 32[CS:Recharge Brossard Quartier DIX30] Load(108) Bat(15.8) -> 25 Load(108) Bat(83.7) -> 10 Load(116) Bat(56.7) -> 0 Load(141) Bat(47.3)
+Distance of the route: 45.608km
+Real distance of the route: 45.61km
+Time of the route: 5087s
+Load of the route: 141
 
 Route for vehicle 2:
+ 0 Load(0) Bat(100.0) -> 3 Load(0) Bat(92.7) -> 17 Load(15) Bat(83.0) -> 24 Load(27) Bat(77.7) -> 21 Load(59) Bat(71.3) -> 29 Load(69) Bat(67.5) -> 18 Load(87) Bat(62.0) -> 9 Load(116) Bat(58.5) -> 27 Load(132) Bat(52.2) -> 0 Load(148) Bat(42.1)
+Distance of the route: 19.316km
+Real distance of the route: 19.32km
+Time of the route: 2747s
+Load of the route: 148
+
+Route for vehicle 3:
  0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
 Distance of the route: 0.000km
 Real distance of the route: 0.00km
 Time of the route: 0s
 Load of the route: 0
 
-Route for vehicle 3:
- 0 Load(0) Bat(100.0) -> 8 Load(0) Bat(96.1) -> 22 Load(21) Bat(87.6) -> 19 Load(52) Bat(78.6) -> 13 Load(63) Bat(70.8) -> 16 Load(80) Bat(57.2) -> 28 Load(108) Bat(53.5) -> 4 Load(120) Bat(49.1) -> 0 Load(147) Bat(44.9)
-Distance of the route: 18.363km
-Real distance of the route: 18.36km
-Time of the route: 2814s
-Load of the route: 147
-
 Route for vehicle 4:
- 0 Load(0) Bat(100.0) -> 27 Load(0) Bat(88.5) -> 1 Load(16) Bat(84.3) -> 18 Load(34) Bat(76.4) -> 9 Load(63) Bat(72.9) -> 29 Load(79) Bat(68.0) -> 21 Load(97) Bat(64.1) -> 24 Load(107) Bat(58.0) -> 0 Load(139) Bat(43.8)
-Distance of the route: 18.738km
-Real distance of the route: 18.74km
-Time of the route: 2611s
-Load of the route: 139
+ 0 Load(0) Bat(100.0) -> 22 Load(0) Bat(88.6) -> 19 Load(31) Bat(79.6) -> 13 Load(42) Bat(71.8) -> 7 Load(59) Bat(55.7) -> 16 Load(78) Bat(47.8) -> 28 Load(106) Bat(44.1) -> 4 Load(118) Bat(39.7) -> 0 Load(145) Bat(35.5)
+Distance of the route: 21.492km
+Real distance of the route: 21.49km
+Time of the route: 3011s
+Load of the route: 145
 
 Route for vehicle 5:
  0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
@@ -62,17 +62,17 @@ Real distance of the route: 0.00km
 Time of the route: 0s
 Load of the route: 0
 
-Total Distance of all routes: 113.132km
+Total Distance of all routes: 110.223km
 
-Real distance (km): 113.13
+Real distance (km): 110.22
 
 Total Load of all routes: 580
 
-Total Time of all routes: 14674s
+Total Time of all routes: 14138s
 
 Total recharges: 1
 
 Unnecessary charging stops: 0
 
-Minimum battery (SoC) reached: 13.8
+Minimum battery (SoC) reached: 15.8
 

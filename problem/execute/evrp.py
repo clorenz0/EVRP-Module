@@ -72,8 +72,11 @@ cual — instance_type/distance_type dejan de tener efecto sobre los datos
 (distance_type se sigue usando solo para nombrar la carpeta de salida).
 """
 
+from collections import Counter
 from functools import partial
 import os
+import random
+import time
 
 from ortools.constraint_solver import pywrapcp
 
@@ -514,6 +517,370 @@ def add_fuel_constraints(routing, manager, data, fuel_evaluator_index, initial_f
 
 
 # ═══════════════════════════════════════════════════════════════
+# 3b. COMPLETADO DE CLIENTES LEJANOS
+# ═══════════════════════════════════════════════════════════════
+
+# Un cliente "lejano" (la ida y vuelta desde el deposito no cabe en una carga) solo se puede atender si la ruta incluye
+# estaciones cerca de el (a veces una ANTES y otra DESPUES). Los operadores de busqueda local de OR-Tools insertan UN nodo
+# por movimiento: insertar la estacion sola solo suma distancia e insertar el cliente solo es infactible, asi que con
+# cualquier combinacion de heuristica y metaheuristica esos clientes pueden quedar descartados (diagnostico_ortools.py).
+#
+# REQUISITO DEL PROBLEMA: ningun cliente puede quedar sin atender. Este paso de REPARACION se aplica por igual a TODAS
+# las combinaciones y a cualquier instancia, solo si la solucion de OR-Tools dejo clientes sin atender:
+#   1. Insercion con arrepentimiento (regret-2): cada cliente descartado se inserta, con la(s) estacion(es) que necesite
+#      (antes, despues, o antes y despues -- incluida la MISMA estacion dos veces, usando dos copias), en la posicion
+#      factible de menor distancia. Primero el cliente con menos alternativas.
+#   2. Expulsion: si un cliente no cabe en ninguna ruta (bateria o capacidad), se prueba sacar un cliente cercano de una
+#      ruta, meter alli al descartado y reubicar al expulsado en otra ruta.
+#   3. Ruina y reconstruccion: si aun quedan clientes sin atender, se sacan de las rutas los clientes cercanos a ellos y
+#      se vuelven a insertar todos (con semilla fija, reproducible) hasta atenderlos a todos o agotar el tiempo de
+#      reparacion. Un intento solo se acepta si deja MENOS clientes sin atender; nunca empeora la cobertura.
+# Todas las reglas del modelo se respetan (bateria, capacidad, deposito -> estacion y estacion -> estacion prohibidos,
+# visitas por estacion <= station_copies) con las mismas conversiones enteras que el solver y que utils/feasibility.py.
+# El tiempo de la reparacion se suma al 'Execution Time' de la solucion. EVRP_COMPLETE_DROPPED=0 lo desactiva.
+COMPLETE_DROPPED = os.environ.get("EVRP_COMPLETE_DROPPED", "1") != "0"
+NEAREST_STATIONS = 6        # estaciones candidatas por cliente (las mas cercanas a el)
+EJECT_CANDIDATES = 30       # clientes cercanos que se prueba expulsar para hacer sitio
+REPAIR_TIME_SHARE = 0.5     # tiempo maximo de ruina y reconstruccion, como fraccion de time_limit ...
+REPAIR_MIN_SECONDS, REPAIR_MAX_SECONDS = 10, 120     # ... acotado a [10 s, 120 s]
+REPAIR_SEED = 12345         # semilla fija: la misma solucion de partida da siempre la misma reparacion
+
+
+def complete_dropped_clients(data, manager, routing, assignment, search_parameters, time_limit):
+    """
+    Devuelve (solucion, routing) con los clientes descartados insertados, o None si no hay descartados o no se pudo
+    insertar ninguno. Deja en data['completed_clients'] los clientes que la reparacion logro atender.
+    """
+    data['completed_clients'] = []
+    n_clients = data['num_locations'] - len(data['charging_stations']) - 1
+    dropped = [c for c in range(1, n_clients + 1)
+               if assignment.Value(routing.NextVar(manager.NodeToIndex(c))) == manager.NodeToIndex(c)]
+    if not dropped:
+        return None
+    rep = _Repair(data, manager, routing, assignment)
+    if not rep.ok:
+        print("Repair step skipped: the starting solution already violates a constraint")
+        return None
+    budget = min(REPAIR_MAX_SECONDS, max(REPAIR_MIN_SECONDS, REPAIR_TIME_SHARE * time_limit))
+    left = rep.run(dropped, deadline=time.time() + budget)
+    served = [c for c in dropped if c not in left]
+    if left:
+        print(f"WARNING: the repair step could not serve customers {left} within {budget:.0f}s")
+    if not served:
+        return None
+    data['completed_clients'] = served
+    view = _RoutesView(routing, manager, rep.model_mids())
+    return view, _RoutingView(routing, view)
+
+
+class _Repair:
+    """Rutas en ids ORIGINALES (cada estacion = una parada) y operadores de reparacion sobre ellas."""
+
+    def __init__(self, data, manager, routing, assignment):
+        dm, n = data['distance_matrix'], data['num_locations']
+        self.depot = data['depot']
+        self.cap = cap_int(data.get('fuel_capacity_units', data['fuel_capacity']))
+        self.vcap = data['vehicle_capacity']
+        self.dem = data['demands']
+        self.origin = data.get('station_origin', {})
+        self.exit_of = data.get('station_exit', {})
+        self.copies_of = data.get('station_copies_of', {})
+        self.sb = data.get('start_battery') or {}
+        self.sl = data.get('start_load') or {}
+        o = self.orig
+        exits = set(self.exit_of.values())
+        self.stations = {o(s) for s in data['charging_stations']}
+        # visitas maximas por estacion = numero de copias (llegadas) de esa estacion
+        self.max_visits = Counter(o(s) for s in data['charging_stations'] if s not in exits)
+        self.cand_stations = [s for s in self.stations if s not in self.sb]
+        ids = sorted({o(x) for x in range(n)})
+        rate = data['fuel_consumption_rate']
+        self.C = {a: {b: (0 if a == b else cost_int(dm[a][b])) for b in ids} for a in ids}
+        self.E = {a: {b: (0 if a == b else energy_int(dm[a][b], rate)) for b in ids} for a in ids}
+        self.n_clients = n - len(data['charging_stations']) - 1
+        self.starts, self.routes = [], []
+        for v in range(routing.vehicles()):
+            idx = routing.Start(v)
+            start = o(manager.IndexToNode(idx))
+            seq = []
+            idx = assignment.Value(routing.NextVar(idx))
+            while not routing.IsEnd(idx):
+                x = o(manager.IndexToNode(idx))
+                if not (x == (seq[-1] if seq else start) and x in self.stations):
+                    seq.append(x)
+                idx = assignment.Value(routing.NextVar(idx))
+            self.starts.append(start)
+            self.routes.append(seq)
+        self.cost = [self.route_cost(v, r) for v, r in enumerate(self.routes)]
+        self.ok = all(c is not None for c in self.cost)
+        self.usage = Counter(x for r in self.routes for x in r if self.is_station(x))
+        self._near = {}
+
+    def orig(self, x):
+        return self.origin.get(x, x)
+
+    def is_station(self, x):
+        return x in self.stations and x not in self.sb
+
+    def is_client(self, x):
+        return 1 <= x <= self.n_clients and x not in self.stations
+
+    # ── evaluacion ────────────────────────────────────────────────────────────
+    def route_cost(self, v, seq):
+        """Distancia (enteros) de start -> seq -> deposito, o None si incumple bateria, capacidad o reglas de arcos."""
+        C, E, depot, cap = self.C, self.E, self.depot, self.cap
+        start = self.starts[v]
+        bat, load, total = self.sb.get(start, cap), self.sl.get(start, 0), 0
+        a, a_st = start, False         # la posicion de arranque no cuenta como estacion
+        for b in seq + [depot]:
+            b_st = b in self.stations and b not in self.sb
+            if b_st and (a == depot or a_st):
+                return None             # deposito -> estacion o estacion -> estacion
+            bat -= E[a][b]
+            if bat < 0:
+                return None
+            total += C[a][b]
+            if b_st:
+                bat = cap
+            elif b != depot:
+                load += self.dem[b]
+                if load > self.vcap:
+                    return None
+            a, a_st = b, b_st
+        return total
+
+    def load_of(self, v, seq):
+        return self.sl.get(self.starts[v], 0) + sum(self.dem[x] for x in seq if self.is_client(x))
+
+    def set_route(self, v, seq, cost=None):
+        for x in self.routes[v]:
+            if self.is_station(x):
+                self.usage[x] -= 1
+        for x in seq:
+            if self.is_station(x):
+                self.usage[x] += 1
+        self.routes[v] = seq
+        self.cost[v] = self.route_cost(v, seq) if cost is None else cost
+
+    def near_stations(self, c):
+        if c not in self._near:
+            self._near[c] = sorted(self.cand_stations, key=lambda s: self.C[s][c] + self.C[c][s])[:NEAREST_STATIONS]
+        return self._near[c]
+
+    def patterns(self, c):
+        ns = self.near_stations(c)
+        pats = [[c]]
+        for s in ns:
+            pats.append([s, c])
+            pats.append([c, s])
+        for s1 in ns:
+            for s2 in ns:
+                pats.append([s1, c, s2])
+        return pats
+
+    def free(self, pat):
+        need = Counter(x for x in pat if self.is_station(x))
+        return all(self.usage[s] + k <= self.max_visits[s] for s, k in need.items())
+
+    def best_in_route(self, c, v, pats):
+        """Mejor insercion de c en la ruta v: (aumento de distancia, nueva ruta, costo) o None."""
+        r = self.routes[v]
+        if self.load_of(v, r) + self.dem[c] > self.vcap:
+            return None
+        base, best = self.cost[v], None
+        for pat in pats:
+            if not self.free(pat):
+                continue
+            for k in range(len(r) + 1):
+                new = r[:k] + pat + r[k:]
+                d = self.route_cost(v, new)
+                if d is not None and (best is None or d - base < best[0]):
+                    best = (d - base, new, d)
+        return best
+
+    def options(self, c):
+        pats = self.patterns(c)
+        out = []
+        for v in range(len(self.routes)):
+            b = self.best_in_route(c, v, pats)
+            if b is not None:
+                out.append((b[0], v, b[1], b[2]))
+        out.sort(key=lambda t: t[0])
+        return out
+
+    def cleanup(self, v, seq):
+        """Quita paradas de carga que ya no hacen falta (la ruta sigue factible y no es mas larga)."""
+        cur = self.route_cost(v, seq)
+        if cur is None:
+            return seq, None
+        changed = True
+        while changed:
+            changed = False
+            for i, x in enumerate(seq):
+                if self.is_station(x):
+                    cand = seq[:i] + seq[i + 1:]
+                    d = self.route_cost(v, cand)
+                    if d is not None and d <= cur:
+                        seq, cur, changed = cand, d, True
+                        break
+        return seq, cur
+
+    # ── operadores ────────────────────────────────────────────────────────────
+    def regret_insert(self, pending, rng=None):
+        """Inserta los clientes de `pending` (regret-2). Devuelve los que no se pudieron insertar."""
+        pending, failed = list(pending), []
+        while pending:
+            choice = None
+            for c in list(pending):
+                opts = self.options(c)
+                if not opts:
+                    pending.remove(c)
+                    failed.append(c)
+                    continue
+                regret = opts[1][0] - opts[0][0] if len(opts) > 1 else float('inf')
+                if rng is not None and regret != float('inf'):
+                    regret *= 1 + rng.uniform(-0.3, 0.3)
+                if choice is None or regret > choice[0]:
+                    choice = (regret, c, opts[0])
+            if choice is None:
+                break
+            _, c, (_, v, new, d) = choice
+            self.set_route(v, new, d)
+            pending.remove(c)
+        return failed
+
+    def where(self, x):
+        for v, r in enumerate(self.routes):
+            if x in r:
+                return v
+        return None
+
+    def eject(self, c):
+        """Saca un cliente cercano x de una ruta, mete alli a c y reubica x. Devuelve True si atendio a c."""
+        routed = [x for r in self.routes for x in r if self.is_client(x)]
+        cands = sorted(routed, key=lambda x: self.C[c][x] + self.C[x][c])[:EJECT_CANDIDATES]
+        pats_c, best = self.patterns(c), None
+        for x in cands:
+            v = self.where(x)
+            old, old_cost = self.routes[v], self.cost[v]
+            i = old.index(x)
+            r2, c2 = self.cleanup(v, old[:i] + old[i + 1:])
+            if c2 is None:
+                continue
+            self.set_route(v, r2, c2)
+            bc = self.best_in_route(c, v, pats_c)
+            if bc is not None:
+                self.set_route(v, bc[1], bc[2])
+                ox = self.options(x)
+                if ox:
+                    delta = (bc[2] - old_cost) + ox[0][0]
+                    if best is None or delta < best[0]:
+                        best = (delta, v, bc[1], bc[2], x)
+            self.set_route(v, old, old_cost)
+        if best is None:
+            return False
+        _, v, rv, cv, x = best
+        old, old_cost = self.routes[v], self.cost[v]
+        self.set_route(v, rv, cv)
+        ox = self.options(x)
+        if not ox:                      # no deberia pasar (se comprobo arriba); se deshace
+            self.set_route(v, old, old_cost)
+            return False
+        self.set_route(ox[0][1], ox[0][2], ox[0][3])
+        return True
+
+    def snapshot(self):
+        return [list(r) for r in self.routes], list(self.cost)
+
+    def restore(self, snap):
+        routes, costs = snap
+        for v in range(len(routes)):
+            self.set_route(v, list(routes[v]), costs[v])
+
+    def ruin_recreate(self, left, deadline):
+        rng = random.Random(REPAIR_SEED)
+        it = 0
+        while left and time.time() < deadline:
+            it += 1
+            snap = self.snapshot()
+            seed = rng.choice(left)
+            routed = [x for r in self.routes for x in r if self.is_client(x)]
+            k = min(len(routed), rng.randint(5, 10 + min(it, 30)))
+            removed = sorted(routed, key=lambda x: (self.C[seed][x] + self.C[x][seed]) * rng.uniform(0.8, 1.2))[:k]
+            rem = set(removed)
+            for v, r in enumerate(self.routes):
+                if rem.intersection(r):
+                    nr, nc = self.cleanup(v, [x for x in r if x not in rem])
+                    if nc is None:          # quitar clientes no deberia romper la ruta; por si acaso, se descarta el intento
+                        break
+                    self.set_route(v, nr, nc)
+            else:
+                order = list(left) + removed
+                rng.shuffle(order)
+                failed = self.regret_insert(order, rng)
+                if len(failed) < len(left):
+                    left = failed
+                    continue
+            self.restore(snap)
+        return left
+
+    def run(self, dropped, deadline):
+        n = self.depot
+        dropped = sorted(dropped, key=lambda c: -(self.C[n][c] + self.C[c][n]))
+        left = self.regret_insert(dropped)
+        left = [c for c in left if not self.eject(c)]
+        if left:
+            left = self.ruin_recreate(left, deadline)
+        for v, r in enumerate(self.routes):
+            nr, nc = self.cleanup(v, r)
+            if nc is not None:
+                self.set_route(v, nr, nc)
+        return left
+
+    def model_mids(self):
+        """Rutas en nodos del modelo: cada parada en estacion usa una copia libre (llegada + salida)."""
+        pool = {s: list(self.copies_of.get(s, ())) for s in self.stations}
+        mids = []
+        for r in self.routes:
+            mid = []
+            for x in r:
+                if self.is_station(x) and pool.get(x):
+                    e = pool[x].pop(0)
+                    mid += [e, self.exit_of[e]] if e in self.exit_of else [e]
+                else:
+                    mid.append(x)
+            mids.append(mid)
+        return mids
+
+
+class _RoutesView:
+    """Solucion definida solo por rutas; imita lo que save_solution usa de un Assignment (Value del NextVar)."""
+
+    def __init__(self, routing, manager, mids):
+        self.next = {}
+        for v, mid in enumerate(mids):
+            seq = [routing.Start(v)] + [manager.NodeToIndex(n) for n in mid] + [routing.End(v)]
+            for a, b in zip(seq, seq[1:]):
+                self.next[a] = b
+
+    def Value(self, index):
+        return self.next.get(index, index)      # un nodo que no esta en ninguna ruta queda sin atender (apunta a si mismo)
+
+
+class _RoutingView:
+    """El RoutingModel real, pero con NextVar(i) -> i para poder consultar una solucion definida por rutas."""
+
+    def __init__(self, routing, view):
+        self._routing, self.view = routing, view
+
+    def NextVar(self, index):
+        return index
+
+    def __getattr__(self, name):
+        return getattr(self._routing, name)
+
+
+# ═══════════════════════════════════════════════════════════════
 # 4. GUARDAR SOLUCIÓN
 # ═══════════════════════════════════════════════════════════════
 
@@ -602,6 +969,8 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
             f.write(f'Customers served: {num_clients - len(dropped_clients)}/{num_clients}\n')
             f.write(f'Dropped customers: {len(dropped_clients)}\n')
             f.write('\n'.join(report_lines(feasibility)) + '\n\n')
+            if data.get('completed_clients'):
+                f.write(f'Customers inserted by the completion step: {data["completed_clients"]}\n\n')
             if dropped_clients:
                 f.write(f'Dropped clients: {dropped_clients}\n\n')
 
@@ -615,8 +984,17 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
             min_soc = None
 
             n_unnecessary = 0
+            # Bateria y carga se recalculan desde las rutas (no se leen de las variables de la dimension, que en una solucion
+            # reconstruida a partir de rutas pueden no tener valores reales); misma regla que el validador.
+            cap_ = cap_int(data.get('fuel_capacity_units', data['fuel_capacity']))
+            rate_ = data['fuel_consumption_rate']
+            start_battery_ = data.get('start_battery') or {}
+            start_load_ = data.get('start_load') or {}
             for vehicle_id in range(data['num_vehicles']):
                 index = routing.Start(vehicle_id)
+                first_node_ = origin.get(manager.IndexToNode(index), manager.IndexToNode(index))
+                bat_ = start_battery_.get(first_node_, cap_)
+                load_ = start_load_.get(first_node_, 0)
                 plan_output = f'Route for vehicle {vehicle_id}:\n'
                 route_distance = 0
                 route_real_km = 0.0     # distancia real (sin truncar por arco)
@@ -635,11 +1013,17 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                         if time_matrix is not None:
                             route_time += int(time_matrix[previous_node][next_node])
                         continue
+                    is_first_ = not route_nodes
+                    if not is_first_:
+                        bat_ -= energy_int(distance_matrix[route_nodes[-1]][node], rate_)
                     route_nodes.append(node)
-                    load_var = capacity_dimension.CumulVar(index)
-                    fuel_var = fuel_dimension.CumulVar(index)
-                    soc = assignment.Min(fuel_var) / DIST_SCALE     # unidades de bateria (el modelo usa metros)
+                    soc = bat_ / DIST_SCALE     # unidades de bateria (el modelo usa metros)
                     min_soc = soc if min_soc is None else min(min_soc, soc)
+                    load_here_ = load_
+                    if node in charging_set and not (is_first_ and node in start_battery_):
+                        bat_ = cap_
+                    elif node != data['depot']:
+                        load_ += data['demands'][node]
 
                     # Etiqueta especial para estaciones de carga
                     if node in charging_set:
@@ -647,13 +1031,13 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                         cs_label = f'[CS:{cs_names.get(node, node)}]'
                         plan_output += (
                             f' {node}{cs_label} '
-                            f'Load({assignment.Min(load_var)}) '
+                            f'Load({load_here_}) '
                             f'Bat({soc:.1f}) ->'
                         )
                     else:
                         plan_output += (
                             f' {node} '
-                            f'Load({assignment.Min(load_var)}) '
+                            f'Load({load_here_}) '
                             f'Bat({soc:.1f}) ->'
                         )
 
@@ -666,28 +1050,28 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
                         route_time += int(time_matrix[previous_node][next_node])
 
                 # Nodo final (depósito de llegada)
-                load_var = capacity_dimension.CumulVar(index)
-                fuel_var = fuel_dimension.CumulVar(index)
-                soc = assignment.Min(fuel_var) / DIST_SCALE
-                min_soc = soc if min_soc is None else min(min_soc, soc)
                 end_node = origin.get(manager.IndexToNode(index), manager.IndexToNode(index))
+                if route_nodes:
+                    bat_ -= energy_int(distance_matrix[route_nodes[-1]][end_node], rate_)
+                soc = bat_ / DIST_SCALE
+                min_soc = soc if min_soc is None else min(min_soc, soc)
                 route_nodes.append(end_node)
                 n_unnecessary += unnecessary_stops(route_nodes, data)
                 plan_output += (
                     f' {end_node} '
-                    f'Load({assignment.Min(load_var)}) '
+                    f'Load({load_}) '
                     f'Bat({soc:.1f})\n'
                 )
                 plan_output += f'Distance of the route: {route_distance / DIST_SCALE:.3f}km\n'
                 plan_output += f'Real distance of the route: {route_real_km:.2f}km\n'
                 if time_matrix is not None:
                     plan_output += f'Time of the route: {route_time}s\n'
-                plan_output += f'Load of the route: {assignment.Min(load_var)}\n\n'
+                plan_output += f'Load of the route: {load_}\n\n'
 
                 f.write(plan_output)
                 total_distance += route_distance
                 total_real_km += route_real_km
-                total_load += assignment.Min(load_var)
+                total_load += load_
                 total_time += route_time
 
             f.write(f'Total Distance of all routes: {total_distance / DIST_SCALE:.3f}km\n\n')
@@ -828,5 +1212,6 @@ def execute(
         # ── Resolver ──────────────────────────────────────────────────────────
         execute_solution(
             save_solution, heuristic, metaheuristic, i, distance_type,
-            routing, time_limit, data, manager, instance, initial_routes
+            routing, time_limit, data, manager, instance, initial_routes,
+            completion=partial(complete_dropped_clients, data, manager, routing) if COMPLETE_DROPPED else None
         )

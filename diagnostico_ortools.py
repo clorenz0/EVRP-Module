@@ -23,6 +23,7 @@ con variantes que desactivan UN cambio a la vez, para saber cual rompe la busque
   2_copias              dos copias por estacion
   sin_orden_copias      sin la restriccion "la copia k+1 solo si esta la k"
   sin_finalizer         sin AddVariableMaximizedByFinalizer en las estaciones
+  sin_completado        sin el paso que inserta los clientes lejanos descartados (ver evrp.complete_dropped_clients)
 
 Uso (raiz del repo, con OSRM o su cache disponible):
     python diagnostico_ortools.py --quick                  # 30c y 100c, 8 variantes (~5 min)
@@ -79,6 +80,7 @@ VARIANTS = {
     "2_copias": {"copies": 2},
     "sin_orden_copias": {"no_order": True},
     "sin_finalizer": {"no_finalizer": True},
+    "sin_completado": {"no_completion": True},
 }
 # una variante por cada heuristica de primera solucion (con Guided Local Search), para ver cuales dan soluciones completas
 for _h in HeuristicType:
@@ -179,6 +181,7 @@ def _configure(opts):
     evrp.FORBID_BY_COST = opts.get("forbid_by_cost", True)
     evrp.COPY_ORDER_CP = opts.get("order_cp", False)
     evrp.RECHARGE_BOUND = not opts.get("no_bound", False)
+    evrp.COMPLETE_DROPPED = not opts.get("no_completion", False)
     evrp.apply_forbidden_arcs = _hooked_apply
     evrp.save_solution = _hooked_save
 

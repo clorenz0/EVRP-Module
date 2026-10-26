@@ -1,0 +1,73 @@
+[traza] problem\osrm\trazas\run_aco_20261025_095108_ACO_tiempo_por_instancia.txt
+Combinaciones a ejecutar (1): ['ACO']
+
+##### ACO | instancias: ['quebec_100c_12ev_12cs.txt', 'quebec_150c_18ev_15cs.txt', 'quebec_220c_26ev_20cs.txt', 'quebec_30c_6ev_4cs.txt', 'quebec_350c_40ev_30cs.txt', 'quebec_40c_4ev_6cs.txt', 'quebec_50c_5ev_5cs.txt', 'quebec_60c_8ev_8cs.txt', 'quebec_70c_9ev_9cs.txt', 'quebec_90c_10ev_10cs.txt'] | semillas: [1] | tiempo por instancias
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-25\solutions_evrp_1001\solutions_ACO
+
+=== ACO | quebec_100c_12ev_12cs.txt | semilla 1 ===
+Corriendo ACO sobre 'quebec_100c_12ev_12cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...
+  74 iteraciones, mejor objetivo: 271669
+Solution saved successfully in problem/osrm/solutions_evrp_1001/solutions_ACO\quebec_100c_12ev_12cs.txt
+
+=== ACO | quebec_150c_18ev_15cs.txt | semilla 1 ===
+Corriendo ACO sobre 'quebec_150c_18ev_15cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...
+  56 iteraciones, mejor objetivo: 382737
+Solution saved successfully in problem/osrm/solutions_evrp_1001/solutions_ACO\quebec_150c_18ev_15cs.txt
+
+=== ACO | quebec_220c_26ev_20cs.txt | semilla 1 ===
+Corriendo ACO sobre 'quebec_220c_26ev_20cs.txt' (30 hormigas, limite 120s, consumo 3.0, bateria 100000)...
+  41 iteraciones, mejor objetivo: 701865
+Solution saved successfully in problem/osrm/solutions_evrp_1001/solutions_ACO\quebec_220c_26ev_20cs.txt
+
+=== ACO | quebec_30c_6ev_4cs.txt | semilla 1 ===
+Corriendo ACO sobre 'quebec_30c_6ev_4cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  240 iteraciones, mejor objetivo: 108177
+Solution saved successfully in problem/osrm/solutions_evrp_1001/solutions_ACO\quebec_30c_6ev_4cs.txt
+
+=== ACO | quebec_350c_40ev_30cs.txt | semilla 1 ===
+Corriendo ACO sobre 'quebec_350c_40ev_30cs.txt' (30 hormigas, limite 180s, consumo 3.0, bateria 100000)...
+  31 iteraciones, mejor objetivo: 1085350
+Solution saved successfully in problem/osrm/solutions_evrp_1001/solutions_ACO\quebec_350c_40ev_30cs.txt
+
+=== ACO | quebec_40c_4ev_6cs.txt | semilla 1 ===
+Corriendo ACO sobre 'quebec_40c_4ev_6cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  115 iteraciones, mejor objetivo: 92216
+Solution saved successfully in problem/osrm/solutions_evrp_1001/solutions_ACO\quebec_40c_4ev_6cs.txt
+
+=== ACO | quebec_50c_5ev_5cs.txt | semilla 1 ===
+Corriendo ACO sobre 'quebec_50c_5ev_5cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  67 iteraciones, mejor objetivo: 160838
+Solution saved successfully in problem/osrm/solutions_evrp_1001/solutions_ACO\quebec_50c_5ev_5cs.txt
+
+=== ACO | quebec_60c_8ev_8cs.txt | semilla 1 ===
+Corriendo ACO sobre 'quebec_60c_8ev_8cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  22 iteraciones, mejor objetivo: 160077
+Solution saved successfully in problem/osrm/solutions_evrp_1001/solutions_ACO\quebec_60c_8ev_8cs.txt
+
+=== ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  28 iteraciones, mejor objetivo: 231699
+Solution saved successfully in problem/osrm/solutions_evrp_1001/solutions_ACO\quebec_70c_9ev_9cs.txt
+
+=== ACO | quebec_90c_10ev_10cs.txt | semilla 1 ===
+Corriendo ACO sobre 'quebec_90c_10ev_10cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  27 iteraciones, mejor objetivo: 197073
+Solution saved successfully in problem/osrm/solutions_evrp_1001/solutions_ACO\quebec_90c_10ev_10cs.txt
+
+instancia                    mejor ACO  semilla   objetivo por semilla
+quebec_100c_12ev_12cs.txt      271.669        1   {1: 271.669}
+quebec_150c_18ev_15cs.txt      382.737        1   {1: 382.737}
+quebec_220c_26ev_20cs.txt      701.865        1   {1: 701.865}
+quebec_30c_6ev_4cs.txt         108.177        1   {1: 108.177}
+quebec_350c_40ev_30cs.txt      1085.35        1   {1: 1085.35}
+quebec_40c_4ev_6cs.txt          92.216        1   {1: 92.216}
+quebec_50c_5ev_5cs.txt         160.838        1   {1: 160.838}
+quebec_60c_8ev_8cs.txt         160.077        1   {1: 160.077}
+quebec_70c_9ev_9cs.txt         231.699        1   {1: 231.699}
+quebec_90c_10ev_10cs.txt       197.073        1   {1: 197.073}
+Mejores guardadas en problem\osrm\solutions_evrp_best\solutions_ACO
+
+=== RESUMEN ===
+ACO                                                 100=271.669  150=382.737  220=701.865  30c=108.177  350=1085.35  40c=92.216  50c=160.838  60c=160.077  70c=231.699  90c=197.073
+
+Los hibridos quedan en problem\osrm\solutions_evrp_0; ACO solo en solutions_evrp_<1000+semilla>. Siguiente paso: python friedman_ranking.py

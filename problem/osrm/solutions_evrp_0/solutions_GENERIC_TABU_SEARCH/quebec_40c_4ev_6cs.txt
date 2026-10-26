@@ -1,0 +1,64 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 108.093
+
+Execution Time: 10.014771699905396
+
+Metaheuristic: GENERIC_TABU_SEARCH
+
+Distance type: osrm
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Station copies: 3
+
+Customers served: 40/40
+Dropped customers: 0
+Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
+
+Customers inserted by the completion step: [10]
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100.0) -> 39 Load(0) Bat(91.6) -> 36 Load(14) Bat(84.5) -> 7 Load(31) Bat(84.5) -> 31 Load(50) Bat(77.0) -> 25 Load(66) Bat(69.6) -> 13 Load(92) Bat(59.7) -> 19 Load(109) Bat(56.0) -> 4 Load(133) Bat(48.8) -> 28 Load(148) Bat(48.8) -> 33 Load(157) Bat(45.3) -> 10 Load(182) Bat(30.6) -> 41[CS:Borne Rapide Haute-Ville] Load(217) Bat(12.7) -> 0 Load(217) Bat(96.8)
+Distance of the route: 30.164km
+Real distance of the route: 30.16km
+Time of the route: 5980s
+Load of the route: 217
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100.0) -> 30 Load(0) Bat(95.4) -> 15 Load(28) Bat(84.5) -> 16 Load(55) Bat(77.7) -> 11 Load(69) Bat(67.1) -> 34 Load(79) Bat(66.2) -> 23 Load(91) Bat(65.2) -> 5 Load(109) Bat(62.4) -> 37 Load(131) Bat(59.4) -> 26 Load(154) Bat(58.5) -> 20 Load(167) Bat(54.7) -> 8 Load(200) Bat(41.9) -> 0 Load(228) Bat(36.1)
+Distance of the route: 21.300km
+Real distance of the route: 21.30km
+Time of the route: 2563s
+Load of the route: 228
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100.0) -> 35 Load(0) Bat(87.6) -> 2 Load(30) Bat(87.5) -> 24 Load(48) Bat(86.4) -> 6 Load(69) Bat(84.6) -> 18 Load(94) Bat(84.6) -> 12 Load(110) Bat(75.1) -> 17 Load(142) Bat(57.6) -> 0 Load(173) Bat(51.8)
+Distance of the route: 16.068km
+Real distance of the route: 16.07km
+Time of the route: 2050s
+Load of the route: 173
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100.0) -> 1 Load(0) Bat(91.2) -> 32 Load(20) Bat(89.6) -> 21 Load(40) Bat(80.7) -> 29 Load(51) Bat(74.1) -> 40 Load(73) Bat(73.1) -> 9 Load(92) Bat(59.3) -> 3 Load(104) Bat(49.7) -> 41[CS:Borne Rapide Haute-Ville] Load(134) Bat(36.5) -> 22 Load(134) Bat(85.2) -> 14 Load(163) Bat(69.3) -> 27 Load(186) Bat(63.2) -> 38 Load(220) Bat(49.3) -> 0 Load(247) Bat(41.8)
+Distance of the route: 40.561km
+Real distance of the route: 40.56km
+Time of the route: 6965s
+Load of the route: 247
+
+Total Distance of all routes: 108.093km
+
+Real distance (km): 108.09
+
+Total Load of all routes: 865
+
+Total Time of all routes: 17558s
+
+Total recharges: 2
+
+Unnecessary charging stops: 0
+
+Minimum battery (SoC) reached: 12.7
+

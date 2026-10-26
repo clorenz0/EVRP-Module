@@ -1,0 +1,165 @@
+Instance: quebec_150c_18ev_15cs.txt
+
+Objective: 70347.124
+
+Execution Time: 60.0017671585083
+
+Heuristic: CHRISTOFIDES
+
+Metaheuristic: SIMULATED_ANNEALING
+
+Distance type: osrm
+
+Vehicle capacity: 210
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Station copies: 3
+
+Customers served: 143/150
+Dropped customers: 7
+Feasibility check: FAILED (1 violation(s))
+  - 7 customer(s) not served: [10, 19, 38, 59, 78, 115, 148]
+
+Dropped clients: [10, 19, 38, 59, 78, 115, 148]
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100.0) -> 105 Load(0) Bat(89.1) -> 149 Load(21) Bat(76.6) -> 67 Load(52) Bat(67.6) -> 116 Load(81) Bat(59.9) -> 94 Load(98) Bat(54.9) -> 103 Load(118) Bat(51.4) -> 121 Load(140) Bat(50.5) -> 11 Load(148) Bat(46.0) -> 29 Load(163) Bat(44.0) -> 0 Load(195) Bat(40.2)
+Distance of the route: 19.934km
+Real distance of the route: 19.93km
+Time of the route: 2169s
+Load of the route: 195
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100.0) -> 82 Load(0) Bat(86.7) -> 43 Load(26) Bat(83.2) -> 122 Load(55) Bat(69.8) -> 119 Load(85) Bat(69.3) -> 90 Load(112) Bat(58.0) -> 24 Load(139) Bat(56.1) -> 36 Load(156) Bat(54.7) -> 72 Load(181) Bat(53.1) -> 0 Load(196) Bat(41.4)
+Distance of the route: 19.547km
+Real distance of the route: 19.55km
+Time of the route: 1822s
+Load of the route: 196
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100.0) -> 92 Load(0) Bat(88.6) -> 85 Load(10) Bat(85.2) -> 91 Load(41) Bat(42.5) -> 164[CS:RECHARGECO TROISRIVIÈRES01] Load(53) Bat(3.3) -> 99 Load(53) Bat(97.3) -> 140 Load(61) Bat(79.4) -> 33 Load(70) Bat(76.0) -> 55 Load(97) Bat(70.0) -> 58 Load(108) Bat(65.8) -> 12 Load(119) Bat(59.3) -> 30 Load(142) Bat(58.6) -> 128 Load(156) Bat(51.1) -> 46 Load(186) Bat(38.1) -> 0 Load(197) Bat(8.9)
+Distance of the route: 62.587km
+Real distance of the route: 62.59km
+Time of the route: 4395s
+Load of the route: 197
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100.0) -> 86 Load(0) Bat(94.3) -> 57 Load(9) Bat(90.3) -> 108 Load(18) Bat(89.7) -> 77 Load(32) Bat(88.3) -> 26 Load(63) Bat(87.7) -> 5 Load(82) Bat(85.8) -> 124 Load(108) Bat(83.8) -> 4 Load(128) Bat(52.5) -> 93 Load(141) Bat(44.0) -> 123 Load(171) Bat(14.9) -> 84 Load(182) Bat(11.1) -> 0 Load(209) Bat(1.4)
+Distance of the route: 32.853km
+Real distance of the route: 32.86km
+Time of the route: 3045s
+Load of the route: 209
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 6:
+ 0 Load(0) Bat(100.0) -> 114 Load(0) Bat(74.7) -> 21 Load(28) Bat(73.8) -> 87 Load(47) Bat(71.5) -> 15 Load(75) Bat(71.0) -> 75 Load(102) Bat(64.7) -> 110 Load(127) Bat(57.3) -> 66 Load(142) Bat(56.3) -> 60 Load(151) Bat(55.6) -> 98 Load(163) Bat(40.5) -> 146 Load(195) Bat(28.9) -> 0 Load(208) Bat(24.9)
+Distance of the route: 25.043km
+Real distance of the route: 25.04km
+Time of the route: 2589s
+Load of the route: 208
+
+Route for vehicle 7:
+ 0 Load(0) Bat(100.0) -> 135 Load(0) Bat(97.1) -> 62 Load(11) Bat(95.6) -> 13 Load(25) Bat(89.0) -> 6 Load(46) Bat(74.0) -> 27 Load(75) Bat(52.5) -> 68 Load(96) Bat(28.3) -> 89 Load(114) Bat(26.3) -> 14 Load(145) Bat(24.4) -> 47 Load(169) Bat(17.8) -> 28 Load(181) Bat(4.5) -> 0 Load(209) Bat(1.8)
+Distance of the route: 32.725km
+Real distance of the route: 32.73km
+Time of the route: 2914s
+Load of the route: 209
+
+Route for vehicle 8:
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 9:
+ 0 Load(0) Bat(100.0) -> 137 Load(0) Bat(98.8) -> 31 Load(19) Bat(93.4) -> 20 Load(39) Bat(85.0) -> 34 Load(55) Bat(80.2) -> 144 Load(70) Bat(77.3) -> 25 Load(80) Bat(72.5) -> 96 Load(99) Bat(65.9) -> 145 Load(128) Bat(61.2) -> 61 Load(144) Bat(57.6) -> 79 Load(173) Bat(53.8) -> 0 Load(193) Bat(52.9)
+Distance of the route: 15.701km
+Real distance of the route: 15.70km
+Time of the route: 1514s
+Load of the route: 193
+
+Route for vehicle 10:
+ 0 Load(0) Bat(100.0) -> 73 Load(0) Bat(92.8) -> 53 Load(16) Bat(92.3) -> 2 Load(36) Bat(90.1) -> 106 Load(64) Bat(89.8) -> 81 Load(87) Bat(87.3) -> 37 Load(107) Bat(86.3) -> 97 Load(125) Bat(82.1) -> 100 Load(135) Bat(80.6) -> 80 Load(160) Bat(79.4) -> 133 Load(179) Bat(71.8) -> 0 Load(209) Bat(68.3)
+Distance of the route: 10.578km
+Real distance of the route: 10.58km
+Time of the route: 1346s
+Load of the route: 209
+
+Route for vehicle 11:
+ 0 Load(0) Bat(100.0) -> 7 Load(0) Bat(96.1) -> 9 Load(21) Bat(92.6) -> 39 Load(32) Bat(82.1) -> 18 Load(50) Bat(79.6) -> 127 Load(81) Bat(73.9) -> 130 Load(105) Bat(70.4) -> 74 Load(116) Bat(70.2) -> 32 Load(128) Bat(69.6) -> 132 Load(141) Bat(68.7) -> 142 Load(152) Bat(68.2) -> 69 Load(162) Bat(67.7) -> 0 Load(190) Bat(56.2)
+Distance of the route: 14.585km
+Real distance of the route: 14.59km
+Time of the route: 1378s
+Load of the route: 190
+
+Route for vehicle 12:
+ 0 Load(0) Bat(100.0) -> 109 Load(0) Bat(97.7) -> 147 Load(21) Bat(95.6) -> 126 Load(53) Bat(93.5) -> 56 Load(77) Bat(91.7) -> 129 Load(100) Bat(86.1) -> 44 Load(125) Bat(84.3) -> 51 Load(150) Bat(80.2) -> 118 Load(163) Bat(79.9) -> 0 Load(192) Bat(74.3)
+Distance of the route: 8.583km
+Real distance of the route: 8.58km
+Time of the route: 1137s
+Load of the route: 192
+
+Route for vehicle 13:
+ 0 Load(0) Bat(100.0) -> 138 Load(0) Bat(85.3) -> 35 Load(16) Bat(81.5) -> 113 Load(36) Bat(77.8) -> 134 Load(45) Bat(55.3) -> 3 Load(61) Bat(54.7) -> 22 Load(74) Bat(45.3) -> 54 Load(104) Bat(44.7) -> 153[CS:Hydro-Québec Bécancour] Load(121) Bat(42.1) -> 131 Load(121) Bat(89.5) -> 112 Load(135) Bat(73.3) -> 101 Load(157) Bat(44.8) -> 83 Load(184) Bat(41.7) -> 0 Load(206) Bat(39.5)
+Distance of the route: 39.450km
+Real distance of the route: 39.45km
+Time of the route: 3294s
+Load of the route: 206
+
+Route for vehicle 14:
+ 0 Load(0) Bat(100.0) -> 63 Load(0) Bat(87.1) -> 117 Load(30) Bat(86.9) -> 23 Load(42) Bat(84.2) -> 16 Load(74) Bat(82.6) -> 8 Load(104) Bat(70.6) -> 50 Load(134) Bat(66.7) -> 136 Load(153) Bat(53.4) -> 65 Load(175) Bat(46.4) -> 0 Load(197) Bat(28.9)
+Distance of the route: 23.696km
+Real distance of the route: 23.70km
+Time of the route: 2222s
+Load of the route: 197
+
+Route for vehicle 15:
+ 0 Load(0) Bat(100.0) -> 71 Load(0) Bat(86.4) -> 125 Load(10) Bat(84.8) -> 17 Load(38) Bat(75.6) -> 143 Load(52) Bat(74.4) -> 49 Load(68) Bat(67.3) -> 120 Load(80) Bat(50.5) -> 64 Load(98) Bat(48.0) -> 76 Load(130) Bat(47.2) -> 1 Load(159) Bat(36.0) -> 48 Load(184) Bat(24.0) -> 0 Load(207) Bat(19.7)
+Distance of the route: 26.764km
+Real distance of the route: 26.76km
+Time of the route: 2901s
+Load of the route: 207
+
+Route for vehicle 16:
+ 0 Load(0) Bat(100.0) -> 95 Load(0) Bat(96.5) -> 41 Load(29) Bat(86.9) -> 139 Load(46) Bat(86.5) -> 111 Load(55) Bat(85.7) -> 141 Load(72) Bat(84.5) -> 107 Load(104) Bat(83.4) -> 102 Load(133) Bat(82.5) -> 42 Load(149) Bat(81.5) -> 52 Load(172) Bat(79.2) -> 70 Load(191) Bat(71.4) -> 0 Load(208) Bat(68.3)
+Distance of the route: 10.550km
+Real distance of the route: 10.55km
+Time of the route: 1240s
+Load of the route: 208
+
+Route for vehicle 17:
+ 0 Load(0) Bat(100.0) -> 104 Load(0) Bat(97.2) -> 45 Load(27) Bat(95.0) -> 150 Load(47) Bat(93.9) -> 88 Load(71) Bat(93.1) -> 40 Load(97) Bat(91.2) -> 0 Load(121) Bat(86.4)
+Distance of the route: 4.528km
+Real distance of the route: 4.53km
+Time of the route: 528s
+Load of the route: 121
+
+Total Distance of all routes: 347.124km
+
+Real distance (km): 347.13
+
+Total Load of all routes: 2937
+
+Total Time of all routes: 32494s
+
+Total recharges: 2
+
+Unnecessary charging stops: 0
+
+Minimum battery (SoC) reached: 1.4
+

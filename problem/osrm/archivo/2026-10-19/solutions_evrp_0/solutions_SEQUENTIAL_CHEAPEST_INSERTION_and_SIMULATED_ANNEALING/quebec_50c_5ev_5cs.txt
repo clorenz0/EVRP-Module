@@ -1,0 +1,71 @@
+Instance: quebec_50c_5ev_5cs.txt
+
+Objective: 167.795
+
+Execution Time: 9.99958348274231
+
+Heuristic: SEQUENTIAL_CHEAPEST_INSERTION
+
+Metaheuristic: SIMULATED_ANNEALING
+
+Distance type: osrm
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Station copies: 3
+
+Customers served: 50/50
+Dropped customers: 0
+Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100.0) -> 11 Load(0) Bat(89.5) -> 34 Load(8) Bat(49.6) -> 13 Load(26) Bat(30.8) -> 55[CS:Borne IGA Trois-Rivieres] Load(40) Bat(23.8) -> 19 Load(40) Bat(100.0) -> 8 Load(61) Bat(100.0) -> 36 Load(87) Bat(88.0) -> 14 Load(112) Bat(77.5) -> 45 Load(131) Bat(73.3) -> 43 Load(149) Bat(69.5) -> 30 Load(171) Bat(68.7) -> 44 Load(196) Bat(67.6) -> 21 Load(206) Bat(49.0) -> 35 Load(226) Bat(26.8) -> 0 Load(246) Bat(14.2)
+Distance of the route: 53.999km
+Real distance of the route: 54.00km
+Time of the route: 3952s
+Load of the route: 246
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100.0) -> 38 Load(0) Bat(86.9) -> 50 Load(22) Bat(81.3) -> 40 Load(42) Bat(76.2) -> 42 Load(72) Bat(73.1) -> 41 Load(89) Bat(66.6) -> 4 Load(119) Bat(59.5) -> 10 Load(146) Bat(58.3) -> 18 Load(164) Bat(56.8) -> 26 Load(172) Bat(47.1) -> 1 Load(202) Bat(39.7) -> 12 Load(215) Bat(32.9) -> 0 Load(240) Bat(26.5)
+Distance of the route: 24.511km
+Real distance of the route: 24.51km
+Time of the route: 2552s
+Load of the route: 240
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100.0) -> 24 Load(0) Bat(86.7) -> 29 Load(20) Bat(82.8) -> 33 Load(33) Bat(78.8) -> 2 Load(50) Bat(76.8) -> 53[CS:Station Rapide TR Ouest] Load(60) Bat(75.3) -> 20 Load(60) Bat(81.2) -> 9 Load(70) Bat(58.9) -> 39 Load(94) Bat(53.9) -> 15 Load(109) Bat(53.4) -> 37 Load(139) Bat(50.9) -> 16 Load(158) Bat(50.8) -> 3 Load(185) Bat(24.3) -> 0 Load(214) Bat(11.9)
+Distance of the route: 37.580km
+Real distance of the route: 37.58km
+Time of the route: 3009s
+Load of the route: 214
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100.0) -> 25 Load(0) Bat(74.8) -> 32 Load(30) Bat(74.4) -> 48 Load(49) Bat(73.0) -> 17 Load(69) Bat(63.3) -> 28 Load(93) Bat(58.8) -> 46 Load(104) Bat(39.9) -> 54[CS:Circuit Electrique Shawinigan Sud] Load(120) Bat(35.0) -> 7 Load(120) Bat(80.8) -> 23 Load(134) Bat(73.7) -> 49 Load(162) Bat(55.5) -> 6 Load(189) Bat(47.2) -> 27 Load(208) Bat(46.8) -> 0 Load(235) Bat(32.8)
+Distance of the route: 44.071km
+Real distance of the route: 44.07km
+Time of the route: 4337s
+Load of the route: 235
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100.0) -> 22 Load(0) Bat(94.0) -> 31 Load(14) Bat(94.0) -> 47 Load(29) Bat(87.3) -> 5 Load(58) Bat(81.2) -> 0 Load(85) Bat(77.1)
+Distance of the route: 7.634km
+Real distance of the route: 7.63km
+Time of the route: 830s
+Load of the route: 85
+
+Total Distance of all routes: 167.795km
+
+Real distance (km): 167.80
+
+Total Load of all routes: 1020
+
+Total Time of all routes: 14680s
+
+Total recharges: 3
+
+Unnecessary charging stops: 0
+
+Minimum battery (SoC) reached: 11.9
+
