@@ -1,0 +1,78 @@
+Instance: quebec_30c_6ev_4cs.txt
+
+Objective: 111.027
+
+Execution Time: 10.001205444335938
+
+Heuristic: SWEEP
+
+Metaheuristic: SIMULATED_ANNEALING
+
+Distance type: osrm
+
+Vehicle capacity: 150
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Station copies: 3
+
+Customers served: 30/30
+Dropped customers: 0
+Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100.0) -> 8 Load(0) Bat(96.1) -> 3 Load(21) Bat(92.7) -> 19 Load(36) Bat(83.0) -> 13 Load(47) Bat(75.2) -> 7 Load(64) Bat(59.2) -> 16 Load(83) Bat(51.2) -> 28 Load(111) Bat(47.6) -> 4 Load(123) Bat(43.2) -> 0 Load(150) Bat(39.0)
+Distance of the route: 20.334km
+Real distance of the route: 20.33km
+Time of the route: 2775s
+Load of the route: 150
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100.0) -> 27 Load(0) Bat(88.5) -> 12 Load(16) Bat(61.6) -> 6 Load(39) Bat(50.2) -> 31[CS:Circuit Électrique Longueuil Centre] Load(63) Bat(43.9) -> 30 Load(63) Bat(93.6) -> 25 Load(83) Bat(75.9) -> 10 Load(91) Bat(48.9) -> 22 Load(116) Bat(42.9) -> 0 Load(147) Bat(33.8)
+Distance of the route: 40.782km
+Real distance of the route: 40.78km
+Time of the route: 4822s
+Load of the route: 147
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100.0) -> 26 Load(0) Bat(87.0) -> 5 Load(14) Bat(82.1) -> 23 Load(27) Bat(79.8) -> 20 Load(36) Bat(75.0) -> 11 Load(66) Bat(70.0) -> 14 Load(80) Bat(60.2) -> 2 Load(106) Bat(46.1) -> 1 Load(128) Bat(39.9) -> 0 Load(146) Bat(28.6)
+Distance of the route: 23.807km
+Real distance of the route: 23.81km
+Time of the route: 3293s
+Load of the route: 146
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100.0) -> 17 Load(0) Bat(88.2) -> 24 Load(12) Bat(82.8) -> 21 Load(44) Bat(76.5) -> 29 Load(54) Bat(72.6) -> 18 Load(72) Bat(67.1) -> 9 Load(101) Bat(63.7) -> 15 Load(117) Bat(45.3) -> 0 Load(137) Bat(21.7)
+Distance of the route: 26.104km
+Real distance of the route: 26.10km
+Time of the route: 3335s
+Load of the route: 137
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
+Time of the route: 0s
+Load of the route: 0
+
+Total Distance of all routes: 111.027km
+
+Real distance (km): 111.03
+
+Total Load of all routes: 580
+
+Total Time of all routes: 14225s
+
+Total recharges: 1
+
+Unnecessary charging stops: 0
+
+Minimum battery (SoC) reached: 21.7
+

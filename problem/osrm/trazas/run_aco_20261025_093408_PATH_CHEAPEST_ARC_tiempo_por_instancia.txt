@@ -1,0 +1,9 @@
+[traza] problem\osrm\trazas\run_aco_20261025_093408_PATH_CHEAPEST_ARC_tiempo_por_instancia.txt
+Combinaciones a ejecutar (1): ['PATH_CHEAPEST_ARC_and_ACO']
+
+##### PATH_CHEAPEST_ARC_and_ACO | instancias: ['quebec_100c_12ev_12cs.txt'] | semillas: [1] | tiempo por instancias
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-25\solutions_evrp_0\solutions_PATH_CHEAPEST_ARC_and_ACO_2
+
+=== PATH_CHEAPEST_ARC_and_ACO | quebec_100c_12ev_12cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (PATH_CHEAPEST_ARC): 315172
+Corriendo ACO sobre 'quebec_100c_12ev_12cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...

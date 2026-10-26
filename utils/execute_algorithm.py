@@ -7,7 +7,7 @@ from ortools.constraint_solver import pywrapcp
 def get_solutions(
         initial_routes, save_solution, i, distance_type, search_parameters, routing,
         time_limit, data, manager, instance, first_solution_strategy=None,
-        local_search_metaheuristic=None, one_vehicle=False
+        local_search_metaheuristic=None, one_vehicle=False, completion=None
 ):
     try:
         search_parameters.time_limit.FromSeconds(time_limit)
@@ -34,6 +34,15 @@ def get_solutions(
             print("No initial routes provided - using default solver")
             solution = routing.SolveWithParameters(search_parameters)
 
+        if solution and completion is not None:
+            # paso opcional (EVRP): completa la solucion si dejo clientes sin atender; ver evrp.complete_dropped_clients
+            try:
+                completed = completion(solution, search_parameters, time_limit)
+                if completed is not None:
+                    solution, routing = completed
+            except Exception as error:
+                print(f"Completion step failed, keeping the original solution: {error}")
+
         elapsed_time = time.time() - start_time
 
         if solution:
@@ -59,7 +68,7 @@ def get_distance_and_solution_name(distance_type, heuristic, metaheuristic):
 
 def execute_solution(
         save_solution, heuristic, metaheuristic, i, distance_type, routing, time_limit, data, manager, instance,
-        initial_routes, one_vehicle=False
+        initial_routes, one_vehicle=False, completion=None
 ):
     first_solution_strategies, local_search_metaheuristics = get_strategies(heuristic, metaheuristic)
     if not first_solution_strategies and local_search_metaheuristics:
@@ -71,7 +80,7 @@ def execute_solution(
             get_solutions(
                 initial_routes, save_solution, i, distance_type, search_parameters, routing, time_limit, data, manager,
                 instance, None,
-                local_search_metaheuristic, one_vehicle
+                local_search_metaheuristic, one_vehicle, completion
             )
     elif not local_search_metaheuristics and first_solution_strategies:
         for first_solution_strategy in first_solution_strategies:
@@ -82,7 +91,7 @@ def execute_solution(
             get_solutions(
                 initial_routes, save_solution, i, distance_type, search_parameters, routing, time_limit, data, manager,
                 instance,
-                first_solution_strategy, None, one_vehicle
+                first_solution_strategy, None, one_vehicle, completion
             )
     else:
         for first_solution_strategy in first_solution_strategies:
@@ -97,5 +106,5 @@ def execute_solution(
                 get_solutions(
                     initial_routes, save_solution, i, distance_type, search_parameters, routing, time_limit, data,
                     manager,
-                    instance, first_solution_strategy, local_search_metaheuristic, one_vehicle
+                    instance, first_solution_strategy, local_search_metaheuristic, one_vehicle, completion
                 )

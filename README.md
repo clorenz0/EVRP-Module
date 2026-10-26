@@ -445,13 +445,16 @@ problem/osrm/              soluciones, archivo/ (resultados archivados) y trazas
   capacidad, clientes atendidos una vez y visitas por estación. Una solución que lo incumple se excluye.
 - **Unidades:** el `Objective` de cada `.txt` debe coincidir con `Real distance (km)`; si no, el ranking marca el
   archivo como `INCONSISTENT`.
-- **OR-Tools en instancias grandes:** con estaciones opcionales, OR-Tools puede dejar sin atender algunos clientes
-  lejanos al depósito (aquellos cuyo viaje de ida y vuelta no cabe en una carga: 1 cliente en 60c, 1 a 3 en 220c y 8 en
-  350c con Guided Local Search). Atenderlos exige insertar a la vez una estación y el cliente, y la búsqueda local solo
-  inserta un nodo por movimiento; más tiempo, LNS y otras heurísticas de arranque no lo cambian. ACO sí los atiende con
-  las mismas reglas. Esas corridas quedan marcadas con `Feasibility check: FAILED` y el ranking las excluye y las lista,
-  de modo que el ranking de OR-Tools se calcula sobre las instancias donde OR-Tools atiende a todos (30, 40, 50, 70, 90,
-  100 y 150 clientes); en 60c, 220c y 350c solo ACO tiene solución completa y se reporta aparte.
-  `python diagnostico_ortools.py` reproduce el análisis (variantes del modelo, heurísticas, clientes descartados).
+- **Clientes lejanos en OR-Tools:** un cliente cuya ida y vuelta desde el depósito no cabe en una carga solo se atiende si
+  la ruta incluye una estación cercana. Los operadores de búsqueda local de OR-Tools insertan un nodo por movimiento
+  (insertar la estación sola solo suma distancia; el cliente solo es infactible), así que, con cualquier combinación de
+  heurística y metaheurística, esos clientes podían quedar descartados (en las corridas con modelo anterior: 7 en 100c,
+  7 en 150c, 1 en 60c, 8 en 350c, según la combinación). Por eso `evrp.complete_dropped_clients` (paso de completado)
+  inserta cada cliente descartado, junto con la estación que necesite, en la posición factible de menor distancia
+  (comprobando batería, capacidad, copias libres y reglas de arcos). Se aplica por igual a todas las combinaciones, solo
+  actúa si hay clientes descartados, no vuelve a llamar al modelo de OR-Tools (la solución completada se entrega como
+  rutas) y no consume tiempo extra. Los clientes insertados quedan listados en el `.txt`
+  (`Customers inserted by the completion step`). `EVRP_COMPLETE_DROPPED=0` lo desactiva y
+  `python diagnostico_ortools.py --variants actual sin_completado` compara con y sin el paso.
 - **Límites conocidos:** pocas instancias dan poca potencia estadística; el consumo de energía es lineal y no se validó
   contra el modelo de batería de SUMO; la congestión se induce de forma artificial y con una sola semilla.

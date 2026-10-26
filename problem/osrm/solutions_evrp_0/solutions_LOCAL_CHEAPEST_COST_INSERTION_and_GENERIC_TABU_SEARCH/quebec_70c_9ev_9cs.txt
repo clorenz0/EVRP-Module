@@ -1,8 +1,8 @@
 Instance: quebec_70c_9ev_9cs.txt
 
-Objective: 254.377
+Objective: 282.333
 
-Execution Time: 10.001078605651855
+Execution Time: 9.999725818634033
 
 Heuristic: LOCAL_CHEAPEST_COST_INSERTION
 
@@ -21,79 +21,79 @@ Dropped customers: 0
 Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
 
 Route for vehicle 0:
+ 0 Load(0) Bat(100.0) -> 44 Load(0) Bat(71.3) -> 14 Load(11) Bat(65.2) -> 49 Load(20) Bat(59.8) -> 32 Load(46) Bat(59.4) -> 41 Load(66) Bat(57.6) -> 31 Load(75) Bat(55.0) -> 27 Load(92) Bat(52.0) -> 38 Load(122) Bat(51.8) -> 11 Load(138) Bat(50.3) -> 2 Load(153) Bat(39.6) -> 51 Load(168) Bat(7.1) -> 0 Load(200) Bat(2.7)
+Distance of the route: 32.427km
+Real distance of the route: 32.43km
+Time of the route: 3105s
+Load of the route: 200
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100.0) -> 34 Load(0) Bat(70.4) -> 13 Load(31) Bat(58.9) -> 28 Load(62) Bat(56.1) -> 10 Load(94) Bat(55.8) -> 43 Load(109) Bat(39.3) -> 48 Load(134) Bat(36.5) -> 0 Load(153) Bat(12.4)
+Distance of the route: 29.186km
+Real distance of the route: 29.19km
+Time of the route: 3006s
+Load of the route: 153
+
+Route for vehicle 2:
  0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
 Distance of the route: 0.000km
 Real distance of the route: 0.00km
 Time of the route: 0s
 Load of the route: 0
 
-Route for vehicle 1:
- 0 Load(0) Bat(100.0) -> 44 Load(0) Bat(71.3) -> 15 Load(11) Bat(61.0) -> 30 Load(30) Bat(59.8) -> 11 Load(57) Bat(56.6) -> 38 Load(72) Bat(55.1) -> 27 Load(88) Bat(54.9) -> 4 Load(118) Bat(51.7) -> 37 Load(142) Bat(50.2) -> 29 Load(154) Bat(44.0) -> 34 Load(168) Bat(33.0) -> 0 Load(199) Bat(5.3)
-Distance of the route: 31.574km
-Real distance of the route: 31.57km
-Time of the route: 3305s
-Load of the route: 199
-
-Route for vehicle 2:
- 0 Load(0) Bat(100.0) -> 70 Load(0) Bat(83.8) -> 36 Load(26) Bat(81.4) -> 21 Load(41) Bat(78.5) -> 52 Load(64) Bat(77.4) -> 18 Load(94) Bat(75.1) -> 60 Load(123) Bat(73.0) -> 39 Load(145) Bat(72.4) -> 6 Load(171) Bat(68.5) -> 0 Load(197) Bat(55.2)
-Distance of the route: 14.927km
-Real distance of the route: 14.93km
-Time of the route: 2070s
-Load of the route: 197
-
 Route for vehicle 3:
- 0 Load(0) Bat(100.0) -> 43 Load(0) Bat(76.3) -> 13 Load(25) Bat(60.4) -> 28 Load(56) Bat(57.6) -> 10 Load(88) Bat(57.2) -> 48 Load(103) Bat(38.7) -> 0 Load(122) Bat(14.6)
-Distance of the route: 28.469km
-Real distance of the route: 28.47km
-Time of the route: 2979s
-Load of the route: 122
-
-Route for vehicle 4:
- 0 Load(0) Bat(100.0) -> 16 Load(0) Bat(93.5) -> 53 Load(13) Bat(76.6) -> 17 Load(29) Bat(71.7) -> 54 Load(47) Bat(69.5) -> 47 Load(68) Bat(67.7) -> 57 Load(91) Bat(61.2) -> 1 Load(108) Bat(56.1) -> 23 Load(130) Bat(48.7) -> 40 Load(155) Bat(38.0) -> 61 Load(175) Bat(36.3) -> 0 Load(197) Bat(20.0)
-Distance of the route: 26.671km
-Real distance of the route: 26.67km
-Time of the route: 3663s
-Load of the route: 197
-
-Route for vehicle 5:
- 0 Load(0) Bat(100.0) -> 9 Load(0) Bat(90.1) -> 26 Load(20) Bat(86.1) -> 63 Load(40) Bat(81.4) -> 24 Load(63) Bat(78.6) -> 46 Load(76) Bat(55.7) -> 50 Load(99) Bat(41.3) -> 2 Load(129) Bat(38.4) -> 51 Load(144) Bat(5.9) -> 0 Load(176) Bat(1.5)
-Distance of the route: 32.833km
-Real distance of the route: 32.83km
-Time of the route: 3115s
-Load of the route: 176
-
-Route for vehicle 6:
- 0 Load(0) Bat(100.0) -> 55 Load(0) Bat(81.3) -> 42 Load(10) Bat(78.1) -> 25 Load(24) Bat(70.8) -> 7 Load(34) Bat(66.2) -> 59 Load(53) Bat(41.7) -> 3 Load(74) Bat(21.1) -> 74[CS:Desjardins Ford SAINT LAURENT] Load(103) Bat(0.3) -> 69 Load(103) Bat(88.1) -> 12 Load(111) Bat(84.6) -> 68 Load(119) Bat(76.9) -> 66 Load(130) Bat(71.3) -> 20 Load(148) Bat(66.2) -> 8 Load(174) Bat(48.0) -> 0 Load(185) Bat(23.8)
-Distance of the route: 58.637km
-Real distance of the route: 58.64km
-Time of the route: 5833s
-Load of the route: 185
-
-Route for vehicle 7:
- 0 Load(0) Bat(100.0) -> 14 Load(0) Bat(66.4) -> 67 Load(9) Bat(61.7) -> 31 Load(38) Bat(59.0) -> 41 Load(55) Bat(56.5) -> 49 Load(64) Bat(55.0) -> 32 Load(90) Bat(54.6) -> 62 Load(110) Bat(35.4) -> 58 Load(136) Bat(30.6) -> 19 Load(161) Bat(28.3) -> 0 Load(178) Bat(3.6)
-Distance of the route: 32.145km
-Real distance of the route: 32.15km
-Time of the route: 3041s
-Load of the route: 178
-
-Route for vehicle 8:
- 0 Load(0) Bat(100.0) -> 65 Load(0) Bat(80.4) -> 56 Load(19) Bat(73.1) -> 22 Load(30) Bat(61.9) -> 33 Load(62) Bat(58.3) -> 35 Load(80) Bat(43.2) -> 64 Load(109) Bat(36.5) -> 45 Load(137) Bat(28.4) -> 5 Load(160) Bat(18.9) -> 0 Load(192) Bat(12.6)
-Distance of the route: 29.121km
-Real distance of the route: 29.12km
-Time of the route: 3623s
+ 0 Load(0) Bat(100.0) -> 22 Load(0) Bat(72.6) -> 33 Load(32) Bat(69.0) -> 78[CS:RECHARGECO VILLERAY 02] Load(50) Bat(51.4) -> 23 Load(50) Bat(86.0) -> 1 Load(75) Bat(79.5) -> 17 Load(97) Bat(75.5) -> 57 Load(115) Bat(70.7) -> 54 Load(132) Bat(68.0) -> 47 Load(153) Bat(66.2) -> 53 Load(176) Bat(57.0) -> 0 Load(192) Bat(34.3)
+Distance of the route: 38.094km
+Real distance of the route: 38.09km
+Time of the route: 4482s
 Load of the route: 192
 
-Total Distance of all routes: 254.377km
+Route for vehicle 4:
+ 0 Load(0) Bat(100.0) -> 9 Load(0) Bat(90.1) -> 6 Load(20) Bat(85.3) -> 59 Load(46) Bat(77.6) -> 3 Load(67) Bat(56.9) -> 8 Load(96) Bat(43.0) -> 74[CS:Desjardins Ford SAINT LAURENT] Load(107) Bat(25.3) -> 69 Load(107) Bat(88.1) -> 12 Load(115) Bat(84.6) -> 35 Load(123) Bat(74.4) -> 40 Load(152) Bat(65.5) -> 61 Load(172) Bat(63.8) -> 0 Load(194) Bat(47.5)
+Distance of the route: 42.402km
+Real distance of the route: 42.40km
+Time of the route: 4967s
+Load of the route: 194
 
-Real distance (km): 254.38
+Route for vehicle 5:
+ 0 Load(0) Bat(100.0) -> 58 Load(0) Bat(76.2) -> 62 Load(25) Bat(69.5) -> 19 Load(51) Bat(64.1) -> 65 Load(68) Bat(39.4) -> 56 Load(87) Bat(32.2) -> 45 Load(98) Bat(17.4) -> 5 Load(121) Bat(7.9) -> 0 Load(153) Bat(1.6)
+Distance of the route: 32.786km
+Real distance of the route: 32.79km
+Time of the route: 3684s
+Load of the route: 153
+
+Route for vehicle 6:
+ 0 Load(0) Bat(100.0) -> 55 Load(0) Bat(81.3) -> 42 Load(10) Bat(78.1) -> 25 Load(24) Bat(70.8) -> 7 Load(34) Bat(66.2) -> 60 Load(53) Bat(47.1) -> 39 Load(75) Bat(46.5) -> 77[CS:GABRIEL HARLEY DCFAST HOG] Load(101) Bat(32.9) -> 68 Load(101) Bat(62.4) -> 66 Load(112) Bat(56.8) -> 20 Load(130) Bat(51.7) -> 64 Load(156) Bat(36.9) -> 16 Load(184) Bat(23.4) -> 0 Load(197) Bat(17.2)
+Distance of the route: 49.946km
+Real distance of the route: 49.95km
+Time of the route: 5123s
+Load of the route: 197
+
+Route for vehicle 7:
+ 0 Load(0) Bat(100.0) -> 26 Load(0) Bat(89.4) -> 24 Load(20) Bat(85.8) -> 70 Load(33) Bat(81.2) -> 36 Load(59) Bat(78.7) -> 21 Load(74) Bat(75.8) -> 52 Load(97) Bat(74.8) -> 18 Load(127) Bat(72.5) -> 63 Load(156) Bat(67.7) -> 0 Load(179) Bat(52.0)
+Distance of the route: 15.994km
+Real distance of the route: 15.99km
+Time of the route: 2285s
+Load of the route: 179
+
+Route for vehicle 8:
+ 0 Load(0) Bat(100.0) -> 46 Load(0) Bat(67.3) -> 50 Load(23) Bat(52.9) -> 15 Load(53) Bat(42.5) -> 30 Load(72) Bat(41.3) -> 67 Load(99) Bat(40.1) -> 37 Load(128) Bat(37.8) -> 4 Load(140) Bat(36.3) -> 75[CS:BRCC - Longueuil 2] Load(164) Bat(22.4) -> 29 Load(164) Bat(89.3) -> 0 Load(178) Bat(53.1)
+Distance of the route: 41.498km
+Real distance of the route: 41.50km
+Time of the route: 3648s
+Load of the route: 178
+
+Total Distance of all routes: 282.333km
+
+Real distance (km): 282.33
 
 Total Load of all routes: 1446
 
-Total Time of all routes: 27629s
+Total Time of all routes: 30300s
 
-Total recharges: 1
+Total recharges: 4
 
 Unnecessary charging stops: 0
 
-Minimum battery (SoC) reached: 0.3
+Minimum battery (SoC) reached: 1.6
 

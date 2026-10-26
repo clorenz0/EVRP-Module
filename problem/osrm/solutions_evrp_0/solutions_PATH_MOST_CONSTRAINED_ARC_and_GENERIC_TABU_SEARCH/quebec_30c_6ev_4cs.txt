@@ -1,8 +1,8 @@
 Instance: quebec_30c_6ev_4cs.txt
 
-Objective: 114.401
+Objective: 108.177
 
-Execution Time: 10.000992059707642
+Execution Time: 10.00047516822815
 
 Heuristic: PATH_MOST_CONSTRAINED_ARC
 
@@ -28,51 +28,51 @@ Time of the route: 0s
 Load of the route: 0
 
 Route for vehicle 1:
- 0 Load(0) Bat(100.0) -> 8 Load(0) Bat(96.1) -> 22 Load(21) Bat(87.6) -> 19 Load(52) Bat(78.6) -> 13 Load(63) Bat(70.8) -> 16 Load(80) Bat(57.2) -> 28 Load(108) Bat(53.5) -> 4 Load(120) Bat(49.1) -> 0 Load(147) Bat(44.9)
-Distance of the route: 18.363km
-Real distance of the route: 18.36km
-Time of the route: 2814s
-Load of the route: 147
-
-Route for vehicle 2:
- 0 Load(0) Bat(100.0) -> 27 Load(0) Bat(88.5) -> 2 Load(16) Bat(79.3) -> 14 Load(38) Bat(65.7) -> 11 Load(64) Bat(57.3) -> 5 Load(78) Bat(50.6) -> 23 Load(91) Bat(48.2) -> 20 Load(100) Bat(43.5) -> 7 Load(130) Bat(32.3) -> 0 Load(149) Bat(15.2)
-Distance of the route: 28.265km
-Real distance of the route: 28.27km
-Time of the route: 3926s
-Load of the route: 149
-
-Route for vehicle 3:
- 0 Load(0) Bat(100.0) -> 26 Load(0) Bat(87.0) -> 1 Load(14) Bat(79.9) -> 18 Load(32) Bat(72.0) -> 9 Load(61) Bat(68.6) -> 29 Load(77) Bat(63.6) -> 21 Load(95) Bat(59.8) -> 24 Load(105) Bat(53.7) -> 17 Load(137) Bat(47.9) -> 0 Load(149) Bat(37.2)
-Distance of the route: 20.936km
-Real distance of the route: 20.94km
-Time of the route: 3000s
-Load of the route: 149
-
-Route for vehicle 4:
- 0 Load(0) Bat(100.0) -> 3 Load(0) Bat(92.7) -> 15 Load(15) Bat(71.0) -> 12 Load(35) Bat(43.8) -> 6 Load(58) Bat(32.4) -> 30 Load(82) Bat(24.1) -> 32[CS:Recharge Brossard Quartier DIX30] Load(102) Bat(12.2) -> 25 Load(102) Bat(83.7) -> 10 Load(110) Bat(56.7) -> 0 Load(135) Bat(47.3)
-Distance of the route: 46.837km
-Real distance of the route: 46.84km
-Time of the route: 5277s
-Load of the route: 135
-
-Route for vehicle 5:
  0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
 Distance of the route: 0.000km
 Real distance of the route: 0.00km
 Time of the route: 0s
 Load of the route: 0
 
-Total Distance of all routes: 114.401km
+Route for vehicle 2:
+ 0 Load(0) Bat(100.0) -> 26 Load(0) Bat(87.0) -> 5 Load(14) Bat(82.1) -> 23 Load(27) Bat(79.8) -> 20 Load(36) Bat(75.0) -> 11 Load(66) Bat(70.0) -> 14 Load(80) Bat(60.2) -> 2 Load(106) Bat(46.1) -> 1 Load(128) Bat(39.9) -> 0 Load(146) Bat(28.6)
+Distance of the route: 23.807km
+Real distance of the route: 23.81km
+Time of the route: 3293s
+Load of the route: 146
 
-Real distance (km): 114.40
+Route for vehicle 3:
+ 0 Load(0) Bat(100.0) -> 3 Load(0) Bat(92.7) -> 17 Load(15) Bat(83.0) -> 24 Load(27) Bat(77.7) -> 21 Load(59) Bat(71.3) -> 29 Load(69) Bat(67.5) -> 18 Load(87) Bat(62.0) -> 9 Load(116) Bat(58.5) -> 27 Load(132) Bat(52.2) -> 0 Load(148) Bat(42.1)
+Distance of the route: 19.316km
+Real distance of the route: 19.32km
+Time of the route: 2747s
+Load of the route: 148
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100.0) -> 22 Load(0) Bat(88.6) -> 19 Load(31) Bat(79.6) -> 13 Load(42) Bat(71.8) -> 7 Load(59) Bat(55.7) -> 16 Load(78) Bat(47.8) -> 28 Load(106) Bat(44.1) -> 4 Load(118) Bat(39.7) -> 0 Load(145) Bat(35.5)
+Distance of the route: 21.492km
+Real distance of the route: 21.49km
+Time of the route: 3011s
+Load of the route: 145
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100.0) -> 8 Load(0) Bat(96.1) -> 15 Load(21) Bat(74.7) -> 12 Load(41) Bat(47.5) -> 6 Load(64) Bat(36.1) -> 31[CS:Circuit Électrique Longueuil Centre] Load(88) Bat(29.8) -> 30 Load(88) Bat(93.6) -> 25 Load(108) Bat(75.9) -> 10 Load(116) Bat(48.9) -> 0 Load(141) Bat(39.5)
+Distance of the route: 43.562km
+Real distance of the route: 43.56km
+Time of the route: 4899s
+Load of the route: 141
+
+Total Distance of all routes: 108.177km
+
+Real distance (km): 108.18
 
 Total Load of all routes: 580
 
-Total Time of all routes: 15017s
+Total Time of all routes: 13950s
 
 Total recharges: 1
 
 Unnecessary charging stops: 0
 
-Minimum battery (SoC) reached: 12.2
+Minimum battery (SoC) reached: 28.6
 

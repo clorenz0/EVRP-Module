@@ -1,0 +1,122 @@
+Instance: quebec_100c_12ev_12cs.txt
+
+Objective: 329.578
+
+Execution Time: 60.21812582015991
+
+Heuristic: LOCAL_CHEAPEST_INSERTION
+
+Metaheuristic: GUIDED_LOCAL_SEARCH
+
+Distance type: osrm
+
+Vehicle capacity: 210
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Station copies: 3
+
+Customers served: 100/100
+Dropped customers: 0
+Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
+
+Customers inserted by the completion step: [1, 20, 32, 33, 49, 60, 85, 89]
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100.0) -> 99 Load(0) Bat(96.5) -> 52 Load(19) Bat(75.7) -> 68 Load(44) Bat(74.2) -> 43 Load(55) Bat(69.1) -> 5 Load(74) Bat(68.5) -> 47 Load(106) Bat(67.7) -> 8 Load(118) Bat(66.6) -> 19 Load(130) Bat(63.1) -> 24 Load(146) Bat(61.0) -> 13 Load(159) Bat(53.6) -> 57 Load(178) Bat(41.4) -> 0 Load(205) Bat(31.0)
+Distance of the route: 23.011km
+Real distance of the route: 23.01km
+Time of the route: 2397s
+Load of the route: 205
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100.0) -> 97 Load(0) Bat(94.2) -> 17 Load(15) Bat(89.3) -> 42 Load(26) Bat(88.1) -> 66 Load(49) Bat(86.0) -> 84 Load(69) Bat(71.0) -> 40 Load(93) Bat(70.8) -> 95 Load(113) Bat(62.3) -> 91 Load(124) Bat(61.0) -> 23 Load(156) Bat(50.0) -> 90 Load(180) Bat(44.0) -> 83 Load(188) Bat(36.0) -> 0 Load(207) Bat(33.0)
+Distance of the route: 22.321km
+Real distance of the route: 22.32km
+Time of the route: 2319s
+Load of the route: 207
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100.0) -> 63 Load(0) Bat(81.7) -> 54 Load(14) Bat(80.9) -> 79 Load(33) Bat(79.4) -> 46 Load(49) Bat(78.4) -> 31 Load(77) Bat(71.1) -> 38 Load(106) Bat(50.7) -> 65 Load(136) Bat(46.0) -> 59 Load(154) Bat(40.6) -> 72 Load(164) Bat(23.2) -> 87 Load(174) Bat(18.1) -> 0 Load(204) Bat(0.1)
+Distance of the route: 33.306km
+Real distance of the route: 33.31km
+Time of the route: 3471s
+Load of the route: 204
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100.0) -> 53 Load(0) Bat(94.0) -> 4 Load(12) Bat(81.6) -> 3 Load(23) Bat(79.0) -> 92 Load(52) Bat(78.0) -> 64 Load(69) Bat(77.4) -> 96 Load(96) Bat(77.0) -> 2 Load(122) Bat(67.9) -> 88 Load(142) Bat(64.6) -> 11 Load(164) Bat(63.8) -> 82 Load(175) Bat(58.0) -> 0 Load(204) Bat(52.4)
+Distance of the route: 15.884km
+Real distance of the route: 15.88km
+Time of the route: 1774s
+Load of the route: 204
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100.0) -> 69 Load(0) Bat(94.4) -> 50 Load(20) Bat(85.7) -> 78 Load(40) Bat(73.4) -> 48 Load(50) Bat(68.5) -> 76 Load(81) Bat(62.0) -> 12 Load(99) Bat(55.9) -> 10 Load(119) Bat(49.1) -> 75 Load(139) Bat(36.4) -> 51 Load(156) Bat(34.4) -> 73 Load(167) Bat(25.6) -> 94 Load(198) Bat(18.3) -> 0 Load(208) Bat(6.7)
+Distance of the route: 31.096km
+Real distance of the route: 31.10km
+Time of the route: 3251s
+Load of the route: 208
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100.0) -> 98 Load(0) Bat(81.3) -> 36 Load(9) Bat(79.8) -> 93 Load(39) Bat(77.7) -> 16 Load(54) Bat(74.8) -> 37 Load(72) Bat(71.8) -> 55 Load(87) Bat(70.9) -> 15 Load(110) Bat(62.9) -> 29 Load(137) Bat(60.9) -> 61 Load(150) Bat(60.2) -> 28 Load(166) Bat(52.8) -> 86 Load(187) Bat(37.4) -> 0 Load(204) Bat(33.4)
+Distance of the route: 22.190km
+Real distance of the route: 22.19km
+Time of the route: 2550s
+Load of the route: 204
+
+Route for vehicle 6:
+ 0 Load(0) Bat(100.0) -> 18 Load(0) Bat(87.3) -> 62 Load(13) Bat(77.2) -> 70 Load(43) Bat(76.2) -> 6 Load(61) Bat(62.2) -> 80 Load(92) Bat(54.0) -> 27 Load(118) Bat(46.4) -> 21 Load(129) Bat(42.1) -> 56 Load(139) Bat(29.1) -> 41 Load(163) Bat(11.9) -> 44 Load(191) Bat(10.9) -> 0 Load(205) Bat(7.5)
+Distance of the route: 30.826km
+Real distance of the route: 30.83km
+Time of the route: 3373s
+Load of the route: 205
+
+Route for vehicle 7:
+ 0 Load(0) Bat(100.0) -> 1 Load(0) Bat(39.0) -> 89 Load(18) Bat(35.5) -> 32 Load(44) Bat(30.3) -> 20 Load(70) Bat(23.2) -> 101[CS:BRCC - Lévis - St Hubert] Load(79) Bat(0.3) -> 0 Load(79) Bat(82.9)
+Distance of the route: 38.929km
+Real distance of the route: 38.93km
+Time of the route: 4786s
+Load of the route: 79
+
+Route for vehicle 8:
+ 0 Load(0) Bat(100.0) -> 71 Load(0) Bat(98.2) -> 35 Load(19) Bat(97.5) -> 9 Load(45) Bat(95.1) -> 101[CS:BRCC - Lévis - St Hubert] Load(63) Bat(81.3) -> 85 Load(63) Bat(72.6) -> 33 Load(81) Bat(43.4) -> 111[CS:BRCC - Lévis - Kennedy - Normandin] Load(99) Bat(18.2) -> 49 Load(99) Bat(83.7) -> 111[CS:BRCC - Lévis - Kennedy - Normandin] Load(124) Bat(66.8) -> 60 Load(124) Bat(76.7) -> 101[CS:BRCC - Lévis - St Hubert] Load(133) Bat(15.3) -> 7 Load(133) Bat(85.0) -> 77 Load(143) Bat(82.8) -> 30 Load(151) Bat(81.6) -> 14 Load(180) Bat(78.8) -> 0 Load(209) Bat(75.8)
+Distance of the route: 80.876km
+Real distance of the route: 80.88km
+Time of the route: 8508s
+Load of the route: 209
+
+Route for vehicle 9:
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 10:
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 11:
+ 0 Load(0) Bat(100.0) -> 34 Load(0) Bat(95.3) -> 25 Load(17) Bat(94.2) -> 22 Load(41) Bat(93.8) -> 39 Load(49) Bat(81.2) -> 81 Load(59) Bat(75.8) -> 58 Load(90) Bat(59.9) -> 67 Load(104) Bat(58.1) -> 26 Load(112) Bat(56.9) -> 74 Load(128) Bat(34.7) -> 45 Load(160) Bat(23.2) -> 100 Load(177) Bat(10.7) -> 0 Load(209) Bat(6.6)
+Distance of the route: 31.139km
+Real distance of the route: 31.14km
+Time of the route: 5610s
+Load of the route: 209
+
+Total Distance of all routes: 329.578km
+
+Real distance (km): 329.58
+
+Total Load of all routes: 1934
+
+Total Time of all routes: 38039s
+
+Total recharges: 5
+
+Unnecessary charging stops: 0
+
+Minimum battery (SoC) reached: 0.1
+

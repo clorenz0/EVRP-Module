@@ -31,7 +31,7 @@ from instance.instance_type import InstanceType
 
 # Instancia a resolver (cambiar solo esta linea): un grupo (InstanceType.EVRP = todas las instancias EVRP) o la ruta
 # de una sola, por ejemplo "instances_data/evrp_instances/quebec_70c_9ev_9cs.txt"
-INSTANCE = "instances_data/evrp_instances/quebec_100c_12ev_12cs.txt"
+INSTANCE = InstanceType.EVRP
 
 # Tiempo por instancia: 10 s hasta 100 clientes; en las grandes, 10 s no alcanzan ni para construir una primera
 # solucion completa en OR-Tools (150c: con 20 s deja 7 clientes sin atender, con 60 s ninguno). Mantener igual en run_aco.py.

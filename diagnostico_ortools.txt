@@ -1,14 +1,20 @@
-Diagnostico de OR-Tools (GLS, 30 s por corrida, heuristica AUTOMATIC salvo indicacion)
+Diagnostico de OR-Tools (GLS, 10 s por corrida, heuristica AUTOMATIC salvo indicacion)
 
 instancia               variante                estado       descart.       km recarg. cadenas 1a sol(s) desc.1a n_sol  ult(s) arcos_proh costo_medio
 -----------------------------------------------------------------------------------------------------------------------------------------------------
-quebec_60c_8ev_8cs      actual                  SUCCESS             1   179.99       4       2       0.0       5   643    30.0       5112       11019
+quebec_60c_8ev_8cs      actual                  SUCCESS             0   231.40       8       4       0.0       5   299    10.0       5112       11019
+quebec_60c_8ev_8cs      sin_completado          SUCCESS             1   180.49       4       2       0.0       5   299    10.0       5112       11019
+quebec_100c_12ev_12cs   actual                  SUCCESS             0   313.15      12       6       0.0      13   413     9.9      12276       13608
+quebec_100c_12ev_12cs   sin_completado          SUCCESS             7   228.87       2       1       0.0      13   415    10.0      12276       13608
 
 Clientes descartados (cuantos de ellos son 'lejanos': la ida y vuelta desde el deposito no cabe en una carga):
-  quebec_60c_8ev_8cs / actual: 1 descartados, 1 lejanos; ids [42]
+  quebec_60c_8ev_8cs / sin_completado: 1 descartados, 1 lejanos; ids [42]
+  quebec_100c_12ev_12cs / sin_completado: 7 descartados, 7 lejanos; ids [1, 32, 33, 49, 60, 85, 89]
 
 Modelo (instancia, nodos, estaciones con copias, penalizacion por descarte, costo de arco medio y maximo):
   quebec_60c_8ev_8cs: nodos=109 penalizacion=10000000 costo_medio=11019 costo_max=51176 (en unidades internas)
+  quebec_100c_12ev_12cs: nodos=173 penalizacion=10000000 costo_medio=13608 costo_max=58855 (en unidades internas)
 
 Lectura automatica:
-  quebec_60c_8ev_8cs: el modelo actual descarta 1 clientes. Variantes que lo arreglan: ninguna. Siguen fallando: ['actual'].
+  quebec_60c_8ev_8cs: el modelo actual NO descarta clientes (231.40 km).
+  quebec_100c_12ev_12cs: el modelo actual NO descarta clientes (313.15 km).

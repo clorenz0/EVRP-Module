@@ -1,0 +1,71 @@
+Instance: quebec_50c_5ev_5cs.txt
+
+Objective: 169.106
+
+Execution Time: 10.001232147216797
+
+Heuristic: PARALLEL_CHEAPEST_INSERTION
+
+Metaheuristic: GENERIC_TABU_SEARCH
+
+Distance type: osrm
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Station copies: 3
+
+Customers served: 50/50
+Dropped customers: 0
+Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100.0) -> 27 Load(0) Bat(84.5) -> 6 Load(27) Bat(84.2) -> 23 Load(46) Bat(59.5) -> 7 Load(74) Bat(52.4) -> 52[CS:Recharge EV Cap-de-la-Madeleine] Load(88) Bat(43.9) -> 46 Load(88) Bat(90.7) -> 25 Load(104) Bat(74.4) -> 32 Load(134) Bat(73.9) -> 48 Load(153) Bat(72.5) -> 17 Load(173) Bat(62.9) -> 28 Load(197) Bat(58.3) -> 38 Load(208) Bat(41.7) -> 0 Load(230) Bat(29.3)
+Distance of the route: 42.263km
+Real distance of the route: 42.26km
+Time of the route: 4233s
+Load of the route: 230
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100.0) -> 49 Load(0) Bat(88.9) -> 50 Load(27) Bat(80.8) -> 40 Load(47) Bat(75.8) -> 42 Load(77) Bat(72.6) -> 41 Load(94) Bat(66.2) -> 4 Load(124) Bat(59.1) -> 10 Load(151) Bat(57.9) -> 18 Load(169) Bat(56.4) -> 26 Load(177) Bat(46.7) -> 1 Load(207) Bat(39.3) -> 47 Load(220) Bat(35.5) -> 0 Load(249) Bat(25.3)
+Distance of the route: 24.907km
+Real distance of the route: 24.91km
+Time of the route: 2841s
+Load of the route: 249
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100.0) -> 31 Load(0) Bat(94.0) -> 5 Load(15) Bat(87.0) -> 0 Load(42) Bat(83.0)
+Distance of the route: 5.669km
+Real distance of the route: 5.67km
+Time of the route: 628s
+Load of the route: 42
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100.0) -> 3 Load(0) Bat(89.0) -> 37 Load(29) Bat(54.9) -> 15 Load(48) Bat(52.4) -> 39 Load(78) Bat(51.9) -> 9 Load(93) Bat(47.0) -> 44 Load(117) Bat(33.7) -> 43 Load(127) Bat(32.9) -> 30 Load(149) Bat(32.1) -> 14 Load(174) Bat(23.8) -> 45 Load(193) Bat(19.6) -> 36 Load(211) Bat(13.3) -> 55[CS:Borne IGA Trois-Rivieres] Load(236) Bat(1.3) -> 22 Load(236) Bat(69.8) -> 0 Load(250) Bat(62.8)
+Distance of the route: 45.298km
+Real distance of the route: 45.30km
+Time of the route: 3495s
+Load of the route: 250
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100.0) -> 11 Load(0) Bat(89.5) -> 34 Load(8) Bat(49.6) -> 16 Load(26) Bat(29.0) -> 13 Load(53) Bat(16.6) -> 20 Load(67) Bat(13.4) -> 55[CS:Borne IGA Trois-Rivieres] Load(77) Bat(4.9) -> 19 Load(77) Bat(100.0) -> 8 Load(98) Bat(100.0) -> 21 Load(124) Bat(97.5) -> 35 Load(144) Bat(75.3) -> 24 Load(164) Bat(71.5) -> 29 Load(184) Bat(67.6) -> 33 Load(197) Bat(63.6) -> 2 Load(214) Bat(61.6) -> 12 Load(224) Bat(48.6) -> 0 Load(249) Bat(42.2)
+Distance of the route: 50.969km
+Real distance of the route: 50.97km
+Time of the route: 3866s
+Load of the route: 249
+
+Total Distance of all routes: 169.106km
+
+Real distance (km): 169.11
+
+Total Load of all routes: 1020
+
+Total Time of all routes: 15063s
+
+Total recharges: 3
+
+Unnecessary charging stops: 0
+
+Minimum battery (SoC) reached: 1.3
+

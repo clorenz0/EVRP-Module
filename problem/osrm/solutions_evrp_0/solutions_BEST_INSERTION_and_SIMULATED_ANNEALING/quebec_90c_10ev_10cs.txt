@@ -1,8 +1,8 @@
 Instance: quebec_90c_10ev_10cs.txt
 
-Objective: 157
+Objective: 230.694
 
-Execution Time: 10.001787662506104
+Execution Time: 10.001452445983887
 
 Heuristic: BEST_INSERTION
 
@@ -16,76 +16,91 @@ Battery consumption rate: 3.0
 
 Station copies: 3
 
+Customers served: 90/90
+Dropped customers: 0
+Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
+
 Route for vehicle 0:
- 0 Load(0) Bat(100) -> 76 Load(0) Bat(89) -> 95[CS:Borne IGA Trois-Rivières] Load(10) Bat(60) -> 80 Load(10) Bat(90) -> 27 Load(22) Bat(89) -> 59 Load(44) Bat(87) -> 30 Load(58) Bat(85) -> 46 Load(75) Bat(83) -> 14 Load(86) Bat(82) -> 62 Load(105) Bat(81) -> 10 Load(130) Bat(76) -> 55 Load(153) Bat(56) -> 98[CS:Borne Saint-Louis-de-France] Load(176) Bat(43) -> 91[CS:Borne Trois-Rivières Centre] Load(176) Bat(93) -> 0 Load(176) Bat(92)
-Distance of the route: 28km
-Time of the route: 3055s
-Load of the route: 176
-
-Route for vehicle 1:
- 0 Load(0) Bat(100) -> 20 Load(0) Bat(90) -> 45 Load(18) Bat(64) -> 42 Load(46) Bat(62) -> 50 Load(70) Bat(62) -> 12 Load(83) Bat(62) -> 66 Load(111) Bat(62) -> 58 Load(128) Bat(62) -> 61 Load(155) Bat(60) -> 98[CS:Borne Saint-Louis-de-France] Load(171) Bat(36) -> 91[CS:Borne Trois-Rivières Centre] Load(171) Bat(93) -> 0 Load(171) Bat(92)
-Distance of the route: 21km
-Time of the route: 2262s
-Load of the route: 171
-
-Route for vehicle 2:
- 0 Load(0) Bat(100) -> 73 Load(0) Bat(84) -> 16 Load(18) Bat(61) -> 95[CS:Borne IGA Trois-Rivières] Load(42) Bat(59) -> 32 Load(42) Bat(100) -> 64 Load(71) Bat(93) -> 48 Load(90) Bat(93) -> 29 Load(107) Bat(93) -> 7 Load(132) Bat(87) -> 95[CS:Borne IGA Trois-Rivières] Load(146) Bat(87) -> 79 Load(146) Bat(86) -> 98[CS:Borne Saint-Louis-de-France] Load(175) Bat(73) -> 0 Load(175) Bat(66)
-Distance of the route: 26km
-Time of the route: 2418s
-Load of the route: 175
-
-Route for vehicle 3:
- 0 Load(0) Bat(100) -> 47 Load(0) Bat(92) -> 63 Load(20) Bat(92) -> 15 Load(32) Bat(88) -> 60 Load(48) Bat(85) -> 11 Load(69) Bat(83) -> 44 Load(80) Bat(81) -> 89 Load(94) Bat(73) -> 41 Load(103) Bat(71) -> 28 Load(115) Bat(65) -> 31 Load(123) Bat(52) -> 91[CS:Borne Trois-Rivières Centre] Load(136) Bat(41) -> 0 Load(136) Bat(40)
-Distance of the route: 15km
-Time of the route: 2166s
-Load of the route: 136
-
-Route for vehicle 4:
- 0 Load(0) Bat(100) -> 43 Load(0) Bat(86) -> 40 Load(19) Bat(83) -> 83 Load(35) Bat(80) -> 1 Load(49) Bat(80) -> 21 Load(64) Bat(69) -> 75 Load(84) Bat(62) -> 78 Load(110) Bat(57) -> 54 Load(126) Bat(56) -> 38 Load(141) Bat(56) -> 5 Load(150) Bat(55) -> 35 Load(160) Bat(52) -> 0 Load(178) Bat(38)
-Distance of the route: 17km
-Time of the route: 2563s
-Load of the route: 178
-
-Route for vehicle 5:
- 0 Load(0) Bat(100) -> 81 Load(0) Bat(86) -> 57 Load(19) Bat(84) -> 33 Load(28) Bat(76) -> 49 Load(38) Bat(75) -> 13 Load(60) Bat(73) -> 65 Load(73) Bat(72) -> 17 Load(95) Bat(70) -> 8 Load(104) Bat(66) -> 23 Load(124) Bat(58) -> 71 Load(150) Bat(56) -> 0 Load(165) Bat(52)
-Distance of the route: 10km
-Time of the route: 2076s
+ 0 Load(0) Bat(100.0) -> 8 Load(0) Bat(90.4) -> 13 Load(20) Bat(87.1) -> 65 Load(33) Bat(85.3) -> 33 Load(55) Bat(85.3) -> 49 Load(65) Bat(84.0) -> 17 Load(87) Bat(80.0) -> 57 Load(96) Bat(73.6) -> 81 Load(105) Bat(71.7) -> 71 Load(124) Bat(60.3) -> 23 Load(139) Bat(58.6) -> 0 Load(165) Bat(53.7)
+Distance of the route: 15.448km
+Real distance of the route: 15.45km
+Time of the route: 1813s
 Load of the route: 165
 
+Route for vehicle 1:
+ 0 Load(0) Bat(100.0) -> 63 Load(0) Bat(91.0) -> 47 Load(12) Bat(91.0) -> 15 Load(32) Bat(86.5) -> 60 Load(48) Bat(82.7) -> 44 Load(69) Bat(82.7) -> 11 Load(83) Bat(80.4) -> 28 Load(94) Bat(73.8) -> 89 Load(102) Bat(67.4) -> 41 Load(111) Bat(64.9) -> 31 Load(123) Bat(48.2) -> 9 Load(136) Bat(42.0) -> 26 Load(153) Bat(40.7) -> 0 Load(169) Bat(33.1)
+Distance of the route: 22.303km
+Real distance of the route: 22.30km
+Time of the route: 2254s
+Load of the route: 169
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100.0) -> 52 Load(0) Bat(90.2) -> 48 Load(10) Bat(53.7) -> 64 Load(27) Bat(53.7) -> 29 Load(46) Bat(53.0) -> 16 Load(71) Bat(46.0) -> 2 Load(95) Bat(19.8) -> 68 Load(113) Bat(18.7) -> 6 Load(141) Bat(15.0) -> 0 Load(166) Bat(9.1)
+Distance of the route: 30.297km
+Real distance of the route: 30.30km
+Time of the route: 2454s
+Load of the route: 166
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100.0) -> 39 Load(0) Bat(94.1) -> 25 Load(21) Bat(85.3) -> 4 Load(51) Bat(80.1) -> 70 Load(73) Bat(48.7) -> 22 Load(97) Bat(47.2) -> 55 Load(111) Bat(30.0) -> 87 Load(134) Bat(30.0) -> 20 Load(151) Bat(21.1) -> 0 Load(169) Bat(9.7)
+Distance of the route: 30.115km
+Real distance of the route: 30.12km
+Time of the route: 2288s
+Load of the route: 169
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100.0) -> 53 Load(0) Bat(95.4) -> 43 Load(18) Bat(85.3) -> 83 Load(37) Bat(78.1) -> 1 Load(51) Bat(78.0) -> 40 Load(66) Bat(74.7) -> 69 Load(82) Bat(71.4) -> 24 Load(90) Bat(67.0) -> 72 Load(101) Bat(66.6) -> 21 Load(121) Bat(62.4) -> 3 Load(141) Bat(56.8) -> 0 Load(153) Bat(48.6)
+Distance of the route: 17.123km
+Real distance of the route: 17.12km
+Time of the route: 2391s
+Load of the route: 153
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100.0) -> 73 Load(0) Bat(83.6) -> 14 Load(18) Bat(46.5) -> 30 Load(37) Bat(44.0) -> 80 Load(54) Bat(37.4) -> 7 Load(66) Bat(26.9) -> 32 Load(80) Bat(26.9) -> 95[CS:Borne IGA Trois-Rivières] Load(109) Bat(26.9) -> 79 Load(109) Bat(85.4) -> 18 Load(138) Bat(69.8) -> 90 Load(159) Bat(69.8) -> 0 Load(179) Bat(62.8)
+Distance of the route: 36.746km
+Real distance of the route: 36.75km
+Time of the route: 2608s
+Load of the route: 179
+
 Route for vehicle 6:
- 0 Load(0) Bat(100) -> 37 Load(0) Bat(98) -> 77 Load(27) Bat(98) -> 85 Load(49) Bat(97) -> 53 Load(60) Bat(96) -> 88 Load(78) Bat(94) -> 56 Load(102) Bat(94) -> 0 Load(122) Bat(89)
-Distance of the route: 1km
-Time of the route: 853s
-Load of the route: 122
+ 0 Load(0) Bat(100.0) -> 37 Load(0) Bat(97.1) -> 77 Load(27) Bat(97.1) -> 85 Load(49) Bat(95.4) -> 56 Load(60) Bat(92.0) -> 88 Load(80) Bat(92.0) -> 0 Load(104) Bat(86.9)
+Distance of the route: 4.360km
+Real distance of the route: 4.36km
+Time of the route: 777s
+Load of the route: 104
 
 Route for vehicle 7:
- 0 Load(0) Bat(100) -> 74 Load(0) Bat(95) -> 72 Load(13) Bat(87) -> 19 Load(33) Bat(84) -> 86 Load(48) Bat(80) -> 51 Load(69) Bat(77) -> 67 Load(95) Bat(76) -> 24 Load(106) Bat(71) -> 69 Load(117) Bat(67) -> 3 Load(125) Bat(66) -> 26 Load(137) Bat(62) -> 9 Load(153) Bat(61) -> 0 Load(170) Bat(53)
-Distance of the route: 11km
-Time of the route: 1913s
+ 0 Load(0) Bat(100.0) -> 34 Load(0) Bat(95.1) -> 10 Load(23) Bat(54.0) -> 27 Load(46) Bat(51.7) -> 46 Load(68) Bat(48.2) -> 62 Load(79) Bat(48.2) -> 59 Load(104) Bat(47.3) -> 36 Load(118) Bat(13.7) -> 76 Load(133) Bat(13.7) -> 84 Load(143) Bat(13.3) -> 0 Load(170) Bat(1.2)
+Distance of the route: 32.918km
+Real distance of the route: 32.92km
+Time of the route: 2473s
 Load of the route: 170
 
 Route for vehicle 8:
- 0 Load(0) Bat(100) -> 34 Load(0) Bat(96) -> 90 Load(23) Bat(94) -> 82 Load(43) Bat(92) -> 18 Load(66) Bat(90) -> 2 Load(87) Bat(85) -> 68 Load(105) Bat(84) -> 6 Load(133) Bat(81) -> 0 Load(158) Bat(76)
-Distance of the route: 4km
-Time of the route: 1026s
-Load of the route: 158
+ 0 Load(0) Bat(100.0) -> 82 Load(0) Bat(95.1) -> 61 Load(23) Bat(62.7) -> 45 Load(39) Bat(62.7) -> 12 Load(67) Bat(60.8) -> 66 Load(95) Bat(60.0) -> 58 Load(112) Bat(60.0) -> 50 Load(139) Bat(60.0) -> 42 Load(152) Bat(60.0) -> 98[CS:Borne Saint-Louis-de-France] Load(176) Bat(33.7) -> 0 Load(176) Bat(92.2)
+Distance of the route: 24.708km
+Real distance of the route: 24.71km
+Time of the route: 2098s
+Load of the route: 176
 
 Route for vehicle 9:
- 0 Load(0) Bat(100) -> 39 Load(0) Bat(95) -> 84 Load(21) Bat(90) -> 25 Load(48) Bat(87) -> 4 Load(78) Bat(82) -> 22 Load(100) Bat(53) -> 70 Load(114) Bat(52) -> 87 Load(138) Bat(34) -> 36 Load(155) Bat(26) -> 52 Load(170) Bat(24) -> 0 Load(180) Bat(14)
-Distance of the route: 24km
-Time of the route: 2456s
+ 0 Load(0) Bat(100.0) -> 19 Load(0) Bat(83.6) -> 35 Load(15) Bat(82.6) -> 86 Load(33) Bat(79.0) -> 78 Load(54) Bat(79.0) -> 5 Load(70) Bat(79.0) -> 54 Load(80) Bat(77.2) -> 38 Load(95) Bat(77.2) -> 75 Load(104) Bat(73.3) -> 51 Load(130) Bat(68.7) -> 67 Load(156) Bat(67.0) -> 74 Load(167) Bat(53.2) -> 0 Load(180) Bat(50.0)
+Distance of the route: 16.676km
+Real distance of the route: 16.68km
+Time of the route: 1586s
 Load of the route: 180
 
-Total Distance of all routes: 157km
-Real distance (km): 219.42
+Total Distance of all routes: 230.694km
+
+Real distance (km): 230.70
 
 Total Load of all routes: 1631
 
-Total Time of all routes: 20788s
+Total Time of all routes: 20742s
 
-Total recharges: 9
+Total recharges: 2
 
-Unnecessary charging stops: 9
+Unnecessary charging stops: 1
 
-Minimum battery (SoC) reached: 14
+Minimum battery (SoC) reached: 1.2
 

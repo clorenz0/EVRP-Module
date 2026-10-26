@@ -1,0 +1,396 @@
+[traza] problem\osrm\trazas\run_aco_20261025_222641_LOCAL_CHEAPEST_ARC+GLOBAL_CHEAPEST_ARC+LOCAL_CHEAPEST_INSERTION+PARALLEL_CHEAPES.txt
+Combinaciones a ejecutar (6): ['LOCAL_CHEAPEST_ARC_and_ACO', 'GLOBAL_CHEAPEST_ARC_and_ACO', 'LOCAL_CHEAPEST_INSERTION_and_ACO', 'PARALLEL_CHEAPEST_INSERTION_and_ACO', 'LOCAL_CHEAPEST_COST_INSERTION_and_ACO', 'LOCAL_CHEAPEST_INSERTION_and_ACO']
+
+##### LOCAL_CHEAPEST_ARC_and_ACO | instancias: ['quebec_100c_12ev_12cs.txt', 'quebec_150c_18ev_15cs.txt', 'quebec_220c_26ev_20cs.txt', 'quebec_30c_6ev_4cs.txt', 'quebec_350c_40ev_30cs.txt', 'quebec_40c_4ev_6cs.txt', 'quebec_50c_5ev_5cs.txt', 'quebec_60c_8ev_8cs.txt', 'quebec_70c_9ev_9cs.txt', 'quebec_90c_10ev_10cs.txt'] | semillas: [1] | tiempo por instancias
+
+=== LOCAL_CHEAPEST_ARC_and_ACO | quebec_100c_12ev_12cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_ARC): 412980
+Corriendo ACO sobre 'quebec_100c_12ev_12cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...
+  35 iteraciones, mejor objetivo: 272635
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_ARC_and_ACO\quebec_100c_12ev_12cs.txt
+
+=== LOCAL_CHEAPEST_ARC_and_ACO | quebec_150c_18ev_15cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_ARC): 593103
+Corriendo ACO sobre 'quebec_150c_18ev_15cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...
+  31 iteraciones, mejor objetivo: 390021
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_ARC_and_ACO\quebec_150c_18ev_15cs.txt
+
+=== LOCAL_CHEAPEST_ARC_and_ACO | quebec_220c_26ev_20cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_ARC): 1011147
+Corriendo ACO sobre 'quebec_220c_26ev_20cs.txt' (30 hormigas, limite 120s, consumo 3.0, bateria 100000)...
+  27 iteraciones, mejor objetivo: 691592
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_ARC_and_ACO\quebec_220c_26ev_20cs.txt
+
+=== LOCAL_CHEAPEST_ARC_and_ACO | quebec_30c_6ev_4cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_ARC): 114970
+Corriendo ACO sobre 'quebec_30c_6ev_4cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  137 iteraciones, mejor objetivo: 108177
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_ARC_and_ACO\quebec_30c_6ev_4cs.txt
+
+=== LOCAL_CHEAPEST_ARC_and_ACO | quebec_350c_40ev_30cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_ARC): 1207851
+Corriendo ACO sobre 'quebec_350c_40ev_30cs.txt' (30 hormigas, limite 180s, consumo 3.0, bateria 100000)...
+  26 iteraciones, mejor objetivo: 1083347
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_ARC_and_ACO\quebec_350c_40ev_30cs.txt
+
+=== LOCAL_CHEAPEST_ARC_and_ACO | quebec_40c_4ev_6cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_ARC): 94877
+Corriendo ACO sobre 'quebec_40c_4ev_6cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  96 iteraciones, mejor objetivo: 92216
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_ARC_and_ACO\quebec_40c_4ev_6cs.txt
+
+=== LOCAL_CHEAPEST_ARC_and_ACO | quebec_50c_5ev_5cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_ARC): 164808
+Corriendo ACO sobre 'quebec_50c_5ev_5cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  70 iteraciones, mejor objetivo: 160838
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_ARC_and_ACO\quebec_50c_5ev_5cs.txt
+
+=== LOCAL_CHEAPEST_ARC_and_ACO | quebec_60c_8ev_8cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_ARC): 169958
+Corriendo ACO sobre 'quebec_60c_8ev_8cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  19 iteraciones, mejor objetivo: 160004
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_ARC_and_ACO\quebec_60c_8ev_8cs.txt
+
+=== LOCAL_CHEAPEST_ARC_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_ARC): 250196
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  28 iteraciones, mejor objetivo: 231770
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_ARC_and_ACO\quebec_70c_9ev_9cs.txt
+
+=== LOCAL_CHEAPEST_ARC_and_ACO | quebec_90c_10ev_10cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_ARC): 266579
+Corriendo ACO sobre 'quebec_90c_10ev_10cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  22 iteraciones, mejor objetivo: 197073
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_ARC_and_ACO\quebec_90c_10ev_10cs.txt
+
+LOCAL_CHEAPEST_ARC_and_ACO (semilla 1): 100=272.635, 150=390.021, 220=691.592, 30c=108.177, 350=1083.347, 40c=92.216, 50c=160.838, 60c=160.004, 70c=231.77, 90c=197.073
+
+##### GLOBAL_CHEAPEST_ARC_and_ACO | instancias: ['quebec_100c_12ev_12cs.txt', 'quebec_150c_18ev_15cs.txt', 'quebec_220c_26ev_20cs.txt', 'quebec_30c_6ev_4cs.txt', 'quebec_350c_40ev_30cs.txt', 'quebec_40c_4ev_6cs.txt', 'quebec_50c_5ev_5cs.txt', 'quebec_60c_8ev_8cs.txt', 'quebec_70c_9ev_9cs.txt', 'quebec_90c_10ev_10cs.txt'] | semillas: [1] | tiempo por instancias
+
+=== GLOBAL_CHEAPEST_ARC_and_ACO | quebec_100c_12ev_12cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (GLOBAL_CHEAPEST_ARC): 431765
+Corriendo ACO sobre 'quebec_100c_12ev_12cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...
+  71 iteraciones, mejor objetivo: 270145
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_GLOBAL_CHEAPEST_ARC_and_ACO\quebec_100c_12ev_12cs.txt
+
+=== GLOBAL_CHEAPEST_ARC_and_ACO | quebec_150c_18ev_15cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (GLOBAL_CHEAPEST_ARC): 561077
+Corriendo ACO sobre 'quebec_150c_18ev_15cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...
+  51 iteraciones, mejor objetivo: 382737
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_GLOBAL_CHEAPEST_ARC_and_ACO\quebec_150c_18ev_15cs.txt
+
+=== GLOBAL_CHEAPEST_ARC_and_ACO | quebec_220c_26ev_20cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (GLOBAL_CHEAPEST_ARC): 973189
+Corriendo ACO sobre 'quebec_220c_26ev_20cs.txt' (30 hormigas, limite 120s, consumo 3.0, bateria 100000)...
+  33 iteraciones, mejor objetivo: 693927
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_GLOBAL_CHEAPEST_ARC_and_ACO\quebec_220c_26ev_20cs.txt
+
+=== GLOBAL_CHEAPEST_ARC_and_ACO | quebec_30c_6ev_4cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (GLOBAL_CHEAPEST_ARC): 114970
+Corriendo ACO sobre 'quebec_30c_6ev_4cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  230 iteraciones, mejor objetivo: 108177
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_GLOBAL_CHEAPEST_ARC_and_ACO\quebec_30c_6ev_4cs.txt
+
+=== GLOBAL_CHEAPEST_ARC_and_ACO | quebec_350c_40ev_30cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (GLOBAL_CHEAPEST_ARC): 1207851
+Corriendo ACO sobre 'quebec_350c_40ev_30cs.txt' (30 hormigas, limite 180s, consumo 3.0, bateria 100000)...
+  21 iteraciones, mejor objetivo: 1083753
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_GLOBAL_CHEAPEST_ARC_and_ACO\quebec_350c_40ev_30cs.txt
+
+=== GLOBAL_CHEAPEST_ARC_and_ACO | quebec_40c_4ev_6cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (GLOBAL_CHEAPEST_ARC): 100249
+Corriendo ACO sobre 'quebec_40c_4ev_6cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  104 iteraciones, mejor objetivo: 92216
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_GLOBAL_CHEAPEST_ARC_and_ACO\quebec_40c_4ev_6cs.txt
+
+=== GLOBAL_CHEAPEST_ARC_and_ACO | quebec_50c_5ev_5cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (GLOBAL_CHEAPEST_ARC): 164808
+Corriendo ACO sobre 'quebec_50c_5ev_5cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  67 iteraciones, mejor objetivo: 160838
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_GLOBAL_CHEAPEST_ARC_and_ACO\quebec_50c_5ev_5cs.txt
+
+=== GLOBAL_CHEAPEST_ARC_and_ACO | quebec_60c_8ev_8cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (GLOBAL_CHEAPEST_ARC): 169112
+Corriendo ACO sobre 'quebec_60c_8ev_8cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  17 iteraciones, mejor objetivo: 160004
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_GLOBAL_CHEAPEST_ARC_and_ACO\quebec_60c_8ev_8cs.txt
+
+=== GLOBAL_CHEAPEST_ARC_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (GLOBAL_CHEAPEST_ARC): 258474
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  29 iteraciones, mejor objetivo: 231699
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_GLOBAL_CHEAPEST_ARC_and_ACO\quebec_70c_9ev_9cs.txt
+
+=== GLOBAL_CHEAPEST_ARC_and_ACO | quebec_90c_10ev_10cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (GLOBAL_CHEAPEST_ARC): 235822
+Corriendo ACO sobre 'quebec_90c_10ev_10cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  28 iteraciones, mejor objetivo: 197073
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_GLOBAL_CHEAPEST_ARC_and_ACO\quebec_90c_10ev_10cs.txt
+
+GLOBAL_CHEAPEST_ARC_and_ACO (semilla 1): 100=270.145, 150=382.737, 220=693.927, 30c=108.177, 350=1083.753, 40c=92.216, 50c=160.838, 60c=160.004, 70c=231.699, 90c=197.073
+
+##### LOCAL_CHEAPEST_INSERTION_and_ACO | instancias: ['quebec_100c_12ev_12cs.txt', 'quebec_150c_18ev_15cs.txt', 'quebec_220c_26ev_20cs.txt', 'quebec_30c_6ev_4cs.txt', 'quebec_350c_40ev_30cs.txt', 'quebec_40c_4ev_6cs.txt', 'quebec_50c_5ev_5cs.txt', 'quebec_60c_8ev_8cs.txt', 'quebec_70c_9ev_9cs.txt', 'quebec_90c_10ev_10cs.txt'] | semillas: [1] | tiempo por instancias
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_100c_12ev_12cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 400920
+Corriendo ACO sobre 'quebec_100c_12ev_12cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...
+  58 iteraciones, mejor objetivo: 271084
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_100c_12ev_12cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_150c_18ev_15cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 430831
+Corriendo ACO sobre 'quebec_150c_18ev_15cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...
+  30 iteraciones, mejor objetivo: 379335
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_150c_18ev_15cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_220c_26ev_20cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 809262
+Corriendo ACO sobre 'quebec_220c_26ev_20cs.txt' (30 hormigas, limite 120s, consumo 3.0, bateria 100000)...
+  37 iteraciones, mejor objetivo: 664268
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_220c_26ev_20cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_30c_6ev_4cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 118652
+Corriendo ACO sobre 'quebec_30c_6ev_4cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  216 iteraciones, mejor objetivo: 108177
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_30c_6ev_4cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_350c_40ev_30cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 1207851
+Corriendo ACO sobre 'quebec_350c_40ev_30cs.txt' (30 hormigas, limite 180s, consumo 3.0, bateria 100000)...
+  17 iteraciones, mejor objetivo: 1084246
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_350c_40ev_30cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_40c_4ev_6cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 97081
+Corriendo ACO sobre 'quebec_40c_4ev_6cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  79 iteraciones, mejor objetivo: 92216
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_40c_4ev_6cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_50c_5ev_5cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 166980
+Corriendo ACO sobre 'quebec_50c_5ev_5cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  46 iteraciones, mejor objetivo: 161087
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_50c_5ev_5cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_60c_8ev_8cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 224490
+Corriendo ACO sobre 'quebec_60c_8ev_8cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  16 iteraciones, mejor objetivo: 160077
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_60c_8ev_8cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 239594
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  33 iteraciones, mejor objetivo: 231345
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_70c_9ev_9cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_90c_10ev_10cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 235176
+Corriendo ACO sobre 'quebec_90c_10ev_10cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  25 iteraciones, mejor objetivo: 197073
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_90c_10ev_10cs.txt
+
+LOCAL_CHEAPEST_INSERTION_and_ACO (semilla 1): 100=271.084, 150=379.335, 220=664.268, 30c=108.177, 350=1084.246, 40c=92.216, 50c=161.087, 60c=160.077, 70c=231.345, 90c=197.073
+
+##### PARALLEL_CHEAPEST_INSERTION_and_ACO | instancias: ['quebec_100c_12ev_12cs.txt', 'quebec_150c_18ev_15cs.txt', 'quebec_220c_26ev_20cs.txt', 'quebec_30c_6ev_4cs.txt', 'quebec_350c_40ev_30cs.txt', 'quebec_40c_4ev_6cs.txt', 'quebec_50c_5ev_5cs.txt', 'quebec_60c_8ev_8cs.txt', 'quebec_70c_9ev_9cs.txt', 'quebec_90c_10ev_10cs.txt'] | semillas: [1] | tiempo por instancias
+
+=== PARALLEL_CHEAPEST_INSERTION_and_ACO | quebec_100c_12ev_12cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (PARALLEL_CHEAPEST_INSERTION): 312207
+Corriendo ACO sobre 'quebec_100c_12ev_12cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...
+  67 iteraciones, mejor objetivo: 274098
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_PARALLEL_CHEAPEST_INSERTION_and_ACO\quebec_100c_12ev_12cs.txt
+
+=== PARALLEL_CHEAPEST_INSERTION_and_ACO | quebec_150c_18ev_15cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (PARALLEL_CHEAPEST_INSERTION): 413406
+Corriendo ACO sobre 'quebec_150c_18ev_15cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...
+  54 iteraciones, mejor objetivo: 375597
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_PARALLEL_CHEAPEST_INSERTION_and_ACO\quebec_150c_18ev_15cs.txt
+
+=== PARALLEL_CHEAPEST_INSERTION_and_ACO | quebec_220c_26ev_20cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (PARALLEL_CHEAPEST_INSERTION): 899973
+Corriendo ACO sobre 'quebec_220c_26ev_20cs.txt' (30 hormigas, limite 120s, consumo 3.0, bateria 100000)...
+  38 iteraciones, mejor objetivo: 698038
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_PARALLEL_CHEAPEST_INSERTION_and_ACO\quebec_220c_26ev_20cs.txt
+
+=== PARALLEL_CHEAPEST_INSERTION_and_ACO | quebec_30c_6ev_4cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (PARALLEL_CHEAPEST_INSERTION): 114370
+Corriendo ACO sobre 'quebec_30c_6ev_4cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  150 iteraciones, mejor objetivo: 108177
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_PARALLEL_CHEAPEST_INSERTION_and_ACO\quebec_30c_6ev_4cs.txt
+
+=== PARALLEL_CHEAPEST_INSERTION_and_ACO | quebec_350c_40ev_30cs.txt | semilla 1 ===
+  OR-Tools (PARALLEL_CHEAPEST_INSERTION) no dio solucion factible completa: ACO arranca sin solucion inicial
+Corriendo ACO sobre 'quebec_350c_40ev_30cs.txt' (30 hormigas, limite 180s, consumo 3.0, bateria 100000)...
+  20 iteraciones, mejor objetivo: 1116060
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_PARALLEL_CHEAPEST_INSERTION_and_ACO\quebec_350c_40ev_30cs.txt
+
+=== PARALLEL_CHEAPEST_INSERTION_and_ACO | quebec_40c_4ev_6cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (PARALLEL_CHEAPEST_INSERTION): 94907
+Corriendo ACO sobre 'quebec_40c_4ev_6cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  82 iteraciones, mejor objetivo: 92216
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_PARALLEL_CHEAPEST_INSERTION_and_ACO\quebec_40c_4ev_6cs.txt
+
+=== PARALLEL_CHEAPEST_INSERTION_and_ACO | quebec_50c_5ev_5cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (PARALLEL_CHEAPEST_INSERTION): 185158
+Corriendo ACO sobre 'quebec_50c_5ev_5cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  55 iteraciones, mejor objetivo: 160440
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_PARALLEL_CHEAPEST_INSERTION_and_ACO\quebec_50c_5ev_5cs.txt
+
+=== PARALLEL_CHEAPEST_INSERTION_and_ACO | quebec_60c_8ev_8cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (PARALLEL_CHEAPEST_INSERTION): 173467
+Corriendo ACO sobre 'quebec_60c_8ev_8cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  14 iteraciones, mejor objetivo: 160077
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_PARALLEL_CHEAPEST_INSERTION_and_ACO\quebec_60c_8ev_8cs.txt
+
+=== PARALLEL_CHEAPEST_INSERTION_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (PARALLEL_CHEAPEST_INSERTION): 245528
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  21 iteraciones, mejor objetivo: 233795
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_PARALLEL_CHEAPEST_INSERTION_and_ACO\quebec_70c_9ev_9cs.txt
+
+=== PARALLEL_CHEAPEST_INSERTION_and_ACO | quebec_90c_10ev_10cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (PARALLEL_CHEAPEST_INSERTION): 228731
+Corriendo ACO sobre 'quebec_90c_10ev_10cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  19 iteraciones, mejor objetivo: 197073
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_PARALLEL_CHEAPEST_INSERTION_and_ACO\quebec_90c_10ev_10cs.txt
+
+PARALLEL_CHEAPEST_INSERTION_and_ACO (semilla 1): 100=274.098, 150=375.597, 220=698.038, 30c=108.177, 350=1116.06, 40c=92.216, 50c=160.44, 60c=160.077, 70c=233.795, 90c=197.073
+
+##### LOCAL_CHEAPEST_COST_INSERTION_and_ACO | instancias: ['quebec_100c_12ev_12cs.txt', 'quebec_150c_18ev_15cs.txt', 'quebec_220c_26ev_20cs.txt', 'quebec_30c_6ev_4cs.txt', 'quebec_350c_40ev_30cs.txt', 'quebec_40c_4ev_6cs.txt', 'quebec_50c_5ev_5cs.txt', 'quebec_60c_8ev_8cs.txt', 'quebec_70c_9ev_9cs.txt', 'quebec_90c_10ev_10cs.txt'] | semillas: [1] | tiempo por instancias
+
+=== LOCAL_CHEAPEST_COST_INSERTION_and_ACO | quebec_100c_12ev_12cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_COST_INSERTION): 471158
+Corriendo ACO sobre 'quebec_100c_12ev_12cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...
+  52 iteraciones, mejor objetivo: 273395
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_COST_INSERTION_and_ACO\quebec_100c_12ev_12cs.txt
+
+=== LOCAL_CHEAPEST_COST_INSERTION_and_ACO | quebec_150c_18ev_15cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_COST_INSERTION): 430831
+Corriendo ACO sobre 'quebec_150c_18ev_15cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...
+  35 iteraciones, mejor objetivo: 379335
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_COST_INSERTION_and_ACO\quebec_150c_18ev_15cs.txt
+
+=== LOCAL_CHEAPEST_COST_INSERTION_and_ACO | quebec_220c_26ev_20cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_COST_INSERTION): 809262
+Corriendo ACO sobre 'quebec_220c_26ev_20cs.txt' (30 hormigas, limite 120s, consumo 3.0, bateria 100000)...
+  28 iteraciones, mejor objetivo: 669971
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_COST_INSERTION_and_ACO\quebec_220c_26ev_20cs.txt
+
+=== LOCAL_CHEAPEST_COST_INSERTION_and_ACO | quebec_30c_6ev_4cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_COST_INSERTION): 118652
+Corriendo ACO sobre 'quebec_30c_6ev_4cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  169 iteraciones, mejor objetivo: 108177
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_COST_INSERTION_and_ACO\quebec_30c_6ev_4cs.txt
+
+=== LOCAL_CHEAPEST_COST_INSERTION_and_ACO | quebec_350c_40ev_30cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_COST_INSERTION): 1207851
+Corriendo ACO sobre 'quebec_350c_40ev_30cs.txt' (30 hormigas, limite 180s, consumo 3.0, bateria 100000)...
+  27 iteraciones, mejor objetivo: 1083347
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_COST_INSERTION_and_ACO\quebec_350c_40ev_30cs.txt
+
+=== LOCAL_CHEAPEST_COST_INSERTION_and_ACO | quebec_40c_4ev_6cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_COST_INSERTION): 97081
+Corriendo ACO sobre 'quebec_40c_4ev_6cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  111 iteraciones, mejor objetivo: 92216
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_COST_INSERTION_and_ACO\quebec_40c_4ev_6cs.txt
+
+=== LOCAL_CHEAPEST_COST_INSERTION_and_ACO | quebec_50c_5ev_5cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_COST_INSERTION): 166980
+Corriendo ACO sobre 'quebec_50c_5ev_5cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  74 iteraciones, mejor objetivo: 160991
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_COST_INSERTION_and_ACO\quebec_50c_5ev_5cs.txt
+
+=== LOCAL_CHEAPEST_COST_INSERTION_and_ACO | quebec_60c_8ev_8cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_COST_INSERTION): 224490
+Corriendo ACO sobre 'quebec_60c_8ev_8cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  25 iteraciones, mejor objetivo: 160077
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_COST_INSERTION_and_ACO\quebec_60c_8ev_8cs.txt
+
+=== LOCAL_CHEAPEST_COST_INSERTION_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_COST_INSERTION): 239594
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  33 iteraciones, mejor objetivo: 231345
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_COST_INSERTION_and_ACO\quebec_70c_9ev_9cs.txt
+
+=== LOCAL_CHEAPEST_COST_INSERTION_and_ACO | quebec_90c_10ev_10cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_COST_INSERTION): 241148
+Corriendo ACO sobre 'quebec_90c_10ev_10cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  28 iteraciones, mejor objetivo: 197073
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_COST_INSERTION_and_ACO\quebec_90c_10ev_10cs.txt
+
+LOCAL_CHEAPEST_COST_INSERTION_and_ACO (semilla 1): 100=273.395, 150=379.335, 220=669.971, 30c=108.177, 350=1083.347, 40c=92.216, 50c=160.991, 60c=160.077, 70c=231.345, 90c=197.073
+
+##### LOCAL_CHEAPEST_INSERTION_and_ACO | instancias: ['quebec_100c_12ev_12cs.txt', 'quebec_150c_18ev_15cs.txt', 'quebec_220c_26ev_20cs.txt', 'quebec_30c_6ev_4cs.txt', 'quebec_350c_40ev_30cs.txt', 'quebec_40c_4ev_6cs.txt', 'quebec_50c_5ev_5cs.txt', 'quebec_60c_8ev_8cs.txt', 'quebec_70c_9ev_9cs.txt', 'quebec_90c_10ev_10cs.txt'] | semillas: [1] | tiempo por instancias
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-25\solutions_evrp_0\solutions_LOCAL_CHEAPEST_INSERTION_and_ACO
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_100c_12ev_12cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 403079
+Corriendo ACO sobre 'quebec_100c_12ev_12cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...
+  77 iteraciones, mejor objetivo: 270393
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_100c_12ev_12cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_150c_18ev_15cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 531883
+Corriendo ACO sobre 'quebec_150c_18ev_15cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...
+  58 iteraciones, mejor objetivo: 381121
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_150c_18ev_15cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_220c_26ev_20cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 809262
+Corriendo ACO sobre 'quebec_220c_26ev_20cs.txt' (30 hormigas, limite 120s, consumo 3.0, bateria 100000)...
+  39 iteraciones, mejor objetivo: 661734
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_220c_26ev_20cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_30c_6ev_4cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 118652
+Corriendo ACO sobre 'quebec_30c_6ev_4cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  249 iteraciones, mejor objetivo: 108177
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_30c_6ev_4cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_350c_40ev_30cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 1207851
+Corriendo ACO sobre 'quebec_350c_40ev_30cs.txt' (30 hormigas, limite 180s, consumo 3.0, bateria 100000)...
+  28 iteraciones, mejor objetivo: 1083347
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_350c_40ev_30cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_40c_4ev_6cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 97081
+Corriendo ACO sobre 'quebec_40c_4ev_6cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  110 iteraciones, mejor objetivo: 92216
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_40c_4ev_6cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_50c_5ev_5cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 166980
+Corriendo ACO sobre 'quebec_50c_5ev_5cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  73 iteraciones, mejor objetivo: 160991
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_50c_5ev_5cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_60c_8ev_8cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 224490
+Corriendo ACO sobre 'quebec_60c_8ev_8cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  25 iteraciones, mejor objetivo: 160077
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_60c_8ev_8cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_70c_9ev_9cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 239594
+Corriendo ACO sobre 'quebec_70c_9ev_9cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  33 iteraciones, mejor objetivo: 231345
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_70c_9ev_9cs.txt
+
+=== LOCAL_CHEAPEST_INSERTION_and_ACO | quebec_90c_10ev_10cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (LOCAL_CHEAPEST_INSERTION): 241870
+Corriendo ACO sobre 'quebec_90c_10ev_10cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  28 iteraciones, mejor objetivo: 197073
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_LOCAL_CHEAPEST_INSERTION_and_ACO\quebec_90c_10ev_10cs.txt
+
+LOCAL_CHEAPEST_INSERTION_and_ACO (semilla 1): 100=270.393, 150=381.121, 220=661.734, 30c=108.177, 350=1083.347, 40c=92.216, 50c=160.991, 60c=160.077, 70c=231.345, 90c=197.073
+
+=== RESUMEN ===
+LOCAL_CHEAPEST_ARC_and_ACO                          100=272.635  150=390.021  220=691.592  30c=108.177  350=1083.347  40c=92.216  50c=160.838  60c=160.004  70c=231.77  90c=197.073
+GLOBAL_CHEAPEST_ARC_and_ACO                         100=270.145  150=382.737  220=693.927  30c=108.177  350=1083.753  40c=92.216  50c=160.838  60c=160.004  70c=231.699  90c=197.073
+LOCAL_CHEAPEST_INSERTION_and_ACO                    100=270.393  150=381.121  220=661.734  30c=108.177  350=1083.347  40c=92.216  50c=160.991  60c=160.077  70c=231.345  90c=197.073
+PARALLEL_CHEAPEST_INSERTION_and_ACO                 100=274.098  150=375.597  220=698.038  30c=108.177  350=1116.06  40c=92.216  50c=160.44  60c=160.077  70c=233.795  90c=197.073
+LOCAL_CHEAPEST_COST_INSERTION_and_ACO               100=273.395  150=379.335  220=669.971  30c=108.177  350=1083.347  40c=92.216  50c=160.991  60c=160.077  70c=231.345  90c=197.073
+
+Los hibridos quedan en problem\osrm\solutions_evrp_0; ACO solo en solutions_evrp_<1000+semilla>. Siguiente paso: python friedman_ranking.py

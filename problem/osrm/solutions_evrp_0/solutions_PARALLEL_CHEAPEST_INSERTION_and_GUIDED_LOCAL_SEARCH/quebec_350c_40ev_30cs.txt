@@ -1,0 +1,318 @@
+Instance: quebec_350c_40ev_30cs.txt
+
+Objective: 1244.963
+
+Execution Time: 180.41245532035828
+
+Heuristic: PARALLEL_CHEAPEST_INSERTION
+
+Metaheuristic: GUIDED_LOCAL_SEARCH
+
+Distance type: osrm
+
+Vehicle capacity: 210
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Station copies: 3
+
+Customers served: 350/350
+Dropped customers: 0
+Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
+
+Customers inserted by the completion step: [16, 113, 164, 172, 175, 220, 265, 284]
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100.0) -> 175 Load(0) Bat(49.5) -> 380[CS:BRCC - Montréal - Côte-des-Neiges - Couche-Tard] Load(19) Bat(17.0) -> 0 Load(19) Bat(84.3)
+Distance of the route: 32.884km
+Real distance of the route: 32.88km
+Time of the route: 2841s
+Load of the route: 19
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100.0) -> 105 Load(0) Bat(75.3) -> 55 Load(10) Bat(66.6) -> 270 Load(22) Bat(63.8) -> 225 Load(50) Bat(57.1) -> 340 Load(66) Bat(54.5) -> 182 Load(95) Bat(54.4) -> 150 Load(119) Bat(54.1) -> 78 Load(139) Bat(53.8) -> 21 Load(165) Bat(51.7) -> 184 Load(177) Bat(46.5) -> 0 Load(202) Bat(9.1)
+Distance of the route: 30.282km
+Real distance of the route: 30.28km
+Time of the route: 2982s
+Load of the route: 202
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100.0) -> 110 Load(0) Bat(98.3) -> 123 Load(25) Bat(64.5) -> 65 Load(43) Bat(61.8) -> 262 Load(64) Bat(57.1) -> 288 Load(80) Bat(55.0) -> 27 Load(97) Bat(53.8) -> 141 Load(122) Bat(52.9) -> 338 Load(145) Bat(51.6) -> 101 Load(176) Bat(44.0) -> 52 Load(185) Bat(41.1) -> 0 Load(205) Bat(5.4)
+Distance of the route: 31.525km
+Real distance of the route: 31.52km
+Time of the route: 2656s
+Load of the route: 205
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100.0) -> 263 Load(0) Bat(72.1) -> 350 Load(12) Bat(65.7) -> 7 Load(36) Bat(62.7) -> 343 Load(44) Bat(56.3) -> 50 Load(76) Bat(54.4) -> 293 Load(85) Bat(53.7) -> 192 Load(114) Bat(50.8) -> 331 Load(136) Bat(49.0) -> 324 Load(157) Bat(45.8) -> 46 Load(171) Bat(43.6) -> 326 Load(191) Bat(36.4) -> 185 Load(199) Bat(6.8) -> 0 Load(210) Bat(5.7)
+Distance of the route: 31.442km
+Real distance of the route: 31.44km
+Time of the route: 3557s
+Load of the route: 210
+
+Route for vehicle 4:
+ 0 Load(0) Bat(100.0) -> 18 Load(0) Bat(92.7) -> 207 Load(18) Bat(66.8) -> 264 Load(42) Bat(64.6) -> 243 Load(55) Bat(64.3) -> 62 Load(76) Bat(62.8) -> 210 Load(107) Bat(54.3) -> 129 Load(119) Bat(39.8) -> 29 Load(145) Bat(35.4) -> 203 Load(175) Bat(30.9) -> 155 Load(193) Bat(23.9) -> 0 Load(209) Bat(1.9)
+Distance of the route: 32.703km
+Real distance of the route: 32.70km
+Time of the route: 3757s
+Load of the route: 209
+
+Route for vehicle 5:
+ 0 Load(0) Bat(100.0) -> 162 Load(0) Bat(75.7) -> 370[CS:BRCC - Saint-Lambert - Stationnement Riverside] Load(19) Bat(71.8) -> 179 Load(19) Bat(97.1) -> 286 Load(45) Bat(95.9) -> 41 Load(67) Bat(82.4) -> 237 Load(87) Bat(76.9) -> 223 Load(101) Bat(60.5) -> 9 Load(110) Bat(59.4) -> 284 Load(129) Bat(50.6) -> 370[CS:BRCC - Saint-Lambert - Stationnement Riverside] Load(156) Bat(8.3) -> 304 Load(156) Bat(62.8) -> 152 Load(171) Bat(49.2) -> 0 Load(200) Bat(11.1)
+Distance of the route: 69.592km
+Real distance of the route: 69.59km
+Time of the route: 5113s
+Load of the route: 200
+
+Route for vehicle 6:
+ 0 Load(0) Bat(100.0) -> 128 Load(0) Bat(77.6) -> 115 Load(28) Bat(75.3) -> 138 Load(49) Bat(71.3) -> 6 Load(74) Bat(68.8) -> 14 Load(90) Bat(63.2) -> 285 Load(119) Bat(60.4) -> 310 Load(127) Bat(58.2) -> 11 Load(139) Bat(54.1) -> 193 Load(171) Bat(49.9) -> 0 Load(201) Bat(35.1)
+Distance of the route: 21.633km
+Real distance of the route: 21.63km
+Time of the route: 2915s
+Load of the route: 201
+
+Route for vehicle 7:
+ 0 Load(0) Bat(100.0) -> 93 Load(0) Bat(96.3) -> 69 Load(28) Bat(89.5) -> 19 Load(58) Bat(80.4) -> 91 Load(82) Bat(73.0) -> 230 Load(95) Bat(67.6) -> 214 Load(116) Bat(61.6) -> 191 Load(126) Bat(60.2) -> 241 Load(142) Bat(56.3) -> 96 Load(158) Bat(48.1) -> 259 Load(178) Bat(47.6) -> 0 Load(201) Bat(35.9)
+Distance of the route: 21.362km
+Real distance of the route: 21.36km
+Time of the route: 2989s
+Load of the route: 201
+
+Route for vehicle 8:
+ 0 Load(0) Bat(100.0) -> 311 Load(0) Bat(96.2) -> 305 Load(31) Bat(80.3) -> 295 Load(57) Bat(77.9) -> 114 Load(82) Bat(76.3) -> 72 Load(106) Bat(75.0) -> 189 Load(131) Bat(72.4) -> 242 Load(155) Bat(59.0) -> 238 Load(179) Bat(54.0) -> 0 Load(210) Bat(51.9)
+Distance of the route: 16.037km
+Real distance of the route: 16.04km
+Time of the route: 1867s
+Load of the route: 210
+
+Route for vehicle 9:
+ 0 Load(0) Bat(100.0) -> 13 Load(0) Bat(91.5) -> 106 Load(18) Bat(88.5) -> 313 Load(32) Bat(79.7) -> 31 Load(48) Bat(74.4) -> 90 Load(80) Bat(70.1) -> 147 Load(111) Bat(63.3) -> 201 Load(124) Bat(53.9) -> 273 Load(141) Bat(50.8) -> 229 Load(167) Bat(40.4) -> 139 Load(176) Bat(39.4) -> 108 Load(190) Bat(36.3) -> 0 Load(206) Bat(29.4)
+Distance of the route: 23.537km
+Real distance of the route: 23.54km
+Time of the route: 3111s
+Load of the route: 206
+
+Route for vehicle 10:
+ 0 Load(0) Bat(100.0) -> 113 Load(0) Bat(37.5) -> 352[CS:Rez gas] Load(11) Bat(9.9) -> 164 Load(11) Bat(52.7) -> 370[CS:BRCC - Saint-Lambert - Stationnement Riverside] Load(31) Bat(13.0) -> 22 Load(31) Bat(94.7) -> 153 Load(59) Bat(79.2) -> 249 Load(87) Bat(72.9) -> 344 Load(99) Bat(69.9) -> 20 Load(123) Bat(62.8) -> 257 Load(133) Bat(37.8) -> 211 Load(146) Bat(32.1) -> 103 Load(157) Bat(29.7) -> 345 Load(176) Bat(28.7) -> 94 Load(184) Bat(27.0) -> 0 Load(197) Bat(22.9)
+Distance of the route: 84.751km
+Real distance of the route: 84.75km
+Time of the route: 6980s
+Load of the route: 197
+
+Route for vehicle 11:
+ 0 Load(0) Bat(100.0) -> 116 Load(0) Bat(73.8) -> 315 Load(15) Bat(71.4) -> 68 Load(46) Bat(63.9) -> 247 Load(67) Bat(61.4) -> 302 Load(99) Bat(59.3) -> 341 Load(126) Bat(56.7) -> 130 Load(151) Bat(49.2) -> 59 Load(168) Bat(43.7) -> 0 Load(193) Bat(2.1)
+Distance of the route: 32.627km
+Real distance of the route: 32.63km
+Time of the route: 3106s
+Load of the route: 193
+
+Route for vehicle 12:
+ 0 Load(0) Bat(100.0) -> 84 Load(0) Bat(63.0) -> 327 Load(27) Bat(60.0) -> 197 Load(40) Bat(58.9) -> 74 Load(48) Bat(57.1) -> 232 Load(73) Bat(56.9) -> 308 Load(93) Bat(56.3) -> 12 Load(116) Bat(54.1) -> 266 Load(129) Bat(52.5) -> 112 Load(143) Bat(48.4) -> 275 Load(162) Bat(47.1) -> 178 Load(171) Bat(46.1) -> 336 Load(191) Bat(43.9) -> 0 Load(209) Bat(8.6)
+Distance of the route: 30.472km
+Real distance of the route: 30.47km
+Time of the route: 2919s
+Load of the route: 209
+
+Route for vehicle 13:
+ 0 Load(0) Bat(100.0) -> 126 Load(0) Bat(74.8) -> 97 Load(29) Bat(60.2) -> 87 Load(53) Bat(57.3) -> 227 Load(81) Bat(46.9) -> 212 Load(95) Bat(43.7) -> 355[CS:BRCC - Longueuil 2] Load(106) Bat(28.9) -> 228 Load(106) Bat(93.3) -> 64 Load(138) Bat(86.0) -> 2 Load(170) Bat(73.6) -> 307 Load(183) Bat(58.8) -> 0 Load(204) Bat(33.7)
+Distance of the route: 45.801km
+Real distance of the route: 45.80km
+Time of the route: 4377s
+Load of the route: 204
+
+Route for vehicle 14:
+ 0 Load(0) Bat(100.0) -> 66 Load(0) Bat(82.6) -> 124 Load(30) Bat(78.8) -> 35 Load(41) Bat(76.2) -> 279 Load(55) Bat(67.8) -> 54 Load(71) Bat(67.4) -> 236 Load(99) Bat(62.7) -> 235 Load(110) Bat(56.3) -> 86 Load(124) Bat(53.1) -> 318 Load(146) Bat(51.0) -> 301 Load(157) Bat(48.7) -> 83 Load(184) Bat(46.0) -> 89 Load(192) Bat(42.6) -> 0 Load(210) Bat(14.5)
+Distance of the route: 28.499km
+Real distance of the route: 28.50km
+Time of the route: 3593s
+Load of the route: 210
+
+Route for vehicle 15:
+ 0 Load(0) Bat(100.0) -> 251 Load(0) Bat(87.7) -> 47 Load(10) Bat(84.8) -> 45 Load(25) Bat(77.5) -> 135 Load(44) Bat(64.0) -> 190 Load(63) Bat(63.4) -> 3 Load(84) Bat(62.5) -> 255 Load(100) Bat(54.9) -> 312 Load(113) Bat(53.2) -> 92 Load(129) Bat(47.8) -> 205 Load(139) Bat(38.9) -> 48 Load(170) Bat(29.5) -> 143 Load(180) Bat(23.2) -> 0 Load(201) Bat(3.0)
+Distance of the route: 32.350km
+Real distance of the route: 32.35km
+Time of the route: 3757s
+Load of the route: 201
+
+Route for vehicle 16:
+ 0 Load(0) Bat(100.0) -> 104 Load(0) Bat(91.9) -> 215 Load(24) Bat(91.1) -> 188 Load(50) Bat(88.2) -> 79 Load(66) Bat(80.0) -> 309 Load(95) Bat(74.1) -> 61 Load(117) Bat(73.6) -> 329 Load(139) Bat(72.3) -> 131 Load(163) Bat(70.4) -> 111 Load(187) Bat(68.9) -> 0 Load(208) Bat(61.9)
+Distance of the route: 12.702km
+Real distance of the route: 12.70km
+Time of the route: 1729s
+Load of the route: 208
+
+Route for vehicle 17:
+ 0 Load(0) Bat(100.0) -> 121 Load(0) Bat(89.2) -> 258 Load(11) Bat(87.7) -> 127 Load(35) Bat(71.1) -> 319 Load(63) Bat(53.7) -> 239 Load(83) Bat(51.6) -> 281 Load(95) Bat(40.0) -> 169 Load(127) Bat(24.9) -> 199 Load(148) Bat(22.3) -> 290 Load(177) Bat(20.8) -> 0 Load(209) Bat(0.4)
+Distance of the route: 33.197km
+Real distance of the route: 33.20km
+Time of the route: 4365s
+Load of the route: 209
+
+Route for vehicle 18:
+ 0 Load(0) Bat(100.0) -> 221 Load(0) Bat(92.0) -> 217 Load(14) Bat(90.3) -> 252 Load(24) Bat(90.1) -> 180 Load(47) Bat(89.3) -> 195 Load(69) Bat(86.7) -> 187 Load(86) Bat(80.0) -> 250 Load(114) Bat(68.8) -> 166 Load(145) Bat(55.0) -> 8 Load(176) Bat(44.5) -> 37 Load(190) Bat(41.6) -> 0 Load(204) Bat(38.3)
+Distance of the route: 20.573km
+Real distance of the route: 20.57km
+Time of the route: 2490s
+Load of the route: 204
+
+Route for vehicle 19:
+ 0 Load(0) Bat(100.0) -> 32 Load(0) Bat(64.1) -> 274 Load(27) Bat(62.4) -> 296 Load(55) Bat(61.4) -> 71 Load(85) Bat(59.4) -> 63 Load(102) Bat(58.9) -> 372[CS:BRCC - Montréal Monk] Load(112) Bat(17.2) -> 220 Load(112) Bat(49.0) -> 369[CS:Metro - Dollard] Load(132) Bat(11.8) -> 330 Load(132) Bat(60.6) -> 43 Load(148) Bat(53.6) -> 53 Load(177) Bat(50.8) -> 0 Load(205) Bat(50.0)
+Distance of the route: 73.682km
+Real distance of the route: 73.68km
+Time of the route: 6269s
+Load of the route: 205
+
+Route for vehicle 20:
+ 0 Load(0) Bat(100.0) -> 297 Load(0) Bat(81.3) -> 347 Load(11) Bat(73.0) -> 253 Load(30) Bat(69.3) -> 26 Load(52) Bat(60.7) -> 173 Load(80) Bat(58.9) -> 58 Load(95) Bat(56.5) -> 233 Load(125) Bat(51.3) -> 325 Load(156) Bat(50.2) -> 67 Load(188) Bat(48.5) -> 144 Load(197) Bat(39.0) -> 0 Load(209) Bat(9.5)
+Distance of the route: 30.177km
+Real distance of the route: 30.18km
+Time of the route: 3771s
+Load of the route: 209
+
+Route for vehicle 21:
+ 0 Load(0) Bat(100.0) -> 289 Load(0) Bat(75.7) -> 176 Load(15) Bat(67.1) -> 80 Load(33) Bat(66.9) -> 181 Load(62) Bat(61.2) -> 85 Load(91) Bat(52.8) -> 157 Load(121) Bat(48.9) -> 280 Load(133) Bat(44.4) -> 287 Load(160) Bat(43.9) -> 36 Load(172) Bat(41.5) -> 248 Load(184) Bat(30.4) -> 0 Load(203) Bat(6.5)
+Distance of the route: 31.159km
+Real distance of the route: 31.16km
+Time of the route: 3818s
+Load of the route: 203
+
+Route for vehicle 22:
+ 0 Load(0) Bat(100.0) -> 42 Load(0) Bat(65.6) -> 30 Load(11) Bat(59.2) -> 292 Load(40) Bat(54.2) -> 335 Load(70) Bat(52.5) -> 137 Load(85) Bat(51.9) -> 277 Load(95) Bat(48.1) -> 306 Load(121) Bat(46.1) -> 38 Load(139) Bat(44.3) -> 49 Load(170) Bat(42.3) -> 0 Load(191) Bat(1.9)
+Distance of the route: 32.686km
+Real distance of the route: 32.69km
+Time of the route: 2634s
+Load of the route: 191
+
+Route for vehicle 23:
+ 0 Load(0) Bat(100.0) -> 160 Load(0) Bat(73.9) -> 134 Load(28) Bat(72.7) -> 142 Load(49) Bat(66.4) -> 4 Load(70) Bat(63.6) -> 291 Load(94) Bat(59.6) -> 269 Load(105) Bat(58.1) -> 33 Load(122) Bat(55.9) -> 140 Load(143) Bat(49.1) -> 51 Load(174) Bat(41.3) -> 15 Load(191) Bat(40.6) -> 0 Load(206) Bat(30.2)
+Distance of the route: 23.268km
+Real distance of the route: 23.27km
+Time of the route: 3159s
+Load of the route: 206
+
+Route for vehicle 24:
+ 0 Load(0) Bat(100.0) -> 40 Load(0) Bat(86.7) -> 360[CS:BRCC - Île-des-Sœurs - Elgar] Load(24) Bat(74.1) -> 332 Load(24) Bat(71.1) -> 44 Load(56) Bat(66.7) -> 149 Load(65) Bat(55.7) -> 320 Load(75) Bat(51.3) -> 208 Load(88) Bat(43.9) -> 76 Load(109) Bat(33.3) -> 283 Load(121) Bat(26.0) -> 132 Load(146) Bat(13.2) -> 298 Load(163) Bat(11.5) -> 34 Load(172) Bat(6.6) -> 361[CS:BRCC - Longueuil - Montcalm] Load(202) Bat(0.9) -> 0 Load(202) Bat(68.3)
+Distance of the route: 52.213km
+Real distance of the route: 52.21km
+Time of the route: 4975s
+Load of the route: 202
+
+Route for vehicle 25:
+ 0 Load(0) Bat(100.0) -> 136 Load(0) Bat(85.6) -> 209 Load(26) Bat(71.5) -> 82 Load(35) Bat(68.1) -> 70 Load(46) Bat(64.3) -> 200 Load(55) Bat(49.7) -> 321 Load(68) Bat(48.5) -> 23 Load(78) Bat(42.3) -> 75 Load(96) Bat(40.5) -> 73 Load(126) Bat(37.8) -> 349 Load(151) Bat(34.5) -> 95 Load(180) Bat(20.1) -> 171 Load(201) Bat(17.9) -> 0 Load(209) Bat(0.6)
+Distance of the route: 33.143km
+Real distance of the route: 33.14km
+Time of the route: 4177s
+Load of the route: 209
+
+Route for vehicle 26:
+ 0 Load(0) Bat(100.0) -> 204 Load(0) Bat(88.8) -> 261 Load(31) Bat(82.6) -> 186 Load(62) Bat(75.8) -> 219 Load(72) Bat(74.5) -> 28 Load(85) Bat(73.8) -> 88 Load(113) Bat(72.8) -> 60 Load(130) Bat(72.1) -> 163 Load(162) Bat(69.2) -> 328 Load(183) Bat(65.6) -> 0 Load(202) Bat(46.4)
+Distance of the route: 17.856km
+Real distance of the route: 17.85km
+Time of the route: 2283s
+Load of the route: 202
+
+Route for vehicle 27:
+ 0 Load(0) Bat(100.0) -> 218 Load(0) Bat(89.6) -> 158 Load(27) Bat(88.1) -> 148 Load(35) Bat(81.1) -> 183 Load(46) Bat(73.4) -> 1 Load(58) Bat(72.7) -> 272 Load(71) Bat(72.3) -> 339 Load(97) Bat(70.6) -> 117 Load(108) Bat(64.1) -> 323 Load(140) Bat(53.6) -> 317 Load(165) Bat(45.7) -> 314 Load(187) Bat(35.5) -> 0 Load(199) Bat(11.2)
+Distance of the route: 29.586km
+Real distance of the route: 29.59km
+Time of the route: 3922s
+Load of the route: 199
+
+Route for vehicle 28:
+ 0 Load(0) Bat(100.0) -> 177 Load(0) Bat(89.1) -> 265 Load(31) Bat(42.6) -> 358[CS:RECHARGECO VILLERAY 02] Load(46) Bat(17.5) -> 99 Load(46) Bat(78.2) -> 167 Load(76) Bat(74.9) -> 25 Load(101) Bat(71.0) -> 222 Load(110) Bat(63.7) -> 159 Load(121) Bat(53.4) -> 154 Load(130) Bat(48.1) -> 118 Load(158) Bat(22.8) -> 206 Load(168) Bat(20.3) -> 362[CS:BRCC - CDN-NDG - Van Horne - Centre Wilderton] Load(187) Bat(12.5) -> 168 Load(187) Bat(98.6) -> 0 Load(209) Bat(80.9)
+Distance of the route: 63.029km
+Real distance of the route: 63.03km
+Time of the route: 6331s
+Load of the route: 209
+
+Route for vehicle 29:
+ 0 Load(0) Bat(100.0) -> 56 Load(0) Bat(94.6) -> 322 Load(23) Bat(79.7) -> 161 Load(42) Bat(71.7) -> 146 Load(50) Bat(61.0) -> 267 Load(76) Bat(55.1) -> 244 Load(84) Bat(44.2) -> 120 Load(96) Bat(35.5) -> 299 Load(116) Bat(30.7) -> 165 Load(128) Bat(29.8) -> 156 Load(144) Bat(26.8) -> 125 Load(155) Bat(26.0) -> 271 Load(176) Bat(23.3) -> 246 Load(200) Bat(18.8) -> 0 Load(209) Bat(1.9)
+Distance of the route: 32.697km
+Real distance of the route: 32.70km
+Time of the route: 3918s
+Load of the route: 209
+
+Route for vehicle 30:
+ 0 Load(0) Bat(100.0) -> 151 Load(0) Bat(77.5) -> 198 Load(25) Bat(66.3) -> 98 Load(42) Bat(57.8) -> 77 Load(71) Bat(51.5) -> 294 Load(96) Bat(40.8) -> 100 Load(126) Bat(40.0) -> 109 Load(153) Bat(38.3) -> 333 Load(178) Bat(29.8) -> 0 Load(209) Bat(10.6)
+Distance of the route: 29.807km
+Real distance of the route: 29.81km
+Time of the route: 3778s
+Load of the route: 209
+
+Route for vehicle 31:
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 32:
+ 0 Load(0) Bat(100.0) -> 226 Load(0) Bat(95.3) -> 240 Load(15) Bat(87.5) -> 5 Load(30) Bat(86.4) -> 145 Load(56) Bat(80.6) -> 17 Load(69) Bat(78.4) -> 170 Load(91) Bat(76.3) -> 245 Load(99) Bat(73.2) -> 122 Load(107) Bat(71.5) -> 256 Load(120) Bat(71.3) -> 16 Load(148) Bat(37.7) -> 172 Load(166) Bat(34.7) -> 373[CS:BRCC - Outremont - Querbes Stationnement] Load(196) Bat(1.2) -> 0 Load(196) Bat(89.0)
+Distance of the route: 36.612km
+Real distance of the route: 36.61km
+Time of the route: 4207s
+Load of the route: 196
+
+Route for vehicle 33:
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 34:
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 35:
+ 0 Load(0) Bat(100.0) -> 202 Load(0) Bat(89.5) -> 234 Load(10) Bat(85.5) -> 376[CS:BRCC - Côte St-Luc - Kingsley] Load(18) Bat(68.4) -> 276 Load(18) Bat(95.5) -> 260 Load(35) Bat(83.3) -> 316 Load(54) Bat(78.1) -> 194 Load(71) Bat(67.0) -> 300 Load(99) Bat(56.4) -> 119 Load(123) Bat(46.4) -> 303 Load(146) Bat(39.7) -> 346 Load(175) Bat(32.4) -> 196 Load(192) Bat(15.3) -> 0 Load(208) Bat(9.5)
+Distance of the route: 40.671km
+Real distance of the route: 40.67km
+Time of the route: 4899s
+Load of the route: 208
+
+Route for vehicle 36:
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 37:
+ 0 Load(0) Bat(100.0) -> 0 Load(0) Bat(100.0)
+Distance of the route: 0.000km
+Real distance of the route: 0.00km
+Time of the route: 0s
+Load of the route: 0
+
+Route for vehicle 38:
+ 0 Load(0) Bat(100.0) -> 24 Load(0) Bat(94.7) -> 334 Load(20) Bat(93.3) -> 337 Load(28) Bat(78.3) -> 10 Load(54) Bat(74.7) -> 254 Load(81) Bat(70.5) -> 342 Load(109) Bat(66.4) -> 133 Load(129) Bat(59.7) -> 282 Load(138) Bat(52.0) -> 57 Load(151) Bat(50.2) -> 348 Load(174) Bat(48.1) -> 278 Load(186) Bat(32.4) -> 0 Load(208) Bat(3.1)
+Distance of the route: 32.296km
+Real distance of the route: 32.30km
+Time of the route: 3967s
+Load of the route: 208
+
+Route for vehicle 39:
+ 0 Load(0) Bat(100.0) -> 102 Load(0) Bat(73.7) -> 224 Load(8) Bat(56.5) -> 216 Load(37) Bat(53.1) -> 353[CS:BRCC - St-Hubert - Boucherville] Load(51) Bat(35.3) -> 174 Load(51) Bat(80.1) -> 107 Load(81) Bat(63.1) -> 39 Load(113) Bat(46.5) -> 231 Load(137) Bat(23.1) -> 213 Load(166) Bat(20.4) -> 81 Load(176) Bat(8.1) -> 268 Load(190) Bat(5.7) -> 0 Load(208) Bat(2.3)
+Distance of the route: 54.112km
+Real distance of the route: 54.11km
+Time of the route: 5147s
+Load of the route: 208
+
+Total Distance of all routes: 1244.963km
+
+Real distance (km): 1244.97
+
+Total Load of all routes: 6971
+
+Total Time of all routes: 132359s
+
+Total recharges: 15
+
+Unnecessary charging stops: 0
+
+Minimum battery (SoC) reached: 0.4
+

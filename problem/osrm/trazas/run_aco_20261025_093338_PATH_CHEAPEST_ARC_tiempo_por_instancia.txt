@@ -1,0 +1,18 @@
+[traza] problem\osrm\trazas\run_aco_20261025_093338_PATH_CHEAPEST_ARC_tiempo_por_instancia.txt
+Combinaciones a ejecutar (1): ['PATH_CHEAPEST_ARC_and_ACO']
+
+##### PATH_CHEAPEST_ARC_and_ACO | instancias: ['quebec_90c_10ev_10cs.txt'] | semillas: [1] | tiempo por instancias
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-25\solutions_evrp_0\solutions_PATH_CHEAPEST_ARC_and_ACO
+
+=== PATH_CHEAPEST_ARC_and_ACO | quebec_90c_10ev_10cs.txt | semilla 1 ===
+  Solucion inicial de OR-Tools (PATH_CHEAPEST_ARC): 231688
+Corriendo ACO sobre 'quebec_90c_10ev_10cs.txt' (30 hormigas, limite 10s, consumo 3.0, bateria 100000)...
+  28 iteraciones, mejor objetivo: 197073
+Solution saved successfully in problem/osrm/solutions_evrp_0/solutions_PATH_CHEAPEST_ARC_and_ACO\quebec_90c_10ev_10cs.txt
+
+PATH_CHEAPEST_ARC_and_ACO (semilla 1): 90c=197.073
+
+=== RESUMEN ===
+PATH_CHEAPEST_ARC_and_ACO                           90c=197.073
+
+Los hibridos quedan en problem\osrm\solutions_evrp_0; ACO solo en solutions_evrp_<1000+semilla>. Siguiente paso: python friedman_ranking.py

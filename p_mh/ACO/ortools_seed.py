@@ -73,6 +73,10 @@ def build_initial_routes(data, heuristic, time_limit=2, station_copies=3):
     solution = routing.SolveWithParameters(params)
     if solution is None:
         return None
+    if evrp.COMPLETE_DROPPED:       # clientes lejanos descartados: mismo paso de completado que en evrp.execute
+        completed = evrp.complete_dropped_clients(data, manager, routing, solution, params, time_limit)
+        if completed is not None:
+            solution, routing = completed
 
     routes, served = [], 0
     depot = data['depot']

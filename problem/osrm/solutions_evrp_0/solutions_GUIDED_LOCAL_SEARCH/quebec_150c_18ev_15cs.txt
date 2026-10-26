@@ -2,7 +2,7 @@ Instance: quebec_150c_18ev_15cs.txt
 
 Objective: 407.137
 
-Execution Time: 60.00045704841614
+Execution Time: 60.001338720321655
 
 Metaheuristic: GUIDED_LOCAL_SEARCH
 

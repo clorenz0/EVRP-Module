@@ -1,0 +1,8 @@
+[traza] problem\osrm\trazas\run_aco_20261019_233952_todas_tiempo_por_instancia.txt
+Combinaciones a ejecutar (16): ['ACO', 'PATH_CHEAPEST_ARC_and_ACO', 'PATH_MOST_CONSTRAINED_ARC_and_ACO', 'EVALUATOR_STRATEGY_and_ACO', 'SAVINGS_and_ACO', 'SWEEP_and_ACO', 'CHRISTOFIDES_and_ACO', 'ALL_UNPERFORMED_and_ACO', 'BEST_INSERTION_and_ACO', 'PARALLEL_CHEAPEST_INSERTION_and_ACO', 'SEQUENTIAL_CHEAPEST_INSERTION_and_ACO', 'LOCAL_CHEAPEST_INSERTION_and_ACO', 'LOCAL_CHEAPEST_COST_INSERTION_and_ACO', 'GLOBAL_CHEAPEST_ARC_and_ACO', 'LOCAL_CHEAPEST_ARC_and_ACO', 'FIRST_UNBOUND_MIN_VALUE_and_ACO']
+
+##### ACO | instancias: ['quebec_100c_12ev_12cs.txt', 'quebec_150c_18ev_15cs.txt', 'quebec_220c_26ev_20cs.txt', 'quebec_30c_6ev_4cs.txt', 'quebec_350c_40ev_30cs.txt', 'quebec_40c_4ev_6cs.txt', 'quebec_50c_5ev_5cs.txt', 'quebec_60c_8ev_8cs.txt', 'quebec_70c_9ev_9cs.txt', 'quebec_90c_10ev_10cs.txt'] | semillas: [1, 2] | tiempo por instancias
+  [archivo] resultados previos copiados a problem\osrm\archivo\2026-10-18\solutions_evrp_1001\solutions_ACO_2
+
+=== ACO | quebec_100c_12ev_12cs.txt | semilla 1 ===
+Corriendo ACO sobre 'quebec_100c_12ev_12cs.txt' (30 hormigas, limite 60s, consumo 3.0, bateria 100000)...

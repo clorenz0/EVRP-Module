@@ -1,8 +1,8 @@
 Instance: quebec_40c_4ev_6cs.txt
 
-Objective: 76
+Objective: 94.071
 
-Execution Time: 9.997859001159668
+Execution Time: 10.00066328048706
 
 Heuristic: ALL_UNPERFORMED
 
@@ -16,40 +16,49 @@ Battery consumption rate: 3.0
 
 Station copies: 3
 
+Customers served: 40/40
+Dropped customers: 0
+Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
+
 Route for vehicle 0:
- 0 Load(0) Bat(100) -> 8 Load(0) Bat(96) -> 44[CS:Recharge Saint-Roch] Load(28) Bat(96) -> 3 Load(28) Bat(91) -> 15 Load(58) Bat(84) -> 42[CS:Station IGA Sainte-Foy] Load(85) Bat(79) -> 16 Load(85) Bat(92) -> 42[CS:Station IGA Sainte-Foy] Load(99) Bat(84) -> 31 Load(99) Bat(96) -> 25 Load(115) Bat(89) -> 7 Load(141) Bat(85) -> 36 Load(160) Bat(85) -> 19 Load(177) Bat(80) -> 13 Load(201) Bat(72) -> 44[CS:Recharge Saint-Roch] Load(218) Bat(61) -> 0 Load(218) Bat(56)
-Distance of the route: 22km
-Time of the route: 3693s
-Load of the route: 218
+ 0 Load(0) Bat(100.0) -> 38 Load(0) Bat(92.5) -> 22 Load(27) Bat(75.3) -> 10 Load(56) Bat(73.5) -> 27 Load(91) Bat(62.0) -> 14 Load(125) Bat(55.8) -> 0 Load(148) Bat(35.5)
+Distance of the route: 21.495km
+Real distance of the route: 21.50km
+Time of the route: 4895s
+Load of the route: 148
 
 Route for vehicle 1:
- 0 Load(0) Bat(100) -> 30 Load(0) Bat(96) -> 2 Load(28) Bat(85) -> 35 Load(46) Bat(84) -> 45[CS:Borne IKEA Beauport] Load(76) Bat(82) -> 18 Load(76) Bat(100) -> 45[CS:Borne IKEA Beauport] Load(92) Bat(100) -> 6 Load(92) Bat(100) -> 45[CS:Borne IKEA Beauport] Load(117) Bat(100) -> 24 Load(117) Bat(99) -> 12 Load(138) Bat(92) -> 17 Load(170) Bat(75) -> 0 Load(201) Bat(70)
-Distance of the route: 12km
-Time of the route: 2354s
-Load of the route: 201
+ 0 Load(0) Bat(100.0) -> 39 Load(0) Bat(91.6) -> 3 Load(14) Bat(80.5) -> 20 Load(44) Bat(76.7) -> 5 Load(77) Bat(72.4) -> 23 Load(99) Bat(69.6) -> 34 Load(117) Bat(68.7) -> 11 Load(129) Bat(67.8) -> 26 Load(139) Bat(63.7) -> 37 Load(152) Bat(62.8) -> 9 Load(175) Bat(53.5) -> 29 Load(187) Bat(41.6) -> 40 Load(209) Bat(40.6) -> 32 Load(228) Bat(31.9) -> 0 Load(248) Bat(22.7)
+Distance of the route: 25.766km
+Real distance of the route: 25.77km
+Time of the route: 3164s
+Load of the route: 248
 
 Route for vehicle 2:
- 0 Load(0) Bat(100) -> 39 Load(0) Bat(92) -> 20 Load(14) Bat(78) -> 5 Load(47) Bat(74) -> 23 Load(69) Bat(72) -> 11 Load(87) Bat(71) -> 34 Load(97) Bat(71) -> 37 Load(109) Bat(66) -> 26 Load(132) Bat(66) -> 9 Load(145) Bat(57) -> 21 Load(157) Bat(43) -> 29 Load(168) Bat(37) -> 40 Load(190) Bat(36) -> 32 Load(209) Bat(28) -> 1 Load(229) Bat(26) -> 0 Load(249) Bat(18)
-Distance of the route: 21km
-Time of the route: 3540s
-Load of the route: 249
+ 0 Load(0) Bat(100.0) -> 17 Load(0) Bat(94.1) -> 35 Load(31) Bat(84.8) -> 2 Load(61) Bat(84.7) -> 18 Load(79) Bat(81.8) -> 6 Load(95) Bat(81.7) -> 24 Load(120) Bat(79.9) -> 12 Load(141) Bat(72.2) -> 21 Load(173) Bat(57.1) -> 1 Load(184) Bat(46.8) -> 30 Load(204) Bat(40.6) -> 0 Load(232) Bat(36.1)
+Distance of the route: 21.305km
+Real distance of the route: 21.31km
+Time of the route: 2848s
+Load of the route: 232
 
 Route for vehicle 3:
- 0 Load(0) Bat(100) -> 22 Load(0) Bat(83) -> 10 Load(29) Bat(82) -> 27 Load(64) Bat(71) -> 14 Load(98) Bat(65) -> 28 Load(121) Bat(46) -> 4 Load(130) Bat(46) -> 33 Load(145) Bat(43) -> 41[CS:Borne Rapide Haute-Ville] Load(170) Bat(38) -> 38 Load(170) Bat(95) -> 41[CS:Borne Rapide Haute-Ville] Load(197) Bat(90) -> 0 Load(197) Bat(87)
-Distance of the route: 21km
-Time of the route: 5534s
-Load of the route: 197
+ 0 Load(0) Bat(100.0) -> 8 Load(0) Bat(95.0) -> 15 Load(28) Bat(85.2) -> 16 Load(55) Bat(78.4) -> 31 Load(69) Bat(67.7) -> 36 Load(85) Bat(60.3) -> 7 Load(102) Bat(60.3) -> 25 Load(121) Bat(55.3) -> 13 Load(147) Bat(45.3) -> 19 Load(164) Bat(41.7) -> 4 Load(188) Bat(34.5) -> 28 Load(203) Bat(34.5) -> 33 Load(212) Bat(31.0) -> 0 Load(237) Bat(23.5)
+Distance of the route: 25.505km
+Real distance of the route: 25.50km
+Time of the route: 2989s
+Load of the route: 237
 
-Total Distance of all routes: 76km
-Real distance (km): 104.99
+Total Distance of all routes: 94.071km
+
+Real distance (km): 94.07
 
 Total Load of all routes: 865
 
-Total Time of all routes: 15121s
+Total Time of all routes: 13896s
 
-Total recharges: 9
+Total recharges: 0
 
-Unnecessary charging stops: 9
+Unnecessary charging stops: 0
 
-Minimum battery (SoC) reached: 18
+Minimum battery (SoC) reached: 22.7
 

@@ -2,7 +2,7 @@ Instance: quebec_220c_26ev_20cs.txt
 
 Objective: 695.753
 
-Execution Time: 119.99148178100586
+Execution Time: 120.00166583061218
 
 Metaheuristic: GUIDED_LOCAL_SEARCH
 

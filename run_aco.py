@@ -36,6 +36,7 @@ import shutil
 from p_mh.ACO import evrp_aco
 from distance.distance_type import DistanceType
 from instance.instance_type import InstanceType
+from problem.strategy_type import HeuristicType
 from utils.archive import archive_if_exists
 from utils.trace import TraceLog
 
@@ -90,7 +91,7 @@ ACO_PARAMS = dict(
 # Cada combinacion ACO+heuristica es UNA corrida (una semilla sorteada de SEEDS), como las de OR-Tools.
 HEURISTIC = None
 INSTANCES = "all"            # "all" o lista de nombres, p.ej. ["quebec_50c_5ev_5cs"]
-SEEDS = [1, 2, 3, 4, 5, 6]   # semillas de ACO solo; en las combinaciones con heuristica se sortea una
+SEEDS = [1]   # semillas de ACO solo; en las combinaciones con heuristica se sortea una
 TIME_LIMIT = 10              # segundos por instancia y semilla (hasta 100 clientes)
 # Tiempo de las instancias grandes; mantener igual que en run.py (TIME_BY_INSTANCE). --time lo sobrescribe para todas.
 TIME_BY_INSTANCE = {"quebec_100c_12ev_12cs": 60, "quebec_150c_18ev_15cs": 60, "quebec_220c_26ev_20cs": 120, "quebec_350c_40ev_30cs": 180}

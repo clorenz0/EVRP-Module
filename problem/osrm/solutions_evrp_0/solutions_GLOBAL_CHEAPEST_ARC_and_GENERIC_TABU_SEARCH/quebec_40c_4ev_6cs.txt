@@ -1,8 +1,8 @@
 Instance: quebec_40c_4ev_6cs.txt
 
-Objective: 74
+Objective: 99.032
 
-Execution Time: 9.999988079071045
+Execution Time: 10.000221729278564
 
 Heuristic: GLOBAL_CHEAPEST_ARC
 
@@ -16,40 +16,49 @@ Battery consumption rate: 3.0
 
 Station copies: 3
 
+Customers served: 40/40
+Dropped customers: 0
+Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
+
 Route for vehicle 0:
- 0 Load(0) Bat(100) -> 8 Load(0) Bat(96) -> 44[CS:Recharge Saint-Roch] Load(28) Bat(96) -> 16 Load(28) Bat(82) -> 26 Load(42) Bat(72) -> 37 Load(55) Bat(72) -> 34 Load(78) Bat(67) -> 11 Load(90) Bat(67) -> 23 Load(100) Bat(66) -> 5 Load(118) Bat(64) -> 9 Load(140) Bat(54) -> 20 Load(152) Bat(47) -> 3 Load(185) Bat(44) -> 30 Load(215) Bat(35) -> 0 Load(243) Bat(31)
-Distance of the route: 19km
-Time of the route: 3153s
-Load of the route: 243
+ 0 Load(0) Bat(100.0) -> 8 Load(0) Bat(95.0) -> 36 Load(28) Bat(87.6) -> 7 Load(45) Bat(87.6) -> 25 Load(64) Bat(82.6) -> 31 Load(90) Bat(74.8) -> 16 Load(106) Bat(64.0) -> 15 Load(120) Bat(56.5) -> 3 Load(147) Bat(50.4) -> 30 Load(177) Bat(40.8) -> 0 Load(205) Bat(36.3)
+Distance of the route: 21.243km
+Real distance of the route: 21.24km
+Time of the route: 2497s
+Load of the route: 205
 
 Route for vehicle 1:
- 0 Load(0) Bat(100) -> 39 Load(0) Bat(92) -> 36 Load(14) Bat(85) -> 7 Load(31) Bat(85) -> 42[CS:Station IGA Sainte-Foy] Load(50) Bat(81) -> 15 Load(50) Bat(95) -> 42[CS:Station IGA Sainte-Foy] Load(77) Bat(90) -> 31 Load(77) Bat(96) -> 25 Load(93) Bat(89) -> 13 Load(119) Bat(80) -> 19 Load(136) Bat(77) -> 28 Load(160) Bat(70) -> 4 Load(169) Bat(70) -> 33 Load(184) Bat(67) -> 41[CS:Borne Rapide Haute-Ville] Load(209) Bat(62) -> 0 Load(209) Bat(59)
-Distance of the route: 19km
-Time of the route: 3336s
-Load of the route: 209
+ 0 Load(0) Bat(100.0) -> 12 Load(0) Bat(86.8) -> 21 Load(32) Bat(71.7) -> 29 Load(43) Bat(65.1) -> 40 Load(65) Bat(64.1) -> 9 Load(84) Bat(50.3) -> 34 Load(96) Bat(39.9) -> 11 Load(108) Bat(38.9) -> 23 Load(118) Bat(37.4) -> 5 Load(136) Bat(34.7) -> 37 Load(158) Bat(31.6) -> 26 Load(181) Bat(30.7) -> 20 Load(194) Bat(26.9) -> 0 Load(227) Bat(9.8)
+Distance of the route: 30.077km
+Real distance of the route: 30.08km
+Time of the route: 3209s
+Load of the route: 227
 
 Route for vehicle 2:
- 0 Load(0) Bat(100) -> 2 Load(0) Bat(88) -> 35 Load(18) Bat(87) -> 6 Load(48) Bat(85) -> 45[CS:Borne IKEA Beauport] Load(73) Bat(85) -> 18 Load(73) Bat(85) -> 24 Load(89) Bat(84) -> 12 Load(110) Bat(77) -> 21 Load(142) Bat(62) -> 40 Load(153) Bat(56) -> 29 Load(172) Bat(55) -> 32 Load(194) Bat(47) -> 1 Load(214) Bat(45) -> 0 Load(234) Bat(37)
-Distance of the route: 17km
-Time of the route: 2927s
-Load of the route: 234
+ 0 Load(0) Bat(100.0) -> 38 Load(0) Bat(92.5) -> 1 Load(27) Bat(80.6) -> 32 Load(47) Bat(79.0) -> 35 Load(67) Bat(68.2) -> 2 Load(97) Bat(68.1) -> 24 Load(115) Bat(67.0) -> 6 Load(136) Bat(65.2) -> 18 Load(161) Bat(65.2) -> 17 Load(177) Bat(52.8) -> 0 Load(208) Bat(47.0)
+Distance of the route: 17.655km
+Real distance of the route: 17.66km
+Time of the route: 2740s
+Load of the route: 208
 
 Route for vehicle 3:
- 0 Load(0) Bat(100) -> 14 Load(0) Bat(80) -> 27 Load(23) Bat(74) -> 10 Load(57) Bat(63) -> 22 Load(92) Bat(62) -> 38 Load(121) Bat(45) -> 41[CS:Borne Rapide Haute-Ville] Load(148) Bat(40) -> 17 Load(148) Bat(35) -> 0 Load(179) Bat(30)
-Distance of the route: 19km
-Time of the route: 5388s
-Load of the route: 179
+ 0 Load(0) Bat(100.0) -> 22 Load(0) Bat(82.5) -> 10 Load(29) Bat(80.7) -> 14 Load(64) Bat(63.0) -> 27 Load(87) Bat(56.9) -> 33 Load(121) Bat(47.4) -> 4 Load(146) Bat(43.9) -> 28 Load(161) Bat(43.9) -> 13 Load(170) Bat(29.0) -> 19 Load(187) Bat(25.4) -> 39 Load(211) Bat(17.8) -> 0 Load(225) Bat(9.8)
+Distance of the route: 30.057km
+Real distance of the route: 30.06km
+Time of the route: 5616s
+Load of the route: 225
 
-Total Distance of all routes: 74km
-Real distance (km): 99.52
+Total Distance of all routes: 99.032km
+
+Real distance (km): 99.03
 
 Total Load of all routes: 865
 
-Total Time of all routes: 14804s
+Total Time of all routes: 14062s
 
-Total recharges: 6
+Total recharges: 0
 
-Unnecessary charging stops: 6
+Unnecessary charging stops: 0
 
-Minimum battery (SoC) reached: 30
+Minimum battery (SoC) reached: 9.8
 

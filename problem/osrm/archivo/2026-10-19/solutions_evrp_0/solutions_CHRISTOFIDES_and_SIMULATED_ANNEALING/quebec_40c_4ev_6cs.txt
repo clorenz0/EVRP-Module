@@ -1,0 +1,64 @@
+Instance: quebec_40c_4ev_6cs.txt
+
+Objective: 99.142
+
+Execution Time: 10.000321388244629
+
+Heuristic: CHRISTOFIDES
+
+Metaheuristic: SIMULATED_ANNEALING
+
+Distance type: osrm
+
+Vehicle capacity: 250
+Battery capacity: 100
+Battery consumption rate: 3.0
+
+Station copies: 3
+
+Customers served: 40/40
+Dropped customers: 0
+Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
+
+Route for vehicle 0:
+ 0 Load(0) Bat(100.0) -> 35 Load(0) Bat(87.6) -> 2 Load(30) Bat(87.5) -> 24 Load(48) Bat(86.4) -> 18 Load(69) Bat(84.6) -> 6 Load(85) Bat(84.6) -> 12 Load(110) Bat(75.1) -> 17 Load(142) Bat(57.6) -> 0 Load(173) Bat(51.8)
+Distance of the route: 16.068km
+Real distance of the route: 16.07km
+Time of the route: 2046s
+Load of the route: 173
+
+Route for vehicle 1:
+ 0 Load(0) Bat(100.0) -> 3 Load(0) Bat(86.3) -> 23 Load(30) Bat(76.5) -> 34 Load(48) Bat(75.5) -> 11 Load(60) Bat(74.6) -> 16 Load(70) Bat(61.0) -> 31 Load(84) Bat(50.4) -> 7 Load(100) Bat(42.9) -> 36 Load(119) Bat(42.9) -> 25 Load(136) Bat(37.9) -> 13 Load(162) Bat(27.9) -> 19 Load(179) Bat(24.3) -> 39 Load(203) Bat(16.7) -> 44[CS:Recharge Saint-Roch] Load(217) Bat(13.4) -> 8 Load(217) Bat(100.0) -> 0 Load(245) Bat(94.2)
+Distance of the route: 30.807km
+Real distance of the route: 30.81km
+Time of the route: 3700s
+Load of the route: 245
+
+Route for vehicle 2:
+ 0 Load(0) Bat(100.0) -> 28 Load(0) Bat(89.0) -> 4 Load(9) Bat(89.0) -> 33 Load(24) Bat(85.5) -> 10 Load(49) Bat(70.8) -> 22 Load(84) Bat(69.0) -> 14 Load(113) Bat(53.1) -> 27 Load(136) Bat(47.0) -> 38 Load(170) Bat(33.1) -> 0 Load(197) Bat(25.6)
+Distance of the route: 24.801km
+Real distance of the route: 24.80km
+Time of the route: 5261s
+Load of the route: 197
+
+Route for vehicle 3:
+ 0 Load(0) Bat(100.0) -> 1 Load(0) Bat(91.2) -> 32 Load(20) Bat(89.6) -> 21 Load(40) Bat(80.7) -> 29 Load(51) Bat(74.1) -> 40 Load(73) Bat(73.1) -> 9 Load(92) Bat(59.3) -> 26 Load(104) Bat(49.3) -> 37 Load(117) Bat(48.4) -> 5 Load(140) Bat(45.4) -> 20 Load(162) Bat(41.1) -> 15 Load(195) Bat(32.2) -> 30 Load(222) Bat(22.1) -> 0 Load(250) Bat(17.6)
+Distance of the route: 27.466km
+Real distance of the route: 27.47km
+Time of the route: 3169s
+Load of the route: 250
+
+Total Distance of all routes: 99.142km
+
+Real distance (km): 99.14
+
+Total Load of all routes: 865
+
+Total Time of all routes: 14176s
+
+Total recharges: 1
+
+Unnecessary charging stops: 1
+
+Minimum battery (SoC) reached: 13.4
+
