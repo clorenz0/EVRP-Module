@@ -89,7 +89,7 @@ ACO_PARAMS = dict(
 #   HeuristicType.SAVINGS (o "SAVINGS") -> solo ACO + esa heuristica
 #   [HeuristicType.SAVINGS, HeuristicType.PATH_CHEAPEST_ARC] -> ACO + cada una de esas
 # Cada combinacion ACO+heuristica es UNA corrida (una semilla sorteada de SEEDS), como las de OR-Tools.
-HEURISTIC = [HeuristicType.LOCAL_CHEAPEST_ARC, HeuristicType.GLOBAL_CHEAPEST_ARC, HeuristicType.LOCAL_CHEAPEST_INSERTION, HeuristicType.PARALLEL_CHEAPEST_INSERTION, HeuristicType.LOCAL_CHEAPEST_COST_INSERTION, HeuristicType.LOCAL_CHEAPEST_INSERTION]
+HEURISTIC = None
 INSTANCES = "all"            # "all" o lista de nombres, p.ej. ["quebec_50c_5ev_5cs"]
 SEEDS = [1]   # semillas de ACO solo; en las combinaciones con heuristica se sortea una
 TIME_LIMIT = 10              # segundos por instancia y semilla (hasta 100 clientes)
