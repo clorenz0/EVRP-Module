@@ -228,9 +228,9 @@ def run_headless(cfg_path, tripinfo_path, extra_args=None):
         "--device.battery.probability", "1.0",
     ] + (extra_args or [])
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=1800)
     except subprocess.TimeoutExpired:
-        sys.exit("ERROR: sumo (headless) tardo mas de 600s (timeout de seguridad) — revisar antes de reintentar.")
+        sys.exit("ERROR: sumo (headless) tardo mas de 1800s (timeout de seguridad) — revisar antes de reintentar.")
     if not os.path.isfile(tripinfo_path):
         print("ERROR sumo:\n" + result.stderr[-3000:])
         sys.exit(1)

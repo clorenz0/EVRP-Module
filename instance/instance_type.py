@@ -14,8 +14,11 @@ class InstanceType(Enum):
     EVRP = 'evrp'
 
 
+EVRP_EXTENSIONS = ('.txt', '.xml', '.csv')
+
+
 def process_files(instance_type, distance_type: DistanceType = None, vehicle_max_time=None, vehicle_speed=None, vehicle_maximum_travel_distance=None, path=None, integer=False):
-    if isinstance(instance_type, str) and (instance_type.endswith('.txt') or instance_type.endswith('.json')):
+    if isinstance(instance_type, str) and (instance_type.endswith(EVRP_EXTENSIONS) or instance_type.endswith('.json')):
         return process_string_instance(instance_type, distance_type, vehicle_max_time, vehicle_speed, vehicle_maximum_travel_distance, integer)
     problem_data = {
         InstanceType.TSP: {
@@ -54,6 +57,11 @@ def process_files(instance_type, distance_type: DistanceType = None, vehicle_max
         for file in files:
             if instance_type == InstanceType.BSS:
                 if file.endswith('.json'):
+                    route = os.path.join(directory, file)
+                    data = read_function(route, distance_type, vehicle_max_time, vehicle_speed, vehicle_maximum_travel_distance, integer)
+                    total_data[file] = data
+            elif instance_type == InstanceType.EVRP:
+                if file.endswith(EVRP_EXTENSIONS):
                     route = os.path.join(directory, file)
                     data = read_function(route, distance_type, vehicle_max_time, vehicle_speed, vehicle_maximum_travel_distance, integer)
                     total_data[file] = data

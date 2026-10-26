@@ -1,6 +1,8 @@
+import csv
 import random
 import json
 import os
+import xml.etree.ElementTree as ET
 from distance.distance_type import DistanceType, calculate_distance
 
 
@@ -289,63 +291,25 @@ def get_distance_matrix(locations, distance_type, integer=False):
 # DATA EVRP
 #######################
 
-def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
-                   vehicle_speed=None, vehicle_maximum_travel_distance=None, integer=False):
+def _parse_evrp_txt(file_path):
     """
-    Lee una instancia EVRP desde un archivo .txt con secciones:
+    Parsea una instancia EVRP en formato .txt con secciones:
         # PROBLEMA, # DEPOSITO, # CLIENTES, # ESTACIONES_DE_CARGA
-
-    Parámetros de batería eléctrica (OBLIGATORIOS, no tienen relación con la
-    carga de mercancía del vehículo):
-        vehicle_maximum_travel_distance → fuel_capacity        (unidades de energía)
-        vehicle_speed                   → fuel_consumption_rate (energía / km)
-
-    Parámetros leídos del archivo (carga de mercancía):
-        num_vehicles      → número de vehículos de la flota
-        vehicle_capacity  → capacidad máxima de mercancía por vehículo
-
-    SEPARACIÓN EXPLÍCITA:
-        'vehicle_capacity' (mercancía)  ≠  'fuel_capacity' (batería eléctrica)
-        Nunca se copian ni mezclan entre sí.
+    Devuelve (num_vehicles, vehicle_capacity, locations, demands, charging_stations, charging_station_names).
+    num_vehicles/vehicle_capacity quedan en None si no se encontró la sección PROBLEMA.
     """
-
-    # ── Parámetros de batería: DEBEN venir del llamador, no del archivo ────
-    # Si no se pasan, se lanza un error claro en lugar de usar un default
-    # silencioso que podría confundirse con vehicle_capacity.
-    if vehicle_maximum_travel_distance is None:
-        raise ValueError(
-            "Debes pasar 'vehicle_maximum_travel_distance' (capacidad de batería en km). "
-            "Este valor es independiente de la capacidad de carga de mercancía del vehículo."
-        )
-    if vehicle_speed is None:
-        raise ValueError(
-            "Debes pasar 'vehicle_speed' (tasa de consumo de batería en energía/km). "
-            "Este valor es independiente de la capacidad de carga de mercancía del vehículo."
-        )
-
-    # Nombres explícitos para que nunca haya ambigüedad en el resto del código
-    fuel_capacity = int(vehicle_maximum_travel_distance)  # batería eléctrica
-    fuel_consumption_rate = float(vehicle_speed)  # consumo eléctrico
-
-    # ── Variables de carga de mercancía (vienen del archivo) ───────────────
-    num_vehicles = None  # flota (leído de # PROBLEMA)
-    vehicle_capacity = None  # capacidad de mercancía (leído de # PROBLEMA)
-    # ↑ NUNCA se asigna a fuel_capacity
-
+    num_vehicles = None
+    vehicle_capacity = None
     locations = []
     demands = []
     charging_stations = []
     charging_station_names = {}
 
-    # ── Leer todo el archivo ────────────────────────────────────────────────
     with open(file_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
 
-    # ── Procesar línea por línea ────────────────────────────────────────────
-    i = 0
-    while i < len(lines):
-        line = lines[i].strip()
-        i += 1
+    for line in lines:
+        line = line.strip()
 
         # Ignorar vacías y comentarios
         if not line or line.startswith('#'):
@@ -381,7 +345,7 @@ def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
         # ── ESTACIONES DE CARGA: "82842,Nissan Sorel-Tracy,46.024,-73.154,..."
         if len(fields) >= 4:
             try:
-                station_id = int(fields[0])  # solo para validar que es numérico
+                int(fields[0])  # solo para validar que el id es numérico
                 name = fields[1]
                 lat = float(fields[2])
                 lon = float(fields[3])
@@ -395,11 +359,158 @@ def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
             except (ValueError, IndexError):
                 pass
 
+    return num_vehicles, vehicle_capacity, locations, demands, charging_stations, charging_station_names
+
+
+def _parse_evrp_xml(file_path):
+    """
+    Parsea una instancia EVRP en formato .xml:
+        <evrp_instance>
+          <problema total_vehiculos="6" capacidad_vehiculo="150"/>
+          <deposito latitud="45.5017" longitud="-73.5673"/>
+          <clientes>
+            <cliente id="C_001" latitud="45.5231" longitud="-73.5891" demanda="18"/>
+            ...
+          </clientes>
+          <estaciones_de_carga>
+            <estacion id="10001" nombre="..." latitud="45.5312" longitud="-73.5123"/>
+            ...
+          </estaciones_de_carga>
+        </evrp_instance>
+    """
+    root = ET.parse(file_path).getroot()
+
+    num_vehicles = vehicle_capacity = None
+    problema = root.find('problema')
+    if problema is not None:
+        num_vehicles = int(problema.get('total_vehiculos'))
+        vehicle_capacity = int(problema.get('capacidad_vehiculo'))
+
+    locations = []
+    demands = []
+    charging_stations = []
+    charging_station_names = {}
+
+    deposito = root.find('deposito')
+    if deposito is not None:
+        locations.append((float(deposito.get('latitud')), float(deposito.get('longitud'))))
+        demands.append(0)
+
+    for cliente in root.findall('./clientes/cliente'):
+        locations.append((float(cliente.get('latitud')), float(cliente.get('longitud'))))
+        demands.append(int(cliente.get('demanda')))
+
+    for estacion in root.findall('./estaciones_de_carga/estacion'):
+        node_index = len(locations)
+        locations.append((float(estacion.get('latitud')), float(estacion.get('longitud'))))
+        demands.append(0)
+        charging_stations.append(node_index)
+        charging_station_names[node_index] = estacion.get('nombre', '')
+
+    return num_vehicles, vehicle_capacity, locations, demands, charging_stations, charging_station_names
+
+
+def _parse_evrp_csv(file_path):
+    """
+    Parsea una instancia EVRP en formato .csv con una columna 'tipo' que discrimina
+    cada fila (una sola tabla, sin secciones), con encabezado:
+        tipo,id,latitud,longitud,demanda,nombre,total_vehiculos,capacidad_vehiculo
+
+    Filas válidas de 'tipo': PROBLEMA, DEPOSITO, CLIENTE, ESTACION.
+    """
+    num_vehicles = vehicle_capacity = None
+    locations = []
+    demands = []
+    charging_stations = []
+    charging_station_names = {}
+
+    with open(file_path, newline='', encoding='utf-8') as f:
+        for row in csv.DictReader(f):
+            tipo = (row.get('tipo') or '').strip().upper()
+
+            if tipo == 'PROBLEMA':
+                num_vehicles = int(row['total_vehiculos'])
+                vehicle_capacity = int(row['capacidad_vehiculo'])
+            elif tipo == 'DEPOSITO':
+                locations.append((float(row['latitud']), float(row['longitud'])))
+                demands.append(0)
+            elif tipo == 'CLIENTE':
+                locations.append((float(row['latitud']), float(row['longitud'])))
+                demands.append(int(row['demanda']))
+            elif tipo == 'ESTACION':
+                node_index = len(locations)
+                locations.append((float(row['latitud']), float(row['longitud'])))
+                demands.append(0)
+                charging_stations.append(node_index)
+                charging_station_names[node_index] = row.get('nombre', '')
+
+    return num_vehicles, vehicle_capacity, locations, demands, charging_stations, charging_station_names
+
+
+_EVRP_PARSERS = {
+    '.txt': _parse_evrp_txt,
+    '.xml': _parse_evrp_xml,
+    '.csv': _parse_evrp_csv,
+}
+
+
+def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
+                   vehicle_speed=None, vehicle_maximum_travel_distance=None, integer=False):
+    """
+    Lee una instancia EVRP. Formatos soportados (según la extensión del archivo):
+        .txt  → secciones '# PROBLEMA', '# DEPOSITO', '# CLIENTES', '# ESTACIONES_DE_CARGA'
+        .xml  → etiquetas <problema>, <deposito>, <clientes>/<cliente>, <estaciones_de_carga>/<estacion>
+        .csv  → una tabla con columna 'tipo' (PROBLEMA, DEPOSITO, CLIENTE, ESTACION)
+    Los tres formatos describen los mismos datos; ver los parsers _parse_evrp_* para el detalle.
+
+    Parámetros de batería eléctrica (OBLIGATORIOS, no tienen relación con la
+    carga de mercancía del vehículo):
+        vehicle_maximum_travel_distance → fuel_capacity        (unidades de energía)
+        vehicle_speed                   → fuel_consumption_rate (energía / km)
+
+    Parámetros leídos del archivo (carga de mercancía):
+        num_vehicles      → número de vehículos de la flota
+        vehicle_capacity  → capacidad máxima de mercancía por vehículo
+
+    SEPARACIÓN EXPLÍCITA:
+        'vehicle_capacity' (mercancía)  ≠  'fuel_capacity' (batería eléctrica)
+        Nunca se copian ni mezclan entre sí.
+    """
+
+    # ── Parámetros de batería: DEBEN venir del llamador, no del archivo ────
+    # Si no se pasan, se lanza un error claro en lugar de usar un default
+    # silencioso que podría confundirse con vehicle_capacity.
+    if vehicle_maximum_travel_distance is None:
+        raise ValueError(
+            "Debes pasar 'vehicle_maximum_travel_distance' (capacidad de batería en km). "
+            "Este valor es independiente de la capacidad de carga de mercancía del vehículo."
+        )
+    if vehicle_speed is None:
+        raise ValueError(
+            "Debes pasar 'vehicle_speed' (tasa de consumo de batería en energía/km). "
+            "Este valor es independiente de la capacidad de carga de mercancía del vehículo."
+        )
+
+    # Nombres explícitos para que nunca haya ambigüedad en el resto del código
+    fuel_capacity = int(vehicle_maximum_travel_distance)  # batería eléctrica
+    fuel_consumption_rate = float(vehicle_speed)  # consumo eléctrico
+
+    ext = os.path.splitext(file_path)[1].lower()
+    parser = _EVRP_PARSERS.get(ext)
+    if parser is None:
+        raise ValueError(
+            f"Formato de instancia EVRP no soportado: '{ext}' (archivo '{file_path}'). "
+            f"Formatos disponibles: {', '.join(sorted(_EVRP_PARSERS))}."
+        )
+
+    # ── Variables de carga de mercancía (vienen del archivo) ───────────────
+    # ↑ NUNCA se asignan a fuel_capacity
+    num_vehicles, vehicle_capacity, locations, demands, charging_stations, charging_station_names = parser(file_path)
+
     # ── Validaciones post-lectura ───────────────────────────────────────────
     if num_vehicles is None or vehicle_capacity is None:
         raise ValueError(
-            f"No se encontró la sección '# PROBLEMA' en '{file_path}'. "
-            "El archivo debe contener una línea 'num_vehiculos,capacidad_vehiculo'."
+            f"No se encontró la sección PROBLEMA (total de vehículos y capacidad) en '{file_path}'."
         )
 
     # Advertencia explícita si la instancia es infactible por capacidad de mercancía
