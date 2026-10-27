@@ -85,8 +85,16 @@ def cmd_replan_report(args):
     head = simulation.parse_text(name, txt)
     path = os.path.join(simulation.INSTANCES_DIR, head["instance"] + ".txt")
     n_clients, stations = feedback._instance_shape(path)
-    no = [t for n, t in reports if "_NO_" in n and (lambda r: r and r["event_key"] == head["event_key"])(simulation.parse_text(n, t))]
-    print(f"[{name}] baselines sin retroalimentacion del mismo evento: {len(no)}\n")
+    pairs = simulation.manifest_pairs(args.results)
+    texts = dict(reports)
+    if pairs is not None and pairs.get(name) in texts:
+        # pareja exacta del manifiesto: mismo plan inicial, mismo evento y mismo replanificador
+        no = [texts[pairs[name]]]
+        print(f"[{name}] linea base sin retroalimentacion: {pairs[name]} (pareja exacta del manifiesto)\n")
+    else:
+        no = [t for n, t in reports if "_NO_" in n and (lambda r: r and r["event_key"] == head["event_key"])(simulation.parse_text(n, t))]
+        print(f"[{name}] baselines sin retroalimentacion del mismo evento: {len(no)}"
+              f"{' (sin manifiesto: pueden ser de planes distintos)' if len(no) > 1 else ''}\n")
     print(feedback.explain_replan(name, txt, no, n_clients, stations))
 
 
