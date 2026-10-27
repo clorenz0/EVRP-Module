@@ -1,0 +1,9 @@
+Reportes apartados el 2026-10-26 (no borrados).
+
+Simulaciones del 1 al 6 de octubre de 2026 (37 reportes sueltos + dynamic.zip + "dynamic no feedback nuevo.zip"),
+hechas con versiones ANTERIORES del modelo (antes del modelo de copias de estaciones, la validacion de factibilidad
+y la correccion de re-planeacion del 2026-10-26). Mezclarlas con las actuales hacia que las lineas base SIN
+retroalimentacion de un mismo evento difirieran >1 % (aviso de run_xai.py sim-table).
+
+Los datos validos son los 46 reportes del 2026-10-26 listados en ../manifest_cap3.csv (Tablas 12 y 13).
+explainability/simulation.py solo lee la carpeta principal (y sus .zip), asi que estos ya no entran en sim.csv/combo.csv.

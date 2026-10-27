@@ -152,6 +152,11 @@ def build_vehicle_table(results_dir=RESULTS_DIR, instances_dir=INSTANCES_DIR):
     import pandas as pd
     reports = [(n, t, parse_text(n, t)) for n, t in iter_reports(results_dir)]
     reports = [(n, t, r) for n, t, r in reports if r]
+    # Con manifiesto: cada reporte CON se compara con su SIN exacto (mismo plan, evento y replanificador) y cada celda
+    # se cuenta una vez. Sin manifiesto: todos los SIN del mismo evento (puede mezclar planes distintos).
+    from explainability.simulation import manifest_pairs
+    pairs = manifest_pairs(results_dir, unique=True)
+    texts = {n: t for n, t, r in reports}
     no_by_key = {}
     for n, t, r in reports:
         if r["mode"] == "NO":
@@ -159,7 +164,15 @@ def build_vehicle_table(results_dir=RESULTS_DIR, instances_dir=INSTANCES_DIR):
 
     cache, shapes, rows = {}, {}, []
     for n, t, r in reports:
-        if r["mode"] != "WITH" or r["event_key"] not in no_by_key:
+        if r["mode"] != "WITH":
+            continue
+        if pairs is not None:
+            if n not in pairs or pairs[n] not in texts:
+                continue
+            baselines = [parse_no(texts[pairs[n]])]
+        elif r["event_key"] in no_by_key:
+            baselines = no_by_key[r["event_key"]]
+        else:
             continue
         path = os.path.join(instances_dir, r["instance"] + ".txt")
         if path not in shapes:
@@ -169,7 +182,7 @@ def build_vehicle_table(results_dir=RESULTS_DIR, instances_dir=INSTANCES_DIR):
         feats = _instance_row(path, cache)
         probe = re.search(r"Probe (ev_\d+)", t)
         for vid, v in veh.items():
-            base = [b[vid] for b in no_by_key[r["event_key"]] if vid in b]
+            base = [b[vid] for b in baselines if vid in b]
             if not base or "with_time_s" not in v or "updated" not in v:
                 continue
             t0 = sum(x[0] for x in base) / len(base)

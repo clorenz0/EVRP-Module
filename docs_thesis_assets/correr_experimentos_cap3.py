@@ -21,7 +21,10 @@ import run as simrun                                     # simulation/run.py: ma
 from explainability import simulation as xsim            # parser de reportes
 
 INST = {30: "quebec_30c_6ev_4cs", 40: "quebec_40c_4ev_6cs", 50: "quebec_50c_5ev_5cs",
-        60: "quebec_60c_8ev_8cs", 90: "quebec_90c_10ev_10cs"}
+        60: "quebec_60c_8ev_8cs", 90: "quebec_90c_10ev_10cs",
+        # instancias grandes: no estan en el valor por defecto de --instances; pedirlas explicitamente
+        70: "quebec_70c_9ev_9cs", 100: "quebec_100c_12ev_12cs", 150: "quebec_150c_18ev_15cs",
+        220: "quebec_220c_26ev_20cs", 350: "quebec_350c_40ev_30cs"}
 OSRM = os.path.join(REPO, "problem", "osrm")
 # nombre mostrado -> (carpeta de solucion, heuristica, metaheuristica, replanner)
 ALGOS = {
@@ -196,14 +199,18 @@ def stage_xai(args):
         ("Punto de vista 1 - optimizacion: regenerar la tabla con el modelo final y las 10 instancias",
          [py, "run_xai.py", "generate", "--algorithm", "ACO", "--rows", "600", "--time", "3"]),
         ("Punto de vista 1: explicar (SHAP)", [py, "run_xai.py", "explain", "--data", "explainability/data/aco.csv",
-                                               "--target", "distance", "--title", "OPTIMIZACION"]),
+                                               "--target", "distance", "--title", "OPTIMIZACION",
+                                               "--out", "explainability/out/optimizacion"]),
         ("Puntos 2 y 3: construir tablas de simulacion y combinacion desde los reportes", [py, "run_xai.py", "sim-table"]),
         ("Punto de vista 2 - simulacion", [py, "run_xai.py", "explain", "--data", "explainability/data/sim.csv",
-                                           "--title", "SIMULACION"]),
+                                           "--title", "SIMULACION", "--out", "explainability/out/simulacion"]),
         ("Punto de vista 3 - combinacion", [py, "run_xai.py", "explain", "--data", "explainability/data/combo.csv",
-                                            "--title", "COMBINACION"]),
+                                            "--title", "COMBINACION", "--out", "explainability/out/combinacion"]),
+        ("Punto de vista 3 - combinacion, objetivo = ganancia por retroalimentacion (%)",
+         [py, "run_xai.py", "explain", "--data", "explainability/data/combo.csv", "--target", "gain_distance_pct",
+          "--title", "COMBINACION_GANANCIA", "--out", "explainability/out/combinacion_ganancia"]),
         ("Relato de una replanificacion (cambiar --run por el nombre de un reporte WITH)",
-         [py, "run_xai.py", "replan-report", "--run", "quebec_50c_5ev_5cs_WITH_feedback_"]),
+         [py, "run_xai.py", "replan-report", "--run", "quebec_50c_5ev_5cs_WITH_feedback_20261026_172758"]),
     ]
     for title, cmd in steps:
         print("\n#", title)
@@ -213,7 +220,7 @@ def stage_xai(args):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("stage", choices=["sim-fav", "sim-desfav", "tablas", "xai"])
-    ap.add_argument("--instances", type=int, nargs="+", default=[30, 40, 50, 60, 90])
+    ap.add_argument("--instances", type=int, nargs="+", default=[30, 40, 50, 60, 90], choices=sorted(INST))
     ap.add_argument("--unfav-instance", type=int, default=50)
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--force", action="store_true")

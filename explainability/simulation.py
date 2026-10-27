@@ -102,7 +102,10 @@ def read_runs(results_dir=RESULTS_DIR):
     seen, runs = set(), []
     for p in sorted(glob.glob(os.path.join(results_dir, "*_feedback_*.txt"))):
         seen.add(os.path.basename(p))
-        runs.append(parse_result_file(p))
+        r = parse_result_file(p)
+        if r:
+            r["file"] = os.path.basename(p)
+        runs.append(r)
     for z in sorted(glob.glob(os.path.join(results_dir, "*.zip"))):
         with zipfile.ZipFile(z) as zf:
             for member in zf.namelist():
@@ -112,6 +115,50 @@ def read_runs(results_dir=RESULTS_DIR):
                 seen.add(base)
                 runs.append(parse_text(base, zf.read(member).decode("utf-8", errors="replace")))
     return [r for r in runs if r]
+
+
+MANIFEST_NAME = "manifest_cap3.csv"
+
+
+def manifest_cells(results_dir=RESULTS_DIR):
+    """
+    Celdas del manifiesto de docs_thesis_assets/correr_experimentos_cap3.py: {(n, plan, evento, replanificador):
+    {"WITH": reporte, "NO": reporte}}, quedandose con el ultimo reporte de cada celda. Una misma celda que aparece en
+    la Tabla 12 y en la 13 (misma instancia, plan, evento y replanificador) se cuenta UNA sola vez.
+    Devuelve None si no hay manifiesto.
+    """
+    import csv
+    path = os.path.join(results_dir, MANIFEST_NAME)
+    if not os.path.isfile(path):
+        return None
+    cells = {}
+    with open(path, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            key = (row["n"], row["algo"], row["event"], row["replanner"])
+            cells.setdefault(key, {})[row["mode"]] = row["report"]
+    return cells
+
+
+def manifest_pairs(results_dir=RESULTS_DIR, unique=False):
+    """
+    {reporte WITH: reporte NO} segun el manifiesto (pareja exacta: misma tabla, instancia, plan, evento y
+    replanificador), o None si no hay manifiesto. unique=True: una sola pareja por celda aunque la celda aparezca en la
+    Tabla 12 y en la 13 (para tablas de datos, para no contarla dos veces).
+    """
+    if unique:
+        cells = manifest_cells(results_dir)
+        if cells is None:
+            return None
+        return {m["WITH"]: m["NO"] for m in cells.values() if "WITH" in m and "NO" in m}
+    import csv
+    path = os.path.join(results_dir, MANIFEST_NAME)
+    if not os.path.isfile(path):
+        return None
+    cells = {}
+    with open(path, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            cells.setdefault((row["table"], row["n"], row["algo"], row["event"], row["replanner"]), {})[row["mode"]] = row["report"]
+    return {m["WITH"]: m["NO"] for m in cells.values() if "WITH" in m and "NO" in m}
 
 
 def _instance_row(path, cache, battery=100, consumption=3.0):
@@ -131,6 +178,26 @@ def build_tables(results_dir=RESULTS_DIR, instances_dir=INSTANCES_DIR):
     runs = read_runs(results_dir)
     if not runs:
         raise SystemExit(f"No hay reportes en {results_dir}")
+    # Con manifiesto (experimentos del capitulo 3) se usan SOLO sus reportes y cada corrida CON se compara con su SIN
+    # exacta: mismo plan inicial, mismo evento y mismo replanificador. Sin manifiesto, se empareja por evento como antes
+    # (eso mezcla lineas base de planes distintos si hay varios planes para el mismo evento).
+    cells = manifest_cells(results_dir)
+    pair_of = {}
+    if cells is not None:
+        by_file = {r.get("file"): r for r in runs if r.get("file")}
+        keep = []
+        for (n, plan, event, replanner), modes in sorted(cells.items()):
+            w, b = by_file.get(modes.get("WITH")), by_file.get(modes.get("NO"))
+            for r in (w, b):
+                if r is not None:
+                    r["plan_from_manifest"], r["replanner"] = plan, replanner
+                    keep.append(r)
+            if w is not None and b is not None:
+                pair_of[id(w)] = b
+        missing = [m for modes in cells.values() for m in modes.values() if m not in by_file]
+        if missing:
+            print(f"Aviso: {len(missing)} reporte(s) del manifiesto no estan en {results_dir}: {missing[:5]}")
+        runs = keep
     cache = {}
     event_cols = ("e_checkpoint", "e_n_edges", "e_speed", "e_is_accident", "e_is_closure", "e_duration_s", "e_probe_before_s", "e_probe_after_s", "e_probe_slowdown_pct")
 
@@ -151,7 +218,10 @@ def build_tables(results_dir=RESULTS_DIR, instances_dir=INSTANCES_DIR):
     for r in runs:
         if r["mode"] != "WITH":
             continue
-        base = by_key.get((r["event_key"], "NO"))
+        if cells is not None:
+            base = [pair_of[id(r)]] if id(r) in pair_of else None
+        else:
+            base = by_key.get((r["event_key"], "NO"))
         if not base:
             continue            # sin su comparacion sin retroalimentacion no hay ganancia que medir
         d0 = sum(b["total_distance"] for b in base) / len(base)
@@ -159,7 +229,8 @@ def build_tables(results_dir=RESULTS_DIR, instances_dir=INSTANCES_DIR):
         spread = 100.0 * (max(b["total_distance"] for b in base) - min(b["total_distance"] for b in base)) / d0 if d0 else 0.0
         feats = _instance_row(os.path.join(instances_dir, r["instance"] + ".txt"), cache)
         combo_rows.append({
-            "row_id": len(combo_rows), "algorithm": r["plan_algorithm"] or "desconocido",
+            "row_id": len(combo_rows),
+            "algorithm": r.get("plan_from_manifest") or r["plan_algorithm"] or "desconocido",
             "instance": r["instance"] + ".txt", "seed": 0, "time_limit": 0, "status": "ok",
             "n_dropped": r["n_unfinished"], **feats, **{c: r[c] for c in event_cols},
             "distance_no_feedback": d0, "distance_with_feedback": r["total_distance"],
@@ -167,6 +238,9 @@ def build_tables(results_dir=RESULTS_DIR, instances_dir=INSTANCES_DIR):
             "gain_time_pct": round(100.0 * (t0 - r["extra_time_s"]) / t0, 3) if t0 else 0.0,
             "distance": r["total_distance"],
             "n_baselines": len(base), "baseline_spread_pct": round(spread, 2),   # si es alta, los NO de este evento no coinciden entre si
+            "event_kind": r["event_kind"], "replanner": r.get("replanner", ""),
+            **({"e_replanner_ortools": int(r.get("replanner") == "ortools")} if r.get("replanner") else {}),
+            "report_with": r.get("file", ""), "report_no": base[0].get("file", "") if len(base) == 1 else "",
         })
     return pd.DataFrame(sim_rows), pd.DataFrame(combo_rows)
 
