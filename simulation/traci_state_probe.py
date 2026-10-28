@@ -38,7 +38,10 @@ def parse_args():
 
 def get_battery_wh(vid):
     try:
-        return float(traci.vehicle.getParameter(vid, "device.battery.actualBatteryCapacity"))
+        try:
+            return float(traci.vehicle.getParameter(vid, "device.battery.chargeLevel"))     # SUMO >= 1.20
+        except (traci.TraCIException, ValueError):
+            return float(traci.vehicle.getParameter(vid, "device.battery.actualBatteryCapacity"))
     except traci.TraCIException:
         return None
 

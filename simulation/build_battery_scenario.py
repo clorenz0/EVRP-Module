@@ -66,17 +66,28 @@ def add_battery_vtype(root, battery_capacity_wh):
         root, "vType", id="ev_type", vClass="passenger",
         emissionClass="Energy/unknown",
         length="4.5", maxSpeed="33.33", accel="2.6", decel="4.5", sigma="0.5",
-        # Física de un EV típico (~1500 kg) — Energy/unknown la necesita para
-        # calcular la fuerza requerida en cada paso; sin esto el consumo da 0.
-        mass="1500", frontSurfaceArea="2.6", airDragCoefficient="0.35",
-        internalMomentOfInertia="0.01", radialDragCoefficient="0.1",
-        rollDragCoefficient="0.01", constantPowerIntake="100",
-        propulsionEfficiency="0.9", recuperationEfficiency="0.0",
-        stoppingThreshold="0.1",
+        mass="1500",
     )
+    # Fisica de un EV tipico (~1500 kg). En SUMO reciente estos valores son <param> del vType: como atributos, duarouter
+    # los descartaba (solo conservaba mass) y SUMO usaba su fisica por defecto. La calibracion (pasada 1) mide el consumo
+    # real resultante, asi que la autonomia sigue siendo la del EVRP.
+    for key, value in (("frontSurfaceArea", "2.6"), ("airDragCoefficient", "0.35"), ("internalMomentOfInertia", "0.01"),
+                       ("radialDragCoefficient", "0.1"), ("rollDragCoefficient", "0.01"), ("constantPowerIntake", "100"),
+                       ("propulsionEfficiency", "0.9"), ("stoppingThreshold", "0.1")):
+        ET.SubElement(vtype, "param", key=key, value=value)
     ET.SubElement(vtype, "param", key="has.battery.device", value="true")
+    # SUMO >= 1.20 configura la bateria con device.battery.capacity / device.battery.chargeLevel. Las claves antiguas
+    # (maximumBatteryCapacity / actualBatteryCapacity) ya NO se aplican al configurar el vehiculo: SUMO usaba sus valores
+    # por defecto (35000 Wh y carga inicial al 50 %), asi que la calibracion no tenia efecto y todos los vehiculos
+    # llegaban al evento con ~47 % (comprobado con TraCI, 2026-10-27). Se escriben las nuevas y, por compatibilidad con
+    # versiones viejas de SUMO, tambien las antiguas.
+    ET.SubElement(vtype, "param", key="device.battery.capacity", value=str(battery_capacity_wh))
+    ET.SubElement(vtype, "param", key="device.battery.chargeLevel", value=str(battery_capacity_wh))
     ET.SubElement(vtype, "param", key="device.battery.maximumBatteryCapacity", value=str(battery_capacity_wh))
     ET.SubElement(vtype, "param", key="device.battery.actualBatteryCapacity", value=str(battery_capacity_wh))
+    # Sin recuperacion al frenar (el modelo EVRP consume linealmente). En SUMO reciente la clave es sin prefijo:
+    # 'device.battery.recuperationEfficiency' se ignoraba y los vehiculos regeneraban ~1,5 kWh cada 20 min.
+    ET.SubElement(vtype, "param", key="recuperationEfficiency", value="0.0")
     ET.SubElement(vtype, "param", key="device.battery.recuperationEfficiency", value="0.0")
 
 
@@ -290,11 +301,22 @@ def parse_args():
 
 
 def get_evrp_fuel_capacity_km(solution_path):
+    """
+    Autonomia del EVRP en km = 'Battery capacity' / 'Battery consumption rate' de la solucion (p. ej. 100 / 3 = 33.3 km).
+    Antes se tomaba 'Battery capacity' como km (100 km): la bateria de SUMO quedaba 3 veces mayor que la del modelo.
+    """
+    capacity, rate = None, None
     with open(solution_path, encoding="utf-8") as f:
         for line in f:
             if line.startswith("Battery capacity:"):
-                return float(re.search(r"([\d.]+)", line).group(1))
-    sys.exit("ERROR: no se encontro 'Battery capacity:' en la solucion")
+                capacity = float(re.search(r"([\d.]+)", line).group(1))
+            elif line.startswith("Battery consumption rate:"):
+                rate = float(re.search(r"([\d.]+)", line).group(1))
+    if capacity is None:
+        sys.exit("ERROR: no se encontro 'Battery capacity:' en la solucion")
+    if not rate:
+        sys.exit("ERROR: no se encontro 'Battery consumption rate:' en la solucion")
+    return capacity / rate
 
 
 def main():
@@ -304,7 +326,7 @@ def main():
     inst = parse_instance(args.instance)
     sol = parse_solution(args.solution)
     fuel_capacity_km = get_evrp_fuel_capacity_km(args.solution)
-    print(f"Rango EVRP a preservar (Battery capacity de la solucion): {fuel_capacity_km} km\n")
+    print(f"Rango EVRP a preservar (Battery capacity / consumption rate de la solucion): {fuel_capacity_km:.1f} km\n")
 
     net = sumolib.net.readNet(args.net_file)
 
@@ -326,7 +348,7 @@ def main():
     wh_per_km = total_wh / total_km
     battery_capacity_wh = wh_per_km * fuel_capacity_km
     print(f"  Consumo real medido: {wh_per_km:.1f} Wh/km  (sobre {total_km:.1f} km, {len(cal_data)} vehiculos)")
-    print(f"  Capacidad de bateria calibrada para {fuel_capacity_km} km de rango: {battery_capacity_wh:.0f} Wh\n")
+    print(f"  Capacidad de bateria calibrada para {fuel_capacity_km:.1f} km de rango: {battery_capacity_wh:.0f} Wh\n")
 
     # ---- Pasada 2: escenario final (bateria calibrada + carga real en CS) ----
     print("== Pasada 2/2: escenario final con carga real en estaciones ==")
@@ -354,8 +376,8 @@ def main():
     final_data = read_tripinfo_battery(tripinfo_final)
 
     print(f"\n{'='*78}\n  FASE 4 — Resultado del Battery Device (fisica real vs. tasa lineal OR-Tools)\n{'='*78}")
-    print(f"  Capacidad calibrada : {battery_capacity_wh:.0f} Wh  (<-> {fuel_capacity_km} km del EVRP)")
-    print(f"  Tasa OR-Tools       : 1 unidad/km ({fuel_capacity_km} unidades = {fuel_capacity_km} km de rango)")
+    print(f"  Capacidad calibrada : {battery_capacity_wh:.0f} Wh  (<-> {fuel_capacity_km:.1f} km de autonomia del EVRP)")
+    print(f"  Autonomia EVRP      : capacidad / consumo de la solucion = {fuel_capacity_km:.1f} km")
     print(f"  Tasa real (SUMO)    : {wh_per_km:.1f} Wh/km (fisica newtoniana, no lineal)\n")
     # tripinfo no expone "energia cargada" directamente en esta version de SUMO;
     # se infiere: lo que hubiera quedado sin cargar (capacidad-consumido) vs lo real.

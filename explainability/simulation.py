@@ -57,6 +57,11 @@ EDGES_RE = re.compile(r"(?:Congested|Affected) edges: (?P<ids>[^\n]*?)\.\s*$", r
 
 # ───────────────────────── lectura de los reportes ─────────────────────────
 
+def _num(pattern, txt):
+    m = re.search(pattern, txt, re.M)
+    return float(m.group(1)) if m else None
+
+
 def parse_result_file(path):
     """Un reporte de dynamic_replanning.py -> dict (o None si no es un reporte completo)."""
     return parse_text(os.path.basename(path), open(path, encoding="utf-8", errors="replace").read())
@@ -90,6 +95,7 @@ def parse_text(name, txt):
         "e_probe_before_s": before, "e_probe_after_s": after,
         "e_probe_slowdown_pct": round(100.0 * (after - before) / before, 2) if before else 0.0,
         "extra_time_s": float(tot["t"]), "total_distance": float(tot["d"]),
+        "battery": _num(r"^Battery capacity: ([\d.]+)", txt), "consumption": _num(r"^Battery consumption rate: ([\d.]+)", txt),
         "n_unfinished": len(set(re.findall(r"(ev_\d+): DID NOT finish", txt))),
         "plan_algorithm": "+".join(x for x in (heur and heur[1], meta and meta[1]) if x) or None,
         "event_key": (m["inst"], ed["ids"] if ed else f"{n_edges}@{ck}"),
@@ -161,15 +167,21 @@ def manifest_pairs(results_dir=RESULTS_DIR, unique=False):
     return {m["WITH"]: m["NO"] for m in cells.values() if "WITH" in m and "NO" in m}
 
 
-def _instance_row(path, cache, battery=100, consumption=3.0):
-    """Caracteristicas de la instancia y del escenario (las mismas que usa la optimizacion)."""
-    if path not in cache:
+def _instance_row(path, cache, battery, consumption):
+    """
+    Caracteristicas de la instancia y del escenario (las mismas que usa la optimizacion). battery y consumption salen
+    del propio reporte ('Battery capacity:' / 'Battery consumption rate:'), no de valores fijos.
+    """
+    if battery is None or consumption is None:
+        raise SystemExit(f"El reporte de {os.path.basename(path)} no trae 'Battery capacity:' / 'Battery consumption rate:'")
+    key = (path, float(battery), float(consumption))
+    if key not in cache:
         from distance.distance_type import DistanceType
         from explainability.features import instance_features, scenario_features
         from instance.instance_type import process_files
         data = process_files(path, DistanceType.OSRM, None, consumption, battery)[os.path.basename(path)]
-        cache[path] = {**instance_features(data), **scenario_features(battery, consumption, data)}
-    return cache[path]
+        cache[key] = {**instance_features(data), **scenario_features(battery, consumption, data)}
+    return cache[key]
 
 
 def build_tables(results_dir=RESULTS_DIR, instances_dir=INSTANCES_DIR):
@@ -203,7 +215,7 @@ def build_tables(results_dir=RESULTS_DIR, instances_dir=INSTANCES_DIR):
 
     sim_rows = []
     for k, r in enumerate(runs):
-        feats = _instance_row(os.path.join(instances_dir, r["instance"] + ".txt"), cache)
+        feats = _instance_row(os.path.join(instances_dir, r["instance"] + ".txt"), cache, r["battery"], r["consumption"])
         sim_rows.append({
             "row_id": k, "algorithm": "SUMO_REPLAN", "instance": r["instance"] + ".txt", "seed": 0, "time_limit": 0,
             "status": "ok", "n_dropped": r["n_unfinished"], **feats,
@@ -227,7 +239,7 @@ def build_tables(results_dir=RESULTS_DIR, instances_dir=INSTANCES_DIR):
         d0 = sum(b["total_distance"] for b in base) / len(base)
         t0 = sum(b["extra_time_s"] for b in base) / len(base)
         spread = 100.0 * (max(b["total_distance"] for b in base) - min(b["total_distance"] for b in base)) / d0 if d0 else 0.0
-        feats = _instance_row(os.path.join(instances_dir, r["instance"] + ".txt"), cache)
+        feats = _instance_row(os.path.join(instances_dir, r["instance"] + ".txt"), cache, r["battery"], r["consumption"])
         combo_rows.append({
             "row_id": len(combo_rows),
             "algorithm": r.get("plan_from_manifest") or r["plan_algorithm"] or "desconocido",

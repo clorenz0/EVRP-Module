@@ -1,0 +1,237 @@
+Instance: dynamic_replan_quebec_150c_18ev_15cs_20261028_160431.txt
+
+Original routes (before this re-planning event):
+Vehicle ev_0:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 21 -> 15 -> 87 -> 75 -> 58 -> 128 -> 30 -> 12 -> 17 -> 143 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 21 -> 15 -> 87 -> 75          (distance=12.290km, 4 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_1:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 43 -> 122 -> 119 -> 90 -> 24 -> 36 -> 74 -> 130 -> 32 -> 132 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 43 -> 122 -> 119 -> 90 -> 24          (distance=15.263km, 5 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_2:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 38 -> 148 -> 19 -> 78 -> 22 -> 54 -> 153[CS:Hydro-Québec Bécancour] -> 59 -> 91 -> 158[CS:BRCC - Bécancour-de Port Royal - Shell] -> 134 -> 3 -> 131 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 38 -> 148 -> 19          (distance=20.964km, 3 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_4:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 120 -> 64 -> 76 -> 114 -> 60 -> 66 -> 110 -> 1 -> 5 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 120 -> 64 -> 76          (distance=10.922km, 3 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_5:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 42 -> 102 -> 98 -> 107 -> 141 -> 111 -> 139 -> 41 -> 100 -> 57 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 42 -> 102 -> 98 -> 107 -> 141 -> 111          (distance=6.945km, 6 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_7:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 7 -> 9 -> 39 -> 25 -> 68 -> 89 -> 14 -> 47 -> 18 -> 127 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 7 -> 9 -> 39 -> 25 -> 68 -> 89          (distance=11.584km, 6 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_8:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 86 -> 53 -> 81 -> 37 -> 2 -> 106 -> 129 -> 44 -> 51 -> 118 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 86 -> 53 -> 81 -> 37 -> 2 -> 106          (distance=7.002km, 6 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_9:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 61 -> 72 -> 142 -> 69 -> 145 -> 56 -> 70 -> 133 -> 62 -> 135 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 61 -> 72 -> 142 -> 69 -> 145 -> 56          (distance=9.452km, 6 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_10:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 88 -> 84 -> 71 -> 125 -> 49 -> 67 -> 4 -> 93 -> 99 -> 123 -> 163[CS:BRCC - Trois-Rivières - Ste-Marguerite - Place BLR] -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 88 -> 84 -> 71 -> 125          (distance=9.079km, 4 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_11:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 31 -> 63 -> 117 -> 23 -> 16 -> 96 -> 82 -> 13 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 31 -> 63 -> 117 -> 23 -> 16 -> 96 -> 82          (distance=11.940km, 7 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_12:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 20 -> 34 -> 144 -> 6 -> 27 -> 8 -> 50 -> 136 -> 65 -> 165[CS:BRCC - Trois-Rivières - Barkoff - A&W] -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 20 -> 34 -> 144 -> 6          (distance=14.071km, 4 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_13:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 103 -> 121 -> 108 -> 77 -> 26 -> 80 -> 52 -> 97 -> 73 -> 11 -> 29 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 103 -> 121 -> 108 -> 77 -> 26 -> 80 -> 52 -> 97          (distance=7.697km, 8 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_15:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 150 -> 40 -> 92 -> 85 -> 138 -> 35 -> 113 -> 112 -> 101 -> 83 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 150 -> 40 -> 92 -> 85          (distance=10.147km, 4 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Objective: 228.998
+
+Execution Time: 60.593058347702026
+
+Heuristic: PATH_CHEAPEST_ARC
+
+Metaheuristic: ACO (116 iteraciones)
+
+Distance type: osrm
+
+Vehicle capacity: 210
+Battery capacity: 100.0
+Battery consumption rate: 3.0
+
+Customers served: 62/62
+Dropped customers: 0
+Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
+
+Event: congestion at checkpoint 1200s on 1 real edge(s) (speed limit lowered to 2.0 m/s). Target ev_0 -> node 93: travel time 99.0s -> 140.6s (+42.0%), distance 1182m -> 1182m. Verified: impact>=threshold, keys connected=True, no vehicle stranded=True. Affected edges: -39435587#2.
+
+Route for vehicle 0:
+ 78[CS:current_position_ev_0] Load(99) Bat(70.5) -> 1 Load(110) Bat(61.0) -> 2 Load(140) Bat(56.2) -> 4 Load(163) Bat(44.4) -> 3 Load(177) Bat(31.3) -> 5 Load(191) Bat(8.1) -> 6 Load(207) Bat(6.4) -> 67[CS:Couche-Tard - Trois-Rivieres - St-Jean QC] Load(207) Bat(1.7) -> 0 Load(207) Bat(80.5)
+Distance of the route: 29.431km
+Real distance of the route: 29.43km
+Time of the route: 1947s
+Load of the route: 207
+
+Route for vehicle 1:
+ 79[CS:current_position_ev_1] Load(130) Bat(49.4) -> 8 Load(142) Bat(46.7) -> 9 Load(153) Bat(46.4) -> 10 Load(166) Bat(45.3) -> 7 Load(191) Bat(43.9) -> 11 Load(202) Bat(42.1) -> 0 Load(202) Bat(29.8)
+Distance of the route: 6.533km
+Real distance of the route: 6.53km
+Time of the route: 487s
+Load of the route: 202
+
+Route for vehicle 2:
+ 80[CS:current_position_ev_2] Load(66) Bat(35.4) -> 72[CS:Nicolet 1477 Bd Louis Fréchette] Load(66) Bat(23.2) -> 12 Load(94) Bat(83.0) -> 14 Load(111) Bat(62.0) -> 13 Load(141) Bat(61.2) -> 65[CS:Hydro-Québec Bécancour] Load(141) Bat(57.9) -> 15 Load(155) Bat(58.9) -> 16 Load(167) Bat(28.2) -> 60 Load(189) Bat(15.1) -> 70[CS:BRCC - Bécancour-de Port Royal - Shell] Load(189) Bat(6.4) -> 0 Load(189) Bat(61.8)
+Distance of the route: 62.027km
+Real distance of the route: 62.03km
+Time of the route: 2913s
+Load of the route: 189
+
+Route for vehicle 3:
+ 81[CS:current_position_ev_4] Load(79) Bat(75.1) -> 20 Load(107) Bat(73.8) -> 23 Load(122) Bat(72.1) -> 21 Load(134) Bat(70.8) -> 22 Load(143) Bat(70.1) -> 24 Load(168) Bat(56.8) -> 25 Load(194) Bat(49.1) -> 0 Load(194) Bat(38.7)
+Distance of the route: 12.141km
+Real distance of the route: 12.14km
+Time of the route: 1020s
+Load of the route: 194
+
+Route for vehicle 4:
+ 82[CS:current_position_ev_5] Load(149) Bat(84.5) -> 26 Load(158) Bat(83.2) -> 27 Load(175) Bat(82.3) -> 28 Load(200) Bat(80.5) -> 29 Load(209) Bat(76.1) -> 0 Load(209) Bat(67.7)
+Distance of the route: 5.600km
+Real distance of the route: 5.60km
+Time of the route: 643s
+Load of the route: 209
+
+Route for vehicle 5:
+ 83[CS:current_position_ev_7] Load(118) Bat(62.3) -> 30 Load(142) Bat(60.9) -> 31 Load(154) Bat(54.2) -> 32 Load(185) Bat(49.8) -> 33 Load(209) Bat(42.2) -> 0 Load(209) Bat(30.9)
+Distance of the route: 10.476km
+Real distance of the route: 10.48km
+Time of the route: 625s
+Load of the route: 209
+
+Route for vehicle 6:
+ 84[CS:current_position_ev_8] Load(118) Bat(83.7) -> 34 Load(143) Bat(79.4) -> 35 Load(168) Bat(76.4) -> 36 Load(181) Bat(73.6) -> 37 Load(210) Bat(72.8) -> 0 Load(210) Bat(67.1)
+Distance of the route: 5.544km
+Real distance of the route: 5.54km
+Time of the route: 530s
+Load of the route: 210
+
+Route for vehicle 7:
+ 85[CS:current_position_ev_9] Load(121) Bat(68.4) -> 38 Load(138) Bat(67.9) -> 39 Load(168) Bat(67.1) -> 40 Load(182) Bat(65.7) -> 41 Load(193) Bat(64.2) -> 0 Load(193) Bat(62.1)
+Distance of the route: 2.079km
+Real distance of the route: 2.08km
+Time of the route: 203s
+Load of the route: 193
+
+Route for vehicle 8:
+ 86[CS:current_position_ev_10] Load(91) Bat(77.7) -> 42 Load(103) Bat(75.9) -> 43 Load(132) Bat(72.1) -> 44 Load(145) Bat(43.1) -> 45 Load(175) Bat(34.4) -> 74[CS:BRCC - Trois-Rivières - Desjardins] Load(175) Bat(9.7) -> 46 Load(183) Bat(98.5) -> 47 Load(194) Bat(93.8) -> 0 Load(194) Bat(80.7)
+Distance of the route: 29.120km
+Real distance of the route: 29.12km
+Time of the route: 1943s
+Load of the route: 194
+
+Route for vehicle 9:
+ 87[CS:current_position_ev_11] Load(179) Bat(47.3) -> 48 Load(200) Bat(45.7) -> 0 Load(200) Bat(36.6)
+Distance of the route: 3.575km
+Real distance of the route: 3.58km
+Time of the route: 265s
+Load of the route: 200
+
+Route for vehicle 10:
+ 88[CS:current_position_ev_12] Load(70) Bat(53.8) -> 49 Load(91) Bat(44.7) -> 50 Load(121) Bat(23.2) -> 51 Load(140) Bat(18.8) -> 73[CS:RECHARGECO CAPDMADELEINE01] Load(140) Bat(3.7) -> 52 Load(162) Bat(86.5) -> 53 Load(184) Bat(79.6) -> 62 Load(206) Bat(62.5) -> 0 Load(206) Bat(60.0)
+Distance of the route: 30.032km
+Real distance of the route: 30.03km
+Time of the route: 1890s
+Load of the route: 206
+
+Route for vehicle 11:
+ 89[CS:current_position_ev_13] Load(142) Bat(77.7) -> 54 Load(158) Bat(76.1) -> 55 Load(173) Bat(72.3) -> 56 Load(205) Bat(68.9) -> 0 Load(205) Bat(65.1)
+Distance of the route: 4.207km
+Real distance of the route: 4.21km
+Time of the route: 386s
+Load of the route: 205
+
+Route for vehicle 12:
+ 90[CS:current_position_ev_15] Load(89) Bat(68.9) -> 57 Load(105) Bat(68.1) -> 58 Load(125) Bat(64.3) -> 59 Load(134) Bat(60.4) -> 70[CS:BRCC - Bécancour-de Port Royal - Shell] Load(134) Bat(39.5) -> 17 Load(150) Bat(97.1) -> 18 Load(163) Bat(95.7) -> 19 Load(177) Bat(82.3) -> 61 Load(204) Bat(50.8) -> 0 Load(204) Bat(44.7)
+Distance of the route: 28.233km
+Real distance of the route: 28.23km
+Time of the route: 1651s
+Load of the route: 204
+
+Total Distance of all routes: 228.998km
+
+Real distance (km): 229.00
+
+Total Load of all routes: 2622
+
+Total Time of all routes: 14503s
+
+Total recharges: 7
+
+Minimum battery (SoC) reached: 1.7
+
+Distance already traveled before this sub-problem: 147.357km
+
+Total Distance including distance before event: 376.354km
+
+
+Completion stats (real simulated time/distance after re-planning):
+  ev_0: finished -- extra time=2303.0s, total distance (before+after)=53.636km
+  ev_1: finished -- extra time=786.0s, total distance (before+after)=36.477km
+  ev_2: finished -- extra time=4051.0s, total distance (before+after)=101.829km
+  ev_4: finished -- extra time=1392.0s, total distance (before+after)=33.066km
+  ev_5: finished -- extra time=1043.0s, total distance (before+after)=19.266km
+  ev_7: finished -- extra time=950.0s, total distance (before+after)=32.731km
+  ev_8: finished -- extra time=1011.0s, total distance (before+after)=19.180km
+  ev_9: finished -- extra time=536.0s, total distance (before+after)=20.839km
+  ev_10: finished -- extra time=2814.0s, total distance (before+after)=46.696km
+  ev_11: finished -- extra time=351.0s, total distance (before+after)=27.314km
+  ev_12: finished -- extra time=2405.0s, total distance (before+after)=56.654km
+  ev_13: finished -- extra time=565.0s, total distance (before+after)=19.435km
+  ev_15: finished -- extra time=2110.0s, total distance (before+after)=47.603km
+TOTAL (finished vehicles only): extra time=20317.0s, total distance=514.725km
