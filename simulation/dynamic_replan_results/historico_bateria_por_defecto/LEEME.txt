@@ -1,0 +1,12 @@
+Reportes apartados el 2026-10-27 (no borrados).
+
+Todas las simulaciones de las Tablas 12 y 13 (y de 70, 100, 150 y 220 clientes) hechas hasta el 2026-10-27 con la
+bateria de SUMO SIN calibrar: build_battery_scenario.py escribia la bateria con claves que SUMO reciente ya no aplica
+(device.battery.maximumBatteryCapacity / actualBatteryCapacity), asi que cada vehiculo tenia 35000 Wh y arrancaba al
+50 %. Ademas la autonomia se calculaba como 100 km en vez de 100/3 = 33.3 km, la regeneracion al frenar no estaba
+desactivada y la fisica del vehiculo se descartaba en duarouter. Consecuencia: el replanificador recibia ~47 % de
+bateria en todos los vehiculos y agregaba recargas innecesarias (p. ej. 220 clientes SEQ+GLS: 10 recargas en el plan
+completo, 48 solo en el tramo replanificado).
+
+manifest_cap3.csv = manifiesto de estas corridas. Los specs de eventos (../specs_cap3) se conservan: la nueva tanda
+reutiliza exactamente los mismos eventos.

@@ -142,6 +142,7 @@ def vehicle_changes(v, n_clients):
 def _instance_shape(instance_path):
     from distance.distance_type import DistanceType
     from instance.instance_type import process_files
+    # solo se usan el numero de clientes y las estaciones: bateria y consumo no influyen aqui
     d = process_files(instance_path, DistanceType.OSRM, None, 3.0, 100)[os.path.basename(instance_path)]
     stations = sorted(d["charging_stations"])
     return d["num_locations"] - len(stations) - 1, stations
@@ -179,7 +180,7 @@ def build_vehicle_table(results_dir=RESULTS_DIR, instances_dir=INSTANCES_DIR):
             shapes[path] = _instance_shape(path)
         n_clients, stations = shapes[path]
         veh = parse_with(t, n_clients, stations)
-        feats = _instance_row(path, cache)
+        feats = _instance_row(path, cache, r["battery"], r["consumption"])
         probe = re.search(r"Probe (ev_\d+)", t)
         for vid, v in veh.items():
             base = [b[vid] for b in baselines if vid in b]

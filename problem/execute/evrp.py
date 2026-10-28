@@ -857,6 +857,35 @@ class _Repair:
         return mids
 
 
+def finish_replan(data, manager, routing, assignment, search_parameters, time_limit):
+    """
+    Cierre de una RE-PLANIFICACION (solo se usa con vehicle_states; el EVRP estatico no pasa por aqui):
+      1. si quedaron clientes sin atender, la reparacion de complete_dropped_clients (si esta activada);
+      2. se quitan las paradas de carga innecesarias de cada ruta: una parada se quita si la ruta sigue siendo factible
+         sin ella (bateria, capacidad, reglas de arcos) y no se alarga. En un subproblema resuelto con poco tiempo,
+         OR-Tools (y la reparacion) pueden dejar recargas que solo suman distancia.
+    Devuelve (solucion, routing) si algo cambio, o None. Deja el numero de paradas quitadas en data['removed_stops'].
+    """
+    data['removed_stops'] = 0
+    res = complete_dropped_clients(data, manager, routing, assignment, search_parameters, time_limit) \
+        if COMPLETE_DROPPED else None
+    sol, rt = res if res is not None else (assignment, routing)
+    rep = _Repair(data, manager, rt, sol)
+    if not rep.ok:
+        return res
+    removed = 0
+    for v, r in enumerate(rep.routes):
+        nr, nc = rep.cleanup(v, r)
+        if nc is not None and len(nr) < len(r):
+            removed += len(r) - len(nr)
+            rep.set_route(v, nr, nc)
+    if not removed:
+        return res
+    data['removed_stops'] = removed
+    view = _RoutesView(routing, manager, rep.model_mids())
+    return view, _RoutingView(routing, view)
+
+
 class _RoutesView:
     """Solucion definida solo por rutas; imita lo que save_solution usa de un Assignment (Value del NextVar)."""
 
@@ -975,6 +1004,8 @@ def save_solution(data, manager, routing, assignment, instance, heuristic, metah
             f.write('\n'.join(report_lines(feasibility)) + '\n\n')
             if data.get('completed_clients'):
                 f.write(f'Customers inserted by the completion step: {data["completed_clients"]}\n\n')
+            if data.get('removed_stops'):
+                f.write(f'Unnecessary charging stops removed after re-planning: {data["removed_stops"]}\n\n')
             if dropped_clients:
                 f.write(f'Dropped clients: {dropped_clients}\n\n')
 
@@ -1218,5 +1249,8 @@ def execute(
         execute_solution(
             save_solution, heuristic, metaheuristic, i, distance_type,
             routing, time_limit, data, manager, instance, initial_routes,
-            completion=partial(complete_dropped_clients, data, manager, routing) if COMPLETE_DROPPED else None
+            # re-planeacion (vehicle_states): reparacion + limpieza de paradas de carga innecesarias.
+            # EVRP estatico: solo la reparacion, como siempre (la limpieza no se aplica, sus resultados no cambian).
+            completion=(partial(finish_replan, data, manager, routing) if vehicle_states is not None else
+                        partial(complete_dropped_clients, data, manager, routing) if COMPLETE_DROPPED else None)
         )

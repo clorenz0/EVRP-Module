@@ -1,0 +1,73 @@
+Instance: quebec_50c_5ev_5cs
+Mode: NO FEEDBACK (baseline) -- original plan kept through the congestion event
+Checkpoint: 1200s
+
+Heuristic: PATH_CHEAPEST_ARC
+Metaheuristic: ACO (75 iteraciones)
+Distance type: osrm
+Objective (original full solution): 160.774
+Vehicle capacity: 250
+Battery capacity: 100.0
+Battery consumption rate: 3.0
+
+Event: congestion at checkpoint 1200s on 1 real edge(s) (speed limit lowered to 2.0 m/s). Target ev_1 -> node 36: travel time 37.0s -> 74.5s (+101.1%), distance 515m -> 515m. Verified: impact>=threshold, keys connected=True, no vehicle stranded=True. Affected edges: -43072588#3.
+
+Vehicle ev_0:
+  Original route (full plan from OR-Tools):
+    0 -> 11 -> 55[CS:Borne IGA Trois-Rivieres] -> 36 -> 45 -> 14 -> 44 -> 43 -> 30 -> 9 -> 39 -> 15 -> 37 -> 16 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 11 -> 55[CS:Borne IGA Trois-Rivieres] -> 36          (distance=18.475km, 3 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    36 -> 45 -> 14 -> 44 -> 43 -> 30 -> 9 -> 39 -> 15 -> 37 -> 16 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=2786.0s, total distance (before+after)=91.055km
+
+Vehicle ev_1:
+  Original route (full plan from OR-Tools):
+    0 -> 3 -> 35 -> 24 -> 29 -> 33 -> 2 -> 34 -> 21 -> 19 -> 8 -> 55[CS:Borne IGA Trois-Rivieres] -> 20 -> 13 -> 22 -> 31 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 3 -> 35 -> 24 -> 29 -> 33 -> 2          (distance=9.123km, 6 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    2 -> 34 -> 21 -> 19 -> 8 -> 55[CS:Borne IGA Trois-Rivieres] -> 20 -> 13 -> 22 -> 31 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=2937.0s, total distance (before+after)=59.827km
+
+Vehicle ev_2:
+  Original route (full plan from OR-Tools):
+    0 -> 5 -> 38 -> 48 -> 32 -> 25 -> 17 -> 28 -> 46 -> 52[CS:Recharge EV Cap-de-la-Madeleine] -> 23 -> 7 -> 49 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 5 -> 38 -> 48 -> 32 -> 25          (distance=13.338km, 5 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    25 -> 17 -> 28 -> 46 -> 52[CS:Recharge EV Cap-de-la-Madeleine] -> 23 -> 7 -> 49 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=2280.0s, total distance (before+after)=53.447km
+
+Vehicle ev_3:
+  Original route (full plan from OR-Tools):
+    0 -> 50 -> 40 -> 42 -> 41 -> 4 -> 10 -> 18 -> 26 -> 1 -> 47 -> 12 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 50 -> 40 -> 42 -> 41 -> 4          (distance=11.169km, 5 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    4 -> 10 -> 18 -> 26 -> 1 -> 47 -> 12 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=1341.0s, total distance (before+after)=36.238km
+
+Result summary (original plan, same congestion, no re-optimization):
+  ev_0: finished -- extra time=2786.0s, total distance (before+after)=91.055km
+  ev_1: finished -- extra time=2937.0s, total distance (before+after)=59.827km
+  ev_2: finished -- extra time=2280.0s, total distance (before+after)=53.447km
+  ev_3: finished -- extra time=1341.0s, total distance (before+after)=36.238km
+
+TOTAL (finished vehicles only): extra time=9344.0s, total distance=240.567km

@@ -1,0 +1,24 @@
+{
+  "kind": "congestion",
+  "seed": 1,
+  "checkpoint_s": 1200.0,
+  "vehicle": "ev_4",
+  "target_node": 149,
+  "edges": [
+    "-892128223#0"
+  ],
+  "params": {
+    "speed": 2.0
+  },
+  "checks": {
+    "time_before_s": 370.41725247486636,
+    "time_after_s": 469.98852819503117,
+    "dist_before_m": 7790.269999999997,
+    "dist_after_m": 7790.269999999997,
+    "impact_pct": 26.880841822269318,
+    "impact_threshold": 0.2,
+    "keys_connected": true,
+    "none_stranded": true,
+    "candidates_tried": 3
+  }
+}

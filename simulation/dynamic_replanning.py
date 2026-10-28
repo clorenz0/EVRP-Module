@@ -55,7 +55,17 @@ from utils.execute_algorithm import get_distance_and_solution_name  # noqa: E402
 
 CONGESTED_SPEED_MPS = 2.0
 CONGESTION_FRACTION = 0.4
-REPLAN_TIME_LIMIT = 15
+# Tiempo de re-planificacion (s): el mayor entre 15 s y el tiempo de la optimizacion estatica de esa instancia (run.py:
+# 10 s hasta 90 clientes, 60 s en 100 y 150, 120 s en 220, 180 s en 350). Con 15 s fijos, en las instancias grandes el
+# subproblema quedaba mal resuelto (p. ej. 220 clientes: la reparacion insertaba >25 clientes y ACO hacia 5-7 iteraciones).
+REPLAN_TIME_MIN = 15
+STATIC_TIME_BY_INSTANCE = {"quebec_100c_12ev_12cs": 60, "quebec_150c_18ev_15cs": 60,
+                           "quebec_220c_26ev_20cs": 120, "quebec_350c_40ev_30cs": 180}
+REPLAN_TIME_LIMIT = REPLAN_TIME_MIN     # se ajusta en main() segun la instancia (o con --replan-time)
+
+
+def replan_time_for(instance_base):
+    return max(REPLAN_TIME_MIN, STATIC_TIME_BY_INSTANCE.get(instance_base, 10))
 
 # Carpeta dedicada para las trazas de cada corrida (con y sin retroalimentacion),
 # separadas de problem/.../solutions_evrp_0 para poder comparar runs en el tiempo
@@ -171,14 +181,19 @@ def parse_args():
     p.add_argument("--max-complete-time", type=float, default=10800.0,
                     help="Tope de seguridad (s de simulacion) esperando a que los vehiculos activos terminen su "
                          "ruta, tanto en modo normal como en --no-replan.")
+    p.add_argument("--replan-time", type=int, default=None,
+                   help="segundos para re-planificar (por defecto: max(15, tiempo de la optimizacion estatica de la instancia))")
     return p.parse_args()
 
 
-def get_battery_param(vid, key):
-    try:
-        return float(traci.vehicle.getParameter(vid, key))
-    except traci.TraCIException:
-        return None
+def get_battery_param(vid, *keys):
+    """Primer valor disponible entre las claves dadas (en orden), o None."""
+    for key in keys:
+        try:
+            return float(traci.vehicle.getParameter(vid, key))
+        except (traci.TraCIException, ValueError):
+            continue
+    return None
 
 
 def step_to_checkpoint(routes_by_vehicle, checkpoint_time):
@@ -205,7 +220,7 @@ def read_original_params(solution_path):
             if line.startswith("Vehicle capacity:"):
                 params["vehicle_capacity"] = int(float(re.search(r"([\d.]+)", line).group(1)))
             elif line.startswith("Battery capacity:"):
-                params["fuel_capacity"] = int(float(re.search(r"([\d.]+)", line).group(1)))
+                params["fuel_capacity"] = float(re.search(r"([\d.]+)", line).group(1))
             elif line.startswith("Battery consumption rate:"):
                 params["fuel_consumption_rate"] = float(re.search(r"([\d.]+)", line).group(1))
             elif line.startswith("Heuristic:"):
@@ -216,6 +231,10 @@ def read_original_params(solution_path):
                 params["objective"] = line.split(":", 1)[1].strip()
             elif line.startswith("Distance type:"):
                 params["distance_type"] = line.split(":", 1)[1].strip()
+    # Bateria y consumo salen SIEMPRE de la solucion (los fija run.py al optimizar): si faltan, no se asume ningun valor.
+    missing = [k for k in ("fuel_capacity", "fuel_consumption_rate") if k not in params]
+    if missing:
+        sys.exit(f"ERROR: la solucion {solution_path} no trae {missing} ('Battery capacity:' / 'Battery consumption rate:')")
     return params
 
 
@@ -368,6 +387,9 @@ def main():
 
     os.makedirs(RESULTS_DIR, exist_ok=True)
     instance_base = os.path.splitext(os.path.basename(args.instance))[0]
+    global REPLAN_TIME_LIMIT
+    REPLAN_TIME_LIMIT = args.replan_time if args.replan_time else replan_time_for(instance_base)
+    print(f"Re-planning time limit: {REPLAN_TIME_LIMIT}s")
     run_id = time.strftime("%Y%m%d_%H%M%S")
     replan_instance_name = f"dynamic_replan_{instance_base}_{run_id}.txt"
 
@@ -425,8 +447,9 @@ def main():
             pending = intermediate[n_done:]
             if not pending:
                 continue
-            battery_wh = get_battery_param(vid, "device.battery.actualBatteryCapacity")
-            max_wh = get_battery_param(vid, "device.battery.maximumBatteryCapacity")
+            # SUMO >= 1.20: chargeLevel / capacity (las claves antiguas quedan como respaldo para versiones viejas)
+            battery_wh = get_battery_param(vid, "device.battery.chargeLevel", "device.battery.actualBatteryCapacity")
+            max_wh = get_battery_param(vid, "device.battery.capacity", "device.battery.maximumBatteryCapacity")
             load_collected = sum(
                 inst["clients"][n]["demand"] for n in intermediate[:n_done] if n in inst["clients"]
             )
@@ -468,8 +491,8 @@ def main():
                                 for v in vids for n in vehicles_state[v]["pending_nodes"] if n in inst["clients"]}
             key_edges_ev = {depot_edge_ev} | set(station_edges_ev) | pending_edges_ev
             node_edge_of = lambda n: snap_single_node(net, n, inst["node_coords"])
-            fuel_cap = original_params.get("fuel_capacity", 100)
-            rate = original_params.get("fuel_consumption_rate", 3.0)
+            fuel_cap = original_params["fuel_capacity"]
+            rate = original_params["fuel_consumption_rate"]
             if args.event_spec and os.path.isfile(args.event_spec):
                 spec = event_selector.load_spec(args.event_spec)
                 controller = event_selector.apply_spec(spec, traci, net, vehicles_state, depot_edge_ev, key_edges_ev)

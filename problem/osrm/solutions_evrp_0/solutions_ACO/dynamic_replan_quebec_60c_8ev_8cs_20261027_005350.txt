@@ -1,0 +1,145 @@
+Instance: dynamic_replan_quebec_60c_8ev_8cs_20261027_005350.txt
+
+Original routes (before this re-planning event):
+Vehicle ev_0:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 37 -> 48 -> 58 -> 9 -> 51 -> 54 -> 28 -> 55 -> 45 -> 31 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 37 -> 48 -> 58 -> 9 -> 51 -> 54          (distance=14.712km, 6 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_1:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 29 -> 13 -> 3 -> 19 -> 5 -> 41 -> 20 -> 60 -> 32 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0          (distance=17.380km, 0 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_2:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 27 -> 36 -> 4 -> 1 -> 39 -> 23 -> 53 -> 7 -> 59 -> 30 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 27 -> 36 -> 4          (distance=16.333km, 3 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_3:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 57 -> 17 -> 50 -> 2 -> 26 -> 16 -> 11 -> 35 -> 14 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 57 -> 17 -> 50 -> 2 -> 26          (distance=13.072km, 5 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_4:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 40 -> 18 -> 44 -> 52 -> 38 -> 47 -> 49 -> 43 -> 56 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 40 -> 18 -> 44 -> 52 -> 38          (distance=17.491km, 5 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_5:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 8 -> 10 -> 46 -> 22 -> 42 -> 24 -> 21 -> 33 -> 34 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0          (distance=13.900km, 0 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_6:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 25 -> 6 -> 15 -> 12 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 25 -> 6          (distance=18.572km, 2 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Objective: 166.530
+
+Execution Time: 15.042689800262451
+
+Metaheuristic: ACO (166 iteraciones)
+
+Distance type: osrm
+
+Vehicle capacity: 200
+Battery capacity: 100.0
+Battery consumption rate: 3.0
+
+Customers served: 39/39
+Dropped customers: 0
+Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
+
+Event: congestion at checkpoint 1200s on 3 real edge(s) (speed limit lowered to 2.0 m/s). Target ev_1 -> node 29: travel time 480.6s -> 599.9s (+24.8%), distance 9880m -> 9880m. Verified: impact>=threshold, keys connected=True, no vehicle stranded=True. Affected edges: 1276697063, 1276697062, 1276697061#0.
+
+Route for vehicle 0:
+ 48[CS:current_position_ev_0] Load(110) Bat(36.1) -> 1 Load(138) Bat(31.8) -> 2 Load(152) Bat(27.0) -> 3 Load(166) Bat(23.5) -> 4 Load(192) Bat(18.9) -> 0 Load(192) Bat(6.7)
+Distance of the route: 9.816km
+Real distance of the route: 9.82km
+Time of the route: 784s
+Load of the route: 192
+
+Route for vehicle 1:
+ 49[CS:current_position_ev_1] Load(0) Bat(57.8) -> 33 Load(16) Bat(45.9) -> 29 Load(29) Bat(35.7) -> 34 Load(59) Bat(32.4) -> 35 Load(87) Bat(32.0) -> 36 Load(111) Bat(28.6) -> 31 Load(136) Bat(15.6) -> 45[CS:Circuit Electrique Levis] Load(136) Bat(13.6) -> 32 Load(161) Bat(93.4) -> 24 Load(189) Bat(47.7) -> 0 Load(189) Bat(28.5)
+Distance of the route: 38.554km
+Real distance of the route: 38.55km
+Time of the route: 2410s
+Load of the route: 189
+
+Route for vehicle 2:
+ 50[CS:current_position_ev_2] Load(56) Bat(48.7) -> 14 Load(72) Bat(46.7) -> 15 Load(97) Bat(42.2) -> 16 Load(117) Bat(38.9) -> 17 Load(140) Bat(35.6) -> 18 Load(166) Bat(24.5) -> 20 Load(181) Bat(19.8) -> 19 Load(191) Bat(18.5) -> 0 Load(191) Bat(0.8)
+Distance of the route: 15.972km
+Real distance of the route: 15.97km
+Time of the route: 1114s
+Load of the route: 191
+
+Route for vehicle 3:
+ 51[CS:current_position_ev_3] Load(94) Bat(55.5) -> 21 Load(123) Bat(50.4) -> 13 Load(142) Bat(31.8) -> 0 Load(142) Bat(25.8)
+Distance of the route: 9.895km
+Real distance of the route: 9.90km
+Time of the route: 689s
+Load of the route: 142
+
+Route for vehicle 4:
+ 52[CS:current_position_ev_4] Load(88) Bat(40.4) -> 25 Load(96) Bat(35.9) -> 26 Load(113) Bat(33.6) -> 28 Load(143) Bat(28.1) -> 27 Load(167) Bat(22.8) -> 40[CS:Borne Rapide Haute-Ville] Load(167) Bat(3.7) -> 37 Load(178) Bat(97.9) -> 39 Load(200) Bat(94.2) -> 0 Load(200) Bat(87.6)
+Distance of the route: 16.366km
+Real distance of the route: 16.37km
+Time of the route: 1108s
+Load of the route: 200
+
+Route for vehicle 5:
+ 53[CS:current_position_ev_5] Load(0) Bat(69.1) -> 6 Load(20) Bat(28.3) -> 7 Load(30) Bat(23.4) -> 38 Load(56) Bat(17.0) -> 5 Load(84) Bat(13.9) -> 30 Load(95) Bat(3.8) -> 45[CS:Circuit Electrique Levis] Load(95) Bat(0.4) -> 11 Load(124) Bat(46.5) -> 0 Load(124) Bat(30.2)
+Distance of the route: 46.158km
+Real distance of the route: 46.16km
+Time of the route: 2629s
+Load of the route: 124
+
+Route for vehicle 6:
+ 54[CS:current_position_ev_6] Load(39) Bat(47.3) -> 22 Load(58) Bat(26.8) -> 23 Load(87) Bat(18.8) -> 41[CS:Station IGA Sainte-Foy] Load(87) Bat(10.2) -> 10 Load(109) Bat(85.9) -> 8 Load(128) Bat(68.2) -> 9 Load(136) Bat(63.0) -> 12 Load(151) Bat(55.9) -> 0 Load(151) Bat(47.8)
+Distance of the route: 29.769km
+Real distance of the route: 29.77km
+Time of the route: 1964s
+Load of the route: 151
+
+Total Distance of all routes: 166.530km
+
+Real distance (km): 166.53
+
+Total Load of all routes: 1189
+
+Total Time of all routes: 10698s
+
+Total recharges: 4
+
+Minimum battery (SoC) reached: 0.4
+
+Distance already traveled before this sub-problem: 111.460km
+
+Total Distance including distance before event: 277.992km
+
+
+Completion stats (real simulated time/distance after re-planning):
+  ev_0: finished -- extra time=1100.0s, total distance (before+after)=38.737km
+  ev_1: finished -- extra time=3021.0s, total distance (before+after)=71.087km
+  ev_2: finished -- extra time=1650.0s, total distance (before+after)=48.064km
+  ev_3: finished -- extra time=830.0s, total distance (before+after)=35.696km
+  ev_4: finished -- extra time=1419.0s, total distance (before+after)=49.783km
+  ev_5: finished -- extra time=3659.0s, total distance (before+after)=72.557km
+  ev_6: finished -- extra time=2134.0s, total distance (before+after)=64.082km
+TOTAL (finished vehicles only): extra time=13813.0s, total distance=380.005km
