@@ -292,9 +292,14 @@ def unnecessary_stops(nodes, data):
     """
     em, cap, stations = data['distance_matrix'], cap_int(data['fuel_capacity']), set(data['charging_stations'])
     rate = data['fuel_consumption_rate']
+    # Re-planificacion: el vehiculo arranca con su bateria real (no llena) y su posicion de arranque no es una estacion.
+    # Sin esto, el diagnostico contaba como innecesarias paradas que si hacen falta. En el caso estatico no cambia nada.
+    start_battery = data.get('start_battery') or {}
+    start_bat = start_battery.get(nodes[0], cap) if nodes else cap
+    stations = stations - set(start_battery)
 
     def feasible(seq):
-        bat = cap
+        bat = start_bat
         for a, b in zip(seq, seq[1:]):
             bat -= energy_int(em[a][b], rate)
             if bat < 0:

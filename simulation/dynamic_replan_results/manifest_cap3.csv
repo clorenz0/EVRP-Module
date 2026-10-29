@@ -89,3 +89,13 @@ T12,150,PATH_CHEAPEST_ARC + ACO,congestion,aco,WITH,quebec_150c_18ev_15cs_WITH_f
 T12,150,PATH_CHEAPEST_ARC + ACO,congestion,aco,NO,quebec_150c_18ev_15cs_NO_feedback_20261028_161030.txt
 T12,150,SEQUENTIAL_CHEAPEST_INSERTION + GLS,congestion,ortools,WITH,quebec_150c_18ev_15cs_WITH_feedback_20261028_161118.txt
 T12,150,SEQUENTIAL_CHEAPEST_INSERTION + GLS,congestion,ortools,NO,quebec_150c_18ev_15cs_NO_feedback_20261028_161712.txt
+T12,220,ACO,congestion,aco,WITH,quebec_220c_26ev_20cs_WITH_feedback_20261028_161815.txt
+T12,220,ACO,congestion,aco,NO,quebec_220c_26ev_20cs_NO_feedback_20261028_171922.txt
+T12,220,PATH_CHEAPEST_ARC + ACO,congestion,aco,WITH,quebec_220c_26ev_20cs_WITH_feedback_20261028_172133.txt
+T12,220,PATH_CHEAPEST_ARC + ACO,congestion,aco,NO,quebec_220c_26ev_20cs_NO_feedback_20261028_182201.txt
+T12,220,ACO,congestion,aco,WITH,quebec_220c_26ev_20cs_WITH_feedback_20261028_200204.txt
+T12,220,ACO,congestion,aco,NO,quebec_220c_26ev_20cs_NO_feedback_20261028_204908.txt
+T12,220,PATH_CHEAPEST_ARC + ACO,congestion,aco,WITH,quebec_220c_26ev_20cs_WITH_feedback_20261028_205028.txt
+T12,220,PATH_CHEAPEST_ARC + ACO,congestion,aco,NO,quebec_220c_26ev_20cs_NO_feedback_20261028_213602.txt
+T12,220,SEQUENTIAL_CHEAPEST_INSERTION + GLS,congestion,ortools,WITH,quebec_220c_26ev_20cs_WITH_feedback_20261028_213747.txt
+T12,220,SEQUENTIAL_CHEAPEST_INSERTION + GLS,congestion,ortools,NO,quebec_220c_26ev_20cs_NO_feedback_20261028_223446.txt
