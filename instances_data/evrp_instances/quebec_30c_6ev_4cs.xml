@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<evrp_instance>
+  <problema total_vehiculos="6" capacidad_vehiculo="150"/>
+  <deposito latitud="45.5017" longitud="-73.5673"/>
+  <clientes>
+    <cliente id="C_001" latitud="45.5231" longitud="-73.5891" demanda="18"/>
+    <cliente id="C_002" latitud="45.5312" longitud="-73.6045" demanda="22"/>
+    <cliente id="C_003" latitud="45.5089" longitud="-73.5432" demanda="15"/>
+    <cliente id="C_004" latitud="45.4987" longitud="-73.5789" demanda="27"/>
+    <cliente id="C_005" latitud="45.5156" longitud="-73.6123" demanda="13"/>
+    <cliente id="C_006" latitud="45.5278" longitud="-73.5234" demanda="24"/>
+    <cliente id="C_007" latitud="45.4923" longitud="-73.6234" demanda="19"/>
+    <cliente id="C_008" latitud="45.5067" longitud="-73.5567" demanda="21"/>
+    <cliente id="C_009" latitud="45.5345" longitud="-73.5678" demanda="16"/>
+    <cliente id="C_010" latitud="45.4867" longitud="-73.5345" demanda="25"/>
+    <cliente id="C_011" latitud="45.5189" longitud="-73.6345" demanda="14"/>
+    <cliente id="C_012" latitud="45.5423" longitud="-73.5123" demanda="23"/>
+    <cliente id="C_013" latitud="45.4789" longitud="-73.5901" demanda="17"/>
+    <cliente id="C_014" latitud="45.5312" longitud="-73.6456" demanda="26"/>
+    <cliente id="C_015" latitud="45.5034" longitud="-73.5234" demanda="20"/>
+    <cliente id="C_016" latitud="45.4956" longitud="-73.6012" demanda="28"/>
+    <cliente id="C_017" latitud="45.5267" longitud="-73.5456" demanda="12"/>
+    <cliente id="C_018" latitud="45.5389" longitud="-73.5789" demanda="29"/>
+    <cliente id="C_019" latitud="45.4878" longitud="-73.5678" demanda="11"/>
+    <cliente id="C_020" latitud="45.5123" longitud="-73.6234" demanda="30"/>
+    <cliente id="C_021" latitud="45.5445" longitud="-73.5567" demanda="10"/>
+    <cliente id="C_022" latitud="45.4934" longitud="-73.5456" demanda="31"/>
+    <cliente id="C_023" latitud="45.5201" longitud="-73.6123" demanda="9"/>
+    <cliente id="C_024" latitud="45.5367" longitud="-73.5345" demanda="32"/>
+    <cliente id="C_025" latitud="45.4812" longitud="-73.5234" demanda="8"/>
+    <cliente id="C_026" latitud="45.5089" longitud="-73.6012" demanda="14"/>
+    <cliente id="C_027" latitud="45.5234" longitud="-73.5789" demanda="16"/>
+    <cliente id="C_028" latitud="45.4967" longitud="-73.5901" demanda="12"/>
+    <cliente id="C_029" latitud="45.5412" longitud="-73.5678" demanda="18"/>
+    <cliente id="C_030" latitud="45.5145" longitud="-73.5123" demanda="20"/>
+  </clientes>
+  <estaciones_de_carga>
+    <estacion id="10001" nombre="Circuit Électrique Longueuil Centre" latitud="45.5312" longitud="-73.5123" conectores="J1772" tipo_acceso="public" tipo_instalacion="MUNI_GOV"/>
+    <estacion id="10002" nombre="Recharge Brossard Quartier DIX30" latitud="45.4956" longitud="-73.4789" conectores="CHADEMO J1772COMBO" tipo_acceso="public" tipo_instalacion="RETAIL"/>
+    <estacion id="10003" nombre="Borne EV Vieux-Montréal" latitud="45.5089" longitud="-73.5567" conectores="J1772" tipo_acceso="public" tipo_instalacion="HOTEL"/>
+    <estacion id="10004" nombre="Station Rapide Saint-Lambert" latitud="45.5201" longitud="-73.5234" conectores="J1772" tipo_acceso="public" tipo_instalacion="RESTAURANT"/>
+  </estaciones_de_carga>
+</evrp_instance>

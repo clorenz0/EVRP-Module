@@ -447,10 +447,54 @@ def _parse_evrp_csv(file_path):
     return num_vehicles, vehicle_capacity, locations, demands, charging_stations, charging_station_names
 
 
+def _parse_evrp_json(file_path):
+    """
+    Parsea una instancia EVRP en formato .json:
+        {
+          "problema": {"total_vehiculos": 6, "capacidad_vehiculo": 150},
+          "deposito": {"latitud": 45.5017, "longitud": -73.5673},
+          "clientes": [{"id": "C_001", "latitud": 45.5231, "longitud": -73.5891, "demanda": 18}, ...],
+          "estaciones_de_carga": [{"id": "10001", "nombre": "...", "latitud": 45.5312, "longitud": -73.5123}, ...]
+        }
+    """
+    with open(file_path, encoding='utf-8') as f:
+        data = json.load(f)
+
+    num_vehicles = vehicle_capacity = None
+    problema = data.get('problema')
+    if problema is not None:
+        num_vehicles = int(problema['total_vehiculos'])
+        vehicle_capacity = int(problema['capacidad_vehiculo'])
+
+    locations = []
+    demands = []
+    charging_stations = []
+    charging_station_names = {}
+
+    deposito = data.get('deposito')
+    if deposito is not None:
+        locations.append((float(deposito['latitud']), float(deposito['longitud'])))
+        demands.append(0)
+
+    for cliente in data.get('clientes', []):
+        locations.append((float(cliente['latitud']), float(cliente['longitud'])))
+        demands.append(int(cliente['demanda']))
+
+    for estacion in data.get('estaciones_de_carga', []):
+        node_index = len(locations)
+        locations.append((float(estacion['latitud']), float(estacion['longitud'])))
+        demands.append(0)
+        charging_stations.append(node_index)
+        charging_station_names[node_index] = estacion.get('nombre', '')
+
+    return num_vehicles, vehicle_capacity, locations, demands, charging_stations, charging_station_names
+
+
 _EVRP_PARSERS = {
     '.txt': _parse_evrp_txt,
     '.xml': _parse_evrp_xml,
     '.csv': _parse_evrp_csv,
+    '.json': _parse_evrp_json,
 }
 
 
@@ -461,7 +505,8 @@ def read_file_evrp(file_path, distance_type=None, vehicle_max_time=None,
         .txt  → secciones '# PROBLEMA', '# DEPOSITO', '# CLIENTES', '# ESTACIONES_DE_CARGA'
         .xml  → etiquetas <problema>, <deposito>, <clientes>/<cliente>, <estaciones_de_carga>/<estacion>
         .csv  → una tabla con columna 'tipo' (PROBLEMA, DEPOSITO, CLIENTE, ESTACION)
-    Los tres formatos describen los mismos datos; ver los parsers _parse_evrp_* para el detalle.
+        .json → claves 'problema', 'deposito', 'clientes', 'estaciones_de_carga'
+    Los cuatro formatos describen los mismos datos; ver los parsers _parse_evrp_* para el detalle.
 
     Parámetros de batería eléctrica (OBLIGATORIOS, no tienen relación con la
     carga de mercancía del vehículo):

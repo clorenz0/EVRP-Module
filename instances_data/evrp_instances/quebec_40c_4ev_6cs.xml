@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<evrp_instance>
+  <problema total_vehiculos="4" capacidad_vehiculo="250"/>
+  <deposito latitud="46.8139" longitud="-71.208"/>
+  <clientes>
+    <cliente id="C_001" latitud="46.8234" longitud="-71.2345" demanda="20"/>
+    <cliente id="C_002" latitud="46.8312" longitud="-71.1987" demanda="18"/>
+    <cliente id="C_003" latitud="46.8089" longitud="-71.2567" demanda="30"/>
+    <cliente id="C_004" latitud="46.7967" longitud="-71.2123" demanda="15"/>
+    <cliente id="C_005" latitud="46.8178" longitud="-71.2789" demanda="22"/>
+    <cliente id="C_006" latitud="46.8345" longitud="-71.1876" demanda="25"/>
+    <cliente id="C_007" latitud="46.7923" longitud="-71.2456" demanda="19"/>
+    <cliente id="C_008" latitud="46.8056" longitud="-71.2234" demanda="28"/>
+    <cliente id="C_009" latitud="46.8289" longitud="-71.2678" demanda="12"/>
+    <cliente id="C_010" latitud="46.7878" longitud="-71.1987" demanda="35"/>
+    <cliente id="C_011" latitud="46.8167" longitud="-71.289" demanda="10"/>
+    <cliente id="C_012" latitud="46.8423" longitud="-71.2012" demanda="32"/>
+    <cliente id="C_013" latitud="46.7789" longitud="-71.2345" demanda="17"/>
+    <cliente id="C_014" latitud="46.8312" longitud="-71.1765" demanda="23"/>
+    <cliente id="C_015" latitud="46.8034" longitud="-71.2567" demanda="27"/>
+    <cliente id="C_016" latitud="46.7956" longitud="-71.2789" demanda="14"/>
+    <cliente id="C_017" latitud="46.8245" longitud="-71.2123" demanda="31"/>
+    <cliente id="C_018" latitud="46.8389" longitud="-71.1898" demanda="16"/>
+    <cliente id="C_019" latitud="46.7867" longitud="-71.2234" demanda="24"/>
+    <cliente id="C_020" latitud="46.8123" longitud="-71.2678" demanda="33"/>
+    <cliente id="C_021" latitud="46.8456" longitud="-71.2345" demanda="11"/>
+    <cliente id="C_022" latitud="46.7934" longitud="-71.1987" demanda="29"/>
+    <cliente id="C_023" latitud="46.8201" longitud="-71.289" demanda="18"/>
+    <cliente id="C_024" latitud="46.8367" longitud="-71.2012" demanda="21"/>
+    <cliente id="C_025" latitud="46.7812" longitud="-71.2456" demanda="26"/>
+    <cliente id="C_026" latitud="46.8089" longitud="-71.2789" demanda="13"/>
+    <cliente id="C_027" latitud="46.8234" longitud="-71.1876" demanda="34"/>
+    <cliente id="C_028" latitud="46.7978" longitud="-71.2123" demanda="9"/>
+    <cliente id="C_029" latitud="46.8412" longitud="-71.2567" demanda="22"/>
+    <cliente id="C_030" latitud="46.8145" longitud="-71.2234" demanda="28"/>
+    <cliente id="C_031" latitud="46.7856" longitud="-71.2678" demanda="16"/>
+    <cliente id="C_032" latitud="46.8278" longitud="-71.2345" demanda="20"/>
+    <cliente id="C_033" latitud="46.8056" longitud="-71.1987" demanda="25"/>
+    <cliente id="C_034" latitud="46.8189" longitud="-71.289" demanda="12"/>
+    <cliente id="C_035" latitud="46.8334" longitud="-71.2012" demanda="30"/>
+    <cliente id="C_036" latitud="46.7923" longitud="-71.2456" demanda="17"/>
+    <cliente id="C_037" latitud="46.8112" longitud="-71.2789" demanda="23"/>
+    <cliente id="C_038" latitud="46.8267" longitud="-71.1876" demanda="27"/>
+    <cliente id="C_039" latitud="46.7989" longitud="-71.2234" demanda="14"/>
+    <cliente id="C_040" latitud="46.8423" longitud="-71.2567" demanda="19"/>
+  </clientes>
+  <estaciones_de_carga>
+    <estacion id="10001" nombre="Borne Rapide Haute-Ville" latitud="46.8167" longitud="-71.208" conectores="CHADEMO J1772COMBO" tipo_acceso="public" tipo_instalacion="MUNI_GOV"/>
+    <estacion id="10002" nombre="Station IGA Sainte-Foy" latitud="46.7923" longitud="-71.2567" conectores="J1772" tipo_acceso="public" tipo_instalacion="RETAIL"/>
+    <estacion id="10003" nombre="EV Charging Hôtel Château Frontenac" latitud="46.8123" longitud="-71.2045" conectores="J1772" tipo_acceso="public" tipo_instalacion="HOTEL"/>
+    <estacion id="10004" nombre="Recharge Saint-Roch" latitud="46.8056" longitud="-71.2234" conectores="J1772" tipo_acceso="public" tipo_instalacion="RESTAURANT"/>
+    <estacion id="10005" nombre="Borne IKEA Beauport" latitud="46.8389" longitud="-71.1898" conectores="J1772" tipo_acceso="public" tipo_instalacion="RETAIL"/>
+    <estacion id="10006" nombre="Circuit Électrique Lévis" latitud="46.7834" longitud="-71.1987" conectores="CHADEMO J1772COMBO" tipo_acceso="public" tipo_instalacion="CAR_DEALER"/>
+  </estaciones_de_carga>
+</evrp_instance>

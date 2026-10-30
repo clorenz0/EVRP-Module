@@ -1,0 +1,722 @@
+{
+  "problema": {
+    "total_vehiculos": 12,
+    "capacidad_vehiculo": 210
+  },
+  "deposito": {
+    "latitud": 46.8139,
+    "longitud": -71.208
+  },
+  "clientes": [
+    {
+      "id": "C_001",
+      "latitud": 46.7315,
+      "longitud": -71.2014,
+      "demanda": 18
+    },
+    {
+      "id": "C_002",
+      "latitud": 46.8326,
+      "longitud": -71.246,
+      "demanda": 20
+    },
+    {
+      "id": "C_003",
+      "latitud": 46.8511,
+      "longitud": -71.2522,
+      "demanda": 29
+    },
+    {
+      "id": "C_004",
+      "latitud": 46.853,
+      "longitud": -71.2451,
+      "demanda": 11
+    },
+    {
+      "id": "C_005",
+      "latitud": 46.8393,
+      "longitud": -71.29,
+      "demanda": 32
+    },
+    {
+      "id": "C_006",
+      "latitud": 46.7557,
+      "longitud": -71.2752,
+      "demanda": 31
+    },
+    {
+      "id": "C_007",
+      "latitud": 46.817,
+      "longitud": -71.2096,
+      "demanda": 10
+    },
+    {
+      "id": "C_008",
+      "latitud": 46.8375,
+      "longitud": -71.2947,
+      "demanda": 12
+    },
+    {
+      "id": "C_009",
+      "latitud": 46.8168,
+      "longitud": -71.2028,
+      "demanda": 18
+    },
+    {
+      "id": "C_010",
+      "latitud": 46.8274,
+      "longitud": -71.3259,
+      "demanda": 20
+    },
+    {
+      "id": "C_011",
+      "latitud": 46.8227,
+      "longitud": -71.243,
+      "demanda": 11
+    },
+    {
+      "id": "C_012",
+      "latitud": 46.8155,
+      "longitud": -71.3101,
+      "demanda": 20
+    },
+    {
+      "id": "C_013",
+      "latitud": 46.8523,
+      "longitud": -71.2695,
+      "demanda": 19
+    },
+    {
+      "id": "C_014",
+      "latitud": 46.81,
+      "longitud": -71.2052,
+      "demanda": 29
+    },
+    {
+      "id": "C_015",
+      "latitud": 46.8445,
+      "longitud": -71.2792,
+      "demanda": 27
+    },
+    {
+      "id": "C_016",
+      "latitud": 46.8605,
+      "longitud": -71.2611,
+      "demanda": 18
+    },
+    {
+      "id": "C_017",
+      "latitud": 46.8301,
+      "longitud": -71.2299,
+      "demanda": 11
+    },
+    {
+      "id": "C_018",
+      "latitud": 46.8004,
+      "longitud": -71.2509,
+      "demanda": 13
+    },
+    {
+      "id": "C_019",
+      "latitud": 46.843,
+      "longitud": -71.293,
+      "demanda": 16
+    },
+    {
+      "id": "C_020",
+      "latitud": 46.7551,
+      "longitud": -71.2416,
+      "demanda": 9
+    },
+    {
+      "id": "C_021",
+      "latitud": 46.7769,
+      "longitud": -71.3108,
+      "demanda": 10
+    },
+    {
+      "id": "C_022",
+      "latitud": 46.8112,
+      "longitud": -71.2032,
+      "demanda": 8
+    },
+    {
+      "id": "C_023",
+      "latitud": 46.8508,
+      "longitud": -71.1995,
+      "demanda": 24
+    },
+    {
+      "id": "C_024",
+      "latitud": 46.8479,
+      "longitud": -71.2963,
+      "demanda": 13
+    },
+    {
+      "id": "C_025",
+      "latitud": 46.8122,
+      "longitud": -71.2028,
+      "demanda": 24
+    },
+    {
+      "id": "C_026",
+      "latitud": 46.7479,
+      "longitud": -71.2248,
+      "demanda": 16
+    },
+    {
+      "id": "C_027",
+      "latitud": 46.7754,
+      "longitud": -71.3223,
+      "demanda": 11
+    },
+    {
+      "id": "C_028",
+      "latitud": 46.8435,
+      "longitud": -71.2603,
+      "demanda": 21
+    },
+    {
+      "id": "C_029",
+      "latitud": 46.8407,
+      "longitud": -71.2786,
+      "demanda": 13
+    },
+    {
+      "id": "C_030",
+      "latitud": 46.8125,
+      "longitud": -71.2144,
+      "demanda": 29
+    },
+    {
+      "id": "C_031",
+      "latitud": 46.8645,
+      "longitud": -71.2091,
+      "demanda": 29
+    },
+    {
+      "id": "C_032",
+      "latitud": 46.7401,
+      "longitud": -71.2294,
+      "demanda": 26
+    },
+    {
+      "id": "C_033",
+      "latitud": 46.7355,
+      "longitud": -71.2091,
+      "demanda": 18
+    },
+    {
+      "id": "C_034",
+      "latitud": 46.8137,
+      "longitud": -71.2021,
+      "demanda": 17
+    },
+    {
+      "id": "C_035",
+      "latitud": 46.8158,
+      "longitud": -71.2123,
+      "demanda": 26
+    },
+    {
+      "id": "C_036",
+      "latitud": 46.8566,
+      "longitud": -71.2494,
+      "demanda": 30
+    },
+    {
+      "id": "C_037",
+      "latitud": 46.8563,
+      "longitud": -71.2673,
+      "demanda": 15
+    },
+    {
+      "id": "C_038",
+      "latitud": 46.9023,
+      "longitud": -71.1954,
+      "demanda": 30
+    },
+    {
+      "id": "C_039",
+      "latitud": 46.7908,
+      "longitud": -71.188,
+      "demanda": 10
+    },
+    {
+      "id": "C_040",
+      "latitud": 46.8617,
+      "longitud": -71.1861,
+      "demanda": 20
+    },
+    {
+      "id": "C_041",
+      "latitud": 46.8135,
+      "longitud": -71.219,
+      "demanda": 28
+    },
+    {
+      "id": "C_042",
+      "latitud": 46.8325,
+      "longitud": -71.2327,
+      "demanda": 23
+    },
+    {
+      "id": "C_043",
+      "latitud": 46.838,
+      "longitud": -71.2914,
+      "demanda": 19
+    },
+    {
+      "id": "C_044",
+      "latitud": 46.8151,
+      "longitud": -71.2197,
+      "demanda": 14
+    },
+    {
+      "id": "C_045",
+      "latitud": 46.821,
+      "longitud": -71.1727,
+      "demanda": 17
+    },
+    {
+      "id": "C_046",
+      "latitud": 46.854,
+      "longitud": -71.2312,
+      "demanda": 28
+    },
+    {
+      "id": "C_047",
+      "latitud": 46.8389,
+      "longitud": -71.2923,
+      "demanda": 12
+    },
+    {
+      "id": "C_048",
+      "latitud": 46.8064,
+      "longitud": -71.3052,
+      "demanda": 31
+    },
+    {
+      "id": "C_049",
+      "latitud": 46.7786,
+      "longitud": -71.1037,
+      "demanda": 25
+    },
+    {
+      "id": "C_050",
+      "latitud": 46.8089,
+      "longitud": -71.2486,
+      "demanda": 20
+    },
+    {
+      "id": "C_051",
+      "latitud": 46.8368,
+      "longitud": -71.2841,
+      "demanda": 11
+    },
+    {
+      "id": "C_052",
+      "latitud": 46.8435,
+      "longitud": -71.2798,
+      "demanda": 25
+    },
+    {
+      "id": "C_053",
+      "latitud": 46.8243,
+      "longitud": -71.2217,
+      "demanda": 12
+    },
+    {
+      "id": "C_054",
+      "latitud": 46.8521,
+      "longitud": -71.237,
+      "demanda": 19
+    },
+    {
+      "id": "C_055",
+      "latitud": 46.8542,
+      "longitud": -71.2652,
+      "demanda": 23
+    },
+    {
+      "id": "C_056",
+      "latitud": 46.7952,
+      "longitud": -71.2842,
+      "demanda": 24
+    },
+    {
+      "id": "C_057",
+      "latitud": 46.8306,
+      "longitud": -71.2384,
+      "demanda": 27
+    },
+    {
+      "id": "C_058",
+      "latitud": 46.7496,
+      "longitud": -71.2264,
+      "demanda": 14
+    },
+    {
+      "id": "C_059",
+      "latitud": 46.8932,
+      "longitud": -71.2244,
+      "demanda": 10
+    },
+    {
+      "id": "C_060",
+      "latitud": 46.8137,
+      "longitud": -71.0781,
+      "demanda": 9
+    },
+    {
+      "id": "C_061",
+      "latitud": 46.8391,
+      "longitud": -71.28,
+      "demanda": 16
+    },
+    {
+      "id": "C_062",
+      "latitud": 46.7841,
+      "longitud": -71.2743,
+      "demanda": 30
+    },
+    {
+      "id": "C_063",
+      "latitud": 46.8513,
+      "longitud": -71.2353,
+      "demanda": 14
+    },
+    {
+      "id": "C_064",
+      "latitud": 46.854,
+      "longitud": -71.2577,
+      "demanda": 27
+    },
+    {
+      "id": "C_065",
+      "latitud": 46.9016,
+      "longitud": -71.2069,
+      "demanda": 18
+    },
+    {
+      "id": "C_066",
+      "latitud": 46.8372,
+      "longitud": -71.2311,
+      "demanda": 20
+    },
+    {
+      "id": "C_067",
+      "latitud": 46.7484,
+      "longitud": -71.2215,
+      "demanda": 8
+    },
+    {
+      "id": "C_068",
+      "latitud": 46.8439,
+      "longitud": -71.2841,
+      "demanda": 11
+    },
+    {
+      "id": "C_069",
+      "latitud": 46.8037,
+      "longitud": -71.2189,
+      "demanda": 20
+    },
+    {
+      "id": "C_070",
+      "latitud": 46.7831,
+      "longitud": -71.2759,
+      "demanda": 18
+    },
+    {
+      "id": "C_071",
+      "latitud": 46.8163,
+      "longitud": -71.2101,
+      "demanda": 19
+    },
+    {
+      "id": "C_072",
+      "latitud": 46.8641,
+      "longitud": -71.2456,
+      "demanda": 10
+    },
+    {
+      "id": "C_073",
+      "latitud": 46.816,
+      "longitud": -71.2732,
+      "demanda": 31
+    },
+    {
+      "id": "C_074",
+      "latitud": 46.7904,
+      "longitud": -71.1806,
+      "demanda": 32
+    },
+    {
+      "id": "C_075",
+      "latitud": 46.8419,
+      "longitud": -71.2889,
+      "demanda": 17
+    },
+    {
+      "id": "C_076",
+      "latitud": 46.8144,
+      "longitud": -71.3268,
+      "demanda": 18
+    },
+    {
+      "id": "C_077",
+      "latitud": 46.8132,
+      "longitud": -71.2156,
+      "demanda": 8
+    },
+    {
+      "id": "C_078",
+      "latitud": 46.8101,
+      "longitud": -71.2939,
+      "demanda": 10
+    },
+    {
+      "id": "C_079",
+      "latitud": 46.8552,
+      "longitud": -71.2349,
+      "demanda": 16
+    },
+    {
+      "id": "C_080",
+      "latitud": 46.7739,
+      "longitud": -71.2985,
+      "demanda": 26
+    },
+    {
+      "id": "C_081",
+      "latitud": 46.7779,
+      "longitud": -71.1993,
+      "demanda": 31
+    },
+    {
+      "id": "C_082",
+      "latitud": 46.8156,
+      "longitud": -71.2257,
+      "demanda": 29
+    },
+    {
+      "id": "C_083",
+      "latitud": 46.8182,
+      "longitud": -71.2125,
+      "demanda": 19
+    },
+    {
+      "id": "C_084",
+      "latitud": 46.8616,
+      "longitud": -71.1871,
+      "demanda": 24
+    },
+    {
+      "id": "C_085",
+      "latitud": 46.7403,
+      "longitud": -71.2216,
+      "demanda": 18
+    },
+    {
+      "id": "C_086",
+      "latitud": 46.8191,
+      "longitud": -71.2194,
+      "demanda": 17
+    },
+    {
+      "id": "C_087",
+      "latitud": 46.8535,
+      "longitud": -71.2383,
+      "demanda": 30
+    },
+    {
+      "id": "C_088",
+      "latitud": 46.8246,
+      "longitud": -71.245,
+      "demanda": 22
+    },
+    {
+      "id": "C_089",
+      "latitud": 46.7363,
+      "longitud": -71.2123,
+      "demanda": 26
+    },
+    {
+      "id": "C_090",
+      "latitud": 46.8358,
+      "longitud": -71.2105,
+      "demanda": 8
+    },
+    {
+      "id": "C_091",
+      "latitud": 46.8679,
+      "longitud": -71.1682,
+      "demanda": 32
+    },
+    {
+      "id": "C_092",
+      "latitud": 46.8527,
+      "longitud": -71.256,
+      "demanda": 17
+    },
+    {
+      "id": "C_093",
+      "latitud": 46.8611,
+      "longitud": -71.2507,
+      "demanda": 15
+    },
+    {
+      "id": "C_094",
+      "latitud": 46.8204,
+      "longitud": -71.2494,
+      "demanda": 10
+    },
+    {
+      "id": "C_095",
+      "latitud": 46.8698,
+      "longitud": -71.1648,
+      "demanda": 11
+    },
+    {
+      "id": "C_096",
+      "latitud": 46.8549,
+      "longitud": -71.2588,
+      "demanda": 26
+    },
+    {
+      "id": "C_097",
+      "latitud": 46.8222,
+      "longitud": -71.2215,
+      "demanda": 15
+    },
+    {
+      "id": "C_098",
+      "latitud": 46.8559,
+      "longitud": -71.2445,
+      "demanda": 9
+    },
+    {
+      "id": "C_099",
+      "latitud": 46.8127,
+      "longitud": -71.2177,
+      "demanda": 19
+    },
+    {
+      "id": "C_100",
+      "latitud": 46.8164,
+      "longitud": -71.2022,
+      "demanda": 32
+    }
+  ],
+  "estaciones_de_carga": [
+    {
+      "id": "10001",
+      "nombre": "BRCC - Lévis - St Hubert",
+      "latitud": 46.7967,
+      "longitud": -71.1769,
+      "conectores": "CHADEMO J1772COMBO",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "DCFC_AFDC"
+    },
+    {
+      "id": "10002",
+      "nombre": "BRCC - AFF - Station-service Wendake",
+      "latitud": 46.8616,
+      "longitud": -71.3561,
+      "conectores": "CHADEMO J1772COMBO",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "DCFC_AFDC"
+    },
+    {
+      "id": "10003",
+      "nombre": "Canadian Tire - Beauport",
+      "latitud": 46.8722,
+      "longitud": -71.2016,
+      "conectores": "J1772COMBO",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "DCFC_AFDC"
+    },
+    {
+      "id": "10004",
+      "nombre": "BRCC - AddÉnergie",
+      "latitud": 46.7912,
+      "longitud": -71.2873,
+      "conectores": "CHADEMO J1772COMBO",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "DCFC_AFDC"
+    },
+    {
+      "id": "10005",
+      "nombre": "BRCC - Orsainville - Couche-Tard - Henri Bourassa",
+      "latitud": 46.8797,
+      "longitud": -71.2863,
+      "conectores": "CHADEMO J1772COMBO",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "DCFC_AFDC"
+    },
+    {
+      "id": "10006",
+      "nombre": "BRCC - CAA Québec",
+      "latitud": 46.8374,
+      "longitud": -71.2693,
+      "conectores": "CHADEMO J1772COMBO",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "DCFC_AFDC"
+    },
+    {
+      "id": "10007",
+      "nombre": "RECHARGECO LES SAULES 01",
+      "latitud": 46.8176,
+      "longitud": -71.3333,
+      "conectores": "J1772COMBO",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "DCFC_AFDC"
+    },
+    {
+      "id": "10008",
+      "nombre": "RECHARGECO CHAUVEAU 01",
+      "latitud": 46.8429,
+      "longitud": -71.3267,
+      "conectores": "J1772COMBO",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "DCFC_AFDC"
+    },
+    {
+      "id": "10009",
+      "nombre": "BRCC - Québec - George-Muir",
+      "latitud": 46.8959,
+      "longitud": -71.3153,
+      "conectores": "CHADEMO J1772COMBO",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "DCFC_AFDC"
+    },
+    {
+      "id": "10010",
+      "nombre": "BRCC - Québec - A&W",
+      "latitud": 46.8163,
+      "longitud": -71.2498,
+      "conectores": "J1772COMBO",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "DCFC_AFDC"
+    },
+    {
+      "id": "10011",
+      "nombre": "BRCC - Lévis - Kennedy - Normandin",
+      "latitud": 46.7792,
+      "longitud": -71.1547,
+      "conectores": "CHADEMO J1772COMBO",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "DCFC_AFDC"
+    },
+    {
+      "id": "10012",
+      "nombre": "BRCC - Galeries de la Capitale 2",
+      "latitud": 46.8293,
+      "longitud": -71.2988,
+      "conectores": "CHADEMO J1772COMBO",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "DCFC_AFDC"
+    }
+  ]
+}

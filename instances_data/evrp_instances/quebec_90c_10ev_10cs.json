@@ -1,0 +1,644 @@
+{
+  "problema": {
+    "total_vehiculos": 10,
+    "capacidad_vehiculo": 180
+  },
+  "deposito": {
+    "latitud": 46.3432,
+    "longitud": -72.5432
+  },
+  "clientes": [
+    {
+      "id": "C_001",
+      "latitud": 46.3567,
+      "longitud": -72.5123,
+      "demanda": 15
+    },
+    {
+      "id": "C_002",
+      "latitud": 46.3289,
+      "longitud": -72.5678,
+      "demanda": 18
+    },
+    {
+      "id": "C_003",
+      "latitud": 46.3623,
+      "longitud": -72.5345,
+      "demanda": 12
+    },
+    {
+      "id": "C_004",
+      "latitud": 46.3178,
+      "longitud": -72.589,
+      "demanda": 22
+    },
+    {
+      "id": "C_005",
+      "latitud": 46.3712,
+      "longitud": -72.5012,
+      "demanda": 10
+    },
+    {
+      "id": "C_006",
+      "latitud": 46.3345,
+      "longitud": -72.5567,
+      "demanda": 25
+    },
+    {
+      "id": "C_007",
+      "latitud": 46.3089,
+      "longitud": -72.5234,
+      "demanda": 14
+    },
+    {
+      "id": "C_008",
+      "latitud": 46.3478,
+      "longitud": -72.5789,
+      "demanda": 20
+    },
+    {
+      "id": "C_009",
+      "latitud": 46.3634,
+      "longitud": -72.5456,
+      "demanda": 17
+    },
+    {
+      "id": "C_010",
+      "latitud": 46.3234,
+      "longitud": -72.5123,
+      "demanda": 23
+    },
+    {
+      "id": "C_011",
+      "latitud": 46.3756,
+      "longitud": -72.5678,
+      "demanda": 11
+    },
+    {
+      "id": "C_012",
+      "latitud": 46.3123,
+      "longitud": -72.5345,
+      "demanda": 28
+    },
+    {
+      "id": "C_013",
+      "latitud": 46.3512,
+      "longitud": -72.589,
+      "demanda": 13
+    },
+    {
+      "id": "C_014",
+      "latitud": 46.3378,
+      "longitud": -72.5012,
+      "demanda": 19
+    },
+    {
+      "id": "C_015",
+      "latitud": 46.3689,
+      "longitud": -72.5567,
+      "demanda": 16
+    },
+    {
+      "id": "C_016",
+      "latitud": 46.3045,
+      "longitud": -72.5234,
+      "demanda": 24
+    },
+    {
+      "id": "C_017",
+      "latitud": 46.3545,
+      "longitud": -72.5789,
+      "demanda": 9
+    },
+    {
+      "id": "C_018",
+      "latitud": 46.3267,
+      "longitud": -72.5456,
+      "demanda": 21
+    },
+    {
+      "id": "C_019",
+      "latitud": 46.3623,
+      "longitud": -72.5123,
+      "demanda": 15
+    },
+    {
+      "id": "C_020",
+      "latitud": 46.3189,
+      "longitud": -72.5678,
+      "demanda": 18
+    },
+    {
+      "id": "C_021",
+      "latitud": 46.3734,
+      "longitud": -72.5345,
+      "demanda": 20
+    },
+    {
+      "id": "C_022",
+      "latitud": 46.3056,
+      "longitud": -72.5012,
+      "demanda": 14
+    },
+    {
+      "id": "C_023",
+      "latitud": 46.3412,
+      "longitud": -72.5567,
+      "demanda": 26
+    },
+    {
+      "id": "C_024",
+      "latitud": 46.3678,
+      "longitud": -72.5234,
+      "demanda": 11
+    },
+    {
+      "id": "C_025",
+      "latitud": 46.3145,
+      "longitud": -72.5789,
+      "demanda": 30
+    },
+    {
+      "id": "C_026",
+      "latitud": 46.3589,
+      "longitud": -72.5456,
+      "demanda": 16
+    },
+    {
+      "id": "C_027",
+      "latitud": 46.3312,
+      "longitud": -72.5123,
+      "demanda": 22
+    },
+    {
+      "id": "C_028",
+      "latitud": 46.3845,
+      "longitud": -72.5678,
+      "demanda": 8
+    },
+    {
+      "id": "C_029",
+      "latitud": 46.3234,
+      "longitud": -72.5345,
+      "demanda": 25
+    },
+    {
+      "id": "C_030",
+      "latitud": 46.3467,
+      "longitud": -72.5012,
+      "demanda": 17
+    },
+    {
+      "id": "C_031",
+      "latitud": 46.3712,
+      "longitud": -72.5567,
+      "demanda": 13
+    },
+    {
+      "id": "C_032",
+      "latitud": 46.3089,
+      "longitud": -72.5234,
+      "demanda": 29
+    },
+    {
+      "id": "C_033",
+      "latitud": 46.3534,
+      "longitud": -72.589,
+      "demanda": 10
+    },
+    {
+      "id": "C_034",
+      "latitud": 46.3278,
+      "longitud": -72.5456,
+      "demanda": 23
+    },
+    {
+      "id": "C_035",
+      "latitud": 46.3645,
+      "longitud": -72.5123,
+      "demanda": 18
+    },
+    {
+      "id": "C_036",
+      "latitud": 46.3167,
+      "longitud": -72.5678,
+      "demanda": 15
+    },
+    {
+      "id": "C_037",
+      "latitud": 46.3423,
+      "longitud": -72.5345,
+      "demanda": 27
+    },
+    {
+      "id": "C_038",
+      "latitud": 46.3756,
+      "longitud": -72.5012,
+      "demanda": 9
+    },
+    {
+      "id": "C_039",
+      "latitud": 46.3312,
+      "longitud": -72.5567,
+      "demanda": 21
+    },
+    {
+      "id": "C_040",
+      "latitud": 46.3589,
+      "longitud": -72.5234,
+      "demanda": 16
+    },
+    {
+      "id": "C_041",
+      "latitud": 46.3834,
+      "longitud": -72.589,
+      "demanda": 12
+    },
+    {
+      "id": "C_042",
+      "latitud": 46.3123,
+      "longitud": -72.5456,
+      "demanda": 24
+    },
+    {
+      "id": "C_043",
+      "latitud": 46.3478,
+      "longitud": -72.5123,
+      "demanda": 19
+    },
+    {
+      "id": "C_044",
+      "latitud": 46.3712,
+      "longitud": -72.5678,
+      "demanda": 14
+    },
+    {
+      "id": "C_045",
+      "latitud": 46.3045,
+      "longitud": -72.5345,
+      "demanda": 28
+    },
+    {
+      "id": "C_046",
+      "latitud": 46.3367,
+      "longitud": -72.5012,
+      "demanda": 11
+    },
+    {
+      "id": "C_047",
+      "latitud": 46.3623,
+      "longitud": -72.5567,
+      "demanda": 20
+    },
+    {
+      "id": "C_048",
+      "latitud": 46.3289,
+      "longitud": -72.5234,
+      "demanda": 17
+    },
+    {
+      "id": "C_049",
+      "latitud": 46.3545,
+      "longitud": -72.589,
+      "demanda": 22
+    },
+    {
+      "id": "C_050",
+      "latitud": 46.3178,
+      "longitud": -72.5456,
+      "demanda": 13
+    },
+    {
+      "id": "C_051",
+      "latitud": 46.3789,
+      "longitud": -72.5123,
+      "demanda": 26
+    },
+    {
+      "id": "C_052",
+      "latitud": 46.3234,
+      "longitud": -72.5678,
+      "demanda": 10
+    },
+    {
+      "id": "C_053",
+      "latitud": 46.3512,
+      "longitud": -72.5345,
+      "demanda": 18
+    },
+    {
+      "id": "C_054",
+      "latitud": 46.3756,
+      "longitud": -72.5012,
+      "demanda": 15
+    },
+    {
+      "id": "C_055",
+      "latitud": 46.3089,
+      "longitud": -72.5567,
+      "demanda": 23
+    },
+    {
+      "id": "C_056",
+      "latitud": 46.3434,
+      "longitud": -72.5234,
+      "demanda": 20
+    },
+    {
+      "id": "C_057",
+      "latitud": 46.3678,
+      "longitud": -72.589,
+      "demanda": 9
+    },
+    {
+      "id": "C_058",
+      "latitud": 46.3156,
+      "longitud": -72.5456,
+      "demanda": 27
+    },
+    {
+      "id": "C_059",
+      "latitud": 46.3423,
+      "longitud": -72.5123,
+      "demanda": 14
+    },
+    {
+      "id": "C_060",
+      "latitud": 46.3712,
+      "longitud": -72.5678,
+      "demanda": 21
+    },
+    {
+      "id": "C_061",
+      "latitud": 46.3045,
+      "longitud": -72.5345,
+      "demanda": 16
+    },
+    {
+      "id": "C_062",
+      "latitud": 46.3367,
+      "longitud": -72.5012,
+      "demanda": 25
+    },
+    {
+      "id": "C_063",
+      "latitud": 46.3623,
+      "longitud": -72.5567,
+      "demanda": 12
+    },
+    {
+      "id": "C_064",
+      "latitud": 46.3289,
+      "longitud": -72.5234,
+      "demanda": 19
+    },
+    {
+      "id": "C_065",
+      "latitud": 46.3534,
+      "longitud": -72.589,
+      "demanda": 22
+    },
+    {
+      "id": "C_066",
+      "latitud": 46.3178,
+      "longitud": -72.5456,
+      "demanda": 17
+    },
+    {
+      "id": "C_067",
+      "latitud": 46.3756,
+      "longitud": -72.5123,
+      "demanda": 11
+    },
+    {
+      "id": "C_068",
+      "latitud": 46.3312,
+      "longitud": -72.5678,
+      "demanda": 28
+    },
+    {
+      "id": "C_069",
+      "latitud": 46.3589,
+      "longitud": -72.5345,
+      "demanda": 8
+    },
+    {
+      "id": "C_070",
+      "latitud": 46.3123,
+      "longitud": -72.5012,
+      "demanda": 24
+    },
+    {
+      "id": "C_071",
+      "latitud": 46.3445,
+      "longitud": -72.5567,
+      "demanda": 15
+    },
+    {
+      "id": "C_072",
+      "latitud": 46.3689,
+      "longitud": -72.5234,
+      "demanda": 20
+    },
+    {
+      "id": "C_073",
+      "latitud": 46.3234,
+      "longitud": -72.589,
+      "demanda": 18
+    },
+    {
+      "id": "C_074",
+      "latitud": 46.3512,
+      "longitud": -72.5456,
+      "demanda": 13
+    },
+    {
+      "id": "C_075",
+      "latitud": 46.3845,
+      "longitud": -72.5123,
+      "demanda": 26
+    },
+    {
+      "id": "C_076",
+      "latitud": 46.3167,
+      "longitud": -72.5678,
+      "demanda": 10
+    },
+    {
+      "id": "C_077",
+      "latitud": 46.3423,
+      "longitud": -72.5345,
+      "demanda": 22
+    },
+    {
+      "id": "C_078",
+      "latitud": 46.3712,
+      "longitud": -72.5012,
+      "demanda": 16
+    },
+    {
+      "id": "C_079",
+      "latitud": 46.3056,
+      "longitud": -72.5567,
+      "demanda": 29
+    },
+    {
+      "id": "C_080",
+      "latitud": 46.3378,
+      "longitud": -72.5234,
+      "demanda": 12
+    },
+    {
+      "id": "C_081",
+      "latitud": 46.3634,
+      "longitud": -72.589,
+      "demanda": 19
+    },
+    {
+      "id": "C_082",
+      "latitud": 46.3289,
+      "longitud": -72.5456,
+      "demanda": 23
+    },
+    {
+      "id": "C_083",
+      "latitud": 46.3545,
+      "longitud": -72.5123,
+      "demanda": 14
+    },
+    {
+      "id": "C_084",
+      "latitud": 46.3178,
+      "longitud": -72.5678,
+      "demanda": 27
+    },
+    {
+      "id": "C_085",
+      "latitud": 46.3467,
+      "longitud": -72.5345,
+      "demanda": 11
+    },
+    {
+      "id": "C_086",
+      "latitud": 46.3712,
+      "longitud": -72.5012,
+      "demanda": 21
+    },
+    {
+      "id": "C_087",
+      "latitud": 46.3089,
+      "longitud": -72.5567,
+      "demanda": 17
+    },
+    {
+      "id": "C_088",
+      "latitud": 46.3412,
+      "longitud": -72.5234,
+      "demanda": 24
+    },
+    {
+      "id": "C_089",
+      "latitud": 46.3756,
+      "longitud": -72.589,
+      "demanda": 9
+    },
+    {
+      "id": "C_090",
+      "latitud": 46.3234,
+      "longitud": -72.5456,
+      "demanda": 20
+    }
+  ],
+  "estaciones_de_carga": [
+    {
+      "id": "10001",
+      "nombre": "Borne Trois-Rivières Centre",
+      "latitud": 46.3456,
+      "longitud": -72.5456,
+      "conectores": "J1772",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "MUNI_GOV"
+    },
+    {
+      "id": "10002",
+      "nombre": "Recharge EV Cap-de-la-Madeleine",
+      "latitud": 46.3712,
+      "longitud": -72.5123,
+      "conectores": "J1772",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "HOTEL"
+    },
+    {
+      "id": "10003",
+      "nombre": "Station Rapide Trois-Rivières Ouest",
+      "latitud": 46.3178,
+      "longitud": -72.589,
+      "conectores": "CHADEMO J1772COMBO",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "CAR_DEALER"
+    },
+    {
+      "id": "10004",
+      "nombre": "Circuit Électrique Shawinigan Sud",
+      "latitud": 46.3845,
+      "longitud": -72.5345,
+      "conectores": "J1772",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "RETAIL"
+    },
+    {
+      "id": "10005",
+      "nombre": "Borne IGA Trois-Rivières",
+      "latitud": 46.3089,
+      "longitud": -72.5234,
+      "conectores": "J1772",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "RETAIL"
+    },
+    {
+      "id": "10006",
+      "nombre": "Recharge Hôtel Delta TR",
+      "latitud": 46.3534,
+      "longitud": -72.5678,
+      "conectores": "J1772",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "HOTEL"
+    },
+    {
+      "id": "10007",
+      "nombre": "Station EV Université UQTR",
+      "latitud": 46.3623,
+      "longitud": -72.5012,
+      "conectores": "J1772",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "MUNI_GOV"
+    },
+    {
+      "id": "10008",
+      "nombre": "Borne Saint-Louis-de-France",
+      "latitud": 46.3289,
+      "longitud": -72.5567,
+      "conectores": "J1772",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "RESTAURANT"
+    },
+    {
+      "id": "10009",
+      "nombre": "Circuit Électrique Yamachiche",
+      "latitud": 46.3067,
+      "longitud": -72.589,
+      "conectores": "J1772",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "BANK"
+    },
+    {
+      "id": "10010",
+      "nombre": "Station Rapide Bécancour",
+      "latitud": 46.3756,
+      "longitud": -72.5234,
+      "conectores": "CHADEMO J1772COMBO",
+      "tipo_acceso": "public",
+      "tipo_instalacion": "CAR_DEALER"
+    }
+  ]
+}

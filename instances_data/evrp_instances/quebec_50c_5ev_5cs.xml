@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<evrp_instance>
+  <problema total_vehiculos="5" capacidad_vehiculo="250"/>
+  <deposito latitud="46.3432" longitud="-72.5432"/>
+  <clientes>
+    <cliente id="C_001" latitud="46.3344" longitud="-72.584" demanda="13"/>
+    <cliente id="C_002" latitud="46.3153" longitud="-72.5927" demanda="10"/>
+    <cliente id="C_003" latitud="46.3176" longitud="-72.5602" demanda="29"/>
+    <cliente id="C_004" latitud="46.3671" longitud="-72.5983" demanda="27"/>
+    <cliente id="C_005" latitud="46.3438" longitud="-72.5552" demanda="27"/>
+    <cliente id="C_006" latitud="46.3547" longitud="-72.507" demanda="19"/>
+    <cliente id="C_007" latitud="46.3805" longitud="-72.498" demanda="14"/>
+    <cliente id="C_008" latitud="46.3068" longitud="-72.5241" demanda="26"/>
+    <cliente id="C_009" latitud="46.3273" longitud="-72.4869" demanda="24"/>
+    <cliente id="C_010" latitud="46.3645" longitud="-72.5986" demanda="18"/>
+    <cliente id="C_011" latitud="46.3343" longitud="-72.575" demanda="8"/>
+    <cliente id="C_012" latitud="46.3368" longitud="-72.5629" demanda="25"/>
+    <cliente id="C_013" latitud="46.2989" longitud="-72.5426" demanda="14"/>
+    <cliente id="C_014" latitud="46.3566" longitud="-72.483" demanda="19"/>
+    <cliente id="C_015" latitud="46.3042" longitud="-72.4862" demanda="30"/>
+    <cliente id="C_016" latitud="46.3077" longitud="-72.5071" demanda="27"/>
+    <cliente id="C_017" latitud="46.3917" longitud="-72.5869" demanda="24"/>
+    <cliente id="C_018" latitud="46.3626" longitud="-72.6052" demanda="8"/>
+    <cliente id="C_019" latitud="46.3088" longitud="-72.5211" demanda="21"/>
+    <cliente id="C_020" latitud="46.2989" longitud="-72.5547" demanda="10"/>
+    <cliente id="C_021" latitud="46.3057" longitud="-72.5297" demanda="20"/>
+    <cliente id="C_022" latitud="46.3263" longitud="-72.542" demanda="14"/>
+    <cliente id="C_023" latitud="46.389" longitud="-72.4834" demanda="28"/>
+    <cliente id="C_024" latitud="46.3133" longitud="-72.5765" demanda="20"/>
+    <cliente id="C_025" latitud="46.3808" longitud="-72.5936" demanda="30"/>
+    <cliente id="C_026" latitud="46.3424" longitud="-72.6027" demanda="30"/>
+    <cliente id="C_027" latitud="46.356" longitud="-72.5129" demanda="27"/>
+    <cliente id="C_028" latitud="46.3935" longitud="-72.5938" demanda="11"/>
+    <cliente id="C_029" latitud="46.3058" longitud="-72.5874" demanda="13"/>
+    <cliente id="C_030" latitud="46.3351" longitud="-72.4899" demanda="25"/>
+    <cliente id="C_031" latitud="46.3251" longitud="-72.5451" demanda="15"/>
+    <cliente id="C_032" latitud="46.3831" longitud="-72.5948" demanda="19"/>
+    <cliente id="C_033" latitud="46.3105" longitud="-72.6006" demanda="17"/>
+    <cliente id="C_034" latitud="46.2912" longitud="-72.5018" demanda="18"/>
+    <cliente id="C_035" latitud="46.3138" longitud="-72.5581" demanda="20"/>
+    <cliente id="C_036" latitud="46.3325" longitud="-72.5042" demanda="25"/>
+    <cliente id="C_037" latitud="46.3002" longitud="-72.4957" demanda="19"/>
+    <cliente id="C_038" latitud="46.3694" longitud="-72.5582" demanda="22"/>
+    <cliente id="C_039" latitud="46.3153" longitud="-72.499" demanda="15"/>
+    <cliente id="C_040" latitud="46.3619" longitud="-72.5696" demanda="30"/>
+    <cliente id="C_041" latitud="46.3693" longitud="-72.5816" demanda="30"/>
+    <cliente id="C_042" latitud="46.3642" longitud="-72.5775" demanda="17"/>
+    <cliente id="C_043" latitud="46.3382" longitud="-72.4853" demanda="22"/>
+    <cliente id="C_044" latitud="46.3363" longitud="-72.492" demanda="10"/>
+    <cliente id="C_045" latitud="46.3453" longitud="-72.4921" demanda="18"/>
+    <cliente id="C_046" latitud="46.3767" longitud="-72.5407" demanda="16"/>
+    <cliente id="C_047" latitud="46.3374" longitud="-72.5722" demanda="29"/>
+    <cliente id="C_048" latitud="46.3809" longitud="-72.5893" demanda="20"/>
+    <cliente id="C_049" latitud="46.3646" longitud="-72.5314" demanda="27"/>
+    <cliente id="C_050" latitud="46.3633" longitud="-72.5528" demanda="20"/>
+  </clientes>
+  <estaciones_de_carga>
+    <estacion id="10001" nombre="Borne Trois-Rivieres Centre" latitud="46.3456" longitud="-72.5456" conectores="J1772" tipo_acceso="public" tipo_instalacion="MUNI_GOV"/>
+    <estacion id="10002" nombre="Recharge EV Cap-de-la-Madeleine" latitud="46.3712" longitud="-72.5123" conectores="J1772" tipo_acceso="public" tipo_instalacion="HOTEL"/>
+    <estacion id="10003" nombre="Station Rapide TR Ouest" latitud="46.3178" longitud="-72.589" conectores="CHADEMO J1772COMBO" tipo_acceso="public" tipo_instalacion="CAR_DEALER"/>
+    <estacion id="10004" nombre="Circuit Electrique Shawinigan Sud" latitud="46.3845" longitud="-72.5345" conectores="J1772" tipo_acceso="public" tipo_instalacion="RETAIL"/>
+    <estacion id="10005" nombre="Borne IGA Trois-Rivieres" latitud="46.3089" longitud="-72.5234" conectores="J1772" tipo_acceso="public" tipo_instalacion="RESTAURANT"/>
+  </estaciones_de_carga>
+</evrp_instance>

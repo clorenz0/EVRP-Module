@@ -14,7 +14,7 @@ class InstanceType(Enum):
     EVRP = 'evrp'
 
 
-EVRP_EXTENSIONS = ('.txt', '.xml', '.csv')
+EVRP_EXTENSIONS = ('.txt', '.xml', '.csv', '.json')
 
 
 def process_files(instance_type, distance_type: DistanceType = None, vehicle_max_time=None, vehicle_speed=None, vehicle_maximum_travel_distance=None, path=None, integer=False):

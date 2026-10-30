@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<evrp_instance>
+  <problema total_vehiculos="8" capacidad_vehiculo="200"/>
+  <deposito latitud="46.8139" longitud="-71.208"/>
+  <clientes>
+    <cliente id="C_001" latitud="46.8275" longitud="-71.2967" demanda="16"/>
+    <cliente id="C_002" latitud="46.792" longitud="-71.2819" demanda="11"/>
+    <cliente id="C_003" latitud="46.8309" longitud="-71.184" demanda="10"/>
+    <cliente id="C_004" latitud="46.8231" longitud="-71.2959" demanda="10"/>
+    <cliente id="C_005" latitud="46.7897" longitud="-71.2343" demanda="8"/>
+    <cliente id="C_006" latitud="46.8205" longitud="-71.2069" demanda="30"/>
+    <cliente id="C_007" latitud="46.819" longitud="-71.2713" demanda="26"/>
+    <cliente id="C_008" latitud="46.795" longitud="-71.187" demanda="13"/>
+    <cliente id="C_009" latitud="46.8328" longitud="-71.2558" demanda="12"/>
+    <cliente id="C_010" latitud="46.7894" longitud="-71.2007" demanda="11"/>
+    <cliente id="C_011" latitud="46.7783" longitud="-71.2874" demanda="19"/>
+    <cliente id="C_012" latitud="46.8243" longitud="-71.1951" demanda="22"/>
+    <cliente id="C_013" latitud="46.8183" longitud="-71.1735" demanda="20"/>
+    <cliente id="C_014" latitud="46.7771" longitud="-71.2619" demanda="28"/>
+    <cliente id="C_015" latitud="46.8257" longitud="-71.188" demanda="26"/>
+    <cliente id="C_016" latitud="46.7873" longitud="-71.291" demanda="29"/>
+    <cliente id="C_017" latitud="46.7905" longitud="-71.2624" demanda="10"/>
+    <cliente id="C_018" latitud="46.847" longitud="-71.1874" demanda="20"/>
+    <cliente id="C_019" latitud="46.795" longitud="-71.2174" demanda="19"/>
+    <cliente id="C_020" latitud="46.7846" longitud="-71.2538" demanda="29"/>
+    <cliente id="C_021" latitud="46.794" longitud="-71.1782" demanda="28"/>
+    <cliente id="C_022" latitud="46.7764" longitud="-71.2175" demanda="25"/>
+    <cliente id="C_023" latitud="46.8356" longitud="-71.2788" demanda="20"/>
+    <cliente id="C_024" latitud="46.7943" longitud="-71.1797" demanda="30"/>
+    <cliente id="C_025" latitud="46.8201" longitud="-71.211" demanda="9"/>
+    <cliente id="C_026" latitud="46.7906" longitud="-71.2958" demanda="18"/>
+    <cliente id="C_027" latitud="46.8061" longitud="-71.2914" demanda="26"/>
+    <cliente id="C_028" latitud="46.8489" longitud="-71.2591" demanda="28"/>
+    <cliente id="C_029" latitud="46.8149" longitud="-71.185" demanda="28"/>
+    <cliente id="C_030" latitud="46.8113" longitud="-71.2656" demanda="15"/>
+    <cliente id="C_031" latitud="46.837" longitud="-71.2299" demanda="26"/>
+    <cliente id="C_032" latitud="46.8086" longitud="-71.2241" demanda="19"/>
+    <cliente id="C_033" latitud="46.7897" longitud="-71.1703" demanda="24"/>
+    <cliente id="C_034" latitud="46.8144" longitud="-71.2017" demanda="11"/>
+    <cliente id="C_035" latitud="46.7838" longitud="-71.2792" demanda="29"/>
+    <cliente id="C_036" latitud="46.808" longitud="-71.2917" demanda="20"/>
+    <cliente id="C_037" latitud="46.8236" longitud="-71.2392" demanda="16"/>
+    <cliente id="C_038" latitud="46.8574" longitud="-71.1881" demanda="8"/>
+    <cliente id="C_039" latitud="46.8312" longitud="-71.2851" demanda="25"/>
+    <cliente id="C_040" latitud="46.8376" longitud="-71.2001" demanda="18"/>
+    <cliente id="C_041" latitud="46.78" longitud="-71.2435" demanda="22"/>
+    <cliente id="C_042" latitud="46.7703" longitud="-71.2061" demanda="16"/>
+    <cliente id="C_043" latitud="46.8575" longitud="-71.2009" demanda="24"/>
+    <cliente id="C_044" latitud="46.8521" longitud="-71.1868" demanda="17"/>
+    <cliente id="C_045" latitud="46.8458" longitud="-71.234" demanda="14"/>
+    <cliente id="C_046" latitud="46.7838" longitud="-71.2009" demanda="25"/>
+    <cliente id="C_047" latitud="46.8558" longitud="-71.1801" demanda="8"/>
+    <cliente id="C_048" latitud="46.8239" longitud="-71.2365" demanda="11"/>
+    <cliente id="C_049" latitud="46.8536" longitud="-71.1858" demanda="17"/>
+    <cliente id="C_050" latitud="46.7916" longitud="-71.2687" demanda="26"/>
+    <cliente id="C_051" latitud="46.8552" longitud="-71.2889" demanda="23"/>
+    <cliente id="C_052" latitud="46.8434" longitud="-71.1729" demanda="25"/>
+    <cliente id="C_053" latitud="46.8389" longitud="-71.2833" demanda="23"/>
+    <cliente id="C_054" latitud="46.8552" longitud="-71.2785" demanda="24"/>
+    <cliente id="C_055" latitud="46.8485" longitud="-71.245" demanda="14"/>
+    <cliente id="C_056" latitud="46.8536" longitud="-71.2018" demanda="30"/>
+    <cliente id="C_057" latitud="46.7881" longitud="-71.2595" demanda="29"/>
+    <cliente id="C_058" latitud="46.8285" longitud="-71.243" demanda="24"/>
+    <cliente id="C_059" latitud="46.8106" longitud="-71.2678" demanda="10"/>
+    <cliente id="C_060" latitud="46.8004" longitud="-71.2235" demanda="15"/>
+  </clientes>
+  <estaciones_de_carga>
+    <estacion id="10001" nombre="Borne Rapide Haute-Ville" latitud="46.8167" longitud="-71.208" conectores="CHADEMO J1772COMBO" tipo_acceso="public" tipo_instalacion="MUNI_GOV"/>
+    <estacion id="10002" nombre="Station IGA Sainte-Foy" latitud="46.7923" longitud="-71.2567" conectores="J1772" tipo_acceso="public" tipo_instalacion="RETAIL"/>
+    <estacion id="10003" nombre="EV Charging Hotel Quebec" latitud="46.8123" longitud="-71.2045" conectores="J1772" tipo_acceso="public" tipo_instalacion="HOTEL"/>
+    <estacion id="10004" nombre="Recharge Saint-Roch" latitud="46.8056" longitud="-71.2234" conectores="J1772" tipo_acceso="public" tipo_instalacion="RESTAURANT"/>
+    <estacion id="10005" nombre="Borne IKEA Beauport" latitud="46.8389" longitud="-71.1898" conectores="J1772" tipo_acceso="public" tipo_instalacion="RETAIL"/>
+    <estacion id="10006" nombre="Circuit Electrique Levis" latitud="46.7834" longitud="-71.1987" conectores="CHADEMO J1772COMBO" tipo_acceso="public" tipo_instalacion="CAR_DEALER"/>
+    <estacion id="10007" nombre="Station EV Charlesbourg" latitud="46.8512" longitud="-71.2345" conectores="J1772" tipo_acceso="public" tipo_instalacion="MUNI_GOV"/>
+    <estacion id="10008" nombre="Recharge Limoilou" latitud="46.8234" longitud="-71.2189" conectores="J1772" tipo_acceso="public" tipo_instalacion="BANK"/>
+  </estaciones_de_carga>
+</evrp_instance>
