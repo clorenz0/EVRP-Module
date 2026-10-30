@@ -1,0 +1,325 @@
+Instance: quebec_220c_26ev_20cs
+Mode: NO FEEDBACK (baseline) -- original plan kept through the congestion event
+Checkpoint: 1200s
+
+Heuristic: SEQUENTIAL_CHEAPEST_INSERTION
+Metaheuristic: GUIDED_LOCAL_SEARCH
+Distance type: osrm
+Objective (original full solution): 718.757
+Vehicle capacity: 210
+Battery capacity: 100.0
+Battery consumption rate: 3.0
+
+Event: congestion at checkpoint 1200s on 1 real edge(s) (speed limit lowered to 2.0 m/s). Target ev_4 -> node 149: travel time 370.4s -> 470.0s (+26.9%), distance 7790m -> 7790m. Verified: impact>=threshold, keys connected=True, no vehicle stranded=True. Affected edges: -892128223#0.
+
+Vehicle ev_0:
+  Original route (full plan from OR-Tools):
+    0 -> 132 -> 235[CS:BRCC AFF - Lavoisier - Lallier Ste-Foy] -> 129 -> 74 -> 204 -> 87 -> 53 -> 7 -> 49 -> 140 -> 235[CS:BRCC AFF - Lavoisier - Lallier Ste-Foy] -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 132 -> 235[CS:BRCC AFF - Lavoisier - Lallier Ste-Foy]          (distance=11.091km, 2 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    235[CS:BRCC AFF - Lavoisier - Lallier Ste-Foy] -> 129 -> 74 -> 204 -> 87 -> 53 -> 7 -> 49 -> 140 -> 235[CS:BRCC AFF - Lavoisier - Lallier Ste-Foy] -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=2907.0s, total distance (before+after)=60.707km
+
+Vehicle ev_1:
+  Original route (full plan from OR-Tools):
+    0 -> 104 -> 170 -> 172 -> 23 -> 224[CS:BRCC - AddÉnergie] -> 116 -> 171 -> 22 -> 169 -> 106 -> 96 -> 133 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 104 -> 170 -> 172          (distance=15.707km, 3 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    172 -> 23 -> 224[CS:BRCC - AddÉnergie] -> 116 -> 171 -> 22 -> 169 -> 106 -> 96 -> 133 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=2991.0s, total distance (before+after)=64.184km
+
+Vehicle ev_2:
+  Original route (full plan from OR-Tools):
+    0 -> 59 -> 150 -> 161 -> 1 -> 37 -> 31 -> 147 -> 40 -> 206 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 59 -> 150 -> 161          (distance=17.398km, 3 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    161 -> 1 -> 37 -> 31 -> 147 -> 40 -> 206 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=1760.0s, total distance (before+after)=53.515km
+
+Vehicle ev_3:
+  Original route (full plan from OR-Tools):
+    0 -> 194 -> 122 -> 98 -> 42 -> 188 -> 164 -> 217 -> 128 -> 178 -> 141 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 194 -> 122 -> 98 -> 42 -> 188          (distance=12.330km, 5 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    188 -> 164 -> 217 -> 128 -> 178 -> 141 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=1438.0s, total distance (before+after)=43.092km
+
+Vehicle ev_4:
+  Original route (full plan from OR-Tools):
+    0 -> 120 -> 166 -> 175 -> 121 -> 33 -> 221[CS:BRCC - Lévis - St Hubert] -> 185 -> 101 -> 11 -> 192 -> 44 -> 47 -> 85 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0          (distance=24.129km, 0 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    0 -> 120 -> 166 -> 175 -> 121 -> 33 -> 221[CS:BRCC - Lévis - St Hubert] -> 185 -> 101 -> 11 -> 192 -> 44 -> 47 -> 85 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=5384.0s, total distance (before+after)=133.492km
+
+Vehicle ev_5:
+  Original route (full plan from OR-Tools):
+    0 -> 36 -> 114 -> 214 -> 27 -> 64 -> 215 -> 220 -> 79 -> 179 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 36 -> 114 -> 214 -> 27          (distance=15.144km, 4 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    27 -> 64 -> 215 -> 220 -> 79 -> 179 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=1393.0s, total distance (before+after)=45.004km
+
+Vehicle ev_6:
+  Original route (full plan from OR-Tools):
+    0 -> 155 -> 6 -> 117 -> 35 -> 58 -> 46 -> 216 -> 88 -> 69 -> 12 -> 151 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 155 -> 6 -> 117 -> 35 -> 58          (distance=12.391km, 5 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    58 -> 46 -> 216 -> 88 -> 69 -> 12 -> 151 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=1607.0s, total distance (before+after)=42.862km
+
+Vehicle ev_7:
+  Original route (full plan from OR-Tools):
+    0 -> 142 -> 190 -> 186 -> 218 -> 174 -> 2 -> 205 -> 28 -> 225[CS:BRCC - Orsainville - Couche-Tard - Henri Bourassa] -> 105 -> 109 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 142 -> 190          (distance=15.711km, 2 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    190 -> 186 -> 218 -> 174 -> 2 -> 205 -> 28 -> 225[CS:BRCC - Orsainville - Couche-Tard - Henri Bourassa] -> 105 -> 109 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=2431.0s, total distance (before+after)=57.552km
+
+Vehicle ev_8:
+  Original route (full plan from OR-Tools):
+    0 -> 29 -> 50 -> 60 -> 163 -> 95 -> 68 -> 92 -> 177 -> 38 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 29 -> 50          (distance=14.237km, 2 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    50 -> 60 -> 163 -> 95 -> 68 -> 92 -> 177 -> 38 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=1605.0s, total distance (before+after)=45.649km
+
+Vehicle ev_9:
+  Original route (full plan from OR-Tools):
+    0 -> 149 -> 57 -> 138 -> 80 -> 20 -> 13 -> 19 -> 136 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0          (distance=17.511km, 0 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    0 -> 149 -> 57 -> 138 -> 80 -> 20 -> 13 -> 19 -> 136 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=3827.0s, total distance (before+after)=89.094km
+
+Vehicle ev_10:
+  Original route (full plan from OR-Tools):
+    0 -> 24 -> 75 -> 15 -> 61 -> 203 -> 115 -> 211 -> 17 -> 32 -> 146 -> 76 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 24 -> 75 -> 15 -> 61 -> 203 -> 115          (distance=15.321km, 6 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    115 -> 211 -> 17 -> 32 -> 146 -> 76 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=1231.0s, total distance (before+after)=49.387km
+
+Vehicle ev_11:
+  Original route (full plan from OR-Tools):
+    0 -> 196 -> 167 -> 148 -> 8 -> 191 -> 30 -> 21 -> 198 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 196 -> 167 -> 148 -> 8 -> 191          (distance=12.998km, 5 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    191 -> 30 -> 21 -> 198 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=911.0s, total distance (before+after)=35.077km
+
+Vehicle ev_12:
+  Original route (full plan from OR-Tools):
+    0 -> 52 -> 176 -> 158 -> 54 -> 219 -> 137 -> 159 -> 112 -> 43 -> 65 -> 66 -> 152 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 52 -> 176 -> 158 -> 54 -> 219 -> 137 -> 159 -> 112 -> 43          (distance=9.277km, 9 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    43 -> 65 -> 66 -> 152 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=446.0s, total distance (before+after)=23.069km
+
+Vehicle ev_13:
+  Original route (full plan from OR-Tools):
+    0 -> 9 -> 41 -> 108 -> 199 -> 162 -> 212 -> 93 -> 107 -> 227[CS:RECHARGECO LES SAULES 01] -> 14 -> 67 -> 77 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 9 -> 41 -> 108 -> 199          (distance=14.474km, 4 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    199 -> 162 -> 212 -> 93 -> 107 -> 227[CS:RECHARGECO LES SAULES 01] -> 14 -> 67 -> 77 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=2306.0s, total distance (before+after)=53.323km
+
+Vehicle ev_14:
+  Original route (full plan from OR-Tools):
+    0 -> 51 -> 5 -> 207 -> 63 -> 119 -> 18 -> 110 -> 160 -> 202 -> 125 -> 82 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 51 -> 5 -> 207 -> 63          (distance=13.550km, 4 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    63 -> 119 -> 18 -> 110 -> 160 -> 202 -> 125 -> 82 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=1926.0s, total distance (before+after)=49.999km
+
+Vehicle ev_15:
+  Original route (full plan from OR-Tools):
+    0 -> 195 -> 25 -> 145 -> 213 -> 231[CS:BRCC - Lévis - Kennedy - Normandin] -> 111 -> 94 -> 39 -> 71 -> 135 -> 153 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0          (distance=18.150km, 0 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    0 -> 195 -> 25 -> 145 -> 213 -> 231[CS:BRCC - Lévis - Kennedy - Normandin] -> 111 -> 94 -> 39 -> 71 -> 135 -> 153 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=5316.0s, total distance (before+after)=114.785km
+
+Vehicle ev_16:
+  Original route (full plan from OR-Tools):
+    0 -> 187 -> 103 -> 237[CS:RECHARGECO BEAUPORT 01] -> 200 -> 83 -> 56 -> 144 -> 84 -> 48 -> 234[CS:BRCC - Beauport - St-Hubert] -> 131 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 187 -> 103 -> 237[CS:RECHARGECO BEAUPORT 01]          (distance=8.764km, 3 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    237[CS:RECHARGECO BEAUPORT 01] -> 200 -> 83 -> 56 -> 144 -> 84 -> 48 -> 234[CS:BRCC - Beauport - St-Hubert] -> 131 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=3710.0s, total distance (before+after)=58.052km
+
+Vehicle ev_17:
+  Original route (full plan from OR-Tools):
+    0 -> 34 -> 157 -> 62 -> 168 -> 143 -> 130 -> 10 -> 139 -> 154 -> 126 -> 182 -> 89 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 34 -> 157 -> 62 -> 168 -> 143          (distance=9.837km, 5 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    143 -> 130 -> 10 -> 139 -> 154 -> 126 -> 182 -> 89 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=1904.0s, total distance (before+after)=44.386km
+
+Vehicle ev_18:
+  Original route (full plan from OR-Tools):
+    0 -> 45 -> 97 -> 156 -> 189 -> 81 -> 99 -> 91 -> 90 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 45 -> 97 -> 156          (distance=9.753km, 3 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    156 -> 189 -> 81 -> 99 -> 91 -> 90 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=1156.0s, total distance (before+after)=31.084km
+
+Vehicle ev_22:
+  Original route (full plan from OR-Tools):
+    0 -> 118 -> 70 -> 102 -> 78 -> 209 -> 180 -> 208 -> 4 -> 127 -> 193 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 118 -> 70 -> 102 -> 78 -> 209          (distance=10.719km, 5 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    209 -> 180 -> 208 -> 4 -> 127 -> 193 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=913.0s, total distance (before+after)=30.398km
+
+Vehicle ev_23:
+  Original route (full plan from OR-Tools):
+    0 -> 181 -> 113 -> 100 -> 16 -> 184 -> 123 -> 210 -> 173 -> 197 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 181 -> 113 -> 100          (distance=9.830km, 3 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    100 -> 16 -> 184 -> 123 -> 210 -> 173 -> 197 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=2009.0s, total distance (before+after)=44.598km
+
+Vehicle ev_25:
+  Original route (full plan from OR-Tools):
+    0 -> 183 -> 134 -> 124 -> 72 -> 55 -> 73 -> 165 -> 3 -> 234[CS:BRCC - Beauport - St-Hubert] -> 201 -> 86 -> 26 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 183 -> 134 -> 124 -> 72          (distance=13.135km, 4 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    72 -> 55 -> 73 -> 165 -> 3 -> 234[CS:BRCC - Beauport - St-Hubert] -> 201 -> 86 -> 26 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=2163.0s, total distance (before+after)=50.765km
+
+Result summary (original plan, same congestion, no re-optimization):
+  ev_0: finished -- extra time=2907.0s, total distance (before+after)=60.707km
+  ev_1: finished -- extra time=2991.0s, total distance (before+after)=64.184km
+  ev_2: finished -- extra time=1760.0s, total distance (before+after)=53.515km
+  ev_3: finished -- extra time=1438.0s, total distance (before+after)=43.092km
+  ev_4: finished -- extra time=5384.0s, total distance (before+after)=133.492km
+  ev_5: finished -- extra time=1393.0s, total distance (before+after)=45.004km
+  ev_6: finished -- extra time=1607.0s, total distance (before+after)=42.862km
+  ev_7: finished -- extra time=2431.0s, total distance (before+after)=57.552km
+  ev_8: finished -- extra time=1605.0s, total distance (before+after)=45.649km
+  ev_9: finished -- extra time=3827.0s, total distance (before+after)=89.094km
+  ev_10: finished -- extra time=1231.0s, total distance (before+after)=49.387km
+  ev_11: finished -- extra time=911.0s, total distance (before+after)=35.077km
+  ev_12: finished -- extra time=446.0s, total distance (before+after)=23.069km
+  ev_13: finished -- extra time=2306.0s, total distance (before+after)=53.323km
+  ev_14: finished -- extra time=1926.0s, total distance (before+after)=49.999km
+  ev_15: finished -- extra time=5316.0s, total distance (before+after)=114.785km
+  ev_16: finished -- extra time=3710.0s, total distance (before+after)=58.052km
+  ev_17: finished -- extra time=1904.0s, total distance (before+after)=44.386km
+  ev_18: finished -- extra time=1156.0s, total distance (before+after)=31.084km
+  ev_22: finished -- extra time=913.0s, total distance (before+after)=30.398km
+  ev_23: finished -- extra time=2009.0s, total distance (before+after)=44.598km
+  ev_25: finished -- extra time=2163.0s, total distance (before+after)=50.765km
+
+TOTAL (finished vehicles only): extra time=49334.0s, total distance=1220.072km

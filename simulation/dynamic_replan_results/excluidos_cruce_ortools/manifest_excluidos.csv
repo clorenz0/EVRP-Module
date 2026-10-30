@@ -1,0 +1,21 @@
+table,n,algo,event,replanner,mode,report
+T13,50,PATH_CHEAPEST_ARC + ACO,accident,ortools,WITH,quebec_50c_5ev_5cs_WITH_feedback_20261028_150147.txt
+T13,50,PATH_CHEAPEST_ARC + ACO,accident,ortools,NO,quebec_50c_5ev_5cs_NO_feedback_20261028_150315.txt
+T13,50,PATH_CHEAPEST_ARC + ACO,closure,ortools,WITH,quebec_50c_5ev_5cs_WITH_feedback_20261028_150617.txt
+T13,50,PATH_CHEAPEST_ARC + ACO,closure,ortools,NO,quebec_50c_5ev_5cs_NO_feedback_20261028_150742.txt
+T13,50,PATH_CHEAPEST_ARC + ACO,congestion,ortools,WITH,quebec_50c_5ev_5cs_WITH_feedback_20261028_151044.txt
+T13,50,PATH_CHEAPEST_ARC + ACO,congestion,ortools,NO,quebec_50c_5ev_5cs_NO_feedback_20261028_151209.txt
+T13,100,PATH_CHEAPEST_ARC + ACO,accident,ortools,WITH,quebec_100c_12ev_12cs_WITH_feedback_20261029_003744.txt
+T13,100,PATH_CHEAPEST_ARC + ACO,accident,ortools,NO,quebec_100c_12ev_12cs_NO_feedback_20261029_004533.txt
+T13,100,PATH_CHEAPEST_ARC + ACO,closure,ortools,WITH,quebec_100c_12ev_12cs_WITH_feedback_20261029_005720.txt
+T13,100,PATH_CHEAPEST_ARC + ACO,closure,ortools,NO,quebec_100c_12ev_12cs_NO_feedback_20261029_010253.txt
+T13,100,PATH_CHEAPEST_ARC + ACO,congestion,ortools,NO,quebec_100c_12ev_12cs_NO_feedback_20261029_011359.txt
+T13,30,PATH_CHEAPEST_ARC + ACO,accident,ortools,WITH,quebec_30c_6ev_4cs_WITH_feedback_20261029_085300.txt
+T13,30,PATH_CHEAPEST_ARC + ACO,accident,ortools,NO,quebec_30c_6ev_4cs_NO_feedback_20261029_090047.txt
+T13,30,PATH_CHEAPEST_ARC + ACO,closure,ortools,WITH,quebec_30c_6ev_4cs_WITH_feedback_20261029_092041.txt
+T13,30,PATH_CHEAPEST_ARC + ACO,closure,ortools,NO,quebec_30c_6ev_4cs_NO_feedback_20261029_092756.txt
+T13,30,PATH_CHEAPEST_ARC + ACO,congestion,ortools,WITH,quebec_30c_6ev_4cs_WITH_feedback_20261029_094727.txt
+T13,30,PATH_CHEAPEST_ARC + ACO,congestion,ortools,NO,quebec_30c_6ev_4cs_NO_feedback_20261029_095444.txt
+T13,40,PATH_CHEAPEST_ARC + ACO,accident,ortools,NO,quebec_40c_4ev_6cs_NO_feedback_20261029_143218.txt
+T13,40,PATH_CHEAPEST_ARC + ACO,closure,ortools,NO,quebec_40c_4ev_6cs_NO_feedback_20261029_144055.txt
+T13,40,PATH_CHEAPEST_ARC + ACO,congestion,ortools,NO,quebec_40c_4ev_6cs_NO_feedback_20261029_144928.txt

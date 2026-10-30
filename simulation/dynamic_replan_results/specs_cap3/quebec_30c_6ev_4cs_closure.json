@@ -1,0 +1,22 @@
+{
+  "kind": "closure",
+  "seed": 1,
+  "checkpoint_s": 1200.0,
+  "vehicle": "ev_0",
+  "target_node": 12,
+  "edges": [
+    "1208866388"
+  ],
+  "params": {},
+  "checks": {
+    "time_before_s": 367.2324944515572,
+    "time_after_s": 510.34125365611766,
+    "dist_before_m": 3874.329999999999,
+    "dist_after_m": 6134.979999999994,
+    "impact_pct": 38.969525128293995,
+    "impact_threshold": 0.2,
+    "keys_connected": true,
+    "none_stranded": true,
+    "candidates_tried": 3
+  }
+}

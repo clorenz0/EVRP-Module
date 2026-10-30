@@ -1,0 +1,73 @@
+Instance: quebec_40c_4ev_6cs
+Mode: NO FEEDBACK (baseline) -- original plan kept through the congestion event
+Checkpoint: 1200s
+
+Heuristic: SEQUENTIAL_CHEAPEST_INSERTION
+Metaheuristic: GUIDED_LOCAL_SEARCH
+Distance type: osrm
+Objective (original full solution): 92.216
+Vehicle capacity: 250
+Battery capacity: 100.0
+Battery consumption rate: 3.0
+
+Event: accident at checkpoint 1200s on 2 real edge(s) (edges blocked for 600.0 s). Target ev_2 -> node 5: travel time 180.0s -> 352.2s (+95.7%), distance 2097m -> 3709m. Verified: impact>=threshold, keys connected=True, no vehicle stranded=True. Affected edges: 26662398#1, 26513333#0.
+
+Vehicle ev_0:
+  Original route (full plan from OR-Tools):
+    0 -> 35 -> 2 -> 24 -> 18 -> 6 -> 12 -> 21 -> 29 -> 40 -> 32 -> 1 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 35 -> 2 -> 24 -> 18 -> 6 -> 12 -> 21          (distance=13.298km, 7 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    21 -> 29 -> 40 -> 32 -> 1 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=871.0s, total distance (before+after)=36.229km
+
+Vehicle ev_1:
+  Original route (full plan from OR-Tools):
+    0 -> 8 -> 44[CS:Recharge Saint-Roch] -> 39 -> 36 -> 7 -> 31 -> 25 -> 13 -> 19 -> 28 -> 4 -> 33 -> 17 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 8 -> 44[CS:Recharge Saint-Roch] -> 39 -> 36 -> 7          (distance=8.218km, 5 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    7 -> 31 -> 25 -> 13 -> 19 -> 28 -> 4 -> 33 -> 17 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=1594.0s, total distance (before+after)=30.632km
+
+Vehicle ev_2:
+  Original route (full plan from OR-Tools):
+    0 -> 15 -> 16 -> 11 -> 34 -> 23 -> 5 -> 37 -> 26 -> 20 -> 9 -> 3 -> 30 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 15 -> 16 -> 11 -> 34 -> 23          (distance=13.105km, 5 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    23 -> 5 -> 37 -> 26 -> 20 -> 9 -> 3 -> 30 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=1894.0s, total distance (before+after)=44.310km
+
+Vehicle ev_3:
+  Original route (full plan from OR-Tools):
+    0 -> 10 -> 22 -> 14 -> 27 -> 38 -> 0
+
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0          (distance=19.808km, 0 stop(s) completed)
+
+  Remaining route, NOT re-planned, executed under congestion:
+    0 -> 10 -> 22 -> 14 -> 27 -> 38 -> 0
+
+  Actual result (simulated in SUMO, original plan unchanged):
+    finished -- extra time=2497.0s, total distance (before+after)=87.080km
+
+Result summary (original plan, same congestion, no re-optimization):
+  ev_0: finished -- extra time=871.0s, total distance (before+after)=36.229km
+  ev_1: finished -- extra time=1594.0s, total distance (before+after)=30.632km
+  ev_2: finished -- extra time=1894.0s, total distance (before+after)=44.310km
+  ev_3: finished -- extra time=2497.0s, total distance (before+after)=87.080km
+
+TOTAL (finished vehicles only): extra time=6856.0s, total distance=198.252km
