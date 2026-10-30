@@ -1,0 +1,100 @@
+Instance: dynamic_replan_quebec_40c_4ev_6cs_20261029_150811.txt
+
+Original routes (before this re-planning event):
+Vehicle ev_0:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 8 -> 39 -> 7 -> 36 -> 31 -> 25 -> 13 -> 19 -> 4 -> 28 -> 33 -> 38 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 8 -> 39 -> 7 -> 36 -> 31 -> 25          (distance=11.539km, 6 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_1:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 15 -> 16 -> 11 -> 34 -> 23 -> 5 -> 37 -> 26 -> 20 -> 9 -> 3 -> 30 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 15 -> 16 -> 11 -> 34          (distance=12.697km, 4 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_2:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 10 -> 22 -> 14 -> 27 -> 17 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0          (distance=18.712km, 0 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Vehicle ev_3:
+  Original route (full plan from OR-Tools, before the event):
+    0 -> 35 -> 2 -> 24 -> 6 -> 18 -> 12 -> 21 -> 29 -> 40 -> 32 -> 1 -> 0
+  Already traveled BEFORE the event (checkpoint 1200s):
+    0 -> 35 -> 2 -> 24 -> 6 -> 18 -> 12 -> 21          (distance=13.091km, 7 stop(s) completed)
+  (the UPDATED route after the event is the 'Route for vehicle' section further below in this file)
+
+Objective: 86.729
+
+Execution Time: 15.014403820037842
+
+Metaheuristic: ACO (368 iteraciones)
+
+Distance type: osrm
+
+Vehicle capacity: 250
+Battery capacity: 100.0
+Battery consumption rate: 3.0
+
+Customers served: 23/23
+Dropped customers: 0
+Feasibility check: PASSED (all customers served, capacity, battery and routing rules satisfied)
+
+Event: closure at checkpoint 1200s on 2 real edge(s) (edges closed for all vehicles). Target ev_2 -> node 5: travel time 180.0s -> 352.2s (+95.7%), distance 2097m -> 3709m. Verified: impact>=threshold, keys connected=True, no vehicle stranded=True. Affected edges: 26662398#1, 26513333#0.
+
+Route for vehicle 0:
+ 30[CS:current_position_ev_0] Load(120) Bat(63.3) -> 1 Load(137) Bat(54.8) -> 2 Load(161) Bat(48.1) -> 4 Load(170) Bat(41.9) -> 3 Load(185) Bat(40.4) -> 5 Load(210) Bat(34.7) -> 19 Load(241) Bat(26.4) -> 0 Load(241) Bat(21.7)
+Distance of the route: 13.870km
+Real distance of the route: 13.87km
+Time of the route: 971s
+Load of the route: 241
+
+Route for vehicle 1:
+ 31[CS:current_position_ev_1] Load(63) Bat(63.3) -> 7 Load(81) Bat(61.6) -> 12 Load(93) Bat(50.3) -> 8 Load(115) Bat(39.8) -> 10 Load(128) Bat(35.3) -> 9 Load(151) Bat(34.5) -> 11 Load(184) Bat(31.0) -> 13 Load(214) Bat(27.0) -> 14 Load(242) Bat(17.9) -> 0 Load(242) Bat(13.2)
+Distance of the route: 16.686km
+Real distance of the route: 16.69km
+Time of the route: 1272s
+Load of the route: 242
+
+Route for vehicle 2:
+ 32[CS:current_position_ev_2] Load(0) Bat(51.1) -> 29[CS:Circuit Électrique Lévis] Load(0) Bat(36.8) -> 17 Load(23) Bat(76.1) -> 6 Load(50) Bat(69.9) -> 18 Load(84) Bat(68.0) -> 16 Load(113) Bat(57.1) -> 15 Load(148) Bat(54.7) -> 29[CS:Circuit Électrique Lévis] Load(148) Bat(51.5) -> 0 Load(148) Bat(23.8)
+Distance of the route: 46.309km
+Real distance of the route: 46.31km
+Time of the route: 2350s
+Load of the route: 148
+
+Route for vehicle 3:
+ 33[CS:current_position_ev_3] Load(153) Bat(54.7) -> 21 Load(172) Bat(47.8) -> 20 Load(194) Bat(45.8) -> 22 Load(214) Bat(36.2) -> 23 Load(234) Bat(34.2) -> 0 Load(234) Bat(25.1)
+Distance of the route: 9.864km
+Real distance of the route: 9.86km
+Time of the route: 662s
+Load of the route: 234
+
+Total Distance of all routes: 86.729km
+
+Real distance (km): 86.73
+
+Total Load of all routes: 865
+
+Total Time of all routes: 5255s
+
+Total recharges: 2
+
+Minimum battery (SoC) reached: 13.2
+
+Distance already traveled before this sub-problem: 56.039km
+
+Total Distance including distance before event: 142.767km
+
+
+Completion stats (real simulated time/distance after re-planning):
+  ev_0: finished -- extra time=1269.0s, total distance (before+after)=33.950km
+  ev_1: finished -- extra time=2058.0s, total distance (before+after)=43.908km
+  ev_2: finished -- extra time=2752.0s, total distance (before+after)=81.514km
+  ev_3: finished -- extra time=916.0s, total distance (before+after)=35.071km
+TOTAL (finished vehicles only): extra time=6995.0s, total distance=194.443km

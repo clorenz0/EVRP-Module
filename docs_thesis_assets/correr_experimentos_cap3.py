@@ -119,16 +119,14 @@ def stage_sim_fav(args):
 
 def stage_sim_desfav(args):
     n = args.unfav_instance
-    # el plan base es el de PATH_CHEAPEST_ARC + ACO; se cambia el replanificador (columnas de la Tabla 13)
-    for event, rep in itertools.product(("accident", "closure", "congestion"), ("ortools", "aco")):
-        if rep in args.replanners:
-            run_pair("T13", n, "PATH_CHEAPEST_ARC + ACO", event, rep, args)
-    # tercera fila: ortools con plan de ortools (SEQ+GLS) y ACO con plan de ACO
+    # Cada plan se replanifica con los MISMOS algoritmos que lo generaron (igual que en sim-fav):
+    #   ACO -> ACO, PATH_CHEAPEST_ARC + ACO -> ACO (semilla PATH_CHEAPEST_ARC), SEQ+GLS -> OR-Tools (SEQ+GLS).
+    # Se elimino la fila cruzada "PATH_CHEAPEST_ARC + ACO replanificado con OR-Tools" (2026-10-29): OR-Tools no tiene ACO
+    # como metaheuristica y replanificaba solo con la heuristica, que a veces ni encuentra solucion inicial.
     for event in ("accident", "closure", "congestion"):
-        if "ortools" in args.replanners:
-            run_pair("T13", n, "SEQUENTIAL_CHEAPEST_INSERTION + GLS", event, "ortools", args)
-        if "aco" in args.replanners:
-            run_pair("T13", n, "ACO", event, "aco", args)
+        for algo in ("ACO", "PATH_CHEAPEST_ARC + ACO", "SEQUENTIAL_CHEAPEST_INSERTION + GLS"):
+            if ALGOS[algo][3] in args.replanners:
+                run_pair("T13", n, algo, event, ALGOS[algo][3], args)
 
 
 def stage_tablas(args):

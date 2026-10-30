@@ -1,0 +1,24 @@
+{
+  "kind": "accident",
+  "seed": 1,
+  "checkpoint_s": 1200.0,
+  "vehicle": "ev_0",
+  "target_node": 39,
+  "edges": [
+    "40328399#11"
+  ],
+  "params": {
+    "duration": 600.0
+  },
+  "checks": {
+    "time_before_s": 180.85128393735053,
+    "time_after_s": 225.62002029127527,
+    "dist_before_m": 3517.8199999999993,
+    "dist_after_m": 3858.829999999999,
+    "impact_pct": 24.75444762086028,
+    "impact_threshold": 0.2,
+    "keys_connected": true,
+    "none_stranded": true,
+    "candidates_tried": 3
+  }
+}

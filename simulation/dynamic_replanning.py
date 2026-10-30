@@ -411,6 +411,11 @@ def main():
     elif plan_is_aco:       # plan de ACO re-planificado con OR-Tools: usa --heuristic/--metaheuristic
         replan_heuristic = HeuristicType[args.heuristic] if args.heuristic else None
         replan_metaheuristic = MetaheuristicType[args.metaheuristic] if args.metaheuristic else None
+        if replan_metaheuristic is None:
+            # OR-Tools no tiene ACO: sin metaheuristica solo quedaria la heuristica constructiva, que en el sub-problema
+            # (vehiculos a mitad de ruta con bateria parcial) a veces ni encuentra solucion inicial.
+            sys.exit("ERROR: un plan de ACO no se replanifica con OR-Tools usando solo una heuristica. Usa --replanner auto "
+                     "(o aco), o indica una metaheuristica de OR-Tools con --metaheuristic.")
     else:
         replan_heuristic = HeuristicType[original_params["heuristic"]] if "heuristic" in original_params else None
         replan_metaheuristic = (

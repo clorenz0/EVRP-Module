@@ -1,0 +1,5 @@
+Pares de la tabla de casos desfavorables con el plan PATH_CHEAPEST_ARC + ACO replanificado con OR-Tools (fila cruzada).
+Excluidos el 2026-10-29: OR-Tools no tiene ACO como metaheuristica, asi que replanificaba solo con la heuristica
+PATH_CHEAPEST_ARC; a veces no encontraba solucion inicial (40 clientes y 100 congestion) y cuando la encontraba era
+mala (-11 % y -22 %). Desde ahora cada plan se replanifica con los algoritmos que lo generaron.
+manifest_excluidos.csv conserva las filas retiradas de manifest_cap3.csv.
