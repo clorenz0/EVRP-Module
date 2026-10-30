@@ -159,3 +159,9 @@ T13,40,SEQUENTIAL_CHEAPEST_INSERTION + GLS,congestion,ortools,WITH,quebec_40c_4e
 T13,40,SEQUENTIAL_CHEAPEST_INSERTION + GLS,congestion,ortools,NO,quebec_40c_4ev_6cs_NO_feedback_20261029_151528.txt
 T13,40,ACO,congestion,aco,WITH,quebec_40c_4ev_6cs_WITH_feedback_20261029_151649.txt
 T13,40,ACO,congestion,aco,NO,quebec_40c_4ev_6cs_NO_feedback_20261029_151947.txt
+T12,350,ACO,congestion,aco,WITH,quebec_350c_40ev_30cs_WITH_feedback_20261029_222433.txt
+T12,350,ACO,congestion,aco,NO,quebec_350c_40ev_30cs_NO_feedback_20261030_055502.txt
+T12,350,PATH_CHEAPEST_ARC + ACO,congestion,aco,WITH,quebec_350c_40ev_30cs_WITH_feedback_20261030_062144.txt
+T12,350,PATH_CHEAPEST_ARC + ACO,congestion,aco,NO,quebec_350c_40ev_30cs_NO_feedback_20261030_075336.txt
+T12,350,SEQUENTIAL_CHEAPEST_INSERTION + GLS,congestion,ortools,WITH,quebec_350c_40ev_30cs_WITH_feedback_20261030_105215.txt
+T12,350,SEQUENTIAL_CHEAPEST_INSERTION + GLS,congestion,ortools,NO,quebec_350c_40ev_30cs_NO_feedback_20261030_123932.txt

@@ -48,6 +48,7 @@ from build_routes import (  # noqa: E402
     MIN_CLIENT_STOP_S, SERVICE_TIME_PER_UNIT_S, STOP_DURATION_S,
 )
 import event_selector  # noqa: E402
+import live_matrix  # noqa: E402
 from problem.execute import evrp  # noqa: E402
 from distance.distance_type import DistanceType  # noqa: E402
 from problem.strategy_type import HeuristicType, MetaheuristicType  # noqa: E402
@@ -181,6 +182,13 @@ def parse_args():
     p.add_argument("--max-complete-time", type=float, default=10800.0,
                     help="Tope de seguridad (s de simulacion) esperando a que los vehiculos activos terminen su "
                          "ruta, tanto en modo normal como en --no-replan.")
+    p.add_argument("--matriz-incremental", action="store_true",
+                   help="Matriz en vivo incremental: la matriz base (deposito, clientes, estaciones) se calcula una vez "
+                        "por instancia y se guarda en cache; en el evento solo se recalculan los pares cuya ruta pasa "
+                        "por un tramo afectado y las posiciones de los vehiculos (ver simulation/live_matrix.py)")
+    p.add_argument("--verificar-matriz", action="store_true",
+                   help="Calcula en la misma corrida la matriz completa y la incremental y las compara celda a celda "
+                        "(la corrida continua con la completa). Resultado en dynamic_replan_results/verificacion_matriz/")
     p.add_argument("--replan-time", type=int, default=None,
                    help="segundos para re-planificar (por defecto: max(15, tiempo de la optimizacion estatica de la instancia))")
     return p.parse_args()
@@ -481,6 +489,17 @@ def main():
         if not vehicles_state:
             sys.exit("No active vehicle with pending stops at this checkpoint — nothing to re-plan.")
 
+        # ── Matriz incremental: base ANTES del evento (una vez por instancia, en cache) ──
+        inc_base = None
+        if (args.matriz_incremental or args.verificar_matriz) and not args.no_replan:
+            base_nodes = [0] + sorted(inst["clients"]) + sorted(inst["stations"])
+            base_edges = [snap_single_node(net, n, inst["node_coords"]) for n in base_nodes]
+            base_index = {n: i for i, n in enumerate(base_nodes)}
+            print("\nMatriz incremental: matriz base ANTES del evento...")
+            inc_base = live_matrix.load_or_build_base(
+                traci, live_matrix.cache_path(instance_base, args.net_file, base_edges), base_edges)
+        changed_edges = []
+
         # ── 2. Congestion controlada cerca del primer vehiculo activo (Punto 3) ──
         # Se imprime ANTES/DESPUES del evento: es la evidencia concreta de que
         # la retroalimentacion es real (SUMO mide un tiempo de viaje distinto
@@ -513,6 +532,7 @@ def main():
                     event_selector.save_spec(spec, args.event_spec)
                     print(f"  Event saved to {args.event_spec} (use it in the other arm of the experiment)")
             event_description = spec.describe()
+            changed_edges = list(spec.edges)
             event_tick = controller.tick
             print(f"  {event_description}\n{'-' * 70}\n")
         else:
@@ -531,6 +551,7 @@ def main():
             congested_edges = route_edges[start_idx:start_idx + n_congest]
             for e in congested_edges:
                 traci.edge.setMaxSpeed(e, args.congested_speed)
+            changed_edges = list(congested_edges)
             print(f"  Congestion forced on {len(congested_edges)} real edge(s) "
                   f"(speed limit lowered to {args.congested_speed} m/s ~ {args.congested_speed * 3.6:.0f} km/h)")
 
@@ -635,15 +656,25 @@ def main():
         print("Querying LIVE time/distance matrix from SUMO "
               "(findRoute, with congestion already active)...")
 
-        distance_matrix = [[0.0] * num_locations for _ in range(num_locations)]
-        time_matrix = [[0.0] * num_locations for _ in range(num_locations)]
-        for a in range(num_locations):
-            for b in range(num_locations):
-                if a == b:
-                    continue
-                stage_ab = traci.simulation.findRoute(node_edge[a], node_edge[b])
-                distance_matrix[a][b] = stage_ab.length / 1000.0  # m -> km
-                time_matrix[a][b] = stage_ab.travelTime
+        sub_edges = [node_edge[i] for i in range(num_locations)]
+        if inc_base is not None:
+            sub_to_base = [None] * num_locations          # None = posicion actual de un vehiculo (se consulta siempre)
+            sub_to_base[0] = base_index[0]
+            for n_, si in client_sub_node.items():
+                sub_to_base[si] = base_index[n_]
+            for n_, si in zip(sorted(inst["stations"]), station_sub_nodes):
+                sub_to_base[si] = base_index[n_]
+            t_inc = time.time()
+            distance_matrix, time_matrix = live_matrix.incremental_matrix(
+                traci, inc_base, sub_edges, sub_to_base, changed_edges)
+            print(f"  Matriz incremental calculada en {time.time() - t_inc:.1f} s")
+            if args.verificar_matriz:
+                full = live_matrix.full_matrix(traci, sub_edges)
+                live_matrix.compare(full, (distance_matrix, time_matrix),
+                                    os.path.join(RESULTS_DIR, "verificacion_matriz", f"{instance_base}_{run_id}.json"))
+                distance_matrix, time_matrix = full       # la corrida de verificacion sigue con la matriz original
+        else:
+            distance_matrix, time_matrix = live_matrix.full_matrix(traci, sub_edges)   # metodo original
 
         # ── 4. vehicle_states + data_override, re-optimizar con OR-Tools ─────
         vehicle_states = []

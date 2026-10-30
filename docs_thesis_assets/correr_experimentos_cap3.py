@@ -100,6 +100,8 @@ def run_pair(table, n, algo, event, replanner, args):
             "--replanner", replanner, "--heuristic", heur]
     if meta:
         base += ["--metaheuristic", meta]
+    if getattr(args, "matriz_incremental", False):
+        base += ["--matriz-incremental"]
     for mode, extra in (("WITH", []), ("NO", ["--no-replan"])):
         before = set(glob.glob(os.path.join(RES, "*_feedback_*.txt")))
         rc = sh(base + extra, args.dry_run)
@@ -221,6 +223,8 @@ if __name__ == "__main__":
     ap.add_argument("--instances", type=int, nargs="+", default=[30, 40, 50, 60, 90], choices=sorted(INST))
     ap.add_argument("--unfav-instance", type=int, default=50)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--matriz-incremental", action="store_true",
+                    help="sim-fav / sim-desfav: matriz en vivo incremental con cache (ver simulation/live_matrix.py)")
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--replanners", nargs="+", choices=["ortools", "aco"], default=["ortools", "aco"],
                     help="sim-fav / sim-desfav: replanificadores a ejecutar (por defecto ambos)")

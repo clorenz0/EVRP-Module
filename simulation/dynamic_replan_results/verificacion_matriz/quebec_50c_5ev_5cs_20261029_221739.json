@@ -1,0 +1,8 @@
+{
+  "nodos": 40,
+  "max_dif_tiempo_s": 0.0,
+  "max_dif_distancia_km": 0.0,
+  "pares_distintos_tiempo": 0,
+  "pares_distintos_distancia": 0,
+  "identicas": true
+}

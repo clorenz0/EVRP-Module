@@ -5,3 +5,4 @@
 /simulation/sumo_scenario/
 /simulation/__pycache__/
 **/dynamic_replan.txt
+/simulation/_cache_matriz/
